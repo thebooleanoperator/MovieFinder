@@ -14,6 +14,5 @@ namespace MovieFinder.Models
         public string Director { get; set; }
         public string Title { get; set; }
         public DateTime RunTime { get; set; }
-        public int UserId { get; set; }
     }
 }

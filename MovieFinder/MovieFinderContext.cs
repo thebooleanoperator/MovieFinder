@@ -38,9 +38,6 @@ namespace MovieFinder
 
                     entity.Property(m => m.RunTime)
                           .HasColumnName("RunTime");
-
-                    entity.Property(m => m.UserId)
-                          .HasColumnName("UserId");
                 });
 
             modelBuilder
@@ -50,10 +47,21 @@ namespace MovieFinder
 
                    entity.Property(m => m.UserId)
                          .HasColumnName("UserId");
-
-                   entity.Property(m => m.MovieId)
-                         .HasColumnName("MovieId");
                });
+
+            modelBuilder
+                .Entity<LikedMovies>(entity =>
+                {
+                    entity.HasKey(m => m.MovieId);
+
+                    entity.HasKey(m => m.UserId);
+
+                    entity.Property(m => m.MovieId)
+                          .HasColumnName("MovieId");
+
+                    entity.Property(m => m.UserId)
+                          .HasColumnName("UserId");
+                });
         }
     }
 }

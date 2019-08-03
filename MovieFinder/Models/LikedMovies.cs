@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Models
 {
-    public class Users
+    public class LikedMovies
     {
+        public int MovieId { get; set; }
         public int UserId { get; set; }
     }
 }
