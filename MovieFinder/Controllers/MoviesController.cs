@@ -36,5 +36,17 @@ namespace MovieFinder.Controllers
 
             return Ok(movie); 
         }
+
+        [HttpDelete]
+        [Route("{movieId}")]
+        public IActionResult Delete(int movieId)
+        {
+            var movie = _unitOfWork.Movies.Get(movieId);
+
+            _unitOfWork.Movies.Remove(movie);
+            _unitOfWork.SaveChanges();
+
+            return Ok(); 
+        }
     }
 }
