@@ -29,6 +29,7 @@ namespace MovieFinder.Controllers
         }
 
         [HttpGet]
+        [Route("{movieId}")]
         public IActionResult Get(int movieId)
         {
             var movie = _unitOfWork.Movies.Get(movieId);
