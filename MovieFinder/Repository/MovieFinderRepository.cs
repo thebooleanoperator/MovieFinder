@@ -27,7 +27,7 @@ namespace MovieFinder.Repository
             return DbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
             return DbSet;
         }
