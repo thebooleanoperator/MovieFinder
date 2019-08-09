@@ -10,7 +10,7 @@ namespace MovieFinder.Repository
         where TEntity : class 
     {
         TEntity Get(int id);
-        IEnumerable<TEntity> GetAll(); 
+        IQueryable<TEntity> GetAll(); 
         void Add(TEntity entity); 
         void Remove(TEntity entity); 
     }
