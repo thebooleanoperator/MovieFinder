@@ -9,5 +9,6 @@ namespace MovieFinder.Repository.Interface
 {
     public interface IMoviesRepository : IMovieFinderRepository<Movies>
     {
+
     }
 }

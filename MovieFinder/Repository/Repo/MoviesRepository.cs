@@ -11,11 +11,11 @@ namespace MovieFinder.Repository
 {
     public class MoviesRepository : MovieFinderRepository<Movies>, IMoviesRepository
     {
-        private DbContext context;
+        private DbContext _context;
 
         public MoviesRepository(DbContext context) : base(context)
         {
-      
+
         }
     }
 }

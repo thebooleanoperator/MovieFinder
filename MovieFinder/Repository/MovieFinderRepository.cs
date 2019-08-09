@@ -27,6 +27,11 @@ namespace MovieFinder.Repository
             return DbSet.Find(id);
         }
 
+        public IEnumerable<TEntity> GetAll()
+        {
+            return DbSet;
+        }
+
         public void Remove(TEntity entity)
         {
             DbSet.Remove(entity);
