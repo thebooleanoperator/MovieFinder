@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieFinder.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,13 @@ namespace MovieFinder.Repository.Repo
             _unitOfWork = new UnitOfWork(movieFinderContext); 
         }
 
-        public IActionResult Create(int userId, int movieId)
+        [HttpPost]
+        public IActionResult Create([FromBody] LikedMovies likedMovies)
         {
-            
+            _unitOfWork.LikedMovies.Add(likedMovies);
+            _unitOfWork.SaveChanges();
+
+            return Ok(likedMovies);
         }
 
         [HttpGet]

@@ -10,10 +10,9 @@ namespace MovieFinder.Models
     {
         public int MovieId { get; set; }
         public string Genre { get; set; }
-        //TODO make this an int
-        public DateTime Year { get; set; }
+        public int Year { get; set; }
         public string Director { get; set; }
         public string Title { get; set; }
-        public DateTime RunTime { get; set; }
+        public int RunTime { get; set; }
     }
 }
