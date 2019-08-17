@@ -9,8 +9,8 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20190813040058_LikedMoviesRebuild")]
-    partial class LikedMoviesRebuild
+    [Migration("20190814032832_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

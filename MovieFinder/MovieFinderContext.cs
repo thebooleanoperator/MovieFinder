@@ -55,17 +55,14 @@ namespace MovieFinder
                     entity.HasKey(m => m.LikedId);
 
                     entity.Property(m => m.LikedId)
-                          .HasColumnName("LikedId")
-                          .IsRequired(); 
-
-                    entity.Property(m => m.MovieId)
-                          .HasColumnName("MovieId")
-                          .IsRequired();
+                          .HasColumnName("LikedId");
 
                     entity.Property(m => m.UserId)
-                          .HasColumnName("UserId")
-                          .IsRequired(); 
-                });
+                          .HasColumnName("UserId");
+
+                    entity.Property(m => m.MovieId)
+                          .HasColumnName("MovieId");
+                }); 
         }
     }
 }

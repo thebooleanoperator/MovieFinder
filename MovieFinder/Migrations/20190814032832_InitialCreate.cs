@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieFinder.Migrations
@@ -12,14 +11,14 @@ namespace MovieFinder.Migrations
                 name: "LikedMovies",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
+                    LikedId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MovieId = table.Column<int>(nullable: false)
+                    MovieId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LikedMovies", x => x.UserId);
-                    table.UniqueConstraint("AK_LikedMovies_MovieId", x => x.MovieId);
+                    table.PrimaryKey("PK_LikedMovies", x => x.LikedId);
                 });
 
             migrationBuilder.CreateTable(
@@ -29,10 +28,10 @@ namespace MovieFinder.Migrations
                     MovieId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Genre = table.Column<string>(nullable: true),
-                    Year = table.Column<DateTime>(nullable: false),
+                    Year = table.Column<int>(nullable: false),
                     Director = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
-                    RunTime = table.Column<DateTime>(nullable: false)
+                    RunTime = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
