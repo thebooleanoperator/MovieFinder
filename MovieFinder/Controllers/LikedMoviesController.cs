@@ -24,7 +24,7 @@ namespace MovieFinder.Repository.Repo
 
         [HttpGet]
         [Route("{userId}")]
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAllByUserId(int userId)
         {
             var likedMovies =_unitOfWork.LikedMovies.GetAll(userId);
 
