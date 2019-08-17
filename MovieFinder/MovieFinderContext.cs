@@ -47,6 +47,12 @@ namespace MovieFinder
 
                    entity.Property(m => m.UserId)
                          .HasColumnName("UserId");
+
+                   entity.Property(m => m.FirstName)
+                         .HasColumnName("FirstName");
+
+                   entity.Property(m => m.LastName)
+                         .HasColumnName("LastName"); 
                });
 
             modelBuilder

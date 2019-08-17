@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieFinder;
 
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    partial class MovieFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20190817175011_UsersAdditions")]
+    partial class UsersAdditions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
