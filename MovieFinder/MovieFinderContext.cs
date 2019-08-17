@@ -68,7 +68,22 @@ namespace MovieFinder
 
                     entity.Property(m => m.MovieId)
                           .HasColumnName("MovieId");
-                }); 
+                });
+
+            modelBuilder
+                .Entity<Synopsis>(entity =>
+                {
+                    entity.HasKey(m => m.SynopsisId);
+
+                    entity.Property(m => m.SynopsisId)
+                          .HasColumnName("SynopsisId");
+
+                    entity.Property(m => m.SynopsisSummary)
+                          .HasColumnName("SynopsisSummary");
+
+                    entity.Property(m => m.MovieId)
+                          .HasColumnName("MovieId");
+                });
         }
     }
 }
