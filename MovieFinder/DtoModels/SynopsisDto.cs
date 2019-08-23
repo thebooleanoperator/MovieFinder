@@ -1,6 +1,6 @@
-﻿namespace MovieFinder.Models
+﻿namespace MovieFinder.DtoModels
 {
-    public partial class Synopsis
+    public class SynopsisDto
     {
         public int SynopsisId { get; set; }
         public string SynopsisSummary { get; set; }
