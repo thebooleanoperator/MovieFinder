@@ -7,15 +7,14 @@ namespace MovieFinder.Repository.Repo
 {
     public class SynopsisRepository : MovieFinderRepository<Synopsis>, ISynopsisRepository 
     {
-        private DbContext _context; 
-
         public SynopsisRepository(DbContext context) : base(context)
         {
-            _context = context;
+
         }
 
         public Synopsis GetByMovieId(int movieId)
         {
+            //This will throw an error if none or more than one are found. 
             var synopsis = DbSet.Where(m => m.MovieId == movieId).Single();
 
             return synopsis;

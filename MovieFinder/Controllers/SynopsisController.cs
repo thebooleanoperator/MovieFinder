@@ -53,5 +53,23 @@ namespace MovieFinder.Controllers
 
             return Ok(synopsis); 
         }
+
+        [HttpPatch]
+        public IActionResult Update([FromBody] SynopsisDto synopsisDto)
+        {
+            var synopsis = _unitOfWork.Synopsis.Get(synopsisDto.SynopsisId); 
+
+            if(synopsis == null)
+            {
+                return NotFound(); 
+            }
+
+            synopsis.Update(synopsisDto); 
+
+            _unitOfWork.Synopsis.Update(synopsis);
+            _unitOfWork.SaveChanges(); 
+
+            return Ok(); 
+        } 
     }
 }
