@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieFinder.DtoModels;
 using MovieFinder.Models;
 
 namespace MovieFinder.Repository.Repo
@@ -14,12 +15,28 @@ namespace MovieFinder.Repository.Repo
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] LikedMovies likedMovies)
+        public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
         {
-            _unitOfWork.LikedMovies.Add(likedMovies);
+            var likedMovie = new LikedMovies(likedMoviesDto);
+
+            var user = _unitOfWork.Users.Get(likedMovie.UserId); 
+
+            if(user == null)
+            {
+                return NotFound(); 
+            }
+
+            var movie = _unitOfWork.Movies.Get(likedMovie.MovieId);
+
+            if(movie == null)
+            {
+                return NotFound(); 
+            }
+
+            _unitOfWork.LikedMovies.Add(likedMovie);
             _unitOfWork.SaveChanges();
 
-            return Ok(likedMovies);
+            return Ok(likedMovie);
         }
 
         [HttpGet]

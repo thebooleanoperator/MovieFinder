@@ -1,6 +1,6 @@
-﻿namespace MovieFinder.Models
+﻿namespace MovieFinder.DtoModels
 {
-    public partial class LikedMovies
+    public class LikedMoviesDto
     {
         public int LikedId { get; set; }
         public int MovieId { get; set; }
