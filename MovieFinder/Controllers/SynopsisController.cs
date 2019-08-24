@@ -24,8 +24,9 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]SynopsisDto synopsisDto)
         {
+            var allSynopsis = _unitOfWork.Synopsis.GetAll();
 
-            var synopsis = new Synopsis(synopsisDto);
+            var synopsis = new Synopsis(synopsisDto, allSynopsis);
 
             var movie = _unitOfWork.Movies.Get(synopsis.MovieId);
 
