@@ -1,12 +1,7 @@
-﻿namespace MovieFinder.Models
+﻿namespace MovieFinder.DtoModels
 {
-    public partial class Users
+    public class UsersDto
     {
-        public Users()
-        {
-
-        }
-
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
