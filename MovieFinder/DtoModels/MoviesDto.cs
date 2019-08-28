@@ -1,12 +1,7 @@
-﻿namespace MovieFinder.Models
+﻿namespace MovieFinder.Partialscs
 {
-    public partial class Movies
+    public class MoviesDto
     {
-        public Movies()
-        {
-
-        }
-
         public int MovieId { get; set; }
         public string Genre { get; set; }
         public int Year { get; set; }

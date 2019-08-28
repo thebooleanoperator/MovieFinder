@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieFinder.Models;
+using MovieFinder.Partialscs;
 using MovieFinder.Repository;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
@@ -20,8 +17,10 @@ namespace MovieFinder.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Movies movie)
+        public IActionResult Create([FromBody] MoviesDto moviesDto)
         {
+            var movie = new Movies(moviesDto); 
+
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges(); 
 
