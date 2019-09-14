@@ -48,13 +48,24 @@ namespace MovieFinder
                    entity.HasKey(m => m.UserId);
 
                    entity.Property(m => m.UserId)
-                         .HasColumnName("UserId");
+                         .HasColumnName("UserId")
+                         .IsRequired(); 
 
                    entity.Property(m => m.FirstName)
-                         .HasColumnName("FirstName");
+                         .HasColumnName("FirstName")
+                         .IsRequired();
 
                    entity.Property(m => m.LastName)
-                         .HasColumnName("LastName"); 
+                         .HasColumnName("LastName")
+                         .IsRequired();
+
+                   entity.Property(m => m.Email)
+                          .HasColumnName("Email")
+                          .IsRequired();
+
+                   entity.Property(m => m.Password)
+                         .HasColumnName("Password")
+                         .IsRequired();
                });
 
             modelBuilder

@@ -6,11 +6,6 @@ namespace MovieFinder.Models
 {
     public partial class Synopsis
     {
-        public Synopsis()
-        {
-
-        }
-
         public Synopsis(SynopsisDto synopsisDto, IQueryable<Synopsis> allSynopsis)
         {
             if(synopsisDto.SynopsisSummary.Length == 0)
