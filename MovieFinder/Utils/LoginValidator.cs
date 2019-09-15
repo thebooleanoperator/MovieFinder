@@ -1,4 +1,5 @@
-﻿using MovieFinder.Models;
+﻿using MovieFinder.DtoModels;
+using MovieFinder.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +25,16 @@ namespace MovieFinder.Utils
             }
 
             return true;
+        }
+
+        public static bool CheckCredentials(LoginDto loginDto, Users user)
+        {
+            if (loginDto.Email != user.Email || loginDto.Password != user.Password)
+            {
+                return false; 
+            }
+
+            return true; 
         }
 
     }

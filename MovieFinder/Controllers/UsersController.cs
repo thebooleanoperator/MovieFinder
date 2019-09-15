@@ -43,5 +43,23 @@ namespace MovieFinder.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("{userId}")]
+        public bool Login(int userId, [FromBody] LoginDto loginDto)
+        {
+            var user = _unitOfWork.Users.Get(userId);
+            
+            if (user == null)
+            {
+                return false; 
+            }
+
+            if (!LoginValidator.CheckCredentials(loginDto, user))
+            {
+                return false; 
+            }
+
+            return true;
+        }
     }
 }
