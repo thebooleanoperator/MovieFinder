@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Welcome to Movie Finder</title>
 </head>
 <body class="login">
-    <header>
-        <h1>Find Movies Aross All Streaming Apps!</h1>
-    </header>
+    <mat-toolbar>
+        <mat-toolbar-row class="login-header">
+            <mat-form-field class="login-input">
+                <input matInput [(ngModel)]="username" placeholder="Username">
+            </mat-form-field>
+            <mat-form-field class="login-input">
+                <input matInput  [(ngModel)]="password" placeholder="Password">
+            </mat-form-field>
 
-    <button mat-fab>Click Me</button>
-
-    
+            <button mat-raised-button (click)="printMsg(username, password)">Login</button>
+        </mat-toolbar-row>
+    </mat-toolbar>    
 </body>
 </html>

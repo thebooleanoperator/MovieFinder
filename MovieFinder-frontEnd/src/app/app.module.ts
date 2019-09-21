@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { SharedModule } from './Shared/shared.module';
+import { FormsModule } from '@angular/forms';
+ 
+import { AngularMaterialModule } from './Shared/angular-material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,8 +15,9 @@ import { LoginComponent } from './LoginComponent/login-component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
-    SharedModule
+    AngularMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
