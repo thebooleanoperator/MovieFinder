@@ -44,10 +44,16 @@ namespace MovieFinder.Controllers
             return Ok(user);
         }
 
-        [HttpPost("{userId}")]
-        public bool Login(int userId, [FromBody] LoginDto loginDto)
+        //This needs to be switched to JWT Service. 
+        [HttpPost()]
+        public bool Login([FromBody] LoginDto loginDto)
         {
-            var user = _unitOfWork.Users.Get(userId);
+            if (loginDto.Email == null)
+            {
+                return false;
+            }
+
+            var user = _unitOfWork.Users.GetByEmail(loginDto.Email);
             
             if (user == null)
             {
