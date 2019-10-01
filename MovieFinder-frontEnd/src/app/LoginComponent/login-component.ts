@@ -12,13 +12,16 @@ export class LoginComponent {
   title: string = 'Movie Finder TM';
   email: string; 
   password: string; 
+  validation: Object; 
 
   constructor(private LoginService: LoginService){};
 
-  verifyLogin(email, password): void {
+  verifyUserAndLogin(email, password): void {
     this.LoginService.validateLogin(email, password)
       .subscribe((response) => {
-        console.log(response); 
+        if (response == true) {
+          console.log('got it')
+        }
       })
     }
 }
