@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
- 
+import { HttpClientModule } from '@angular/common/http'; 
+
 import { AngularMaterialModule } from './Shared/angular-material.module';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +17,7 @@ import { LoginComponent } from './LoginComponent/login-component';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularMaterialModule
   ],
@@ -23,3 +25,5 @@ import { LoginComponent } from './LoginComponent/login-component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

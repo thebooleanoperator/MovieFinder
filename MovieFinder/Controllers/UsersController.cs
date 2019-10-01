@@ -45,7 +45,8 @@ namespace MovieFinder.Controllers
         }
 
         //This needs to be switched to JWT Service. 
-        [HttpPost()]
+        [Route("Login")]
+        [HttpPost]
         public bool Login([FromBody] LoginDto loginDto)
         {
             if (loginDto.Email == null)
