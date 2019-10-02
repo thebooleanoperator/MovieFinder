@@ -7,12 +7,14 @@ import { AngularMaterialModule } from './Shared/angular-material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './LoginComponent/login-component';
+import { LoginComponent } from './LoginComponent/login.component';
+import { WelcomeComponent } from './Main/Welcome/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

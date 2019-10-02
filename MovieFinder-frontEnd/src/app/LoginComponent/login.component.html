@@ -10,13 +10,11 @@
                 <input matInput [(ngModel)]="email" placeholder="Email">
             </mat-form-field>
             <mat-form-field class="login-input">
-                <input matInput  [(ngModel)]="password" placeholder="Password">
+                <input matInput [(ngModel)]="password" placeholder="Password">
             </mat-form-field>
 
             <button mat-raised-button (click)="verifyUserAndLogin(email, password)">Login</button>
         </mat-toolbar-row>
-    </mat-toolbar>    
-
-    
+    </mat-toolbar>
 </body>
 </html>
