@@ -3,18 +3,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
 
-import { AngularMaterialModule } from './Shared/angular-material.module';
+import { AngularMaterialModule } from './Shared-Modules/angular-material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './LoginComponent/login.component';
-import { WelcomeComponent } from './Main/Welcome/welcome.component';
+import { LoginComponent } from './Login/login.component';
+import { WelcomeComponent } from './Welcome/welcome.component';
+import { HomeComponent } from './Home/home.component'
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    WelcomeComponent,
     LoginComponent,
-    WelcomeComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -22,15 +22,11 @@ export class LoginComponent {
 
     verifyUserAndLogin(email, password): void {
         this.LoginService.validateLogin(email, password)
-        .subscribe((response) => {
-            console.log(response);
-            if (response == true) {
-            this.Login()
-            }
-        })
-        }
-
-    Login(): void {
-        this.router.navigate(["/welcome"]);
+            .subscribe((response) => {
+                console.log(response);
+                if (response == true) {
+                    this.router.navigate(['/']);
+                }
+            })
     }
 }
