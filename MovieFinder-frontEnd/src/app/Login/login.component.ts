@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { LoginService } from './login.service';
+import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     providers: [LoginService]
@@ -25,7 +24,7 @@ export class LoginComponent {
             .subscribe((response) => {
                 console.log(response);
                 if (response == true) {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['home']);
                 }
             })
     }

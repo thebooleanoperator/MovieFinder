@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './Welcome/welcome.component';
 import { LoginComponent } from './Login/login.component';
-import { HomeComponent } from './Home/home.component';
+import { HomeComponent } from './Main/Home/Home-Component/home.component';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},
     {path: 'login', component: LoginComponent},
-    {path: '', component: HomeComponent},
+    {path: 'home', component: HomeComponent},
     
-    {path: '**', redirectTo:''}
+    {path: '**', redirectTo:'welcome'}
 ];
 
 @NgModule({

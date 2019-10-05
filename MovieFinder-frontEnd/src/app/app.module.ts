@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Login/login.component';
 import { WelcomeComponent } from './Welcome/welcome.component';
-import { HomeComponent } from './Home/home.component'
+import { HomeModule } from './Main/Home/home.module';
 
 
 @NgModule({
@@ -17,14 +17,14 @@ import { HomeComponent } from './Home/home.component'
     AppComponent,
     WelcomeComponent,
     LoginComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
