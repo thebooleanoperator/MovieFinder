@@ -1,0 +1,16 @@
+#home {
+    .main-toolbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background-color: lightgray;
+
+        button {
+            padding: 0px;
+        }
+
+        button:hover {
+            background-color: grey;
+        }
+    }
+}
