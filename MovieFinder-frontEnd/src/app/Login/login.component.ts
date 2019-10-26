@@ -16,15 +16,10 @@ export class LoginComponent {
 
     constructor(private LoginService: LoginService, private router: Router){}
 
-    set login(value){
-        this.LoginService.loggedIn = value;
-    }
-
     verifyUserAndLogin(email, password): void {
         this.LoginService.validateLogin(email, password)
             .subscribe((response) => {
                 if (response == true) {
-                    login(response);
                     this.router.navigate(['home']);
                 }
                 else {
