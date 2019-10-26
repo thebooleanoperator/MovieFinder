@@ -11,12 +11,11 @@ import { LoginComponent } from './Login/login.component';
 import { WelcomeComponent } from './Welcome/welcome.component';
 import { HomeModule } from './Main/Home/home.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -5,9 +5,11 @@ import { Observable, of } from 'rxjs';
 @Injectable({providedIn: 'root'})
 export class LoginService {   
     path = 'http://localhost:5001/Users/Login'; 
-    loggedIn: boolean = false; 
+    loggedIn: boolean = false;
 
-    constructor(private http: HttpClient){};
+    constructor(private http: HttpClient){
+        console.log('instance')
+    };
 
     userLoggedIn(): boolean {
         return this.loggedIn;
@@ -17,7 +19,7 @@ export class LoginService {
         this.loggedIn = true; 
     }
 
-    validateLogin(email: string, password: string): Observable<Object> {
+    public validateLogin(email: string, password: string): Observable<Object> {
         return this
         .http
         .post(this.path, {"Email": email, "Password": password})  
