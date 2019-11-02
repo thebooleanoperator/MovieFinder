@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
 import { UserService } from '../Services/user.service';
+import { UserDto } from '../DTO/user.dto';
 
 @Component({
     templateUrl: './login.component.html',
@@ -20,7 +21,8 @@ export class LoginComponent {
         this.loginService.login(email, password)
             .subscribe((response) => {
                 if (response) {
-                    this.userService.setUser(response);
+                    var userDto = new UserDto(response); 
+                    this.userService.user.next(userDto);
                     this.router.navigate(['home']);
                 }
                 else {

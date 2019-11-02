@@ -1,3 +1,11 @@
-<div>
+<div id="app">
+    <mat-toolbar-row *ngIf="loggedInUser">
+        <mat-toolbar-row class="main-toolbar">
+            <button class="tool-button" mat-stroked-button>Home</button>
+            <button class="tool-button"  mat-stroked-button>Movie Search</button>
+            <button class="tool-button"  mat-stroked-button>My Movies</button>
+            <mat-icon class="tool-button" >settings</mat-icon>
+        </mat-toolbar-row>
+    </mat-toolbar-row>
     <router-outlet></router-outlet>
 </div>

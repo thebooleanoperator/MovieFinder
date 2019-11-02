@@ -1,0 +1,18 @@
+#app {
+    .main-toolbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background-color: lightgray;
+
+        button {
+            padding: 0px;
+        }
+
+        .tool-button:hover {
+            cursor: pointer;
+            background-color: grey;
+        }
+    }
+}
