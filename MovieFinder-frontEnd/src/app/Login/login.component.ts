@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
+import { UserService } from '../Services/user.service';
 
 @Component({
     templateUrl: './login.component.html',
@@ -9,24 +10,22 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent {
-    title: string = 'Movie Finder TM';
     email: string; 
     password: string; 
-    validation: Object; 
+    
+    constructor(private loginService: LoginService, private router: Router, private userService: UserService){}
 
-    constructor(private LoginService: LoginService, private router: Router){}
 
-    verifyUserAndLogin(email, password): void {
-        this.LoginService.validateLogin(email, password)
+    verifyUserAndLogin(email, password) {
+        this.loginService.login(email, password)
             .subscribe((response) => {
-                if (response == true) {
+                if (response) {
+                    this.userService.setUser(response);
                     this.router.navigate(['home']);
                 }
                 else {
-                    console.log('failure')
+                    console.log('failure');
                 }
-            })
+            }); 
     }
-
- 
 }

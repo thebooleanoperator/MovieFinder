@@ -1,9 +1,17 @@
 <div id="home">
     <mat-toolbar-row>
         <mat-toolbar-row class="main-toolbar">
-            <button mat-stroked-button>Home</button>
-            <button mat-stroked-button>Movie Search</button>
-            <button mat-stroked-button>My Movies</button>
+            <button class="tool-button" mat-stroked-button>Home</button>
+            <button class="tool-button"  mat-stroked-button>Movie Search</button>
+            <button class="tool-button"  mat-stroked-button>My Movies</button>
+            <mat-icon class="tool-button" >settings</mat-icon>
         </mat-toolbar-row>
     </mat-toolbar-row>
+
+    <table mat-table class="mat-elevation-z8" [dataSource]="">
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+        </ng-container>
+    </table>
 </div>

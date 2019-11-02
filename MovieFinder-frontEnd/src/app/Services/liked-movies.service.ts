@@ -3,14 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({providedIn:'root'})
-export class LoginService {   
-    path = 'http://localhost:5001/Users/Login'; 
-
+export class LikedMoviesService {   
     constructor(private http: HttpClient){};
 
-    public login(email: string, password: string): Observable<Object> {
+    public getLikedMovies(userId: number): Observable<any> {
         return this
         .http
-        .post(this.path, {"Email": email, "Password": password}) 
-    }
+        .get(`http://localhost:5001/LikedMovies/${userId}`) 
+    }          
 }

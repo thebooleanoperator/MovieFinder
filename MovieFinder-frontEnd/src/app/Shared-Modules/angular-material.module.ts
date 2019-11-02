@@ -7,6 +7,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import {MatInputModule} from '@angular/material/input';
     MatCheckboxModule,
     MatToolbarModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule,
+    MatTableModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -27,7 +31,9 @@ import {MatInputModule} from '@angular/material/input';
     MatCheckboxModule,
     MatToolbarModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: []
