@@ -2,9 +2,10 @@
     .main-toolbar {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         background-color: lightgray;
+        height: 64px;
 
         button {
             padding: 0px;

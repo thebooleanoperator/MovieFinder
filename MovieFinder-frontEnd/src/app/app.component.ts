@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './Services/user.service';
-import { UserDto } from './DTO/user.dto'
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,12 @@ import { UserDto } from './DTO/user.dto'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+    loggedInUser: Object = JSON.parse(localStorage.getItem("userInfo"));
     constructor(private userService: UserService){}
 
-    loggedInUser; 
-
     ngOnInit() {
-        this.userService.user.subscribe((user) => {
-            this.loggedInUser = user; 
+        this.userService.user.subscribe(() => {
+            this.loggedInUser = JSON.parse(localStorage.getItem("userInfo")); 
         })
     }
 }

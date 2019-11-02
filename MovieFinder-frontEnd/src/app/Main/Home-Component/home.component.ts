@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
 
     
    ngOnInit() {
-       this.likedMoviesService.getLikedMovies(this.userService.user.userId).subscribe((response) => {
+       this.likedMoviesService.getLikedMovies(this.userService.userInfo.userId).subscribe((response) => {
            this.likedMovies = response; 
        })
    }

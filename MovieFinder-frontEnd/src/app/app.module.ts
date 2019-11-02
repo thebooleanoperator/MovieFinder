@@ -7,15 +7,12 @@ import { AngularMaterialModule } from './Shared-Modules/angular-material.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './Login/login.component';
-import { WelcomeComponent } from './Welcome/welcome.component';
-import { HomeModule } from './Main/Home/home.module';
+import { HomeModule } from './Main/home.module';
+import { WelcomeModule } from './Welcome/welcome.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    WelcomeComponent,
-    LoginComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +20,8 @@ import { HomeModule } from './Main/Home/home.module';
     HttpClientModule,
     AppRoutingModule,
     AngularMaterialModule,
-    HomeModule
+    HomeModule,
+    WelcomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
