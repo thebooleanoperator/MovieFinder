@@ -1,0 +1,22 @@
+#home {
+    display: flex;
+    flex-direction: column;
+    table {
+        max-width: 50%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        tr {
+            display: flex;
+            justify-content: space-between;
+            th {
+                width: 20%;
+                overflow: wrap;
+            }
+            td {
+                width: 20%;
+                overflow: wrap;
+            }
+        }
+    }
+}

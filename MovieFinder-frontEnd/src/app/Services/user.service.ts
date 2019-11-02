@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Injectable({providedIn:'root'})
 export class UserService {   
     user = new Subject();
-    userInfo: UserDto;
+    userInfo: UserDto = JSON.parse(localStorage.getItem('userInfo'));
     
     setUser(userInfo: UserDto) {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
