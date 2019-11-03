@@ -19,5 +19,6 @@ export class HomeComponent implements OnInit {
        this.likedMoviesService.getLikedMovies(this.userService.userInfo.userId).subscribe((response) => {
            this.likedMovies = response; 
        });
+       this.likedMovies
    }
 }

@@ -81,6 +81,10 @@ namespace MovieFinder
 
                     entity.Property(m => m.MovieId)
                           .HasColumnName("MovieId");
+
+                    entity.Property(m => m.DateCreated)
+                          .HasColumnName("DateCreated")
+                          .HasDefaultValueSql("GetUtcDate()"); 
                 });
 
             modelBuilder
