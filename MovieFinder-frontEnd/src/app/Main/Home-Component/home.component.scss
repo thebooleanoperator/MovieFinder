@@ -4,7 +4,7 @@
 
     .welcome {
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
 
     .liked-table {
@@ -12,7 +12,8 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-    
+        margin-top: 50px;
+
         .table-title {
             h2, h4 {
                 display: flex;
@@ -24,9 +25,12 @@
     
         table {
             display: flex;
-            width: 700px;
+            width: 800px;
             justify-content: space-between;
             flex-direction: column;
+            background-color: 	rgb(112,128,144);
+            max-height: 500px;
+            overflow: auto;
             tr {
                 display: flex;
                 justify-content: space-between;
@@ -39,6 +43,53 @@
                     overflow: wrap;
                 }
             }
+            .mat-row:hover {
+                background-color: rgb(211,211,211);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .recent-table {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 100px;
+
+        .table-title {
+            h2, h4 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0px;
+            }
+        }
+    
+        table {
+            display: flex;
+            width: 800px;
+            justify-content: space-between;
+            flex-direction: column;
+            background-color: 	rgb(112,128,144);
+            max-height: 500px;
+            overflow: auto;
+            tr {
+                display: flex;
+                justify-content: space-between;
+                th {
+                    width: 20%;
+                    overflow: wrap;
+                }
+                td {
+                    width: 20%;
+                    overflow: wrap;
+                }
+            }
+            .mat-row:hover {
+                background-color: rgb(211,211,211);
+                cursor: pointer;
+            }
         }
     }
 }
@@ -48,6 +99,6 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-        max-width: 400px;
+        max-width: 500px;
     }
 }

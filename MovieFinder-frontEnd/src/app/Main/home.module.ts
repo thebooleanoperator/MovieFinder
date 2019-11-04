@@ -7,7 +7,6 @@ import { AngularMaterialModule } from 'src/app/Shared-Modules/angular-material.m
 
 import { HomeComponent } from './Home-Component/home.component'
 
-
 @NgModule({
   declarations: [
     HomeComponent
