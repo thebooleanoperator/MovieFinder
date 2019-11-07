@@ -27,11 +27,6 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{moviesDto.Title} must be have characters");
             }
 
-            if (moviesDto.RunTime <= 0 )
-            {
-                throw new ArgumentException($"{moviesDto.RunTime} must be greater than 0");
-            }
-
             Genre = moviesDto.Genre;
             Year = moviesDto.Year;
             Director = moviesDto.Director;

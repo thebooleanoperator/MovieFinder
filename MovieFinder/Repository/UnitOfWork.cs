@@ -10,6 +10,7 @@ namespace MovieFinder.Repository
         public ILikedMoviesRepository LikedMovies { get; set; }
         public ISynopsisRepository Synopsis { get; set; }
         public IUsersRepository Users { get; set; }
+        public IMovieTitlesRepository MovieTitles { get; set; }
        
         private readonly DbContext _context;
 
@@ -21,6 +22,7 @@ namespace MovieFinder.Repository
             LikedMovies = new LikedMoviesRepository(_context);
             Synopsis = new SynopsisRepository(_context);
             Users = new UsersRepository(_context);
+            MovieTitles = new MovieTitlesRepository(_context);
         }
 
         public int SaveChanges()

@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieFinder
 {
     public class MovieFinderContext : DbContext
     {
-        public MovieFinderContext(DbContextOptions options) : base(options)
+        public MovieFinderContext()
+        {
+        }
+
+        public MovieFinderContext(DbContextOptions<MovieFinderContext> options) : base(options)
         {
 
         }
@@ -101,6 +100,18 @@ namespace MovieFinder
                     entity.Property(m => m.MovieId)
                           .HasColumnName("MovieId");
                 });
+
+            modelBuilder
+                   .Entity<MovieTitles>(entity =>
+                   {
+                       entity.HasKey(m => m.MovieTitleId);
+
+                       entity.Property(m => m.MovieTitleId)
+                              .HasColumnName("MovieTitleId");
+
+                       entity.Property(m => m.MovieTitle)
+                              .HasColumnName("MovieTitle");
+                   });
         }
     }
 }

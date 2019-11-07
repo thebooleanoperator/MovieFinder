@@ -5,6 +5,13 @@
     .welcome {
         display: flex;
         justify-content: flex-start;
+        flex-direction: column;
+
+        #company {
+            display: flex;
+            justify-content: center;
+            font-size: 50px;
+        }
     }
 
     .liked-table {
@@ -55,7 +62,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        margin-top: 100px;
+        margin-top: 50px;
 
         .table-title {
             h2, h4 {
