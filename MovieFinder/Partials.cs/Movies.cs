@@ -32,6 +32,9 @@ namespace MovieFinder.Models
             Director = moviesDto.Director;
             Title = moviesDto.Title;
             RunTime = moviesDto.RunTime;
+            ImdbId = moviesDto.ImdbId;
+            ImdbRating = moviesDto.ImdbRating;
+            RottenTomatoesRating = moviesDto.RottenTomatoesRating; 
         }
     }
 }

@@ -37,8 +37,20 @@ namespace MovieFinder
                     entity.Property(m => m.Director)
                           .HasColumnName("Director");
 
+                    entity.Property(m => m.Title)
+                          .HasColumnName("Title");
+
                     entity.Property(m => m.RunTime)
                           .HasColumnName("RunTime");
+
+                    entity.Property(m => m.RottenTomatoesRating)
+                          .HasColumnName("RottenTomatoesRating");
+
+                    entity.Property(m => m.ImdbRating)
+                          .HasColumnName("ImdbRating");
+
+                    entity.Property(m => m.ImdbId)
+                          .HasColumnName("ImdbId");
                 });
 
             modelBuilder
@@ -111,6 +123,22 @@ namespace MovieFinder
 
                        entity.Property(m => m.MovieTitle)
                               .HasColumnName("MovieTitle");
+
+                       entity.Property(m => m.Year)
+                              .HasColumnName("Year"); 
+
+                   });
+
+            modelBuilder
+                   .Entity<ImdbIds>(entity =>
+                   {
+                       entity.HasKey(m => m.Id);
+
+                       entity.Property(m => m.ImdbId)
+                             .HasColumnName("ImdbId");
+
+                       entity.Property(m => m.Title)
+                              .HasColumnName("Title");
                    });
         }
     }

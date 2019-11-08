@@ -9,14 +9,20 @@ namespace MovieFinder.Models
         {
         }
 
-        public MovieTitles(string title)
+        public MovieTitles(MovieTitlesDto movieTitlesDto)
         {
-            if (title.Length == 0 || title == null)
+            if (movieTitlesDto.MovieTitle.Length == 0 || movieTitlesDto.MovieTitle == null)
             {
                 throw new ArgumentException("movie title cannot be null.");
             }
 
-            MovieTitle = title;
+            if (movieTitlesDto.Year < 0)
+            {
+                throw new ArgumentException("movie year must be greater than 0.");
+            }
+
+            MovieTitle = movieTitlesDto.MovieTitle;
+            Year = movieTitlesDto.Year;
         } 
     }
 }

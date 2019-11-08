@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieFinder;
 
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    partial class MovieFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20191108031520_AddingImdbIds")]
+    partial class AddingImdbIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace MovieFinder.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImdbId")
+                    b.Property<int>("ImdbId")
                         .HasColumnName("ImdbId");
 
                     b.Property<string>("Title")
@@ -90,20 +92,10 @@ namespace MovieFinder.Migrations
                     b.Property<string>("Genre")
                         .HasColumnName("Genre");
 
-                    b.Property<string>("ImdbId")
-                        .HasColumnName("ImdbId");
-
-                    b.Property<decimal>("ImdbRating")
-                        .HasColumnName("ImdbRating");
-
-                    b.Property<decimal>("RottenTomatoesRating")
-                        .HasColumnName("RottenTomatoesRating");
-
                     b.Property<int>("RunTime")
                         .HasColumnName("RunTime");
 
-                    b.Property<string>("Title")
-                        .HasColumnName("Title");
+                    b.Property<string>("Title");
 
                     b.Property<int>("Year")
                         .HasColumnName("Year");

@@ -1,4 +1,5 @@
 ﻿
+using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace MovieFinder.Utils
 {
     public class DataReader
     {
-        public static List<string> ReadMovies(string file)
+        public static List<MovieTitlesDto> ReadMovies(string file)
         {
             using (WebClient wc = new WebClient())
             {
@@ -16,13 +17,14 @@ namespace MovieFinder.Utils
                 var parsedJson = JArray.Parse(json);
                 var test = parsedJson.ToObject<Movies[]>();
 
-                var movieTitles = new List<string>();
+                var titlesAndYears = new List<MovieTitlesDto>();
                 foreach(var movie in test)
                 {
-                    movieTitles.Add(movie.Title);
+                    var movieTitlesDto = new MovieTitlesDto(movie);
+                    titlesAndYears.Add(movieTitlesDto);
                 }
 
-                return movieTitles; 
+                return titlesAndYears; 
             }
         }
     }

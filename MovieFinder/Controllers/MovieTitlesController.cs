@@ -18,11 +18,11 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public IActionResult SetDatabase()
         {
-            var titles = DataReader.ReadMovies("https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies.json"); 
+            var movieTitlesDtos = DataReader.ReadMovies("https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies.json"); 
 
-            foreach(var title in titles)
+            foreach(var movieTitleDto in movieTitlesDtos)
             {
-                var movieTitles = new MovieTitles(title); 
+                var movieTitles = new MovieTitles(movieTitleDto); 
                 _unitOfWork.MovieTitles.Add(movieTitles); 
             }
             _unitOfWork.SaveChanges();
