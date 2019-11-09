@@ -21,17 +21,16 @@ namespace MovieFinder.Migrations
 
             modelBuilder.Entity("MovieFinder.Models.ImdbIds", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("ImdbId")
                         .HasColumnName("ImdbId");
 
                     b.Property<string>("Title")
                         .HasColumnName("Title");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Year")
+                        .HasColumnName("Year");
+
+                    b.HasKey("ImdbId");
 
                     b.ToTable("ImdbIds");
                 });
@@ -123,8 +122,8 @@ namespace MovieFinder.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnName("MovieId");
 
-                    b.Property<string>("SynopsisSummary")
-                        .HasColumnName("SynopsisSummary");
+                    b.Property<string>("Plot")
+                        .HasColumnName("Plot");
 
                     b.HasKey("SynopsisId");
 

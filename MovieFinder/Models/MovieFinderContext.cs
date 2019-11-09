@@ -23,7 +23,7 @@ namespace MovieFinder
             modelBuilder
                 .Entity<Movies>(entity =>
                 {
-                    entity.HasKey(m => m.MovieId); 
+                    entity.HasKey(m => m.MovieId);
                 
                     entity.Property(m => m.MovieId)
                           .HasColumnName("MovieId");
@@ -106,8 +106,8 @@ namespace MovieFinder
                     entity.Property(m => m.SynopsisId)
                           .HasColumnName("SynopsisId");
 
-                    entity.Property(m => m.SynopsisSummary)
-                          .HasColumnName("SynopsisSummary");
+                    entity.Property(m => m.Plot)
+                          .HasColumnName("Plot");
 
                     entity.Property(m => m.MovieId)
                           .HasColumnName("MovieId");
@@ -132,13 +132,17 @@ namespace MovieFinder
             modelBuilder
                    .Entity<ImdbIds>(entity =>
                    {
-                       entity.HasKey(m => m.Id);
-
+                       entity.HasKey(m => m.ImdbId);
+                              
                        entity.Property(m => m.ImdbId)
-                             .HasColumnName("ImdbId");
+                             .HasColumnName("ImdbId")
+                             .ValueGeneratedNever();
 
                        entity.Property(m => m.Title)
                               .HasColumnName("Title");
+
+                       entity.Property(m => m.Year)
+                              .HasColumnName("Year"); 
                    });
         }
     }

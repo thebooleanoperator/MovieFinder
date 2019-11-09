@@ -8,9 +8,9 @@ namespace MovieFinder.Models
     {
         public Synopsis(SynopsisDto synopsisDto, IQueryable<Synopsis> allSynopsis)
         {
-            if(synopsisDto.SynopsisSummary.Length == 0)
+            if(synopsisDto.Plot.Length == 0)
             {
-                throw new ArgumentException($"{synopsisDto.SynopsisSummary} must have characters");
+                throw new ArgumentException($"{synopsisDto.Plot} must have characters");
             }
 
             if(synopsisDto.MovieId <= 0)
@@ -24,15 +24,15 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"Movie Id {synopsisDto.MovieId} already exists and has a synopsis");
             }
 
-            SynopsisSummary = synopsisDto.SynopsisSummary;
+            Plot = synopsisDto.Plot;
             MovieId = synopsisDto.MovieId;
         }
 
         public void Update(SynopsisDto synopsisDto)
         {
-            if (synopsisDto.SynopsisSummary.Length == 0)
+            if (synopsisDto.Plot.Length == 0)
             {
-                throw new ArgumentException($"The summary: {synopsisDto.SynopsisSummary} must have characters");
+                throw new ArgumentException($"The summary: {synopsisDto.Plot} must have characters");
             }
 
             if (synopsisDto.MovieId <= 0)
@@ -40,7 +40,7 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"MovieId is {synopsisDto.MovieId}, must be greater than 0");
             }
 
-            SynopsisSummary = synopsisDto.SynopsisSummary;
+            Plot = synopsisDto.Plot;
             MovieId = synopsisDto.MovieId;
         }
     }

@@ -8,6 +8,10 @@ namespace MovieFinder.DtoModels
         public string MovieTitle { get; set; }
         public int Year { get; set; }
 
+        public MovieTitlesDto()
+        {
+        }
+
         public MovieTitlesDto(Movies movie)
         {
             if (movie == null)

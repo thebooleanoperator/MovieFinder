@@ -15,10 +15,10 @@ namespace MovieFinder.Utils
             {
                 var json = wc.DownloadString(file);
                 var parsedJson = JArray.Parse(json);
-                var test = parsedJson.ToObject<Movies[]>();
+                var movies = parsedJson.ToObject<Movies[]>();
 
                 var titlesAndYears = new List<MovieTitlesDto>();
-                foreach(var movie in test)
+                foreach(var movie in movies)
                 {
                     var movieTitlesDto = new MovieTitlesDto(movie);
                     titlesAndYears.Add(movieTitlesDto);

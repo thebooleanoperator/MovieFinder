@@ -11,6 +11,7 @@ namespace MovieFinder.Repository
         public ISynopsisRepository Synopsis { get; set; }
         public IUsersRepository Users { get; set; }
         public IMovieTitlesRepository MovieTitles { get; set; }
+        public IImdbIdsRepository ImdbIds { get; set; }
        
         private readonly DbContext _context;
 
@@ -23,6 +24,7 @@ namespace MovieFinder.Repository
             Synopsis = new SynopsisRepository(_context);
             Users = new UsersRepository(_context);
             MovieTitles = new MovieTitlesRepository(_context);
+            ImdbIds = new ImdbIdsRepository(_context);
         }
 
         public int SaveChanges()

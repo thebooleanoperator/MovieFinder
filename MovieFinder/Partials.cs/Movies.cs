@@ -5,6 +5,10 @@ namespace MovieFinder.Models
 {
     public partial class Movies
     {
+        public Movies()
+        {
+        }
+
         public Movies(MoviesDto moviesDto)
         {
             if (moviesDto.Genre.Length <= 0)

@@ -10,8 +10,8 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20191102235836_liked-movies-updates")]
-    partial class likedmoviesupdates
+    [Migration("20191109231720_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,22 @@ namespace MovieFinder.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MovieFinder.Models.ImdbIds", b =>
+                {
+                    b.Property<string>("ImdbId")
+                        .HasColumnName("ImdbId");
+
+                    b.Property<string>("Title")
+                        .HasColumnName("Title");
+
+                    b.Property<int>("Year")
+                        .HasColumnName("Year");
+
+                    b.HasKey("ImdbId");
+
+                    b.ToTable("ImdbIds");
+                });
 
             modelBuilder.Entity("MovieFinder.Models.LikedMovies", b =>
                 {
@@ -44,6 +60,24 @@ namespace MovieFinder.Migrations
                     b.ToTable("LikedMovies");
                 });
 
+            modelBuilder.Entity("MovieFinder.Models.MovieTitles", b =>
+                {
+                    b.Property<int>("MovieTitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("MovieTitleId")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MovieTitle")
+                        .HasColumnName("MovieTitle");
+
+                    b.Property<int>("Year")
+                        .HasColumnName("Year");
+
+                    b.HasKey("MovieTitleId");
+
+                    b.ToTable("MovieTitles");
+                });
+
             modelBuilder.Entity("MovieFinder.Models.Movies", b =>
                 {
                     b.Property<int>("MovieId")
@@ -57,10 +91,20 @@ namespace MovieFinder.Migrations
                     b.Property<string>("Genre")
                         .HasColumnName("Genre");
 
+                    b.Property<string>("ImdbId")
+                        .HasColumnName("ImdbId");
+
+                    b.Property<decimal>("ImdbRating")
+                        .HasColumnName("ImdbRating");
+
+                    b.Property<decimal>("RottenTomatoesRating")
+                        .HasColumnName("RottenTomatoesRating");
+
                     b.Property<int>("RunTime")
                         .HasColumnName("RunTime");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .HasColumnName("Title");
 
                     b.Property<int>("Year")
                         .HasColumnName("Year");
@@ -80,8 +124,8 @@ namespace MovieFinder.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnName("MovieId");
 
-                    b.Property<string>("SynopsisSummary")
-                        .HasColumnName("SynopsisSummary");
+                    b.Property<string>("Plot")
+                        .HasColumnName("Plot");
 
                     b.HasKey("SynopsisId");
 
