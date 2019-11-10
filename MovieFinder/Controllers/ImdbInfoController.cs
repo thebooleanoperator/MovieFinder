@@ -30,12 +30,14 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public async Task<IActionResult> AddImdbId([FromBody] MovieTitlesDto movieTitles)
         {
-            string longurl = "https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgamen";
+            string longurl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
             var uriBuilder = new UriBuilder(longurl);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["r"] = "json";
             query["page"] = "1";
+            query["type"] = "movie";
             query["s"] = movieTitles.MovieTitle;
+            query["y"] = $"{movieTitles.Year}";
             uriBuilder.Query = query.ToString();
             longurl = uriBuilder.ToString();
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);
@@ -64,14 +66,16 @@ namespace MovieFinder.Controllers
                     ImdbIds movie = Jmovie.ToObject<ImdbIds>();
                    if (movie.Title == movieTitles.MovieTitle && movie.Year == movieTitles.Year)
                    {
-                        break; 
-                   }
+                        _unitOfWork.ImdbIds.Add(movie);
+                        _unitOfWork.SaveChanges();
+                        return Ok();
+                    }
                 }
-                return View(Ok());
+                return NoContent();
              }
              else
              {
-                 return View(BadRequest(response.StatusCode));
+                 return BadRequest(response.StatusCode);
              }
         }
     }
