@@ -2,14 +2,12 @@
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
-using Newtonsoft.Json;
+using MovieFinder.Utils;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -28,22 +26,10 @@ namespace MovieFinder.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddImdbId([FromBody] MovieTitlesDto movieTitles)
+        public async Task<IActionResult> CreateMovie([FromBody] MovieTitlesDto movieTitles)
         {
-            string longurl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
-            var uriBuilder = new UriBuilder(longurl);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["r"] = "json";
-            query["page"] = "1";
-            query["type"] = "movie";
-            query["s"] = movieTitles.MovieTitle;
-            query["y"] = $"{movieTitles.Year}";
-            uriBuilder.Query = query.ToString();
-            longurl = uriBuilder.ToString();
-            var request = new HttpRequestMessage(HttpMethod.Get, longurl);
-
-            request.Headers.Add("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com");
-            request.Headers.Add("x-rapidapi-key", "98148972b0mshcf5fd6487ff6f4ap1b7554jsn9f54713ce432");
+            var imdbIdUrlString = "https://movie-database-imdb-alternative.p.rapidapi.com/"; 
+            var request = RapidRequestSender.ImdbIdsRapidApiRequest(imdbIdUrlString, movieTitles.MovieTitle, $"{movieTitles.Year}");
 
             var client = _clientFactory.CreateClient();
 
@@ -56,12 +42,21 @@ namespace MovieFinder.Controllers
                 var responseBodyAsText = await response.Content.ReadAsStringAsync();
                 //Parse the string into an object that contains an array of objects. 
                 var parsedJson = JObject.Parse(responseBodyAsText);
-                //Get the JTokens from the search results. 
-                List<JToken> searchResults = parsedJson["Search"].Children().ToList();
+               
+                //We need to check if the response came back false.
+                var movieFound = parsedJson["Response"].Value<bool>();
+                if (!movieFound)
+                {
+                    var errorMessage = parsedJson["Error"].Value<string>(); 
+                    return BadRequest(errorMessage);
+                }
+
+                //Get each movie returned from search. 
+                var searchResults = parsedJson["Search"].Children().ToList();
 
                 //Iterate through the search results and convert each Jmovie into a Movies object, 
                 //then check if the title and year match. Save and break on true. 
-                foreach(var Jmovie in searchResults)
+                foreach (var Jmovie in searchResults)
                 {
                     ImdbIds movie = Jmovie.ToObject<ImdbIds>();
                    if (movie.Title == movieTitles.MovieTitle && movie.Year == movieTitles.Year)
@@ -73,6 +68,7 @@ namespace MovieFinder.Controllers
                 }
                 return NoContent();
              }
+            //Response did not resolve correclty, return status code in bad request. 
              else
              {
                  return BadRequest(response.StatusCode);
