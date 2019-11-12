@@ -9,6 +9,6 @@ namespace MovieFinder.Repository.Interface
 {
     public interface IMovieTitlesRepository : IMovieFinderRepository<MovieTitles>
     {
-        
+        bool MovieTitleExists(string title, int year);
     }
 }

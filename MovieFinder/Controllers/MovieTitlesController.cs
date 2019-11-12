@@ -22,8 +22,9 @@ namespace MovieFinder.Controllers
 
             foreach(var movieTitleDto in movieTitlesDtos)
             {
-                var movieTitles = new MovieTitles(movieTitleDto); 
-                _unitOfWork.MovieTitles.Add(movieTitles); 
+                var movieTitles = new MovieTitles(movieTitleDto);
+                _unitOfWork.MovieTitles.Add(movieTitles);
+              
             }
             _unitOfWork.SaveChanges();
 

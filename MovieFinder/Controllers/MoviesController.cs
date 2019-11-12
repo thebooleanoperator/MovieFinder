@@ -3,6 +3,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -48,6 +49,32 @@ namespace MovieFinder.Controllers
             return Ok(movie);
         }
 
+        [HttpPatch]
+        public IActionResult AddMoviesFromImdbIdsTable([FromQuery] int page, [FromQuery] int count)
+        {
+            var imdbIds = _unitOfWork.ImdbIds.GetNext(page, count);
+
+            /*foreach (var imdbId in imdbIds)
+            {
+                var imdb = await SaveImdbId(imdbId.Title, imdbId.Year);
+                if (imdbId == null)
+                {
+                    return BadRequest("Could not find imdbId.");
+                }
+                var imdbInfo = await GetImdbMovieInfo(imdbId);
+
+                var movie = new Movies(imdbInfo, imdbId);
+                _unitOfWork.Movies.Add(movie);
+                _unitOfWork.SaveChanges();
+
+                //Look into refactoring.
+                var synopsis = new Synopsis(imdbInfo, movie);
+                _unitOfWork.Synopsis.Add(synopsis);
+            }
+            _unitOfWork.SaveChanges();*/
+            return Ok();
+        }
+
         public async Task<ImdbIds> SaveImdbId(string title, int year)
         {
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, $"{year}");
@@ -63,7 +90,7 @@ namespace MovieFinder.Controllers
             foreach (var Jmovie in searchResults)
             {
                 //Get the ImdbId by converting JObject to ImdbId.
-                ImdbIds movie = Jmovie.ToObject<ImdbIds>();
+                ImdbIds movie = Jmovie.ToObject<ImdbIds>(); 
      
                 var lowerMovieTitle = movie.Title.ToLower();
                 var lowerTitle = title.ToLower();
