@@ -32,6 +32,11 @@ namespace MovieFinder.Controllers
 
             var imdbInfo = await GetImdbMovieInfo(imdbId);
 
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId); 
+
+            //Don't save a dupe, return existing movie.
+            if (existingMovie != null) { return Ok(existingMovie);}
+
             var movie = new Movies(imdbInfo, imdbId);
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
@@ -60,9 +65,9 @@ namespace MovieFinder.Controllers
                 //Get the ImdbId by converting JObject to ImdbId.
                 ImdbIds movie = Jmovie.ToObject<ImdbIds>();
      
-                movie.Title = movie.Title.ToLower();
-                title = title.ToLower();
-                if (movie.Year == year && (title.Contains(movie.Title) || movie.Title.Contains(title)))
+                var lowerMovieTitle = movie.Title.ToLower();
+                var lowerTitle = title.ToLower();
+                if (movie.Year == year && (lowerTitle.Contains(lowerMovieTitle) || lowerMovieTitle.Contains(lowerTitle)))
                 {
                     var existingMovie = _unitOfWork.ImdbIds.GetByString(movie.ImdbId);
                     //If we already have the id saved, do not save a dupe.

@@ -14,8 +14,7 @@ namespace MovieFinder.Repository.Repo
         
         public ImdbIds GetByString(string imdbId)
         {
-            var imdbIds = DbSet.Where(i => i.ImdbId == imdbId).Single();
-            return imdbIds;
+            return DbSet.Where(i => i.ImdbId == imdbId).SingleOrDefault();
         }
     }
 }
