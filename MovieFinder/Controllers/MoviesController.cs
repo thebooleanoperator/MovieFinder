@@ -36,6 +36,7 @@ namespace MovieFinder.Controllers
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
+            //Look into refactoring.
             var synopsis = new Synopsis(imdbInfo, movie);
             _unitOfWork.Synopsis.Add(synopsis);
             _unitOfWork.SaveChanges();

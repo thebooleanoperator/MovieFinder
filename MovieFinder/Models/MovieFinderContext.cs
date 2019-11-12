@@ -51,6 +51,9 @@ namespace MovieFinder
 
                     entity.Property(m => m.ImdbId)
                           .HasColumnName("ImdbId");
+
+                    entity.Property(m => m.Poster)
+                          .HasColumnName("Poster");
                 });
 
             modelBuilder

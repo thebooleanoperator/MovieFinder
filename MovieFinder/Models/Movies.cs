@@ -11,5 +11,6 @@
         public string RottenTomatoesRating { get; set; }
         public string ImdbRating { get; set; }
         public string ImdbId { get; set; }
+        public string Poster { get; set; }
     }
 }

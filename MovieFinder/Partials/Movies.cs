@@ -48,6 +48,12 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbInfo.ImdbId} must be have characters");
             }
 
+            if (imdbInfo.Poster == null)
+            {
+                throw new ArgumentException($"{imdbInfo.Poster} must be have characters");
+
+            }
+
             if (imdbId.Year < 0)
             {
                 throw new ArgumentException($"{imdbId.Year} must be have characters");
@@ -61,6 +67,7 @@ namespace MovieFinder.Models
             ImdbRating = getImdbRating(imdbInfo.Ratings);
             RottenTomatoesRating = getRottenRating(imdbInfo.Ratings);
             Year = imdbId.Year;
+            Poster = imdbInfo.Poster;
         }
 
         private string getImdbRating(List<RatingsDto> ratingsList)
