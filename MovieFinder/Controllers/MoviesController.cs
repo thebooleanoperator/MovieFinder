@@ -57,11 +57,17 @@ namespace MovieFinder.Controllers
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
             {
+                //Get the ImdbId by converting JObject to ImdbId.
                 ImdbIds movie = Jmovie.ToObject<ImdbIds>();
+     
                 movie.Title = movie.Title.ToLower();
                 title = title.ToLower();
                 if (movie.Year == year && (title.Contains(movie.Title) || movie.Title.Contains(title)))
                 {
+                    var existingMovie = _unitOfWork.ImdbIds.GetByString(movie.ImdbId);
+                    //If we already have the id saved, do not save a dupe.
+                    if (existingMovie != null) { return existingMovie; }
+
                     _unitOfWork.ImdbIds.Add(movie);
                     _unitOfWork.SaveChanges();
                     return movie;
@@ -83,7 +89,7 @@ namespace MovieFinder.Controllers
 
             var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
             var parsedJson = jsonAndResponse;
-
+            //Get the ImdbInfoDto by converting JObject.
             var infoDto = parsedJson.ToObject<ImdbInfoDto>();
             return infoDto;
         }
