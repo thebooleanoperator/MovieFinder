@@ -45,48 +45,26 @@ namespace MovieFinder.Controllers
         {
              
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, $"{year}");
-
             var client = _clientFactory.CreateClient();
-
             var response = await client.SendAsync(request);
-            
-            //Check to make sure response resolved sucuessfully. 
-            if (response.IsSuccessStatusCode)
+
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
+            //Get each movie returned from search. 
+            var searchResults = parsedJson["Search"].Children().ToList();
+
+            //Iterate through the search results and convert each Jmovie into a Movies object, 
+            //then check if the title and year match. Save and break on true. 
+            foreach (var Jmovie in searchResults)
             {
-                //Read the string asynchronosouly from response. 
-                var responseBodyAsText = await response.Content.ReadAsStringAsync();
-                //Parse the string into an object that contains an array of objects. 
-                var parsedJson = JObject.Parse(responseBodyAsText);
-               
-                //We need to check if the response came back false.
-                var movieFound = parsedJson["Response"].Value<bool>();
-                if (!movieFound)
+                ImdbIds movie = Jmovie.ToObject<ImdbIds>();
+                if (movie.Year == year)
                 {
-                    return null;
+                    _unitOfWork.ImdbIds.Add(movie);
+                    _unitOfWork.SaveChanges();
+                    return movie;
                 }
-
-                //Get each movie returned from search. 
-                var searchResults = parsedJson["Search"].Children().ToList();
-
-                //Iterate through the search results and convert each Jmovie into a Movies object, 
-                //then check if the title and year match. Save and break on true. 
-                foreach (var Jmovie in searchResults)
-                {
-                    ImdbIds movie = Jmovie.ToObject<ImdbIds>();
-                   if (movie.Year == year)
-                   {
-                        _unitOfWork.ImdbIds.Add(movie);
-                        _unitOfWork.SaveChanges();
-                        return movie;
-                    }
-                }
-                return null; 
-             }
-            //Response did not resolve correclty, return status code in bad request. 
-             else
-             {
-                return null; 
-             }
+            }
+            return null;
         }
 
         public async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbIdInfo)
@@ -100,31 +78,11 @@ namespace MovieFinder.Controllers
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            if (response.IsSuccessStatusCode)
-            {
-                //Read the string asynchronosouly from response. 
-                var responseBodyAsText = await response.Content.ReadAsStringAsync();
-                //Parse the string into an object that contains an array of objects. 
-                var parsedJson = JObject.Parse(responseBodyAsText);
+            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+            var parsedJson = jsonAndResponse;
 
-                //We need to check if the response came back false.
-                var movieFound = parsedJson["Response"].Value<bool>();
-                if (!movieFound)
-                {
-                    return null;
-                }
-
-                var infoDto = parsedJson.ToObject<ImdbInfoDto>();
-                return infoDto;
-
-            }
-            //Response did not resolve correclty, return status code in bad request. 
-            else
-            {
-                return null;
-            }
+            var infoDto = parsedJson.ToObject<ImdbInfoDto>();
+            return infoDto;
         }
-
-
     }
 }
