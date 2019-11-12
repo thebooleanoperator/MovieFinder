@@ -57,7 +57,9 @@ namespace MovieFinder.Controllers
             foreach (var Jmovie in searchResults)
             {
                 ImdbIds movie = Jmovie.ToObject<ImdbIds>();
-                if (movie.Year == year)
+                movie.Title = movie.Title.ToLower();
+                title = title.ToLower();
+                if (movie.Year == year && (title.Contains(movie.Title) || movie.Title.Contains(title)))
                 {
                     _unitOfWork.ImdbIds.Add(movie);
                     _unitOfWork.SaveChanges();
