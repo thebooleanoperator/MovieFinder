@@ -3,7 +3,6 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
-using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,16 +33,17 @@ namespace MovieFinder.Controllers
             var imdbInfo = await GetImdbMovieInfo(imdbId);
 
             var movie = new Movies(imdbInfo, imdbId);
-
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
+            var synopsis = new Synopsis(imdbInfo, movie);
+            _unitOfWork.Synopsis.Add(synopsis);
+            _unitOfWork.SaveChanges();
             return Ok(movie);
         }
 
         public async Task<ImdbIds> SaveImdbId(string title, int year)
         {
-             
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, $"{year}");
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);

@@ -12,5 +12,6 @@ namespace MovieFinder.DtoModels
         public List<RatingsDto> Ratings { get; set; }
         public string ImdbId { get; set; }
         public string Plot { get; set; }
+        public string Poster { get; set; }
     }
 }
