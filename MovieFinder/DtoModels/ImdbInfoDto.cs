@@ -1,15 +1,16 @@
-﻿namespace MovieFinder.Models
+﻿using System.Collections.Generic;
+
+namespace MovieFinder.DtoModels
 {
-    public partial class Movies
+    public class ImdbInfoDto
     {
         public int MovieId { get; set; }
         public string Genre { get; set; }
-        public int Year { get; set; }
         public string Director { get; set; }
         public string Title { get; set; }
         public string RunTime { get; set; }
-        public string RottenTomatoesRating { get; set; }
-        public string ImdbRating { get; set; }
+        public List<RatingsDto> Ratings { get; set; }
         public string ImdbId { get; set; }
+        public string Plot { get; set; }
     }
 }

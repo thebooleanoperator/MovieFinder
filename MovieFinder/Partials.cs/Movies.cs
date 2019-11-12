@@ -1,5 +1,7 @@
-﻿using MovieFinder.Partialscs;
+﻿using MovieFinder.DtoModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieFinder.Models
 {
@@ -9,36 +11,68 @@ namespace MovieFinder.Models
         {
         }
 
-        public Movies(MoviesDto moviesDto)
+        public Movies(ImdbInfoDto imdbInfo, ImdbIds imdbId)
         {
-            if (moviesDto.Genre.Length <= 0)
+            if(imdbInfo == null)
             {
-                throw new ArgumentException($"{moviesDto.Genre} must be have characters");
+                throw new ArgumentException($"{imdbInfo} must not be null");
             }
 
-            if (moviesDto.Year <= 0)
+            if (imdbInfo.Genre == null)
             {
-                throw new ArgumentException($"{moviesDto.Year} must be greater than 0");
+                throw new ArgumentException($"{imdbInfo.Genre} must be have characters");
             }
 
-            if (moviesDto.Director.Length <= 0)
+            if (imdbInfo.Director == null)
             {
-                throw new ArgumentException($"{moviesDto.Director} must be have characters");
+                throw new ArgumentException($"{imdbInfo.Director} must be have characters");
             }
 
-            if (moviesDto.Title.Length <=0)
+            if (imdbInfo.Title == null)
             {
-                throw new ArgumentException($"{moviesDto.Title} must be have characters");
+                throw new ArgumentException($"{imdbInfo.Title} must be have characters");
             }
 
-            Genre = moviesDto.Genre;
-            Year = moviesDto.Year;
-            Director = moviesDto.Director;
-            Title = moviesDto.Title;
-            RunTime = moviesDto.RunTime;
-            ImdbId = moviesDto.ImdbId;
-            ImdbRating = moviesDto.ImdbRating;
-            RottenTomatoesRating = moviesDto.RottenTomatoesRating; 
+            if (imdbInfo.RunTime == null)
+            {
+                throw new ArgumentException($"{imdbInfo.RunTime} must be have characters");
+            }
+
+            if (imdbInfo.Ratings.Count() < 3)
+            {
+                throw new ArgumentException($"{imdbInfo.RunTime} must be have characters");
+            }
+
+            if (imdbInfo.ImdbId == null)
+            {
+                throw new ArgumentException($"{imdbInfo.ImdbId} must be have characters");
+            }
+
+            if (imdbId.Year < 0)
+            {
+                throw new ArgumentException($"{imdbId.Year} must be have characters");
+            }
+
+            Genre = imdbInfo.Genre;
+            Director = imdbInfo.Director;
+            Title = imdbInfo.Title;
+            RunTime = imdbInfo.RunTime;
+            ImdbId = imdbInfo.ImdbId;
+            ImdbRating = getImdbRating(imdbInfo.Ratings);
+            RottenTomatoesRating = getRottenRating(imdbInfo.Ratings);
+            Year = imdbId.Year;
+        }
+
+        private string getImdbRating(List<RatingsDto> ratingsList)
+        {
+            var imdbRatingsObject = ratingsList[0];
+            return imdbRatingsObject.Value;
+        }
+
+        private string getRottenRating(List<RatingsDto> ratingsList)
+        {
+            var rottenRatingObject = ratingsList[1];
+            return rottenRatingObject.Value;
         }
     }
 }
