@@ -38,9 +38,9 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbInfo.RunTime} must be have characters");
             }
 
-            if (imdbInfo.Ratings.Count() < 3)
+            if (imdbInfo.Ratings == null)
             {
-                throw new ArgumentException($"{imdbInfo.RunTime} must be have characters");
+                throw new ArgumentException($"{imdbInfo.Ratings} cannot be null");
             }
 
             if (imdbInfo.ImdbId == null)
@@ -78,8 +78,15 @@ namespace MovieFinder.Models
 
         private string getRottenRating(List<RatingsDto> ratingsList)
         {
-            var rottenRatingObject = ratingsList[1];
-            return rottenRatingObject.Value;
+            if (ratingsList.Count() > 1)
+            {
+                var rottenRatingObject = ratingsList[1];
+                return rottenRatingObject.Value;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

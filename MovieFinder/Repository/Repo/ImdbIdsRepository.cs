@@ -17,10 +17,5 @@ namespace MovieFinder.Repository.Repo
         {
             return DbSet.Where(i => i.ImdbId == imdbId).SingleOrDefault();
         }
-
-        public IEnumerable<ImdbIds> GetNext(int page, int count)
-        {
-            return DbSet.Skip(page - 1).Take(count);
-        }
     }
 }

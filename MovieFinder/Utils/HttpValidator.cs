@@ -23,7 +23,7 @@ namespace MovieFinder.Utils
             var movieFound = parsedJson["Response"].Value<bool>();
             if (!movieFound)
             {
-                throw new ArgumentException($"Status: {response.StatusCode}. Movie not found.");
+                return null;
             }
 
             return parsedJson;

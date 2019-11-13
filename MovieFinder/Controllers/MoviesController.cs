@@ -50,18 +50,24 @@ namespace MovieFinder.Controllers
         }
 
         [HttpPatch]
-        public IActionResult AddMoviesFromImdbIdsTable([FromQuery] int page, [FromQuery] int count)
+        public async Task<IActionResult> AddMoviesFromImdbIdsTable([FromQuery] int page, [FromQuery] int count)
         {
-            var imdbIds = _unitOfWork.ImdbIds.GetNext(page, count);
+            var movieTitles= _unitOfWork.MovieTitles.GetNext(page, count);
 
-            /*foreach (var imdbId in imdbIds)
+            foreach (var moveiTitle in movieTitles)
             {
-                var imdb = await SaveImdbId(imdbId.Title, imdbId.Year);
+                var imdbId = await SaveImdbId(moveiTitle.MovieTitle, moveiTitle.Year);
                 if (imdbId == null)
                 {
-                    return BadRequest("Could not find imdbId.");
+                    continue;
                 }
+
                 var imdbInfo = await GetImdbMovieInfo(imdbId);
+
+                if (imdbInfo == null)
+                {
+                    continue;
+                }
 
                 var movie = new Movies(imdbInfo, imdbId);
                 _unitOfWork.Movies.Add(movie);
@@ -71,7 +77,7 @@ namespace MovieFinder.Controllers
                 var synopsis = new Synopsis(imdbInfo, movie);
                 _unitOfWork.Synopsis.Add(synopsis);
             }
-            _unitOfWork.SaveChanges();*/
+            _unitOfWork.SaveChanges();
             return Ok();
         }
 
@@ -82,6 +88,9 @@ namespace MovieFinder.Controllers
             var response = await client.SendAsync(request);
 
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
+
+            if (parsedJson == null) { return null; }
+
             //Get each movie returned from search. 
             var searchResults = parsedJson["Search"].Children().ToList();
 
@@ -90,36 +99,39 @@ namespace MovieFinder.Controllers
             foreach (var Jmovie in searchResults)
             {
                 //Get the ImdbId by converting JObject to ImdbId.
-                ImdbIds movie = Jmovie.ToObject<ImdbIds>(); 
+                ImdbIds imdbId = Jmovie.ToObject<ImdbIds>(); 
      
-                var lowerMovieTitle = movie.Title.ToLower();
+                var lowerMovieTitle = imdbId.Title.ToLower();
                 var lowerTitle = title.ToLower();
-                if (movie.Year == year && (lowerTitle.Contains(lowerMovieTitle) || lowerMovieTitle.Contains(lowerTitle)))
+                if (imdbId.Year == year && lowerMovieTitle.Contains(lowerTitle))
                 {
-                    var existingMovie = _unitOfWork.ImdbIds.GetByString(movie.ImdbId);
                     //If we already have the id saved, do not save a dupe.
+                    var existingMovie = _unitOfWork.ImdbIds.GetByString(imdbId.ImdbId);
                     if (existingMovie != null) { return existingMovie; }
 
-                    _unitOfWork.ImdbIds.Add(movie);
+                    _unitOfWork.ImdbIds.Add(imdbId);
                     _unitOfWork.SaveChanges();
-                    return movie;
+                    return imdbId;
                 }
             }
             return null;
         }
 
-        public async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbIdInfo)
+        public async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId)
         {
-            if (imdbIdInfo == null)
+            if (imdbId == null)
             {
                 return null;
             }
 
-            var request = RapidRequestSender.ImdbInfoRapidRequest(imdbIdInfo.ImdbId, $"{imdbIdInfo.Year}");
+            var request = RapidRequestSender.ImdbInfoRapidRequest(imdbId.ImdbId, $"{imdbId.Year}");
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+
+            if (jsonAndResponse == null) { return null; }
+
             var parsedJson = jsonAndResponse;
             //Get the ImdbInfoDto by converting JObject.
             var infoDto = parsedJson.ToObject<ImdbInfoDto>();
