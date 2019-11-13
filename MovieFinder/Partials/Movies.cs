@@ -18,11 +18,6 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbInfo} must not be null");
             }
 
-            if (imdbInfo.Genre == null)
-            {
-                throw new ArgumentException($"{imdbInfo.Genre} must be have characters");
-            }
-
             if (imdbInfo.Director == null)
             {
                 throw new ArgumentException($"{imdbInfo.Director} must be have characters");
@@ -59,29 +54,67 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbId.Year} must be have characters");
             }
 
-            Genre = imdbInfo.Genre;
             Director = imdbInfo.Director;
             Title = imdbInfo.Title;
-            RunTime = imdbInfo.RunTime;
+            RunTime = getMovieRunTime(imdbInfo.RunTime);
             ImdbId = imdbInfo.ImdbId;
-            ImdbRating = getImdbRating(imdbInfo.Ratings);
-            RottenTomatoesRating = getRottenRating(imdbInfo.Ratings);
+            ImdbRating = getMovieRating("Internet Movie Database", imdbInfo.Ratings);
+            RottenTomatoesRating = getMovieRating("Rotten Tomatoes", imdbInfo.Ratings);
             Year = imdbId.Year;
             Poster = imdbInfo.Poster;
         }
 
-        private string getImdbRating(List<RatingsDto> ratingsList)
+        private int? getMovieRunTime(string runTimeString)
         {
-            var imdbRatingsObject = ratingsList[0];
-            return imdbRatingsObject.Value;
+            var splitRunTime = runTimeString.Split(' ');
+            int runTime; 
+            if(int.TryParse(splitRunTime[0], out runTime))
+            {
+                return runTime; 
+            }
+            else
+            {
+                return null;
+            }
+    
         }
 
-        private string getRottenRating(List<RatingsDto> ratingsList)
+        private int? getMovieRating(string source, List<RatingsDto> ratingsList)
         {
-            if (ratingsList.Count() > 1)
+            var rating = ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
+
+            if (source == "Internet Movie Database")
             {
-                var rottenRatingObject = ratingsList[1];
-                return rottenRatingObject.Value;
+                return convertImdbRating(rating);
+            }
+
+            if (source == "Rotten Tomatoes")
+            {
+                return convertRottenRating(rating);
+            }
+
+            return null;
+        }
+
+        private int? convertImdbRating(string rating)
+        {
+            int imdbRating;
+            if (int.TryParse(rating, out imdbRating))
+            {
+                return imdbRating; 
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private int? convertRottenRating(string rating)
+        {
+            int rottenRating;
+            if (int.TryParse(rating, out rottenRating))
+            {
+                return rottenRating;
             }
             else
             {

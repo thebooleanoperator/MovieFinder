@@ -28,7 +28,6 @@ namespace MovieFinder.Repository.Repo
                                 .Select(e => new Movies
                                 {
                                     MovieId = e.Movie.MovieId,
-                                    Genre = e.Movie.Genre,
                                     Year = e.Movie.Year,
                                     Director = e.Movie.Director,
                                     Title = e.Movie.Title,
