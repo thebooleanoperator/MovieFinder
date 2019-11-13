@@ -42,9 +42,13 @@ namespace MovieFinder.Controllers
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
-            //Look into refactoring.
+            //Look into refactoring to avoid two save changes.
             var synopsis = new Synopsis(imdbInfo, movie);
             _unitOfWork.Synopsis.Add(synopsis);
+
+            var genres = new Genres(imdbInfo, movie);
+            _unitOfWork.Genres.Add(genres);
+
             _unitOfWork.SaveChanges();
             return Ok(movie);
         }

@@ -1,6 +1,6 @@
 ﻿namespace MovieFinder.Models
 {
-    public class Genres
+    public partial class Genres
     {
         public int GenreId { get; set; }
         public int MovieId { get; set; }
