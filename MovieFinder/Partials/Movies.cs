@@ -81,16 +81,17 @@ namespace MovieFinder.Models
 
         private int? getMovieRating(string source, List<RatingsDto> ratingsList)
         {
-            var rating = ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
+            var rating= ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
+
 
             if (source == "Internet Movie Database")
             {
-                return convertImdbRating(rating);
+                return convertImdbRating(rating.Substring(0, 2));
             }
 
             if (source == "Rotten Tomatoes")
             {
-                return convertRottenRating(rating);
+                return convertRottenRating(rating.Substring(0, 2));
             }
 
             return null;
