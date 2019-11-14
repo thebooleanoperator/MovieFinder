@@ -173,6 +173,9 @@ namespace MovieFinder
 
                     entity.Property(m => m.Thriller)
                             .HasColumnName("Thriller");
+
+                    entity.Property(m => m.Romance)
+                          .HasColumnName("Romance");
                 });
         }
     }

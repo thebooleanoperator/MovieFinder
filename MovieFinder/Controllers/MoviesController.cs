@@ -3,7 +3,6 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
-using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;

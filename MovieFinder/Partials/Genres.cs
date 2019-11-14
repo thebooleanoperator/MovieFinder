@@ -41,6 +41,7 @@ namespace MovieFinder.Models
             Comedy = genres.Contains("comedy");
             Crime = genres.Contains("crime");
             Thriller = genres.Contains("thriller");
+            Romance = genres.Contains("romance");
         }
     }
 }
