@@ -58,8 +58,8 @@ namespace MovieFinder.Models
             Title = imdbInfo.Title;
             RunTime = getMovieRunTime(imdbInfo.RunTime);
             ImdbId = imdbInfo.ImdbId;
-            ImdbRating = getMovieRating("Internet Movie Database", imdbInfo.Ratings);
-            RottenTomatoesRating = getMovieRating("Rotten Tomatoes", imdbInfo.Ratings);
+            ImdbRating = getImdbRating("Internet Movie Database", imdbInfo.Ratings);
+            RottenTomatoesRating = getRottenRating("Rotten Tomatoes", imdbInfo.Ratings);
             Year = imdbId.Year;
             Poster = imdbInfo.Poster;
         }
@@ -79,28 +79,34 @@ namespace MovieFinder.Models
     
         }
 
-        private int? getMovieRating(string source, List<RatingsDto> ratingsList)
+        private decimal? getImdbRating(string source, List<RatingsDto> ratingsList)
         {
-            var rating= ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
-
+            var rating = ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
 
             if (source == "Internet Movie Database")
             {
-                return convertImdbRating(rating.Substring(0, 2));
+                if (rating == null) { return null; }
+                return convertImdbRating(rating.Substring(0, 3));
             }
-
-            if (source == "Rotten Tomatoes")
-            {
-                return convertRottenRating(rating.Substring(0, 2));
-            }
-
             return null;
         }
 
-        private int? convertImdbRating(string rating)
+        public int? getRottenRating(string source, List<RatingsDto> ratingsList)
         {
-            int imdbRating;
-            if (int.TryParse(rating, out imdbRating))
+            var rating = ratingsList.Where(r => r.Source == source).Select(r => r.Value).SingleOrDefault();
+
+            if (source == "Rotten Tomatoes")
+            {
+                if (rating == null) { return null; }
+                return convertRottenRating(rating.Substring(0, 2));
+            }
+            return null;
+        }
+
+        private decimal? convertImdbRating(string rating)
+        {
+            decimal imdbRating;
+            if (decimal.TryParse(rating, out imdbRating))
             {
                 return imdbRating; 
             }

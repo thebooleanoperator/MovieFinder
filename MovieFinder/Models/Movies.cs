@@ -8,7 +8,7 @@
         public string Title { get; set; }
         public int? RunTime { get; set; }
         public int? RottenTomatoesRating { get; set; }
-        public int? ImdbRating { get; set; }
+        public decimal? ImdbRating { get; set; }
         public string ImdbId { get; set; }
         public string Poster { get; set; }
     }
