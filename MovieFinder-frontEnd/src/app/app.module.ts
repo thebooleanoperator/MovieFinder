@@ -7,8 +7,9 @@ import { AngularMaterialModule } from './Shared-Modules/angular-material.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './Main/home.module';
+import { HomeModule } from './Main/Home/home.module';
 import { WelcomeModule } from './Welcome/welcome.module';
+import { SearchModule } from './Main/Search/search-module'
 
 @NgModule({
   declarations: [
@@ -20,8 +21,9 @@ import { WelcomeModule } from './Welcome/welcome.module';
     HttpClientModule,
     AppRoutingModule,
     AngularMaterialModule,
+    WelcomeModule,
     HomeModule,
-    WelcomeModule
+    SearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

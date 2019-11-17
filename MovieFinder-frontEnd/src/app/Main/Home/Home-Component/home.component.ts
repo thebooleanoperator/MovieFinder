@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LikedMoviesService } from 'src/app/Services/liked-movies.service'
 import { UserService } from 'src/app/Services/user.service';
-import { MovieDto } from '../../DTO/movie.dto'
+import { MovieDto } from '../../../DTO/movie.dto'
 import { UserDto } from 'src/app/DTO/user.dto';
 
 @Component({

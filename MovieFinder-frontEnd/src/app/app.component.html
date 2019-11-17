@@ -1,9 +1,9 @@
 <div id="app">
     <mat-toolbar-row *ngIf="loggedInUser">
         <mat-toolbar-row class="main-toolbar">
-            <button class="tool-button" mat-stroked-button>Home</button>
-            <button class="tool-button"  mat-stroked-button>Movie Search</button>
-            <button class="tool-button"  mat-stroked-button>My Movies</button>
+            <a class="tool-button" mat-stroked-button routerLink="/home">Home</a>
+            <a class="tool-button"  mat-stroked-button routerLink="/search">Search</a>
+            <a class="tool-button"  mat-stroked-button>Movie Finder</a>
             <mat-icon class="tool-button" >settings</mat-icon>
         </mat-toolbar-row>
     </mat-toolbar-row>
