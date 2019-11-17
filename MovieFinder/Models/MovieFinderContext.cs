@@ -51,6 +51,9 @@ namespace MovieFinder
 
                     entity.Property(m => m.Poster)
                           .HasColumnName("Poster");
+
+                    entity.Property(m => m.NetflixId)
+                          .HasColumnName("NetflixId");
                 });
 
             modelBuilder

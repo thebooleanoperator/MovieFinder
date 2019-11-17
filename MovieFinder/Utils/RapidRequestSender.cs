@@ -7,6 +7,7 @@ namespace MovieFinder.Utils
     public class RapidRequestSender
     {
         private static string imdbRapidApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
+        private static string netflixRapidApiUrl = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi";
 
         public static HttpRequestMessage ImdbIdsRapidRequest(string title, string year)
         {
@@ -43,6 +44,23 @@ namespace MovieFinder.Utils
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);
 
             request.Headers.Add("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com");
+            request.Headers.Add("x-rapidapi-key", "98148972b0mshcf5fd6487ff6f4ap1b7554jsn9f54713ce432");
+
+            return request;
+        }
+
+        public static HttpRequestMessage NetflixRapidRequest(string imdbId)
+        {
+            string longurl = imdbRapidApiUrl;
+            var uriBuilder = new UriBuilder(longurl);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["t"] = "getimdb";
+            query["q"] = imdbId;
+            uriBuilder.Query = query.ToString();
+            longurl = uriBuilder.ToString();
+            var request = new HttpRequestMessage(HttpMethod.Get, longurl);
+
+            request.Headers.Add("x-rapidapi-host", "unogs-unogs-v1.p.rapidapi.com");
             request.Headers.Add("x-rapidapi-key", "98148972b0mshcf5fd6487ff6f4ap1b7554jsn9f54713ce432");
 
             return request;

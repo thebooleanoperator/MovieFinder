@@ -37,7 +37,9 @@ namespace MovieFinder.Controllers
             //Don't save a dupe, return existing movie.
             if (existingMovie != null) { return Ok(existingMovie);}
 
-            var movie = new Movies(imdbInfo, imdbId);
+            var netflixId = await GetNetFlixId(imdbInfo.ImdbId); 
+
+            var movie = new Movies(imdbInfo, imdbId, netflixId);
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
@@ -72,7 +74,7 @@ namespace MovieFinder.Controllers
                     continue;
                 }
 
-                var movie = new Movies(imdbInfo, imdbId);
+                var movie = new Movies(imdbInfo, imdbId, null);
                 _unitOfWork.Movies.Add(movie);
                 _unitOfWork.SaveChanges();
 
@@ -86,6 +88,8 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
             return Ok();
         }
+
+
 
         public async Task<ImdbIds> SaveImdbId(string title, int year)
         {
@@ -104,6 +108,7 @@ namespace MovieFinder.Controllers
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
             {
+
                 //Get the ImdbId by converting JObject to ImdbId.
                 ImdbIds imdbId = Jmovie.ToObject<ImdbIds>(); 
      
@@ -142,6 +147,26 @@ namespace MovieFinder.Controllers
             //Get the ImdbInfoDto by converting JObject.
             var infoDto = parsedJson.ToObject<ImdbInfoDto>();
             return infoDto;
+        }
+
+        public async Task<string> GetNetFlixId(string imdbId)
+        {
+            if (imdbId == null)
+            {
+                return null; 
+            }
+
+            var request = RapidRequestSender.NetflixRapidRequest(imdbId);
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+
+            if (jsonAndResponse == null) { return null; }
+
+            //Get the ImdbInfoDto by converting JObject.
+            var netflixDto = jsonAndResponse.ToObject<NetflixIdDto>();
+            return netflixDto.FilmId; 
         }
     }
 }
