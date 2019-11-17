@@ -94,6 +94,18 @@ namespace MovieFinder.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult GetMoviesByTitle([FromQuery] string title)
+        {
+            if (title == null || title.Length == 0)
+            {
+                return NoContent();
+            }
+
+            var movies =_unitOfWork.Movies.GetAllByTitle(title).ToList();
+
+            return Ok(movies);
+        }
 
 
         public async Task<ImdbIds> SaveImdbId(string title, int year)

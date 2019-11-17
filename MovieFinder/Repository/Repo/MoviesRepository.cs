@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
 using MovieFinder.Repository.Interface;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MovieFinder.Repository
@@ -17,6 +18,11 @@ namespace MovieFinder.Repository
         public Movies GetByImdbId(string imdbId)
         {
             return DbSet.Where(m => m.ImdbId == imdbId).SingleOrDefault();
+        }
+
+        public IEnumerable<Movies> GetAllByTitle(string title)
+        {
+            return DbSet.Where(m => m.Title.Contains(title));
         }
     }
 }

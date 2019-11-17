@@ -1,14 +1,11 @@
 ﻿using MovieFinder.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieFinder.Repository.Interface
 {
     public interface IMoviesRepository : IMovieFinderRepository<Movies>
     {
         Movies GetByImdbId(string imdbId);
+        IEnumerable<Movies> GetAllByTitle(string title);
     }
 }
