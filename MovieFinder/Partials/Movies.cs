@@ -99,7 +99,16 @@ namespace MovieFinder.Models
             if (source == "Rotten Tomatoes")
             {
                 if (rating == null) { return null; }
-                return convertRottenRating(rating.Substring(0, 2));
+
+                //If the rating has a length of four it must be a 100% rating. 
+                if (rating.Length == 4)
+                {
+                    return convertRottenRating(rating.Substring(0, 3));
+                }
+                else
+                {
+                    return convertRottenRating(rating.Substring(0, 2));
+                }
             }
             return null;
         }

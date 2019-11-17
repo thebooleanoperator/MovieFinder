@@ -74,7 +74,12 @@ namespace MovieFinder.Controllers
                     continue;
                 }
 
-                var movie = new Movies(imdbInfo, imdbId, null);
+                var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
+                if (existingMovie != null) { return Ok(); }
+
+                var netflixId = await GetNetFlixId(imdbInfo.ImdbId);
+
+                var movie = new Movies(imdbInfo, imdbId, netflixId);
                 _unitOfWork.Movies.Add(movie);
                 _unitOfWork.SaveChanges();
 
