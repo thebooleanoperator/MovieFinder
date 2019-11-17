@@ -160,7 +160,7 @@ namespace MovieFinder.Controllers
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+            var jsonAndResponse = await HttpValidator.ValidateAndParseNetflixResponse(response);
 
             if (jsonAndResponse == null) { return null; }
 

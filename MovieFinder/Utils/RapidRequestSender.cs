@@ -51,7 +51,7 @@ namespace MovieFinder.Utils
 
         public static HttpRequestMessage NetflixRapidRequest(string imdbId)
         {
-            string longurl = imdbRapidApiUrl;
+            string longurl = netflixRapidApiUrl;
             var uriBuilder = new UriBuilder(longurl);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["t"] = "getimdb";
