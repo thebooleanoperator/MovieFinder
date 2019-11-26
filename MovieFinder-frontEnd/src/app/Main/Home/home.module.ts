@@ -15,7 +15,6 @@ import { HomeComponent } from './Home-Component/home.component'
     FormsModule,
     HttpClientModule,
     AngularMaterialModule
-  ],
-  providers: []
+  ]
 })
 export class HomeModule { }
