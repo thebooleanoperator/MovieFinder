@@ -7,5 +7,6 @@ namespace MovieFinder.Repository.Interface
     {
         bool MovieTitleExists(string title, int year);
         IEnumerable<MovieTitles> GetNext(int page, int count);
+        IEnumerable<MovieTitles> GetByTitle(string title);
     }
 }

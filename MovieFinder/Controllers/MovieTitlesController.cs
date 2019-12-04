@@ -30,5 +30,13 @@ namespace MovieFinder.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult GetByTitle([FromQuery] string title)
+        {
+            var movieTitles = _unitOfWork.MovieTitles.GetByTitle(title);
+
+            return Ok(movieTitles);
+        }
     }
 }

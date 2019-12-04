@@ -21,5 +21,10 @@ namespace MovieFinder.Repository.Repo
         {
             return DbSet.Skip((page - 1) * count).Take(count);
         }
+
+        public IEnumerable<MovieTitles> GetByTitle(string title)
+        {
+            return DbSet.Where(t => t.MovieTitle.Contains(title)); 
+        }
     }
 }
