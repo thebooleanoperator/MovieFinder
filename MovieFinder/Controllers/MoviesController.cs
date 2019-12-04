@@ -54,6 +54,19 @@ namespace MovieFinder.Controllers
             return Ok(movie);
         }
 
+        [HttpGet]
+        public IActionResult GetMoviesByTitle([FromQuery] string title)
+        {
+            if (title == null || title.Length == 0)
+            {
+                return NoContent();
+            }
+
+            var movies = _unitOfWork.Movies.GetAllByTitle(title).ToList();
+
+            return Ok(movies);
+        }
+
         [HttpPatch]
         public async Task<IActionResult> AddMoviesFromImdbIdsTable([FromQuery] int page, [FromQuery] int count)
         {
@@ -93,20 +106,6 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
             return Ok();
         }
-
-        [HttpGet]
-        public IActionResult GetMoviesByTitle([FromQuery] string title)
-        {
-            if (title == null || title.Length == 0)
-            {
-                return NoContent();
-            }
-
-            var movies =_unitOfWork.Movies.GetAllByTitle(title).ToList();
-
-            return Ok(movies);
-        }
-
 
         public async Task<ImdbIds> SaveImdbId(string title, int year)
         {
@@ -166,6 +165,11 @@ namespace MovieFinder.Controllers
             return infoDto;
         }
 
+        /// <summary>
+        /// Returns the netflix Id for a movie or null if the movie is not on netflix. 
+        /// </summary>
+        /// <param name="imdbId"></param>
+        /// <returns></returns>
         public async Task<string> GetNetFlixId(string imdbId)
         {
             if (imdbId == null)

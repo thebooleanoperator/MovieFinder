@@ -24,7 +24,6 @@ namespace MovieFinder.Controllers
             {
                 var movieTitles = new MovieTitles(movieTitleDto);
                 _unitOfWork.MovieTitles.Add(movieTitles);
-              
             }
             _unitOfWork.SaveChanges();
 
