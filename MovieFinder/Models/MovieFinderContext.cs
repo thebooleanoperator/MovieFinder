@@ -54,6 +54,9 @@ namespace MovieFinder
 
                     entity.Property(m => m.NetflixId)
                           .HasColumnName("NetflixId");
+
+                    entity.Property(m => m.IsRec)
+                          .HasColumnName("IsRec");
                 });
 
             modelBuilder
