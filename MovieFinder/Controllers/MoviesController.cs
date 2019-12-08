@@ -21,6 +21,11 @@ namespace MovieFinder.Controllers
             _clientFactory = clientFactory;
         }
 
+        /// <summary>
+        /// Endpoint used to create Movies from MovieTitlesDto.
+        /// </summary>
+        /// <param name="movieInfo"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateMovie([FromBody] MovieTitlesDto movieInfo)
         {
@@ -32,12 +37,12 @@ namespace MovieFinder.Controllers
 
             var imdbInfo = await GetImdbMovieInfo(imdbId);
 
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId); 
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
 
             //Don't save a dupe, return existing movie.
-            if (existingMovie != null) { return Ok(existingMovie);}
+            if (existingMovie != null) { return Ok(existingMovie); }
 
-            var netflixId = await GetNetFlixId(imdbInfo.ImdbId); 
+            var netflixId = await GetNetFlixId(imdbInfo.ImdbId);
 
             var movie = new Movies(imdbInfo, imdbId, netflixId);
             _unitOfWork.Movies.Add(movie);
@@ -54,23 +59,16 @@ namespace MovieFinder.Controllers
             return Ok(movie);
         }
 
-        [HttpGet]
-        public IActionResult GetMoviesByTitle([FromQuery] string title)
+        /// <summary>
+        /// Endpoint used to add a certain count of movies to the database from the imdbIds table. 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [HttpPost("{page}")]
+        public async Task<IActionResult> AddMoviesFromImdbIdsTable(int page, [FromQuery] int count)
         {
-            if (title == null || title.Length == 0)
-            {
-                return NoContent();
-            }
-
-            var movies = _unitOfWork.Movies.GetAllByTitle(title).ToList();
-
-            return Ok(movies);
-        }
-
-        [HttpPatch]
-        public async Task<IActionResult> AddMoviesFromImdbIdsTable([FromQuery] int page, [FromQuery] int count)
-        {
-            var movieTitles= _unitOfWork.MovieTitles.GetNext(page, count);
+            var movieTitles = _unitOfWork.MovieTitles.GetNext(page, count);
 
             foreach (var moveiTitle in movieTitles)
             {
@@ -105,6 +103,41 @@ namespace MovieFinder.Controllers
             }
             _unitOfWork.SaveChanges();
             return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetMoviesByTitle([FromQuery] string title)
+        {
+            if (title == null || title.Length == 0)
+            {
+                return NoContent();
+            }
+
+            var movies = _unitOfWork.Movies.GetAllByTitle(title).ToList();
+
+            return Ok(movies);
+        }
+
+        /// <summary>
+        /// Endpoint used to update Movies from MoviesDto.
+        /// </summary>
+        /// <param name="moviesDto"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        public IActionResult UpdateRecommendation([FromBody] RecomendationDto recomendationDto)
+        {
+            var movie = _unitOfWork.Movies.Get(recomendationDto.MovieId); 
+
+            if (movie == null)
+            {
+                return BadRequest();
+            }
+
+            movie.Patch(movie, recomendationDto);
+            _unitOfWork.Movies.Update(movie);
+            _unitOfWork.SaveChanges();
+
+            return Ok(movie);
         }
 
         public async Task<ImdbIds> SaveImdbId(string title, int year)

@@ -11,5 +11,7 @@
         public decimal ImdbRating { get; set; }
         public decimal RottenTomatoesRating { get; set; }
         public string ImdbId { get; set; }
+        public int? NetflixId { get; set; }
+        public bool IsRec { get; set; }
     }
 }

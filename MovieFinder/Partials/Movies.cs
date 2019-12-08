@@ -11,6 +11,12 @@ namespace MovieFinder.Models
         {
         }
 
+        /// <summary>
+        /// Constructor used to create Movies with all info nesecary.
+        /// </summary>
+        /// <param name="imdbInfo"></param>
+        /// <param name="imdbId"></param>
+        /// <param name="netflixId"></param>
         public Movies(ImdbInfoDto imdbInfo, ImdbIds imdbId, string netflixId)
         {
             if(imdbInfo == null)
@@ -150,6 +156,21 @@ namespace MovieFinder.Models
             {
                 return null;
             }
+        }
+
+        public void Patch(Movies movie, RecomendationDto recomendationDto)
+        {
+            if (recomendationDto == null)
+            {
+                throw new ArgumentException($"{nameof(recomendationDto)} cannot be empty.");
+            }
+
+            if (recomendationDto.MovieId <= 0)
+            {
+                throw new ArgumentException($"{nameof(recomendationDto)} must be greater than zero.");
+            }
+
+            movie.IsRec = recomendationDto.IsRec;
         }
     }
 }
