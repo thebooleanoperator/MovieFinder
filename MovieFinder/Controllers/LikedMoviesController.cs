@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
+using MovieFinder.Repository;
 
-namespace MovieFinder.Repository.Repo
+namespace MovieFinder.Controllers
 {
     [Route("{controller}")]
     public class LikedMoviesController : Controller 
