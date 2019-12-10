@@ -3,6 +3,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -114,8 +115,16 @@ namespace MovieFinder.Controllers
             }
 
             var movies = _unitOfWork.Movies.GetAllByTitle(title).ToList();
+            var moviesDtos = new List<MoviesDto>();
 
-            return Ok(movies);
+            foreach (var movie in movies)
+            {
+                var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
+                var movieDto = new MoviesDto(movie, genres);
+                moviesDtos.Add(movieDto);
+            }
+
+            return Ok(moviesDtos);
         }
 
         /// <summary>

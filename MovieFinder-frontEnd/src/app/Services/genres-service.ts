@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({providedIn:'root'})
-export class MoviesService {   
+export class GenresService {   
     constructor(private http: HttpClient){};
 
-    public getMoviesByTitle(title: string): Observable<any> {
-        return this.http.get(`http://localhost:5001/Movies/?=${title}`); 
+    public getGenresFromMovieId(movieId: number): Observable<any> {
+        return this.http.get(`http://localhost:5001/Genres/${movieId}`); 
     }      
 }
