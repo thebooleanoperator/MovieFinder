@@ -11,13 +11,15 @@ import { GenresService } from 'src/app/Services/genres-service';
 export class SearchComponent {
     showSearch: boolean = false; 
     movies: Array<MovieDto>;
-    genres: GenresDto;  
-    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'RunTime'];
+    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'Netflix'];
 
     constructor(private moviesService: MoviesService, private genresService: GenresService){}
 
     toggleSearch(): void {
         this.showSearch = !this.showSearch;
+        if (!this.showSearch) {
+            this.movies = null;
+        }
     }
 
     searchMovies(search:string) : void {
@@ -26,21 +28,31 @@ export class SearchComponent {
         })
     }
 
-    getGenres(movieId:number) : string {
-        var resp = this.genresService.getGenresFromMovieId(movieId).subscribe((response) => {
-           this.genres = response;
-           var genresString = this.getGenresString();
-           return genresString;
-        })
-    }
-
-    getGenresString(): string {
+    formatGenres(genres): string {
         var genreString = "";
-        if (this.genres.Crime) {
-            genreString += "Crime, "
+        if (genres.action) {
+            genreString += "Action "
         }
-        if (this.genres.Thriller) {
-            genreString += "Thriller, "
+        if (genres.adventure) {
+            genreString += "Adventure "
+        }
+        if (genres.horror) {
+            genreString += "Horror "
+        }
+        if (genres.biography) {
+            genreString += "Biography "
+        }
+        if (genres.comedy) {
+            genreString += "Comedy "
+        }
+        if (genres.romance) {
+            genreString += "Romance "
+        }
+        if (genres.crime) {
+            genreString += "Crime "
+        }
+        if (genres.thriller) {
+            genreString += "Thriller "
         }
 
         return genreString
