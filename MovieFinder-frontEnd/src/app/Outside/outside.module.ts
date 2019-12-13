@@ -2,12 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
+import { Routes, RouterModule } from '@angular/router';
 
 import { AngularMaterialModule } from '../Shared-Modules/angular-material.module';
-
+import { WelcomeComponent } from './Welcome/welcome.component';
 import { LoginComponent } from './Login/login.component';
-import { WelcomeComponent } from './welcome.component';
-import { WelcomeRoutingModule } from './welcome-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,13 +17,8 @@ import { WelcomeRoutingModule } from './welcome-routing.module';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    WelcomeRoutingModule,
     AngularMaterialModule,
-  ],
-  exports: [
-      WelcomeComponent,
-      LoginComponent
-  ],
-  providers: []
+    RouterModule
+  ]
 })
-export class WelcomeModule { }
+export class OutsideModule { }

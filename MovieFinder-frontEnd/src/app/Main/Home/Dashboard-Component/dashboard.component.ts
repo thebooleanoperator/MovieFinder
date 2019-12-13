@@ -5,10 +5,10 @@ import { MovieDto } from '../../../DTO/movie.dto'
 import { UserDto } from 'src/app/DTO/user.dto';
 
 @Component({
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class DashboardComponent implements OnInit {
     user: UserDto = JSON.parse(localStorage.getItem("userInfo"))
     public likedMovies: MovieDto[]; 
     public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'RunTime'];

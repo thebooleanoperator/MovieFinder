@@ -2,19 +2,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
-import { AngularMaterialModule } from 'src/app/Shared-Modules/angular-material.module';
 
-import { HomeComponent } from './Home-Component/home.component'
+import { AngularMaterialModule } from 'src/app/Shared-Modules/angular-material.module';
+import { DashboardComponent } from './Dashboard-Component/dashboard.component';
+import { SearchComponent } from './Search-Component/search.component';
+
 
 @NgModule({
   declarations: [
-    HomeComponent
+    DashboardComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AngularMaterialModule
+    AngularMaterialModule,
   ]
 })
 export class HomeModule { }

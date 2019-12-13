@@ -24,7 +24,7 @@ export class LoginComponent {
                     var userDto = new UserDto(response); 
                     this.userService.setUser(userDto);
                     this.userService.user.next(userDto);
-                    this.router.navigate(['home']);
+                    this.router.navigate(['dashboard']);
                 }
                 else {
                     console.log('failure');

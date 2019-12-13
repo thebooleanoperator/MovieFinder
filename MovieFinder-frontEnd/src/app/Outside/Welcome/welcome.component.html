@@ -5,8 +5,11 @@
 </head>
 <body>
     <mat-toolbar>
-        <a mat-stroked-button routerLink="/login">Login</a>
+        <a mat-stroked-button [routerLink]="['/login']">Login</a>
         <a mat-stroked-button>Register</a>
     </mat-toolbar>
+    <div>
+        Welcome to my page!
+    </div>
 </body>
 </html>

@@ -4,12 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
 
 import { AngularMaterialModule } from './Shared-Modules/angular-material.module';
-
+import { OutsideModule } from './Outside/outside.module'
+import { HomeModule } from './Main/Home/home.module'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './Main/Home/home.module';
-import { WelcomeModule } from './Welcome/welcome.module';
-import { SearchModule } from './Main/Search/search-module'
 
 @NgModule({
   declarations: [
@@ -19,11 +17,10 @@ import { SearchModule } from './Main/Search/search-module'
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule,
     AngularMaterialModule,
-    WelcomeModule,
+    OutsideModule,
     HomeModule,
-    SearchModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

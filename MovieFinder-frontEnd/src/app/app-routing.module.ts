@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './Main/Home/Home-Component/home.component'
-import { SearchComponent } from './Main/Search/Search-Component/search.component';
+import { WelcomeComponent } from './Outside/Welcome/welcome.component';
+import { LoginComponent } from './Outside/Login/login.component';
+import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
+import { SearchComponent } from './Main/Home/Search-Component/search.component';
 
 const routes: Routes = [
-    {path: 'home', component: HomeComponent},
+    {path: 'welcome', component: WelcomeComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'dashboard', component: DashboardComponent},
     {path: 'search', component: SearchComponent},
-    
-    {path: '**', redirectTo:'home'}
+
+    {path: '**', redirectTo:'welcome'}
 ];
 
 @NgModule({
