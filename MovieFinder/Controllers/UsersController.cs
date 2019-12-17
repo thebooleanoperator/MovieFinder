@@ -6,7 +6,7 @@ using MovieFinder.Utils;
 
 namespace MovieFinder.Controllers
 {
-    [Route("{controller}")]
+   /* [Route("{controller}")]
     public class UsersController : Controller 
     {
         private readonly UnitOfWork _unitOfWork;
@@ -68,5 +68,5 @@ namespace MovieFinder.Controllers
 
             return Ok(user);
         }
-    }
+    }*/
 }

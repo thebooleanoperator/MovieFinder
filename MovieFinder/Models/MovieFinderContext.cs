@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
 
 namespace MovieFinder
 {
-    public class MovieFinderContext : DbContext
+    public class MovieFinderContext : IdentityDbContext<Users>
     {
         public MovieFinderContext()
         {
@@ -14,12 +15,12 @@ namespace MovieFinder
 
         }
         public DbSet<Movies> Movies { get; set; }
-        public DbSet<Users> Users { get; set; }
         public DbSet<LikedMovies> LikedMovies { get; set;}
         public DbSet<Synopsis> Synopsis { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder
                 .Entity<Movies>(entity =>
                 {
@@ -57,32 +58,6 @@ namespace MovieFinder
 
                     entity.Property(m => m.IsRec)
                           .HasColumnName("IsRec");
-                });
-
-            modelBuilder
-                .Entity<Users>(entity =>
-                {
-                    entity.HasKey(m => m.UserId);
-
-                    entity.Property(m => m.UserId)
-                            .HasColumnName("UserId")
-                            .IsRequired(); 
-
-                    entity.Property(m => m.FirstName)
-                            .HasColumnName("FirstName")
-                            .IsRequired();
-
-                    entity.Property(m => m.LastName)
-                            .HasColumnName("LastName")
-                            .IsRequired();
-
-                    entity.Property(m => m.Email)
-                            .HasColumnName("Email")
-                            .IsRequired();
-
-                    entity.Property(m => m.Password)
-                            .HasColumnName("Password")
-                            .IsRequired();
                 });
 
             modelBuilder

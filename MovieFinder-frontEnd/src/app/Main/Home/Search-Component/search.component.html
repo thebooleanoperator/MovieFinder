@@ -39,15 +39,17 @@
             
             <!--RunTime Column-->
             <ng-container class="item" matColumnDef="RunTime">
-                <th mat-header-cell *matHeaderCellDef>RunTime</th>
+                <th mat-header-cell *matHeaderCellDef>Run Time</th>
                 <td mat-cell *matCellDef="let movie"> {{movie.runTime}} Min. </td>
             </ng-container>
 
             <!--OnNetflix Column-->
-            <ng-container class="item" matColumnDef="Neflix">
-                <th mat-header-cell *matHeaderCellDef>Netflix</th>
-                <td mat-cell *matCellDef="let movie"> {{movie.runTime}} Min. </td>
+            <ng-container class="item" matColumnDef="OnNetflix">
+                <th mat-header-cell *matHeaderCellDef>On Netflix</th>
+                <td mat-cell *matCellDef="let movie"> {{isOnNetflix(movie.netflixId)}}</td>
             </ng-container>
+
+
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

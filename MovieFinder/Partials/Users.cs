@@ -29,8 +29,6 @@ namespace MovieFinder.Models
 
             FirstName = usersDto.FirstName;
             LastName = usersDto.LastName;
-            Email = usersDto.Email;
-            Password = usersDto.Password;
         }
     }
 }

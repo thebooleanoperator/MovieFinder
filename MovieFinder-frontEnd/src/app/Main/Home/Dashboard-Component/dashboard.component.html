@@ -30,18 +30,30 @@
                 <td mat-cell *matCellDef="let movie"> {{movie.director}} </td>
             </ng-container>
 
-            <!-- Director Year -->
+            <!-- Year Column -->
             <ng-container class="item" matColumnDef="Year">
                 <th mat-header-cell *matHeaderCellDef>Year</th>
                 <td mat-cell *matCellDef="let movie"> {{movie.year}} </td>
             </ng-container>
 
-            <!-- Director RunTime -->
+            <!--ImdbRating Column-->
+            <ng-container class="item" matColumnDef="ImdbRating">
+                <th mat-header-cell *matHeaderCellDef>ImdbRating</th>
+                <td mat-cell *matCellDef="let movie"> {{movie.ImdbRating}}</td>
+            </ng-container>
+
+            <!--RunTime Column-->
             <ng-container class="item" matColumnDef="RunTime">
                 <th mat-header-cell *matHeaderCellDef>RunTime</th>
                 <td mat-cell *matCellDef="let movie"> {{movie.runTime}} </td>
             </ng-container>
-            
+
+            <!--OnNetflix Column-->
+            <ng-container class="item" matColumnDef="OnNetflix">
+                <th mat-header-cell *matHeaderCellDef>On Netflix</th>
+                <td mat-cell *matCellDef="let movie"> {{isOnNetflix(movie.netflixId)}}</td>
+            </ng-container>
+        
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

@@ -1,16 +1,15 @@
-﻿namespace MovieFinder.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MovieFinder.Models
 {
-    public partial class Users
+    public partial class Users : IdentityUser
     {
         public Users()
         {
 
         }
 
-        public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
     }
 }

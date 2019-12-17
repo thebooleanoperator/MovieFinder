@@ -4,4 +4,5 @@ export class MovieDto {
     year: number;
     director: string;
     runTime: number;
+    netflix: number;
 }

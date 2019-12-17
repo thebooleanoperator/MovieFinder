@@ -11,7 +11,7 @@ import { UserDto } from 'src/app/DTO/user.dto';
 export class DashboardComponent implements OnInit {
     user: UserDto = JSON.parse(localStorage.getItem("userInfo"))
     public likedMovies: MovieDto[]; 
-    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'RunTime'];
+    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'OnNetflix'];
     constructor(private likedMoviesService: LikedMoviesService, private userService: UserService){}
 
     

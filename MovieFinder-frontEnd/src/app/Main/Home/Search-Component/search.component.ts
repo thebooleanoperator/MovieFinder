@@ -11,7 +11,7 @@ import { GenresService } from 'src/app/Services/genres-service';
 export class SearchComponent {
     showSearch: boolean = false; 
     movies: Array<MovieDto>;
-    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'Netflix'];
+    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'OnNetflix'];
 
     constructor(private moviesService: MoviesService, private genresService: GenresService){}
 
@@ -56,5 +56,9 @@ export class SearchComponent {
         }
 
         return genreString
+    }
+    
+    isOnNetflix(netflixId): boolean {
+        return netflixId ? true : false;
     }
 }
