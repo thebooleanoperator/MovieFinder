@@ -22,6 +22,11 @@ namespace MovieFinder.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Registers a user by taking in a CreateAccountDto.
+        /// </summary>
+        /// <param name="createAccountDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
@@ -35,6 +40,29 @@ namespace MovieFinder.Controllers
 
             await _signInManager.SignInAsync(user, false);
             return Ok();
+        }
+
+        /// <summary>
+        /// Checks email and password match credentials saved in ASPNetUsers. 
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> Login([FromBody] LoginDto loginDto)
+        {
+            if (loginDto == null)
+            {
+                return false;
+            }
+
+            var isValid = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, false); 
+
+            if (!isValid.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
