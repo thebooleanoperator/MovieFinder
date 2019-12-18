@@ -34,6 +34,7 @@ namespace MovieFinder.Models
 
             FirstName = createAccountDto.FirstName;
             LastName = createAccountDto.LastName;
+            Email = createAccountDto.Email;
             UserName = createAccountDto.Email;
         }
 

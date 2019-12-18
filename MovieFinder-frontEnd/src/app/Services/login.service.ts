@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 @Injectable({providedIn:'root'})
 export class LoginService {   
-    path = 'http://localhost:5001/Users/Login'; 
+    path = 'http://localhost:5001/Accounts/Login'; 
 
     constructor(private http: HttpClient){};
 

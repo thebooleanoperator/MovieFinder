@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieFinder;
 
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    partial class MovieFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20191218041206_droppinguseridagain")]
+    partial class droppinguseridagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,9 +327,9 @@ namespace MovieFinder.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UUID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("UserId")
+                        .HasColumnName("UUID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserName")
@@ -335,7 +337,7 @@ namespace MovieFinder.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("UserId");
+                    b.HasAlternateKey("UUID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");

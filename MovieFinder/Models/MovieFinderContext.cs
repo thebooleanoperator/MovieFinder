@@ -22,6 +22,24 @@ namespace MovieFinder
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder
+                .Entity<Users>(entity =>
+                {
+                    entity.HasKey(m => m.Id);
+
+                    entity.HasAlternateKey(m => m.UserId);
+
+                    entity.Property(m => m.UserId)
+                            .HasColumnName("UserId")
+                            .ValueGeneratedOnAdd(); 
+
+                    entity.Property(m => m.FirstName)
+                            .HasColumnName("FirstName");
+
+                    entity.Property(m => m.LastName)
+                            .HasColumnName("LastName");
+                });
+
+            modelBuilder
                 .Entity<Movies>(entity =>
                 {
                     entity.HasKey(m => m.MovieId);
