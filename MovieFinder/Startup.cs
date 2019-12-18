@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieFinder.Extensions;
+using MovieFinder.Models;
 using MovieFinder.Utils;
 using System;
 
@@ -33,6 +35,16 @@ namespace MovieFinder
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["MovieFinderConnectionString"]));
+
+            services.AddIdentity<Users, IdentityRole>()
+                .AddEntityFrameworkStores<MovieFinderContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default Lockout settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~.@"; 
+            });
 
             MovieSettings.Configuration = Configuration;
         }
