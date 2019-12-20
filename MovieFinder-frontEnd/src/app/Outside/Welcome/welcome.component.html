@@ -3,13 +3,20 @@
 <head>
   <meta charset="utf-8">
 </head>
-<body>
-    <mat-toolbar>
-        <a mat-stroked-button [routerLink]="['/login']">Login</a>
-        <a mat-stroked-button [routerLink]="['/register']">Register</a>
-    </mat-toolbar>
-    <div>
-        Welcome to my page!
+<body id="welcome">
+    <h1>Movie Finder</h1>
+    <h3>Take a peek, you will find my taste is better ;)</h3>
+    <div class="welcome-container">
+        <div class="sign-in-container">
+            <div class="login-container">
+                <login></login>
+            </div>
+        </div>
+        <div class="sign-up-container">
+            <div class="register-container">
+                <register></register>
+            </div>
+        </div>     
     </div>
 </body>
 </html>

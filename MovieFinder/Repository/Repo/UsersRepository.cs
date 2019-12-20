@@ -14,7 +14,12 @@ namespace MovieFinder.Repository.Repo
 
         public Users GetByEmail(string email)
         {
-            return DbSet.Where(e => e.Email == email).First();
+            return DbSet.Where(e => e.Email == email).Single();
+        }
+
+        public Users GetByUserId(int userId)
+        {
+            return DbSet.Where(e => e.UserId == userId).Single();
         }
     }
 }

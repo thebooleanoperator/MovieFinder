@@ -1,4 +1,24 @@
 <!doctype html>
-<div>
-    Test
-</div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body class="register">
+    <div class="register-form">
+        <h3>Register Now! So smooth and easy</h3>
+        <div class="register-input">
+            <input matInput [(ngModel)]="firstName" placeholder="First Name">
+        </div>
+        <div class="register-input">
+            <input matInput [(ngModel)]="lastName" placeholder="Last Name">
+        </div>
+        <div class="register-input">
+            <input matInput [(ngModel)]="email" placeholder="Email">
+        </div>
+        <div class="register-input">
+            <input matInput [(ngModel)]="password" placeholder="Password">
+        </div>
+        <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)">Sign Up</button>
+    </div>
+</body>
+</html>

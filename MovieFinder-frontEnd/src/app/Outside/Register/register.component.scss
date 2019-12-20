@@ -1,0 +1,22 @@
+.register {
+    .register-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .register-input {
+            margin: 5px;
+        }
+
+        .register-button {
+            margin: 15px;
+            padding: 10px;
+        }
+
+        .register-button:hover {
+            background-color: limegreen;
+            cursor: pointer;
+        }
+    }
+}

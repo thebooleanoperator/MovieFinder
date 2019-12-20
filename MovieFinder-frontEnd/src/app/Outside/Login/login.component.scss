@@ -1,11 +1,23 @@
 .login {
-    .login-header{
+    .login-form{
         display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         
         .login-input {
             margin:5px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.466);
+        }
+
+        .login-button {
+            margin: 15px;
+            padding: 10px;;
+        }
+
+        .login-button:hover {
+            background-color: limegreen;
+            cursor: pointer;
         }
     }
 }

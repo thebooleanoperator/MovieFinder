@@ -4,17 +4,15 @@
   <meta charset="utf-8">
 </head>
 <body class="login">
-    <mat-toolbar>
-        <mat-toolbar-row class="login-header">
-            <mat-form-field class="login-input">
-                <input matInput [(ngModel)]="email" placeholder="Email">
-            </mat-form-field>
-            <mat-form-field class="login-input">
-                <input matInput [(ngModel)]="password" placeholder="Password">
-            </mat-form-field>
-
-            <button mat-raised-button (click)="verifyUserAndLogin(email, password)">Login</button>
-        </mat-toolbar-row>
-    </mat-toolbar>
+    <div class="login-form">
+        <h3>Sign In</h3>
+        <div class="login-input">
+            <input matInput [(ngModel)]="email" placeholder="Email">
+        </div>
+        <div class="login-input">
+            <input matInput [(ngModel)]="password" placeholder="Password">
+        </div>
+        <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)">Login</button>
+    </div>
 </body>
 </html>

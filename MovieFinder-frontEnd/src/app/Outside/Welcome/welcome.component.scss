@@ -1,0 +1,44 @@
+#welcome {
+    //background-image: url('https://cdn4.explainthatstuff.com/streaming-media-concept.png');
+
+    h1 {
+        text-align: center;
+    }
+
+    h3 {
+        text-align: center;
+    }
+
+    .welcome-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        .sign-in-container {
+            margin: 30px;
+            padding: 10px;
+            border: 5px solid lightslategrey;
+            height: 500px;
+            width: 25%;
+            background-color: rgba(176, 196, 222, 0.534);
+            display: column;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sign-up-container {
+            margin: 30px;
+            padding: 10px;
+            border: 5px solid lightsalmon;
+            height: 500px;
+            width: 25%;
+            background-color: rgba(255, 160, 122, 0.534);
+            display: column;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+

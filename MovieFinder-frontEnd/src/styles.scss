@@ -1,2 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+#movie-finder {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 182, 193, 0.178);
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}

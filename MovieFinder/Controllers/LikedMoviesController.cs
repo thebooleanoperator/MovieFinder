@@ -46,7 +46,7 @@ namespace MovieFinder.Controllers
         public IActionResult GetAllByUserId(int userId)
         {
             //Need to implement Users to make sure we are connecting an existing user. 
-            var user = _unitOfWork.Users.Get(userId);
+            var user = _unitOfWork.Users.GetByUserId(userId);
 
             if (user == null)
             {

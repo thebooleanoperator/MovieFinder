@@ -5,6 +5,7 @@ import { UserService } from '../../Services/user.service';
 import { UserDto } from '../../DTO/user.dto';
 
 @Component({
+    selector: 'login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     providers: [LoginService]
@@ -21,9 +22,9 @@ export class LoginComponent {
         this.loginService.login(email, password)
             .subscribe((response) => {
                 if (response) {
-                    var userDto = new UserDto(response); 
+                    /*var userDto = new UserDto(response); 
                     this.userService.setUser(userDto);
-                    this.userService.user.next(userDto);
+                    this.userService.user.next(userDto);*/
                     this.router.navigate(['dashboard']);
                 }
                 else {
