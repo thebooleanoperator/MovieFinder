@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { LoginService } from '../../Services/login.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../Services/user.service';
-import { UserDto } from '../../DTO/user.dto';
 
 @Component({
     selector: 'login',
