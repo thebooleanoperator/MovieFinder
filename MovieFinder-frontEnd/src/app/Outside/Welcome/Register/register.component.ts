@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../Services/user.service';
-import { RegisterService } from 'src/app/Services/register.service';
+import { SignInService } from 'src/app/Services/sign-in.service';
 
 @Component({
   selector: 'register',
@@ -14,10 +14,10 @@ export class RegisterComponent {
     email: string;
     password: string;
 
-    constructor(private registerService: RegisterService, private router: Router, private userService: UserService){}
+    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
 
     registerUser(firstName, lastName, email, password) {
-        this.registerService.register(firstName, lastName, email, password)
+        this.signInService.register(firstName, lastName, email, password)
             .subscribe((response) => {
                 if (response) {
                     this.router.navigate(['dashboard']);

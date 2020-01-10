@@ -1,24 +1,23 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../../../Services/login.service';
+import { SignInService } from '../../../Services/sign-in.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../../Services/user.service';
 
 @Component({
     selector: 'login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    providers: [LoginService]
+    styleUrls: ['./login.component.scss']
 })
 
 export class LoginComponent {
     email: string; 
     password: string; 
     
-    constructor(private loginService: LoginService, private router: Router, private userService: UserService){}
+    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
 
 
     verifyUserAndLogin(email, password) {
-        this.loginService.login(email, password)
+        this.signInService.login(email, password)
             .subscribe((response) => {
                 if (response) {
                     /*var userDto = new UserDto(response); 
