@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
-import { LoginComponent } from './Outside/Login/login.component';
+import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
 import { SearchComponent } from './Main/Home/Search-Component/search.component';
-import { RegisterComponent } from './Outside/Register/register.component';
+import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},

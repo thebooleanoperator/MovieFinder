@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AngularMaterialModule } from '../Shared-Modules/angular-material.module';
 import { WelcomeComponent } from './Welcome/welcome.component';
-import { LoginComponent } from './Login/login.component';
-import { RegisterComponent } from './Register/register.component';
+import { LoginComponent } from './Welcome/Login/login.component';
+import { RegisterComponent } from './Welcome/Register/register.component';
 
 @NgModule({
   declarations: [

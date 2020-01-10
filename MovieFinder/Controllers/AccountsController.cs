@@ -35,7 +35,7 @@ namespace MovieFinder.Controllers
 
             if (!createdUser.Succeeded)
             {
-                throw new InvalidOperationException("Unable to register new account");
+                throw new InvalidOperationException($"Unable to register new account");
             }
 
             await _signInManager.SignInAsync(user, false);
