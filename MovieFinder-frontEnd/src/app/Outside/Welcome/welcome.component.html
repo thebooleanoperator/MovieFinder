@@ -5,15 +5,17 @@
 </head>
 <body id="welcome">
     <h1>Movie Finder</h1>
-    <h3>Take a peek, get a taste of my taste</h3>
+    <h3></h3>
     <div class="welcome-container">
-        <div class="sign-in-container">
+        <div class="sign-in-container" *ngIf="showLogin">
             <div class="login-container">
+                <button (click)="toggleLoginAndRegister()" mat-raised-button color="primary">Register Now!</button>
                 <login></login>
             </div>
         </div>
-        <div class="sign-up-container">
+        <div class="sign-up-container" *ngIf="showRegister">
             <div class="register-container">
+                <button (click)="toggleLoginAndRegister()" mat-raised-button color="primary">Login</button>
                 <register></register>
             </div>
         </div>     

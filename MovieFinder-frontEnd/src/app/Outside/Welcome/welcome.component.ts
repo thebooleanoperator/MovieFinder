@@ -4,4 +4,14 @@ import { Component } from '@angular/core';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
-export class WelcomeComponent {}
+export class WelcomeComponent {
+    //Data
+    showLogin: boolean = true; 
+    showRegister: boolean = false; 
+
+    //Methods
+    toggleLoginAndRegister() {
+        this.showLogin = !this.showLogin;
+        this.showRegister = !this.showRegister;
+    }
+}
