@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
+using MovieFinder.Services.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
@@ -13,13 +11,11 @@ namespace MovieFinder.Controllers
     [Route("[controller]/{action}")]
     public class AccountsController : Controller
     {
-        private SignInManager<Users> _signInManager;
-        private UserManager<Users> _userManager;
+        private IIdentityService _identityService; 
 
-        public AccountsController(UserManager<Users> userManager, SignInManager<Users> signInManager)
+        public AccountsController(IIdentityService identityService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
+            _identityService = identityService;
         }
 
         /// <summary>
@@ -28,18 +24,20 @@ namespace MovieFinder.Controllers
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> Register([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
-            var user = Users.CreateUser(createAccountDto);
-            var createdUser = await _userManager.CreateAsync(user, createAccountDto.Password);
+            var authenticationResponse = await _identityService.RegisterUserAsync(createAccountDto);
 
-            if (!createdUser.Succeeded)
+            if (!authenticationResponse.Success)
             {
-                throw new InvalidOperationException($"Unable to register new account");
+                return BadRequest(authenticationResponse.Error);
             }
 
-            await _signInManager.SignInAsync(user, false);
-            return true;
+            return Ok(new AuthenticationDto
+            {
+                Token = authenticationResponse.Token,
+                Success = true
+            });
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
-        [HttpPost]
+        /*[HttpPost]
         public async Task<bool> Login([FromBody]LoginDto loginDto)
         {
             if (loginDto == null)
@@ -63,6 +61,6 @@ namespace MovieFinder.Controllers
             }
 
             return true;
-        }
+        }*/
     }
 }

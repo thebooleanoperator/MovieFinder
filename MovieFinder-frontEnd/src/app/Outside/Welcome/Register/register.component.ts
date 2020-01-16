@@ -9,13 +9,14 @@ import { SignInService } from 'src/app/Services/sign-in.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
+    //Data
     firstName: string;
     lastName: string;
     email: string;
     password: string;
 
-    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
-
+    //Methods
     registerUser(firstName, lastName, email, password) {
         this.signInService.register(firstName, lastName, email, password)
             .subscribe((response) => {

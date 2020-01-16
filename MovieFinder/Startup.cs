@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MovieFinder.Extensions;
 using MovieFinder.Models;
+using MovieFinder.Services;
+using MovieFinder.Services.Interface;
+using MovieFinder.Settings;
 using MovieFinder.Utils;
 using System;
+using System.Text;
 
 namespace MovieFinder
 {
@@ -36,6 +42,8 @@ namespace MovieFinder
 
             services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["MovieFinderConnectionString"]));
 
+            services.AddScoped<IIdentityService, IdentityService>();
+
             services.AddIdentity<Users, IdentityRole>()
                 .AddEntityFrameworkStores<MovieFinderContext>()
                 .AddDefaultTokenProviders();
@@ -47,6 +55,30 @@ namespace MovieFinder
             });
 
             MovieSettings.Configuration = Configuration;
+
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind(nameof(jwtSettings), jwtSettings);
+            services.AddSingleton(jwtSettings);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +97,8 @@ namespace MovieFinder
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseForwardedHeaders(); 
 

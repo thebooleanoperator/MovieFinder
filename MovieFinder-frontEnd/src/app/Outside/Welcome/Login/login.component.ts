@@ -10,12 +10,12 @@ import { UserService } from '../../../Services/user.service';
 })
 
 export class LoginComponent {
+    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
+    //Data
     email: string; 
     password: string; 
-    
-    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
 
-
+    //Methods
     verifyUserAndLogin(email, password) {
         this.signInService.login(email, password)
             .subscribe((response) => {
