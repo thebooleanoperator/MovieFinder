@@ -38,16 +38,27 @@ namespace MovieFinder.Models
             UserName = createAccountDto.Email;
         }
 
-        public static Users CreateUser(CreateAccountDto createAccountDto)
+        public static void VerifyCreateDto(CreateAccountDto createAccountDto)
         {
             if (createAccountDto == null)
             {
                 throw new ArgumentException("CreateAccountDto must not be empty.");
             }
 
-            var user = new Users(createAccountDto);
+            if (createAccountDto.Email == null)
+            {
+                throw new ArgumentException("Email must not be empty.");
+            }
 
-            return user;
+            if (createAccountDto.FirstName == null)
+            {
+                throw new ArgumentException("First name must not be empty.");
+            }
+
+            if (createAccountDto.LastName == null)
+            {
+                throw new ArgumentException("Last name must not be empty.");
+            }
         }
     }
 }

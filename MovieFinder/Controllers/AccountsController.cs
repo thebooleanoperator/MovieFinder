@@ -26,6 +26,8 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
+            Users.VerifyCreateDto(createAccountDto);
+
             var authenticationResponse = await _identityService.RegisterUserAsync(createAccountDto);
 
             if (!authenticationResponse.Success)
@@ -45,22 +47,21 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
-        /*[HttpPost]
-        public async Task<bool> Login([FromBody]LoginDto loginDto)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
         {
-            if (loginDto == null)
+            var authenticationResponse = await _identityService.LoginAsync(loginDto); 
+
+            if (!authenticationResponse.Success)
             {
-                return false;
+                return BadRequest(authenticationResponse.Error);
             }
 
-            var isValid = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, false, false); 
-
-            if (!isValid.Succeeded)
+            return Ok(new AuthenticationDto
             {
-                return false;
-            }
-
-            return true;
-        }*/
+                Token = authenticationResponse.Token,
+                Success = true
+            });
+        }
     }
 }
