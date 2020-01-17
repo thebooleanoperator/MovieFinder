@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SignInService } from '../../../Services/sign-in.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../../Services/user.service';
-
+import { AuthDto } from 'src/app/Dto/auth.dto';
 @Component({
     selector: 'login',
     templateUrl: './login.component.html',
@@ -17,17 +17,6 @@ export class LoginComponent {
 
     //Methods
     verifyUserAndLogin(email, password) {
-        this.signInService.login(email, password)
-            .subscribe((response) => {
-                if (response) {
-                    /*var userDto = new UserDto(response); 
-                    this.userService.setUser(userDto);
-                    this.userService.user.next(userDto);*/
-                    this.router.navigate(['dashboard']);
-                }
-                else {
-                    console.log('failure');
-                }
-            }); 
+        this.signInService.login(email, password);
     }
 }

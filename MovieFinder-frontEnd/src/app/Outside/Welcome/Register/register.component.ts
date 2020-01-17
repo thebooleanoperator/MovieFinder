@@ -18,14 +18,6 @@ export class RegisterComponent {
 
     //Methods
     registerUser(firstName, lastName, email, password) {
-        this.signInService.register(firstName, lastName, email, password)
-            .subscribe((response) => {
-                if (response) {
-                    this.router.navigate(['dashboard']);
-                }
-                else {
-                    console.log('failure');
-                }
-            })
+        this.signInService.register(firstName, lastName, email, password);
     }
 }

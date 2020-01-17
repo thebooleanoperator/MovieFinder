@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
@@ -9,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-    [AllowAnonymous]
     [Route("[controller]/{action}")]
     public class AccountsController : Controller
     {
@@ -21,7 +19,7 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Registers a user account and creates a JWT token. Returns the token on success.
+        /// Registers a user account and returns JWT token on success.
         /// </summary>
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
