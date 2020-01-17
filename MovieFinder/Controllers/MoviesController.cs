@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class MoviesController : Controller
     {

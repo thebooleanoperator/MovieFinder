@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 
 namespace MovieFinder.Controllers
 {
+    [Authorize]
     [Route("{controller}")]
     public class LikedMoviesController : Controller 
     {

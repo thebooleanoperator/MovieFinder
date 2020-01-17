@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
 
 namespace MovieFinder.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class MovieTitlesController : Controller
     {
@@ -15,6 +17,7 @@ namespace MovieFinder.Controllers
             _unitOfWork = new UnitOfWork(movieFinderContext);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult SetDatabase()
         {

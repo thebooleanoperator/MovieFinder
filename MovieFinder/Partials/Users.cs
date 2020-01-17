@@ -60,5 +60,23 @@ namespace MovieFinder.Models
                 throw new ArgumentException("Last name must not be empty.");
             }
         }
+
+        public static void VerifyLoginDto(LoginDto loginDto)
+        {
+            if (loginDto == null)
+            {
+                throw new ArgumentException("LoginDto must not be empty.");
+            }
+
+            if (loginDto.Email == null)
+            {
+                throw new ArgumentException("Email must not be empty.");
+            }
+
+            if (loginDto.Password == null)
+            {
+                throw new ArgumentException("Password must not be empty.");
+            }
+        }
     }
 }

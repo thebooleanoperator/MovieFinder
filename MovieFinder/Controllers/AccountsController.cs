@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
+    [AllowAnonymous]
     [Route("[controller]/{action}")]
     public class AccountsController : Controller
     {
@@ -19,7 +21,7 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Registers a user by taking in a CreateAccountDto.
+        /// Registers a user account and creates a JWT token. Returns the token on success.
         /// </summary>
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
@@ -43,13 +45,15 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Checks email and password match credentials saved in ASPNetUsers. 
+        /// Verifies users login credentials and returns JWT token on success. 
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
         {
+            Users.VerifyLoginDto(loginDto);
+
             var authenticationResponse = await _identityService.LoginAsync(loginDto); 
 
             if (!authenticationResponse.Success)
