@@ -5,8 +5,24 @@
         justify-content: center;
         align-items: center;
 
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px 8px;
+            margin: 15px;
+            border: 5px solid black;
+            height: 40px;
+            width: 40px;
+            font-weight: bolder;
+            background-color: rgba(145, 0, 248, 0.418);
+        }
+
         .register-input {
             margin: 5px;
+            input {
+                background-color: rgba(236, 235, 235, 0.692);
+            }
         }
 
         .register-button {

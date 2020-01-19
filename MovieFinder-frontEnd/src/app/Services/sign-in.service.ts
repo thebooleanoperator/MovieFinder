@@ -22,7 +22,7 @@ export class SignInService {
         return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
-                    this.saveToken(response.Token);
+                    this.setToken(response.Token);
                     return response;
                 },
                 (error) => {
@@ -31,7 +31,7 @@ export class SignInService {
             )
     }
 
-    private saveToken(token : string) : void{
+    private setToken(token : string) : void{
         localStorage.setItem('token', token);
     }
 
