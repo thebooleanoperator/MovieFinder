@@ -32,6 +32,11 @@ export class SignInService {
             )
     }
 
+    public logout() {
+        this.resetToken();
+        this.router.navigate(['/welcome']);
+    }
+
     private setToken(token : string) : void{
         localStorage.setItem('token', token);
     }
