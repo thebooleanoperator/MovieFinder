@@ -15,9 +15,12 @@ export class RegisterComponent {
     lastName: string;
     email: string;
     password: string;
+    isLoading: boolean = false;
 
     //Methods
     registerUser(firstName, lastName, email, password) {
-        this.signInService.register(firstName, lastName, email, password);
+        this.isLoading = true;
+        this.signInService.register(firstName, lastName, email, password)
+            .finally(() => this.isLoading = false);
     }
 }

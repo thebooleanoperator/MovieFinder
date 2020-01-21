@@ -38,8 +38,9 @@ namespace MovieFinder.Controllers
             return Ok(new AuthenticationDto
             {
                 Token = authenticationResponse.Token,
-                Success = true
-            });
+                Success = true,
+                UserId = authenticationResponse.UserId
+            }); 
         }
 
         /// <summary>
@@ -62,7 +63,8 @@ namespace MovieFinder.Controllers
             return Ok(new AuthenticationDto
             {
                 Token = authenticationResponse.Token,
-                Success = true
+                Success = true,
+                UserId = authenticationResponse.UserId
             });
         }
     }

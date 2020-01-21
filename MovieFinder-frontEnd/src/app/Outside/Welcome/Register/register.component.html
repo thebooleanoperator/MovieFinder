@@ -21,7 +21,8 @@
         <div class="register-input">
             <input matInput [(ngModel)]="password" placeholder="Password">
         </div>
-        <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)">Sign Up</button>
+        <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)" *ngIf="!isLoading">Sign Up</button>
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
     </div>
 </body>
 </html>

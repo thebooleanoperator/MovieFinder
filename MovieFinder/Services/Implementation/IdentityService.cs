@@ -99,7 +99,8 @@ namespace MovieFinder.Services
             return new AuthenticationDto
             {
                 Success = true,
-                Token = tokenHandler.WriteToken(token)
+                Token = tokenHandler.WriteToken(token),
+                UserId = newUser.UserId
             };
         }
     }
