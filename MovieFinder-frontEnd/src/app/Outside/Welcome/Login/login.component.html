@@ -13,7 +13,7 @@
             <input matInput [(ngModel)]="email" placeholder="Email">
         </div>
         <div class="login-input">
-            <input matInput [(ngModel)]="password" placeholder="Password">
+            <input type="password" matInput [(ngModel)]="password" placeholder="Password">
         </div>
         <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)" *ngIf="!isLoading">Login</button>
         <mat-spinner *ngIf="isLoading"></mat-spinner>

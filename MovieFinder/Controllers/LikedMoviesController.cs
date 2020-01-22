@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
+using MovieFinder.Utils;
 
 namespace MovieFinder.Controllers
 {
@@ -10,11 +12,13 @@ namespace MovieFinder.Controllers
     [Route("{controller}")]
     public class LikedMoviesController : Controller 
     {
-        private UnitOfWork _unitOfWork; 
+        private UnitOfWork _unitOfWork;
+        private Session _session; 
 
-        public LikedMoviesController(MovieFinderContext movieFinderContext)
+        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext)
         {
-            _unitOfWork = new UnitOfWork(movieFinderContext); 
+            _unitOfWork = new UnitOfWork(movieFinderContext);
+            _session = new Session(httpContext.HttpContext.User); 
         }
 
         [HttpPost]
@@ -44,18 +48,17 @@ namespace MovieFinder.Controllers
         }
 
         [HttpGet]
-        [Route("{userId}")]
-        public IActionResult GetAllByUserId(int userId)
+        public IActionResult GetAllByUserId()
         {
             //Need to implement Users to make sure we are connecting an existing user. 
-            var user = _unitOfWork.Users.GetByUserId(userId);
+            var user = _unitOfWork.Users.GetByUserId(_session.UserId);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var likedMovies =_unitOfWork.LikedMovies.GetAll(userId);
+            var likedMovies =_unitOfWork.LikedMovies.GetAll(_session.UserId);
 
             if (likedMovies.Count == 0)
             {

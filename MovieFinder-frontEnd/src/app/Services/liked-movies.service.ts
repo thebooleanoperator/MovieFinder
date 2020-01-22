@@ -6,9 +6,9 @@ import { Observable, of } from 'rxjs';
 export class LikedMoviesService {   
     constructor(private http: HttpClient){};
 
-    public getLikedMovies(userId: number): Observable<any> {
+    public getLikedMovies(): Observable<any> {
         return this
         .http
-        .get(`http://localhost:5001/LikedMovies/${userId}`) 
+        .get(`http://localhost:5001/LikedMovies`) 
     }          
 }

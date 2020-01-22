@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
     
    ngOnInit() {
-       this.likedMoviesService.getLikedMovies(2).subscribe((response) => {
+       this.likedMoviesService.getLikedMovies().subscribe((response) => {
            this.likedMovies = response; 
        });
        this.likedMovies
