@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './Services/user.service';
+import { SignInService } from './Services/sign-in.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +7,12 @@ import { UserService } from './Services/user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-    loggedInUser: Object = JSON.parse(localStorage.getItem("userInfo"));
-    constructor(private userService: UserService){}
+    constructor(private signInService: SignInService){}
+    //Data
+    loggedInUser: boolean = this.signInService.isLoggedIn();
 
+    //Methods
     ngOnInit() {
-        this.userService.user.subscribe(() => {
-            this.loggedInUser = JSON.parse(localStorage.getItem("userInfo")); 
-        })
+        this.loggedInUser = this.signInService.isLoggedIn();
     }
 }

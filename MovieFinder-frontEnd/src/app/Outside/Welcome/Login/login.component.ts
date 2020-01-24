@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { SignInService } from '../../../Services/sign-in.service';
-import { UserService } from '../../../Services/user.service';
 
 @Component({
     selector: 'login',
@@ -9,7 +8,7 @@ import { UserService } from '../../../Services/user.service';
 })
 
 export class LoginComponent {
-    constructor(private signInService: SignInService, private userService: UserService){}
+    constructor(private signInService: SignInService){}
     //Data
     email: string; 
     password: string; 

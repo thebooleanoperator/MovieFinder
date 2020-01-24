@@ -7,8 +7,6 @@ export class LikedMoviesService {
     constructor(private http: HttpClient){};
 
     public getLikedMovies(): Observable<any> {
-        return this
-        .http
-        .get(`http://localhost:5001/LikedMovies`) 
+        return this.http.get(`http://localhost:5001/LikedMovies`) 
     }          
 }

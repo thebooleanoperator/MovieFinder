@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../../../Services/user.service';
 import { SignInService } from 'src/app/Services/sign-in.service';
 
 @Component({
@@ -9,7 +7,7 @@ import { SignInService } from 'src/app/Services/sign-in.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-    constructor(private signInService: SignInService, private router: Router, private userService: UserService){}
+    constructor(private signInService: SignInService){}
     //Data
     firstName: string;
     lastName: string;

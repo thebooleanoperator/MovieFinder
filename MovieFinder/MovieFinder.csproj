@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191217034042_Identity-User.cs" />
     <Compile Remove="Migrations\20191217034042_Identity-User.Designer.cs" />
+    <Compile Remove="Migrations\20200123041831_UserEmail.cs" />
+    <Compile Remove="Migrations\20200123041831_UserEmail.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { LikedMoviesService } from 'src/app/Services/liked-movies.service'
-import { UserService } from 'src/app/Services/user.service';
 import { MovieDto } from '../../../DTO/movie.dto'
-import { UserDto } from 'src/app/DTO/user.dto';
+import { UserDto } from 'src/app/Dto/user.dto';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    user: UserDto = JSON.parse(localStorage.getItem("userInfo"))
+    constructor(private likedMoviesService: LikedMoviesService, private userService : UserService){}
+    //Data
+    public user : UserDto;
     public likedMovies: MovieDto[]; 
     public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'OnNetflix'];
-    constructor(private likedMoviesService: LikedMoviesService, private userService: UserService){}
 
-    
-   ngOnInit() {
-       this.likedMoviesService.getLikedMovies().subscribe((response) => {
-           this.likedMovies = response; 
-       });
-       this.likedMovies
-   }
+    //Methods
+    ngOnInit() {
+        this.likedMoviesService.getLikedMovies().subscribe((response) => {
+            this.likedMovies = response; 
+        });
+        this.userService.getUser().subscribe((response : UserDto) => {
+            this.user = response;
+        })
+    }
 }
