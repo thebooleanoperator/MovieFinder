@@ -14,7 +14,9 @@ export class SignInService {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
-                    return response;
+                    this.saveToken(response.token);
+                    this.saveUserDto(response.userDto);
+                    this.router.navigate(['/dashboard']); 
                 },
                 (error) => {
                     return error
@@ -27,11 +29,11 @@ export class SignInService {
             .then(
                 (response : AuthDto) => {
                     this.saveToken(response.token);
-                    this.saveUser(response.userId);
+                    this.saveUserDto(response.userDto);
                     this.router.navigate(['/dashboard']); 
                 },
                 (error) => {
-                    alert("Username / Password did not match")
+                    alert(error)
                     return error;
                 }
             )
@@ -44,6 +46,10 @@ export class SignInService {
 
     public getToken(): string {
         return localStorage.getItem('token')
+    }
+
+    public getUser(): UserDto {
+        return JSON.parse(localStorage.getItem('user'));
     }
 
     public isLoggedIn() : boolean {
@@ -60,8 +66,8 @@ export class SignInService {
         localStorage.setItem('token', token);
     }
 
-    private saveUser(userId : number) {
-        localStorage.setItem('userId', JSON.stringify(userId))
+    private saveUserDto(user : UserDto) {
+        localStorage.setItem('user', JSON.stringify(user))
     }
 
     private resetToken() : void{

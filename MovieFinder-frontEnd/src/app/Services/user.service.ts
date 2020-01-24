@@ -13,8 +13,7 @@ export class UserService {
 
     }
 
-    public getUser() : Observable<any> {
-        var userId = parseInt(localStorage.getItem('userId'), 10); 
-        return this.http.get(`http://localhost:5001/Users/${userId}`);
+    public getUser(userId : number) : Promise<Object> {
+        return this.http.get(`http://localhost:5001/Users/${userId}`).toPromise();
     }
 }

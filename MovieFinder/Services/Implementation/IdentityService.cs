@@ -100,7 +100,7 @@ namespace MovieFinder.Services
             {
                 Success = true,
                 Token = tokenHandler.WriteToken(token),
-                UserId = newUser.UserId
+                UserDto = new UsersDto(newUser)
             };
         }
     }

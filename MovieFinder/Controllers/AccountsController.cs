@@ -39,7 +39,7 @@ namespace MovieFinder.Controllers
             {
                 Token = authenticationResponse.Token,
                 Success = true,
-                UserId = authenticationResponse.UserId
+                UserDto = authenticationResponse.UserDto
             }); 
         }
 
@@ -64,7 +64,7 @@ namespace MovieFinder.Controllers
             {
                 Token = authenticationResponse.Token,
                 Success = true,
-                UserId = authenticationResponse.UserId
+                UserDto = authenticationResponse.UserDto
             });
         }
     }

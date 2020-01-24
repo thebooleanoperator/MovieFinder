@@ -5,6 +5,6 @@
         public string Token { get; set; }
         public bool Success { get; set; }
         public string Error { get; set; }
-        public int UserId { get; set; }
+        public UsersDto UserDto { get; set; }
     }
 }

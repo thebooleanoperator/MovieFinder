@@ -1,6 +1,8 @@
+import { UserDto } from './user.dto';
+
 export class AuthDto {
     success: boolean;
     token: string;
-    userId: number;
+    userDto: UserDto;
     error: string;
 }
