@@ -9,7 +9,6 @@ import { HomeModule } from './Main/Home/home.module'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
-import { UserService } from './Services/user.service';
 
 @NgModule({
   declarations: [
