@@ -14,8 +14,8 @@ export class SignInService {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
-                    this.saveToken(response.token);
-                    this.saveUserDto(response.userDto);
+                    this.token = response.token;
+                    this.user = response.userDto;
                     this.router.navigate(['/dashboard']); 
                 },
                 (error) => {
@@ -28,8 +28,8 @@ export class SignInService {
         return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
-                    this.saveToken(response.token);
-                    this.saveUserDto(response.userDto);
+                    this.token = response.token;
+                    this.user = response.userDto;
                     this.router.navigate(['/dashboard']); 
                 },
                 (error) => {
@@ -40,37 +40,33 @@ export class SignInService {
     }
 
     public logout() {
-        this.resetToken();
+        localStorage.clear();;
         this.router.navigate(['/welcome']);
     }
 
-    public getToken(): string {
+    get token(): string {
         return localStorage.getItem('token')
     }
 
-    public getUser(): UserDto {
+    set token(token : string) {
+        localStorage.setItem('token', token);
+    } 
+
+    get user(): UserDto {
         return JSON.parse(localStorage.getItem('user'));
     }
 
-    public isLoggedIn() : boolean {
-        var token = this.getToken();
-        if (token) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    private saveToken(token : string) : void{
-        localStorage.setItem('token', token);
-    }
-
-    private saveUserDto(user : UserDto) {
+    set user(user: UserDto) {
         localStorage.setItem('user', JSON.stringify(user))
     }
 
-    private resetToken() : void{
-        localStorage.clear();
+    public isLoggedIn() : boolean {
+        var currentUser = this.user;
+        var currentToken = this.token
+
+        if (currentToken == null || currentUser == null) {
+            return false
+        }
+        return true;
     }
 }

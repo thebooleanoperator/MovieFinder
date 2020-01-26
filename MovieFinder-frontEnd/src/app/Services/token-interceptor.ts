@@ -13,7 +13,7 @@ export class TokenInterceptor implements HttpInterceptor {
     public intercept(request: HttpRequest<any>,  next: HttpHandler): Observable<HttpEvent<any>> {
         request = request.clone({
             setHeaders: {
-                Authorization: `Bearer ${this.signInService.getToken()}`
+                Authorization: `Bearer ${this.signInService.token}`
             }
         });
         return next.handle(request).pipe(tap(() => {}, 

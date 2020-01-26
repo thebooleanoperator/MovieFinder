@@ -11,7 +11,7 @@ import { SignInService } from 'src/app/Services/sign-in.service';
 export class DashboardComponent implements OnInit {
     constructor(private likedMoviesService: LikedMoviesService, private signInService : SignInService){}
     //Data
-    public user : UserDto = this.signInService.getUser();
+    public user : UserDto = this.signInService.user;
     public likedMovies: MovieDto[]; 
     public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'OnNetflix'];
 
