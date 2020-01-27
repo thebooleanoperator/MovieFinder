@@ -15,9 +15,6 @@ export class ToolBarComponent{
     }
 
     //Methods
-    test() {
-        this.router.navigate(['/search'])
-    }
     logout(): void {
         this.signInService.logout();
     }

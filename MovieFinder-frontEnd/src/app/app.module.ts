@@ -1,28 +1,41 @@
+//Modules
+import { AngularMaterialModule } from './Shared-Modules/angular-material.module';
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import { AngularMaterialModule } from './Shared-Modules/angular-material.module';
-import { OutsideModule } from './Outside/outside.module'
-import { HomeModule } from './Main/Home/home.module'
-import { AppRoutingModule } from './app-routing.module';
+//Components
+
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
 import { ToolBarComponent } from './ToolBar/tool-bar.component';
+import { WelcomeComponent } from './Outside/Welcome/welcome.component';
+import { RegisterComponent } from './Outside/Welcome/Register/register.component';
+import { LoginComponent } from './Outside/Welcome/Login/login.component';
+import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
+import { SearchComponent } from './Main/Home/Search-Component/search.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WelcomeComponent,
+    RegisterComponent,
+    LoginComponent,
+    ToolBarComponent,
+    DashboardComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AngularMaterialModule,
-    OutsideModule,
-    HomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule,
   ],
   providers: [
       {
