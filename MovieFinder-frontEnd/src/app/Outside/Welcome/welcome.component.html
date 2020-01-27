@@ -5,10 +5,15 @@
 </head>
 <body id="welcome">
     <h1>Movie Finder</h1>
-    <h3></h3>
-    <mat-toolbar-row>
-        <a routerLink="/login" mat-button color="primary">Login</a>
-        <a routerLink="/register" mat-button color="primary">Register Now!</a>
-    </mat-toolbar-row>
+    <div class="toolbar-container">
+        <mat-toolbar-row class="welcome-toolbar">
+            <button class="welcome-button" mat-raised-button color="primary">
+                <a class="welcome-link" routerLink="/login" mat-button color="primary">Login</a>
+            </button>
+            <button  class="welcome-button" mat-raised-button color="accent">
+                <a class="welcome-link" routerLink="/register" mat-button color="primary">Register Now!</a>
+            </button>
+        </mat-toolbar-row>
+    </div>
 </body>
 </html>

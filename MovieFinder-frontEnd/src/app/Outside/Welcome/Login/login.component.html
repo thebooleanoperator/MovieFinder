@@ -3,22 +3,27 @@
 <head>
   <meta charset="utf-8">
 </head>
-<body class="login">
-    <div class="logo">
-        MF
-    </div>
-    <div class="login-form">
-        <h3>Sign In</h3>
-        <div class="login-input">
-            <input matInput [(ngModel)]="email" placeholder="Email">
+<body>
+    <button mat-button>
+        <mat-icon aria-hidden="false" routerLink="/welcome">home</mat-icon>
+    </button>
+    <div class="login">
+        <div class="logo">
+            MF
         </div>
-        <div class="login-input">
-            <input type="password" matInput [(ngModel)]="password" placeholder="Password">
+        <div class="login-form">
+            <h3>Sign In</h3>
+            <div class="login-input">
+                <input matInput [(ngModel)]="email" placeholder="Email">
+            </div>
+            <div class="login-input">
+                <input type="password" matInput [(ngModel)]="password" placeholder="Password">
+            </div>
+            <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)" *ngIf="!isLoading">Login</button>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
         </div>
-        <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)" *ngIf="!isLoading">Login</button>
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p id="user-instruction">Don't have an Account?</p>
+        <a routerLink="/register" mat-button color="primary">Register Now!</a>
     </div>
-    <p id="user-instruction">Don't have an Account?</p>
-    <a routerLink="/register" mat-button color="primary">Register Now!</a>
 </body>
 </html>

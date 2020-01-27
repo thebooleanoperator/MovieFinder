@@ -3,28 +3,33 @@
 <head>
   <meta charset="utf-8">
 </head>
-<body class="register">
-    <div class="register-form">
-        <div class="logo">
-            MF
+<body>
+    <button mat-button>
+        <mat-icon aria-hidden="false" routerLink="/welcome">home</mat-icon>
+    </button>
+    <div class="register">
+        <div class="register-form">
+            <div class="logo">
+                MF
+            </div>
+            <h3>Register</h3>
+            <div class="register-input">
+                <input matInput [(ngModel)]="firstName" placeholder="First Name">
+            </div>
+            <div class="register-input">
+                <input matInput [(ngModel)]="lastName" placeholder="Last Name">
+            </div>
+            <div class="register-input">
+                <input matInput [(ngModel)]="email" placeholder="Email">
+            </div>
+            <div class="register-input">
+                <input matInput [(ngModel)]="password" placeholder="Password">
+            </div>
+            <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)" *ngIf="!isLoading">Sign Up</button>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+            <p>Already have an account?</p>
+            <a routerLink="/login" mat-button color="primary">Login</a>
         </div>
-        <h3>Register</h3>
-        <div class="register-input">
-            <input matInput [(ngModel)]="firstName" placeholder="First Name">
-        </div>
-        <div class="register-input">
-            <input matInput [(ngModel)]="lastName" placeholder="Last Name">
-        </div>
-        <div class="register-input">
-            <input matInput [(ngModel)]="email" placeholder="Email">
-        </div>
-        <div class="register-input">
-            <input matInput [(ngModel)]="password" placeholder="Password">
-        </div>
-        <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)" *ngIf="!isLoading">Sign Up</button>
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
-        <p>Already have an account?</p>
-        <a routerLink="/login" mat-button color="primary">Login</a>
     </div>
 </body>
 </html>

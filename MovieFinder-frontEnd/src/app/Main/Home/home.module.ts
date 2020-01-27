@@ -6,10 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from 'src/app/Shared-Modules/angular-material.module';
 import { DashboardComponent } from './Dashboard-Component/dashboard.component';
 import { SearchComponent } from './Search-Component/search.component';
-
+import { ToolBarComponent } from 'src/app/ToolBar/tool-bar.component';
 
 @NgModule({
   declarations: [
+    ToolBarComponent,
     DashboardComponent,
     SearchComponent
   ],

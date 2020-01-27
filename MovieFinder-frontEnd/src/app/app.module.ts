@@ -13,8 +13,7 @@ import { ToolBarComponent } from './ToolBar/tool-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ToolBarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
