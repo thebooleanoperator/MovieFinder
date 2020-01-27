@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthDto } from '../Dto/auth.dto';
 import { Router } from '@angular/router';
-import { UserService } from './user.service';
 import { UserDto } from '../Dto/user.dto';
-import { Observable } from 'rxjs';
+import { ToolBarService } from './tool-bar.service';
 
 @Injectable({providedIn: 'root'})
 export class SignInService {   
-    constructor(private http: HttpClient, private router: Router, private userService : UserService){};
+    constructor(private http: HttpClient, private router: Router, private toolBarService : ToolBarService){};
 
     public register(firstName: string, lastName: string, email: string, password: string): Promise<Object> {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
@@ -16,6 +15,7 @@ export class SignInService {
                 (response : AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
+                    this.toolBarService.vis = true;
                     this.router.navigate(['/dashboard']); 
                 },
                 (error) => {
@@ -30,6 +30,7 @@ export class SignInService {
                 (response : AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
+                    this.toolBarService.vis = true;
                     this.router.navigate(['/dashboard']); 
                 },
                 (error) => {

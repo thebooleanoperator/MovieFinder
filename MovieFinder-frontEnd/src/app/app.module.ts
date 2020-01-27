@@ -9,10 +9,12 @@ import { HomeModule } from './Main/Home/home.module'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
+import { ToolBarComponent } from './ToolBar/tool-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ToolBarComponent
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,8 @@
         </div>
         <button class="register-button" mat-raised-button (click)="registerUser(firstName, lastName, email, password)" *ngIf="!isLoading">Sign Up</button>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p>Already have an account?</p>
+        <a routerLink="/login" mat-button color="primary">Login</a>
     </div>
 </body>
 </html>

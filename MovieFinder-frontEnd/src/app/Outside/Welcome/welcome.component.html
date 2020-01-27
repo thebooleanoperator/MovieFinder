@@ -6,25 +6,9 @@
 <body id="welcome">
     <h1>Movie Finder</h1>
     <h3></h3>
-    <div class="welcome-container">
-        <div class="action-container" *ngIf="showLogin">
-            <div class="login-container">
-                <login></login>
-                <div class="switch-container">
-                    <p id="user-instruction">Don't have an Account?</p>
-                    <button (click)="toggleLoginAndRegister()" mat-button color="primary">Register Now!</button>
-                </div>
-            </div>
-        </div>
-        <div class="action-container" *ngIf="showRegister">
-            <div class="register-container">
-                <register></register>
-                <div class="switch-container">
-                    <p id="user-instruction">Already have an Account?</p>
-                    <button (click)="toggleLoginAndRegister()" mat-button color="primary">Login</button>
-                </div>
-            </div>
-        </div>     
-    </div>
+    <mat-toolbar-row>
+        <a routerLink="/login" mat-button color="primary">Login</a>
+        <a routerLink="/register" mat-button color="primary">Register Now!</a>
+    </mat-toolbar-row>
 </body>
 </html>

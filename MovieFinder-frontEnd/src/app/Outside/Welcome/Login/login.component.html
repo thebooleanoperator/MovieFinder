@@ -18,5 +18,7 @@
         <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)" *ngIf="!isLoading">Login</button>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
     </div>
+    <p id="user-instruction">Don't have an Account?</p>
+    <a routerLink="/register" mat-button color="primary">Register Now!</a>
 </body>
 </html>

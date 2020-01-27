@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SignInService } from './Services/sign-in.service';
 import { NavigationStart, Router, NavigationEnd, Event } from '@angular/router';
+import { ToolBarService } from './Services/tool-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +8,12 @@ import { NavigationStart, Router, NavigationEnd, Event } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-    constructor(private signInService: SignInService, private router: Router)
+    constructor(private toolBarService: ToolBarService, private router: Router)
     {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
                 this.showProgressBar = true;
-            }
-            if (event instanceof NavigationStart && event.url == "/") {
-                this.showToolbar = false;
+                this.showToolBar = this.toolBarService.vis;
             }
             if (event instanceof NavigationEnd) {
                 this.showProgressBar = false;
@@ -23,11 +21,11 @@ export class AppComponent implements OnInit{
         });
     }
     //Data
-    showToolbar: boolean = this.signInService.isLoggedIn();
     showProgressBar: boolean;
+    showToolBar: boolean;
 
     //Methods
     ngOnInit() {
-        this.showToolbar = this.signInService.isLoggedIn();
+        this.showToolBar = this.toolBarService.vis;
     }
 }
