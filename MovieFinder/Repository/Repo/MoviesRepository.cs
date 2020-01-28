@@ -24,5 +24,10 @@ namespace MovieFinder.Repository
         {
             return DbSet.Where(m => m.Title.Contains(title));
         }
+
+        public IEnumerable<Movies> GetAllRecommended()
+        {
+            return DbSet.Where(m => m.IsRec == true);
+        }
     }
 }

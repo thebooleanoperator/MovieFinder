@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MovieFinder.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class MoviesController : Controller
     {
         private UnitOfWork _unitOfWork;
@@ -109,6 +109,7 @@ namespace MovieFinder.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetMoviesByTitle([FromQuery] string title)
         {
             if (title == null || title.Length == 0)
@@ -127,6 +128,29 @@ namespace MovieFinder.Controllers
             }
 
             return Ok(moviesDtos);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetRecommended()
+        {
+            var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(); 
+
+            if (recommendedMovies == null)
+            {
+                return BadRequest();
+            }
+
+            var recDtos = new List<MoviesDto>();
+
+            foreach(var movie in recommendedMovies)
+            {
+                var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
+                var movieDto = new MoviesDto(movie, genres);
+                recDtos.Add(movieDto);
+            }
+
+            return Ok(recDtos);
         }
 
         /// <summary>
