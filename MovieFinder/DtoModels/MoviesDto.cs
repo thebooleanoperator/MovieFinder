@@ -17,6 +17,7 @@ namespace MovieFinder.DtoModels
         public string ImdbId { get; set; }
         public int? NetflixId { get; set; }
         public bool IsRec { get; set; }
+        public string Poster { get; set; }
         public Genres Genres { get; set; }
 
         public MoviesDto(Movies movie, Genres genres)
@@ -35,7 +36,8 @@ namespace MovieFinder.DtoModels
             RottenTomatoesRating = movie.RottenTomatoesRating;
             NetflixId = movie.NetflixId;
             IsRec = movie.IsRec;
-            Genres = genres; 
+            Genres = genres;
+            Poster = movie.Poster;
         }
     }
 }

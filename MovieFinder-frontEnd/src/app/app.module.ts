@@ -8,15 +8,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 //Components
-
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
-import { ToolBarComponent } from './ToolBar/tool-bar.component';
+import { ToolBarComponent } from './Main/Home/ToolBar/tool-bar.component';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
 import { SearchComponent } from './Main/Home/Search-Component/search.component';
+import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import { SearchComponent } from './Main/Home/Search-Component/search.component';
     LoginComponent,
     ToolBarComponent,
     DashboardComponent,
-    SearchComponent
+    SearchComponent,
+    MoviesComponent
   ],
   imports: [
     BrowserModule,

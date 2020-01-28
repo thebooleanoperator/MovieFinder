@@ -5,4 +5,5 @@ export class MovieDto {
     director: string;
     runTime: number;
     netflix: number;
+    poster: string;
 }

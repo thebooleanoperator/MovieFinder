@@ -1,0 +1,27 @@
+<tool-bar></tool-bar>
+<div id="movies">
+    <mat-card class="movie-front" >
+        <div *ngIf="showMovies" class="movie-container">
+            <button mat-button [disabled]="disablePrev()" (click)="getPrevMovie()">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+            <div class="movie-info">
+                <h2>{{movies[movieIndex].title}}</h2>
+                <img [src]="movies[movieIndex].poster">
+            </div>
+            <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="!showMovies">
+            <button mat-raise-button (click)="startShowing()">Get Recs!</button>
+        </div>
+    </mat-card>
+    <mat-card class="movie-back" *ngIf="showMovies">
+        <div>
+    
+        </div>
+    </mat-card>
+</div>
+
+
