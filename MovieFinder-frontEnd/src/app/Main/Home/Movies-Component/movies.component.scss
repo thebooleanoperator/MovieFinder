@@ -1,19 +1,23 @@
 #movies {
-    .movie-front {
-        .movie-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            .movie-info {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
+    .movie-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center; 
+        align-items: center; 
+        .movie-info {
+            width: 300px;
+            height: 200px;
+        }
+        .movie-info:hover{
+            cursor: pointer;
+        }
+        .movie-back {
+            background: blue;
+            transform: rotateY( 180deg );
         }
     }
-    .movie-back {
+}
 
-    }
+.movie-container.is-flipped {
+    transform: rotateY(180deg);
 }

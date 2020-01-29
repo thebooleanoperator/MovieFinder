@@ -1,27 +1,32 @@
 <tool-bar></tool-bar>
 <div id="movies">
-    <mat-card class="movie-front" >
-        <div *ngIf="showMovies" class="movie-container">
-            <button mat-button [disabled]="disablePrev()" (click)="getPrevMovie()">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </button>
-            <div class="movie-info">
-                <h2>{{movies[movieIndex].title}}</h2>
-                <img [src]="movies[movieIndex].poster">
-            </div>
-            <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
-                <mat-icon>arrow_forward_ios</mat-icon>
-            </button>
-        </div>
-        <div *ngIf="!showMovies">
-            <button mat-raise-button (click)="startShowing()">Get Recs!</button>
-        </div>
-    </mat-card>
-    <mat-card class="movie-back" *ngIf="showMovies">
+    <div class="movie-container" *ngIf="showMovies">
+        <button mat-button [disabled]="disablePrev()" (click)="getPrevMovie()">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
+            <img [src]="movies[movieIndex].poster">
+        </mat-card>   
+        <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
+            Test
+        </mat-card >  
+        <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
+            <mat-icon>arrow_forward_ios</mat-icon>
+        </button>  
         <div>
-    
-        </div>
-    </mat-card>
+            <p>Title: {{movies[movieIndex].title}}</p>
+            <p>Year: {{movies[movieIndex].year}}</p>
+            <p>Director: {{movies[movieIndex].director}}</p>
+            <p>Genre: {{getGenres(movies[movieIndex].genres)}}</p>
+            <p>Imdb rating: {{movies[movieIndex].imdbRating}}</p>
+            <p>Rotten Tomatoes Rating: {{movies[movieIndex].rottenTomatoesRating}}%</p>
+        </div> 
+    </div>
+    <div *ngIf="!showMovies">
+        <button mat-raise-button (click)="startShowing()">Start Browsing</button>
+    </div>
 </div>
+
+
 
 

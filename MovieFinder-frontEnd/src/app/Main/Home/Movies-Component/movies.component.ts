@@ -7,7 +7,7 @@ import { MoviesService } from 'src/app/Services/movies.service';
     templateUrl: './movies.component.html',
     styleUrls: ['./movies.component.scss']
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent implements OnInit  {
     constructor(private moviesService: MoviesService)
     {
 
@@ -15,13 +15,23 @@ export class MoviesComponent implements OnInit {
 
     //Data 
     showMovies: boolean;
+    showPoster: boolean;
     movies: Array<MovieDto>;
     movieIndex: number;
-    
+  
     //Methods    
-    ngOnInit() {
+    ngOnInit () {
+        this.setMovies();   
         this.showMovies = false;
-        this.setMovies();       
+        this.showPoster = true;
+    }
+
+    startShowing(): void {
+        this.showMovies = true;
+    }
+
+    transformMovie() {
+        this.showPoster = !this.showPoster;
     }
 
     setMovies() {
@@ -31,10 +41,6 @@ export class MoviesComponent implements OnInit {
             // ToDo: randomize on server.
             this.movieIndex = Math.floor(Math.random() * this.movies.length);
         })
-    }
-
-    startShowing() {
-        this.showMovies = true;
     }
 
     getNextMovie() {
@@ -51,5 +57,35 @@ export class MoviesComponent implements OnInit {
 
     disablePrev(): boolean {
         return this.movieIndex == 0; 
+    }
+
+    getGenres(genres): string {
+        var genreBuilder = "";
+        if (genres.action) {
+            genreBuilder += "Action, ";
+        }
+        if (genres.adventure) {
+            genreBuilder += "Adventure, ";
+        }
+        if (genres.horror) {
+            genreBuilder += "Horror, ";
+        }
+        if (genres.biography) {
+            genreBuilder += "Biography, ";
+        }
+        if (genres.comedy) {
+            genreBuilder += "Comedy, ";
+        }
+        if (genres.crime) {
+            genreBuilder += "Crime, ";
+        }
+        if (genres.thriller) {
+            genreBuilder += "Thriller, ";
+        }
+        if (genres.romance) {
+            genreBuilder += "Romance, ";
+        }
+        genreBuilder = genreBuilder.replace(/,\s*$/, "");
+        return genreBuilder;
     }
 }
