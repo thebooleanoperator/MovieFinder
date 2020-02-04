@@ -175,7 +175,9 @@ namespace MovieFinder.Controllers
             return Ok(movie);
         }
 
-        public async Task<ImdbIds> SaveImdbId(string title, int year)
+        /////////////////////////////////////////////PRIVATE HELPER FUNCTIONS//////////////////////////////////////////////
+
+        private async Task<ImdbIds> SaveImdbId(string title, int year)
         {
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, $"{year}");
             var client = _clientFactory.CreateClient();
@@ -212,7 +214,7 @@ namespace MovieFinder.Controllers
             return null;
         }
 
-        public async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId)
+        private async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId)
         {
             if (imdbId == null)
             {
@@ -238,7 +240,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="imdbId"></param>
         /// <returns></returns>
-        public async Task<string> GetNetFlixId(string imdbId)
+        private async Task<string> GetNetFlixId(string imdbId)
         {
             if (imdbId == null)
             {

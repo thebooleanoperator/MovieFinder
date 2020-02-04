@@ -6,21 +6,21 @@
         </button>
         <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
             <img [src]="movies[movieIndex].poster">
+
         </mat-card>   
         <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
-            Test
+            <div>
+                <p>Title: {{movies[movieIndex].title}}</p>
+                <p>Year: {{movies[movieIndex].year}}</p>
+                <p>Director: {{movies[movieIndex].director}}</p>
+                <p>Genre: {{getGenres(movies[movieIndex].genres)}}</p>
+                <p>Imdb rating: {{movies[movieIndex].imdbRating}}</p>
+                <p>Rotten Tomatoes Rating: {{movies[movieIndex].rottenTomatoesRating}}%</p>
+            </div> 
         </mat-card >  
         <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
             <mat-icon>arrow_forward_ios</mat-icon>
         </button>  
-        <div>
-            <p>Title: {{movies[movieIndex].title}}</p>
-            <p>Year: {{movies[movieIndex].year}}</p>
-            <p>Director: {{movies[movieIndex].director}}</p>
-            <p>Genre: {{getGenres(movies[movieIndex].genres)}}</p>
-            <p>Imdb rating: {{movies[movieIndex].imdbRating}}</p>
-            <p>Rotten Tomatoes Rating: {{movies[movieIndex].rottenTomatoesRating}}%</p>
-        </div> 
     </div>
     <div *ngIf="!showMovies">
         <button mat-raise-button (click)="startShowing()">Start Browsing</button>
