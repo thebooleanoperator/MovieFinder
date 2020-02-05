@@ -29,7 +29,7 @@ namespace MovieFinder.Utils
             return parsedJson;
         }
 
-        public static async Task<JObject> ValidateAndParseNetflixResponse(HttpResponseMessage response)
+        public static async Task<JObject> ValidateAndParseUtellyResponse(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {

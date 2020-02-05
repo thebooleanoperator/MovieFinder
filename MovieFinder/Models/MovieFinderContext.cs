@@ -71,9 +71,6 @@ namespace MovieFinder
                     entity.Property(m => m.Poster)
                           .HasColumnName("Poster");
 
-                    entity.Property(m => m.NetflixId)
-                          .HasColumnName("NetflixId");
-
                     entity.Property(m => m.IsRec)
                           .HasColumnName("IsRec");
                 });
@@ -175,6 +172,30 @@ namespace MovieFinder
 
                     entity.Property(m => m.Romance)
                           .HasColumnName("Romance");
+                });
+
+            modelBuilder
+                .Entity<StreamingData>(entity =>
+                {
+                    entity.HasKey(m => m.StreamingDataId);
+
+                    entity.Property(m => m.StreamingDataId)
+                          .HasColumnName("StreamingDataId");
+
+                    entity.Property(m => m.Netflix)
+                          .HasColumnName("Netflix");
+
+                    entity.Property(m => m.HBO)
+                          .HasColumnName("HBO");
+
+                    entity.Property(m => m.Hulu)
+                          .HasColumnName("Hulu");
+
+                    entity.Property(m => m.DisneyPlus)
+                          .HasColumnName("DisneyPlus");
+
+                    entity.Property(m => m.AmazonPrime)
+                          .HasColumnName("AmazonPrime");
                 });
         }
     }

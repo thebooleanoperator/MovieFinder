@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-    [Authorize]
+    
     [Route("[controller]/[action]")]
     public class MoviesController : Controller
     {
@@ -45,11 +45,11 @@ namespace MovieFinder.Controllers
             //Don't save a dupe, return existing movie.
             if (existingMovie != null) { return Ok(existingMovie); }
 
-            var netflixId = await GetNetFlixId(imdbInfo.ImdbId);
+            var streamingDataDto = await GetStreamingData(imdbInfo.Title);
 
-            var movie = new Movies(imdbInfo, imdbId, netflixId);
-            _unitOfWork.Movies.Add(movie);
-            _unitOfWork.SaveChanges();
+            var movie = new Movies(imdbInfo, imdbId, "6546546");
+            //_unitOfWork.Movies.Add(movie);
+            //_unitOfWork.SaveChanges();
 
             //Look into refactoring to avoid two save changes.
             var synopsis = new Synopsis(imdbInfo, movie);
@@ -58,7 +58,7 @@ namespace MovieFinder.Controllers
             var genres = new Genres(imdbInfo, movie);
             _unitOfWork.Genres.Add(genres);
 
-            _unitOfWork.SaveChanges();
+            //_unitOfWork.SaveChanges();
             return Ok(movie);
         }
 
@@ -91,11 +91,11 @@ namespace MovieFinder.Controllers
                 var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
                 if (existingMovie != null) { return Ok(); }
 
-                var netflixId = await GetNetFlixId(imdbInfo.ImdbId);
+                var streamingDataDto = await GetStreamingData(imdbInfo.Title);
 
-                var movie = new Movies(imdbInfo, imdbId, netflixId);
-                _unitOfWork.Movies.Add(movie);
-                _unitOfWork.SaveChanges();
+                var movie = new Movies(imdbInfo, imdbId, "656232");
+                //_unitOfWork.Movies.Add(movie);
+                //_unitOfWork.SaveChanges();
 
                 //Look into refactoring.
                 var synopsis = new Synopsis(imdbInfo, movie);
@@ -104,7 +104,7 @@ namespace MovieFinder.Controllers
                 var genres = new Genres(imdbInfo, movie);
                 _unitOfWork.Genres.Add(genres);
             }
-            _unitOfWork.SaveChanges();
+            //_unitOfWork.SaveChanges();
             return Ok();
         }
 
@@ -240,24 +240,33 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="imdbId"></param>
         /// <returns></returns>
-        private async Task<string> GetNetFlixId(string imdbId)
+        private async Task<List<StreamingDataDto>> GetStreamingData(string title)
         {
-            if (imdbId == null)
+            if (title == null)
             {
                 return null; 
             }
 
-            var request = RapidRequestSender.NetflixRapidRequest(imdbId);
+            var request = RapidRequestSender.UtellyRapidRequest(title);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var jsonAndResponse = await HttpValidator.ValidateAndParseNetflixResponse(response);
+            var parsedResponse = await HttpValidator.ValidateAndParseUtellyResponse(response);
 
-            if (jsonAndResponse == null) { return null; }
+            if (parsedResponse == null) { return null; }
 
             //Get the ImdbInfoDto by converting JObject.
-            var netflixDto = jsonAndResponse.ToObject<NetflixIdDto>();
-            return netflixDto.FilmId; 
+            var streamingResults = parsedResponse["results"].Children().ToList();
+            var streamingDtos = new List<StreamingDataDto>();
+
+            foreach (var Jdata in streamingResults)
+            {
+                var obj = Jdata.ToObject<StreamingDataDto>();
+                streamingDtos.Add(obj);
+            }
+
+            return streamingDtos;
+
         }
     }
 }
