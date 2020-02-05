@@ -196,6 +196,12 @@ namespace MovieFinder
 
                     entity.Property(m => m.AmazonPrime)
                           .HasColumnName("AmazonPrime");
+                    
+                    entity.Property(m => m.ITunes)
+                          .HasColumnName("ITunes");
+
+                    entity.Property(m => m.GooglePlay)
+                          .HasColumnName("GooglePlay");
                 });
         }
     }

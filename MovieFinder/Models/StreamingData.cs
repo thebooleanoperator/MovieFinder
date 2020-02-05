@@ -9,6 +9,8 @@
         public bool Hulu { get; set; }
         public bool DisneyPlus { get; set; }
         public bool AmazonPrime { get; set; }
+        public bool ITunes { get; set; }
+        public bool GooglePlay { get; set; }
     }
 }
 
