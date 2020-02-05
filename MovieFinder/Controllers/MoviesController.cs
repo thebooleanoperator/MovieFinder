@@ -45,13 +45,15 @@ namespace MovieFinder.Controllers
             //Don't save a dupe, return existing movie.
             if (existingMovie != null) { return Ok(existingMovie); }
 
-            var streamingDataDto = await GetStreamingData(imdbInfo.Title);
-
             var movie = new Movies(imdbInfo, imdbId, "6546546");
             //_unitOfWork.Movies.Add(movie);
             //_unitOfWork.SaveChanges();
 
-            //Look into refactoring to avoid two save changes.
+            //Look into refactoring.
+            var streamingDataDto = await GetStreamingData(movie.Title);
+            var streamingData = new StreamingData(streamingDataDto, movie);
+            _unitOfWork.StreamingData.Add(streamingData);
+
             var synopsis = new Synopsis(imdbInfo, movie);
             _unitOfWork.Synopsis.Add(synopsis);
 
@@ -91,13 +93,15 @@ namespace MovieFinder.Controllers
                 var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
                 if (existingMovie != null) { return Ok(); }
 
-                var streamingDataDto = await GetStreamingData(imdbInfo.Title);
-
                 var movie = new Movies(imdbInfo, imdbId, "656232");
                 //_unitOfWork.Movies.Add(movie);
                 //_unitOfWork.SaveChanges();
 
                 //Look into refactoring.
+                var streamingDataDto = await GetStreamingData(movie.Title);
+                var streamingData = new StreamingData(streamingDataDto, movie);
+                _unitOfWork.StreamingData.Add(streamingData); 
+
                 var synopsis = new Synopsis(imdbInfo, movie);
                 _unitOfWork.Synopsis.Add(synopsis);
 
@@ -240,7 +244,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="imdbId"></param>
         /// <returns></returns>
-        private async Task<List<StreamingDataDto>> GetStreamingData(string title)
+        private async Task<StreamingDataDto> GetStreamingData(string title)
         {
             if (title == null)
             {
@@ -257,16 +261,17 @@ namespace MovieFinder.Controllers
 
             //Get the ImdbInfoDto by converting JObject.
             var streamingResults = parsedResponse["results"].Children().ToList();
-            var streamingDtos = new List<StreamingDataDto>();
-
+ 
             foreach (var Jdata in streamingResults)
             {
-                var obj = Jdata.ToObject<StreamingDataDto>();
-                streamingDtos.Add(obj);
+                var streamingData = Jdata.ToObject<StreamingDataDto>();
+                //Only return the data if title matches.
+                if (streamingData.Name.ToLower() == title.ToLower())
+                {
+                    return streamingData;
+                }
             }
-
-            return streamingDtos;
-
+            return null;
         }
     }
 }

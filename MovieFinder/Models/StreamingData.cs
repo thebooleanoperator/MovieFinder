@@ -1,6 +1,6 @@
 ﻿namespace MovieFinder.Models
 {
-    public class StreamingData
+    public partial class StreamingData
     {
         public int StreamingDataId { get; set; }
         public int MovieId { get; set; }

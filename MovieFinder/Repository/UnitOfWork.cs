@@ -13,6 +13,7 @@ namespace MovieFinder.Repository
         public IMovieTitlesRepository MovieTitles { get; set; }
         public IImdbIdsRepository ImdbIds { get; set; }
         public IGenresRepository Genres { get; set; }
+        public IStreamingDataRepository StreamingData { get; set; }
        
         private readonly DbContext _context;
 
@@ -27,6 +28,7 @@ namespace MovieFinder.Repository
             MovieTitles = new MovieTitlesRepository(_context);
             ImdbIds = new ImdbIdsRepository(_context);
             Genres = new GenresRepository(_context);
+            StreamingData = new StreamingDataRepository(_context);
         }
 
         public int SaveChanges()
