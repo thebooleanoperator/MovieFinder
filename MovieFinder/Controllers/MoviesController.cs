@@ -39,28 +39,21 @@ namespace MovieFinder.Controllers
             }
 
             var imdbInfo = await GetImdbMovieInfo(imdbId);
+            imdbInfo.IsRec = movieInfo.IsRec;
 
             var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
 
-            //Don't save a dupe, return existing movie.
+            // Don't save a dupe, return existing movie.
             if (existingMovie != null) { return Ok(existingMovie); }
 
-            var movie = new Movies(imdbInfo, imdbId, "6546546");
-            //_unitOfWork.Movies.Add(movie);
-            //_unitOfWork.SaveChanges();
-
-            //Look into refactoring.
+            var movie = new Movies(imdbInfo, imdbId);
+            _unitOfWork.Movies.Add(movie);
+            _unitOfWork.SaveChanges();
             var streamingDataDto = await GetStreamingData(movie.Title);
-            var streamingData = new StreamingData(streamingDataDto, movie);
-            _unitOfWork.StreamingData.Add(streamingData);
 
-            var synopsis = new Synopsis(imdbInfo, movie);
-            _unitOfWork.Synopsis.Add(synopsis);
+            // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
+            FillAssociatedTables(imdbInfo, movie, streamingDataDto);
 
-            var genres = new Genres(imdbInfo, movie);
-            _unitOfWork.Genres.Add(genres);
-
-            //_unitOfWork.SaveChanges();
             return Ok(movie);
         }
 
@@ -93,22 +86,16 @@ namespace MovieFinder.Controllers
                 var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
                 if (existingMovie != null) { return Ok(); }
 
-                var movie = new Movies(imdbInfo, imdbId, "656232");
-                //_unitOfWork.Movies.Add(movie);
-                //_unitOfWork.SaveChanges();
+                var movie = new Movies(imdbInfo, imdbId);
+                _unitOfWork.Movies.Add(movie);
+                _unitOfWork.SaveChanges();
 
-                //Look into refactoring.
                 var streamingDataDto = await GetStreamingData(movie.Title);
-                var streamingData = new StreamingData(streamingDataDto, movie);
-                _unitOfWork.StreamingData.Add(streamingData); 
-
-                var synopsis = new Synopsis(imdbInfo, movie);
-                _unitOfWork.Synopsis.Add(synopsis);
-
-                var genres = new Genres(imdbInfo, movie);
-                _unitOfWork.Genres.Add(genres);
+                // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
+                // Does not save every iteration.
+                FillAssociatedTables(imdbInfo, movie, streamingDataDto, false);
             }
-            //_unitOfWork.SaveChanges();
+            _unitOfWork.SaveChanges();
             return Ok();
         }
 
@@ -179,8 +166,7 @@ namespace MovieFinder.Controllers
             return Ok(movie);
         }
 
-        /////////////////////////////////////////////PRIVATE HELPER FUNCTIONS//////////////////////////////////////////////
-
+        /////////////////////////////////////////////PRIVATE HELPER FUNCTIONS//////////////////////////////////////
         private async Task<ImdbIds> SaveImdbId(string title, int year)
         {
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, $"{year}");
@@ -272,6 +258,27 @@ namespace MovieFinder.Controllers
                 }
             }
             return null;
+        }
+
+        private void FillAssociatedTables(
+            ImdbInfoDto imdbInfo,
+            Movies movie,
+            StreamingDataDto streamingDataDto,
+            bool saveTables = true)
+        {            
+            var streamingData = new StreamingData(streamingDataDto, movie);
+            _unitOfWork.StreamingData.Add(streamingData);
+
+            var synopsis = new Synopsis(imdbInfo, movie);
+            _unitOfWork.Synopsis.Add(synopsis);
+
+            var genres = new Genres(imdbInfo, movie);
+            _unitOfWork.Genres.Add(genres);
+
+            if (saveTables)
+            {
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }

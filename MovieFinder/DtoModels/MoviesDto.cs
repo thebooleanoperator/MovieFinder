@@ -15,7 +15,6 @@ namespace MovieFinder.DtoModels
         public decimal? ImdbRating { get; set; }
         public decimal? RottenTomatoesRating { get; set; }
         public string ImdbId { get; set; }
-        public int? NetflixId { get; set; }
         public bool IsRec { get; set; }
         public string Poster { get; set; }
         public Genres Genres { get; set; }
@@ -34,7 +33,6 @@ namespace MovieFinder.DtoModels
             RunTime = movie.RunTime.ToString();
             ImdbRating = movie.ImdbRating;
             RottenTomatoesRating = movie.RottenTomatoesRating;
-            NetflixId = movie.NetflixId;
             IsRec = movie.IsRec;
             Genres = genres;
             Poster = movie.Poster;

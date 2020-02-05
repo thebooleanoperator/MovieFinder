@@ -7,6 +7,7 @@ namespace MovieFinder.DtoModels
     {
         public string MovieTitle { get; set; }
         public int Year { get; set; }
+        public bool IsRec { get; set; }
 
         public MovieTitlesDto()
         {
@@ -21,6 +22,7 @@ namespace MovieFinder.DtoModels
 
             MovieTitle = movie.Title;
             Year = movie.Year;
+            IsRec = movie.IsRec;
         }
     }
 }

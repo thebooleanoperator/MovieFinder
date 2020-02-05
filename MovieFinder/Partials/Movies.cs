@@ -17,7 +17,7 @@ namespace MovieFinder.Models
         /// <param name="imdbInfo"></param>
         /// <param name="imdbId"></param>
         /// <param name="netflixId"></param>
-        public Movies(ImdbInfoDto imdbInfo, ImdbIds imdbId, string netflixId)
+        public Movies(ImdbInfoDto imdbInfo, ImdbIds imdbId)
         {
             if(imdbInfo == null)
             {
@@ -68,7 +68,7 @@ namespace MovieFinder.Models
             RottenTomatoesRating = getRottenRating("Rotten Tomatoes", imdbInfo.Ratings);
             Year = imdbId.Year;
             Poster = imdbInfo.Poster;
-            NetflixId = getNetflixId(netflixId);
+            IsRec = imdbInfo.IsRec;
         }
 
         private int? getMovieRunTime(string runTimeString)
@@ -138,19 +138,6 @@ namespace MovieFinder.Models
             if (int.TryParse(rating, out rottenRating))
             {
                 return rottenRating;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public int? getNetflixId(string netflixString)
-        {
-            int id;
-            if (int.TryParse(netflixString, out id))
-            {
-                return id;
             }
             else
             {

@@ -11,7 +11,6 @@
         public decimal? ImdbRating { get; set; }
         public string ImdbId { get; set; }
         public string Poster { get; set; }
-        public int? NetflixId { get; set; }
         public bool IsRec { get; set; }
     }
 }

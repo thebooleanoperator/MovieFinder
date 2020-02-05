@@ -24,6 +24,7 @@ namespace MovieFinder.Models
 
         public bool OnApp(StreamingDataDto dataDto, string appName)
         {
+            if (dataDto == null) { return false; }
             foreach(var location in dataDto.Locations)
             {
                 if (location.Display_Name.ToLower().Contains(appName))
