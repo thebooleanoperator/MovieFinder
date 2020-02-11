@@ -114,7 +114,8 @@ namespace MovieFinder.Controllers
             foreach (var movie in movies)
             {
                 var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
-                var movieDto = new MoviesDto(movie, genres);
+                var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
+                var movieDto = new MoviesDto(movie, genres, streamingData);
                 moviesDtos.Add(movieDto);
             }
 
@@ -137,7 +138,8 @@ namespace MovieFinder.Controllers
             foreach(var movie in recommendedMovies)
             {
                 var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
-                var movieDto = new MoviesDto(movie, genres);
+                var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
+                var movieDto = new MoviesDto(movie, genres, streamingData);
                 recDtos.Add(movieDto);
             }
 

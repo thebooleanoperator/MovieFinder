@@ -18,6 +18,7 @@ export class MoviesComponent implements OnInit  {
     showPoster: boolean;
     movies: Array<MovieDto>;
     movieIndex: number;
+    
   
     //Methods    
     ngOnInit () {
@@ -61,6 +62,8 @@ export class MoviesComponent implements OnInit  {
 
     getGenres(genres): string {
         var genreBuilder = "";
+
+        genres.foreEach
         if (genres.action) {
             genreBuilder += "Action, ";
         }
@@ -87,5 +90,31 @@ export class MoviesComponent implements OnInit  {
         }
         genreBuilder = genreBuilder.replace(/,\s*$/, "");
         return genreBuilder;
+    }
+
+    getStreams(streams): string {
+        var streamsBuilder = "";
+        if (streams.netflix) {
+            streamsBuilder += "Netflix";
+        }
+        if (streams.hbo) {
+            streamsBuilder += "HBO";
+        }
+        if (streams.hulu) {
+            streamsBuilder += "Hulu";
+        }
+        if (streams.disneyPlus) {
+            streamsBuilder += "Disney Plus";
+        }
+        if (streams.amazonPrime) {
+            streamsBuilder += "Amazon Prime";
+        }
+        if (streams.itunes) {
+            streamsBuilder += "ITunes";
+        }
+        if (streams.googlePlay) {
+            streamsBuilder += "Google Play";
+        }
+        return streamsBuilder;
     }
 }

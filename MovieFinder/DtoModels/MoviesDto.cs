@@ -1,6 +1,5 @@
 ﻿using MovieFinder.Models;
 using System;
-using System.Collections.Generic;
 
 namespace MovieFinder.DtoModels
 {
@@ -18,8 +17,9 @@ namespace MovieFinder.DtoModels
         public bool IsRec { get; set; }
         public string Poster { get; set; }
         public Genres Genres { get; set; }
+        public StreamingData StreamingData { get; set; }
 
-        public MoviesDto(Movies movie, Genres genres)
+        public MoviesDto(Movies movie, Genres genres, StreamingData streamingData)
         {
             if (movie == null)
             {
@@ -34,8 +34,9 @@ namespace MovieFinder.DtoModels
             ImdbRating = movie.ImdbRating;
             RottenTomatoesRating = movie.RottenTomatoesRating;
             IsRec = movie.IsRec;
-            Genres = genres;
             Poster = movie.Poster;
+            Genres = genres;
+            StreamingData = streamingData;
         }
     }
 }
