@@ -19,20 +19,20 @@ namespace MovieFinder.Models
             DisneyPlus = OnApp(streamingDataDto, "disney");
             AmazonPrime = OnApp(streamingDataDto, "prime");
             ITunes = OnApp(streamingDataDto, "itunes");
-            GooglePlay = OnApp(streamingDataDto, "google"); ;
+            GooglePlay = OnApp(streamingDataDto, "google"); 
         }
 
-        public bool OnApp(StreamingDataDto dataDto, string appName)
+        public string OnApp(StreamingDataDto dataDto, string appName)
         {
-            if (dataDto == null) { return false; }
+            if (dataDto == null) { return null; }
             foreach(var location in dataDto.Locations)
             {
                 if (location.Display_Name.ToLower().Contains(appName))
                 {
-                    return true;
+                    return location.Icon;
                 }
             }
-            return false;
+            return null;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MovieFinder.Repository
         public IImdbIdsRepository ImdbIds { get; set; }
         public IGenresRepository Genres { get; set; }
         public IStreamingDataRepository StreamingData { get; set; }
-       
+
         private readonly DbContext _context;
 
         public UnitOfWork(DbContext context)
