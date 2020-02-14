@@ -1,36 +1,44 @@
 <tool-bar></tool-bar>
-<div id="movies">
-    <div class="movie-container" *ngIf="showMovies">
-        <div class="">
-            <button mat-button [disabled]="disablePrev()" (click)="getPrevMovie()">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </button>
-            <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
-                <img [src]="movies[movieIndex].poster">
-    
-            </mat-card>   
-            <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
-                <div>
-                    <p>Title: {{movies[movieIndex].title}}</p>
-                    <p>Year: {{movies[movieIndex].year}}</p>
-                    <p>Director: {{movies[movieIndex].director}}</p>
-                    <p>Genre: {{getGenres(movies[movieIndex].genres)}}</p>
-                    <p>Imdb rating: {{movies[movieIndex].imdbRating}}</p>
-                    <p>Rotten Tomatoes Rating: {{movies[movieIndex].rottenTomatoesRating}}%</p>
-                </div> 
-            </mat-card>  
-            <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
-                <mat-icon>arrow_forward_ios</mat-icon>
-            </button>  
+<div id="movies" *ngIf="showMovies">
+    <div class="rating-container">
+        <div class="rotten-rating" *ngIf="movies[movieIndex].rottenTomatoesRating">
+            <img src="assets/images/rotten-tomatoes.png">
+            {{movies[movieIndex].rottenTomatoesRating}}%
         </div>
-        <div>
-            Streaming On: {{getStreams(movies[movieIndex].streamingData)}}
+        <div class="imdb-rating" *ngIf="movies[movieIndex].imdbRating">
+            <img src="assets/images/imdb.png">
+            {{movies[movieIndex].imdbRating}}
         </div>
     </div>
-    
-    <div *ngIf="!showMovies">
-        <button mat-raise-button (click)="startShowing()">Start Browsing</button>
+    <div class="movie-container">
+        <button mat-button [disabled]="disablePrev()" (click)="getPrevMovie()">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
+            <img [src]="movies[movieIndex].poster">
+        </mat-card>   
+        <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
+            <h2>{{movies[movieIndex].title}}</h2>
+            <div><span>Year:</span>{{movies[movieIndex].year}}</div>
+            <div><span>Director:</span> {{movies[movieIndex].director}}</div>
+            <div><span>Genre:</span> {{getGenres(movies[movieIndex].genres)}}</div>
+        </mat-card>  
+        <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
+            <mat-icon>arrow_forward_ios</mat-icon>
+        </button>  
     </div>
+    <div class="streamsContainer">
+        <img *ngIf="movies[movieIndex].streamingData.netflix" [src]="movies[movieIndex].streamingData.netflix"/>
+        <img *ngIf="movies[movieIndex].streamingData.hbo" [src]="movies[movieIndex].streamingData.hbo"/>
+        <img *ngIf="movies[movieIndex].streamingData.hulu" [src]="movies[movieIndex].streamingData.hulu"/>
+        <img *ngIf="movies[movieIndex].streamingData.disneyPlus" [src]="movies[movieIndex].streamingData.disneyPlus"/>
+        <img *ngIf="movies[movieIndex].streamingData.amazonPrime" [src]="movies[movieIndex].streamingData.amazonPrime"/>
+        <img *ngIf="movies[movieIndex].streamingData.iTunes" [src]="movies[movieIndex].streamingData.iTunes"/>
+        <img *ngIf="movies[movieIndex].streamingData.googlePlay" [src]="movies[movieIndex].streamingData.googlePlay"/>
+    </div>    
+</div>
+<div *ngIf="!showMovies" class="browsing" >
+    <button mat-stroked-button (click)="startShowing()">Start</button>
 </div>
 
 

@@ -1,19 +1,76 @@
 #movies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75%;
+    .rating-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .rotten-rating, .imdb-rating {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            font-family: sans-serif;
+            font-weight: bold;
+            img {
+                padding: 5px;
+            }
+        }
+    }
     .movie-container {
         display: flex;
         flex-direction: row;
         justify-content: center; 
         align-items: center; 
         .movie-info {
+            height: 450px;
             width: 300px;
-            height: 200px;
         }
         .movie-info:hover{
             cursor: pointer;
         }
+        .movie-back {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(197, 72, 80, 0.459);
+            h2 {
+                text-decoration: underline;
+                text-align: center;
+            }
+            div {
+                padding: 10px;
+            }
+        }
+    }
+    .streamsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center; 
+        align-items: center; 
+        img {
+            height: 50px;
+            width: 100px;
+            padding: 10px;
+        }
     }
 }
 
-.movie-container.is-flipped {
-    transform: rotateY(180deg);
+.browsing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    button {
+        border-radius: 50%;
+        height: 150px;
+        width: 150px;
+        min-width: unset;
+        min-height: unset;
+        font-size: 30px;
+        background-color: slategray;
+        color: white;
+    }
 }

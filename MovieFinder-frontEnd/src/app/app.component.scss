@@ -1,20 +1,5 @@
 #app {
-    .main-toolbar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        background-color: lightgray;
-        height: 64px;
-        width: 100vw;
-
-        button {
-            padding: 0px;
-        }
-
-        .tool-button:hover {
-            cursor: pointer;
-            background-color: grey;
-        }
-    }
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }

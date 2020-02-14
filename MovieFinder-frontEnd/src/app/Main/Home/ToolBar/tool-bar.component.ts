@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'tool-bar',
   templateUrl: './tool-bar.component.html',
-  styleUrls: []
+  styleUrls: ['./tool-bar.component.scss']
 })
 export class ToolBarComponent{
     constructor(private signInService: SignInService, private router: Router)

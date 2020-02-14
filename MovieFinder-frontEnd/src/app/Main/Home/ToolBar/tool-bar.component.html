@@ -1,8 +1,12 @@
-<mat-toolbar-row>
+<mat-toolbar-row id="toolbar">
     <mat-toolbar-row class="main-toolbar">
-        <a class="tool-button" mat-stroked-button routerLink="/dashboard">Dashboard</a>
-        <a class="tool-button" mat-stroked-button routerLink="/search">Search</a>
-        <a class="tool-button" mat-stroked-button routerLink="/movies">Movie Finder</a>
-        <button mat-button (click)="logout()">Log Out</button>
+        <div>
+            <a class="tool-button" mat-stroked-button routerLink="/dashboard">Dashboard</a>
+            <a class="tool-button" mat-stroked-button routerLink="/search">Search</a>
+            <a class="tool-button" mat-stroked-button routerLink="/movies">Movie Finder</a>
+        </div>
+        <div>
+            <button mat-button (click)="logout()">Log Out</button>
+        </div>
     </mat-toolbar-row>
 </mat-toolbar-row>

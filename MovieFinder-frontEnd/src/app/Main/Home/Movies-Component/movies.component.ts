@@ -46,10 +46,12 @@ export class MoviesComponent implements OnInit  {
 
     getNextMovie() {
         this.movieIndex += 1; 
+        this.showPoster = true;
     }
 
     getPrevMovie() {
         this.movieIndex -= 1;
+        this.showPoster = true;
     }
 
     disableNext(): boolean {

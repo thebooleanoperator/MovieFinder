@@ -1,0 +1,15 @@
+.main-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(197, 72, 80, 0.459);
+
+    button {
+        padding: 10px;
+    }
+
+    .tool-button:hover {
+        cursor: pointer;
+        background-color: grey;
+    }
+}
