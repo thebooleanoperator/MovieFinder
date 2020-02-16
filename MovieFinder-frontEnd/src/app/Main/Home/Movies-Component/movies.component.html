@@ -28,13 +28,13 @@
         </button>  
     </div>
     <div class="streamsContainer">
-        <img *ngIf="movies[movieIndex].streamingData.netflix" [src]="movies[movieIndex].streamingData.netflix"/>
-        <img *ngIf="movies[movieIndex].streamingData.hbo" [src]="movies[movieIndex].streamingData.hbo"/>
-        <img *ngIf="movies[movieIndex].streamingData.hulu" [src]="movies[movieIndex].streamingData.hulu"/>
-        <img *ngIf="movies[movieIndex].streamingData.disneyPlus" [src]="movies[movieIndex].streamingData.disneyPlus"/>
-        <img *ngIf="movies[movieIndex].streamingData.amazonPrime" [src]="movies[movieIndex].streamingData.amazonPrime"/>
-        <img *ngIf="movies[movieIndex].streamingData.iTunes" [src]="movies[movieIndex].streamingData.iTunes"/>
-        <img *ngIf="movies[movieIndex].streamingData.googlePlay" [src]="movies[movieIndex].streamingData.googlePlay"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.netflix ? '1' : '.1'}" src="assets/images/streaming-icons/netflix.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.hbo ? '1' : '.1'}" src="assets/images/streaming-icons/hbo.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.hulu ? '1' : '.1'}" src="assets/images/streaming-icons/hulu.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.disneyPlus ? '1' : '.1'}" src="assets/images/streaming-icons/disneyPlus.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.amazonPrime ? '1' : '.1'}" src="assets/images/streaming-icons/amazon.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.iTunes ? '1' : '.1'}" src="assets/images/streaming-icons/iTunes.png"/>
+        <img [ngStyle]="{'opacity': movies[movieIndex].streamingData.googlePlay ? '1' : '.1'}" src="assets/images/streaming-icons/googlePlay.png"/>
     </div>    
 </div>
 <div *ngIf="!showMovies" class="browsing" >
