@@ -35,7 +35,7 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMovie([FromBody] MovieTitlesDto movieInfo)
         {
-            var imdbIds = await GetImdbIdsFromTitle(movieInfo.MovieTitle, movieInfo.Year);
+            var imdbIds = await _moviesService.GetImdbIdsFromTitle(movieInfo.MovieTitle, movieInfo.Year);
             if (imdbIds == null)
             {
                 return BadRequest("Could not find imdbId.");
@@ -56,13 +56,12 @@ namespace MovieFinder.Controllers
                 else
                 {
                     var movie = new Movies(imdbInfo, imdbId);
-                    _unitOfWork.ImdbIds.Add(imdbId);
                     _unitOfWork.Movies.Add(movie);
                     _unitOfWork.SaveChanges();
-                    var streamingDataDto = await GetStreamingData(movie.Title);
+                    var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
 
                     // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-                    FillAssociatedTables(imdbInfo, movie, streamingDataDto);
+                    _moviesService.FillAssociatedTables(imdbInfo, movie, streamingDataDto);
                     movies.Add(movie);
                 }
             }
@@ -158,67 +157,6 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
 
             return Ok(movie);
-        }
-
-        /////////////////////////////////////////////PRIVATE HELPER FUNCTIONS//////////////////////////////////////
-        
-
-
-
-        /// <summary>
-        /// Returns the netflix Id for a movie or null if the movie is not on netflix. 
-        /// </summary>
-        /// <param name="imdbId"></param>
-        /// <returns></returns>
-        private async Task<StreamingDataDto> GetStreamingData(string title)
-        {
-            if (title == null)
-            {
-                return null; 
-            }
-
-            var request = RapidRequestSender.UtellyRapidRequest(title);
-            var client = _clientFactory.CreateClient();
-            var response = await client.SendAsync(request);
-
-            var parsedResponse = await HttpValidator.ValidateAndParseUtellyResponse(response);
-
-            if (parsedResponse == null) { return null; }
-
-            //Get the ImdbInfoDto by converting JObject.
-            var streamingResults = parsedResponse["results"].Children().ToList();
- 
-            foreach (var Jdata in streamingResults)
-            {
-                var streamingData = Jdata.ToObject<StreamingDataDto>();
-                //Only return the data if title matches.
-                if (streamingData.Name.ToLower() == title.ToLower())
-                {
-                    return streamingData;
-                }
-            }
-            return null;
-        }
-
-        private void FillAssociatedTables(
-            ImdbInfoDto imdbInfo,
-            Movies movie,
-            StreamingDataDto streamingDataDto,
-            bool saveTables = true)
-        {            
-            var streamingData = new StreamingData(streamingDataDto, movie);
-            _unitOfWork.StreamingData.Add(streamingData);
-
-            var synopsis = new Synopsis(imdbInfo, movie);
-            _unitOfWork.Synopsis.Add(synopsis);
-
-            var genres = new Genres(imdbInfo, movie);
-            _unitOfWork.Genres.Add(genres);
-
-            if (saveTables)
-            {
-                _unitOfWork.SaveChanges();
-            }
         }
 
         /*private Movies FindMovieByTitle(string title)

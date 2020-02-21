@@ -58,6 +58,7 @@ namespace MovieFinder.Utils
                     else
                     {
                         imdbIds.Add(imdbId);
+                        _unitOfWork.ImdbIds.Add(imdbId);
                     }
                 }
             }
@@ -65,6 +66,8 @@ namespace MovieFinder.Utils
             {
                 return null;
             }
+
+            _unitOfWork.SaveChanges();
             return imdbIds;
         }
 
@@ -94,5 +97,56 @@ namespace MovieFinder.Utils
             return infoDto;
         }
 
+        /// <summary>
+        /// Returns the netflix Id for a movie or null if the movie is not on netflix. 
+        /// </summary>
+        /// <param name="imdbId"></param>
+        /// <returns></returns>
+        public async Task<StreamingDataDto> GetStreamingData(string title)
+        {
+            if (title == null)
+            {
+                return null;
+            }
+
+            var request = RapidRequestSender.UtellyRapidRequest(title);
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var parsedResponse = await HttpValidator.ValidateAndParseUtellyResponse(response);
+
+            if (parsedResponse == null) { return null; }
+
+            //Get the ImdbInfoDto by converting JObject.
+            var streamingResults = parsedResponse["results"].Children().ToList();
+
+            foreach (var Jdata in streamingResults)
+            {
+                var streamingData = Jdata.ToObject<StreamingDataDto>();
+                //Only return the data if title matches.
+                if (streamingData.Name.ToLower() == title.ToLower())
+                {
+                    return streamingData;
+                }
+            }
+            return null;
+        }
+
+        public void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
+        {
+            var streamingData = new StreamingData(streamingDataDto, movie);
+            _unitOfWork.StreamingData.Add(streamingData);
+
+            var synopsis = new Synopsis(imdbInfo, movie);
+            _unitOfWork.Synopsis.Add(synopsis);
+
+            var genres = new Genres(imdbInfo, movie);
+            _unitOfWork.Genres.Add(genres);
+
+            if (saveTables)
+            {
+                _unitOfWork.SaveChanges();
+            }
+        }
     }
 }

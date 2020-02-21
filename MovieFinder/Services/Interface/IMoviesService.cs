@@ -15,5 +15,7 @@ namespace MovieFinder.Services.Interface
     {
         Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId);
         Task<List<ImdbIds>> GetImdbIdsFromTitle(string title, int? year);
+        Task<StreamingDataDto> GetStreamingData(string title);
+        void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true);
     }
 }
