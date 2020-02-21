@@ -6,7 +6,7 @@ namespace MovieFinder.DtoModels
     public class MovieTitlesDto
     {
         public string MovieTitle { get; set; }
-        public int Year { get; set; }
+        public int? Year { get; set; }
         public bool IsRec { get; set; }
 
         public MovieTitlesDto()

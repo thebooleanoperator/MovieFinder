@@ -18,8 +18,9 @@ namespace MovieFinder.DtoModels
         public string Poster { get; set; }
         public Genres Genres { get; set; }
         public StreamingData StreamingData { get; set; }
+        public Synopsis Synopsis { get; set; }
 
-        public MoviesDto(Movies movie, Genres genres, StreamingData streamingData)
+        public MoviesDto(Movies movie, Genres genres, StreamingData streamingData, Synopsis synopsis)
         {
             if (movie == null)
             {
@@ -37,6 +38,7 @@ namespace MovieFinder.DtoModels
             Poster = movie.Poster;
             Genres = genres;
             StreamingData = streamingData;
+            Synopsis = synopsis;
         }
     }
 }

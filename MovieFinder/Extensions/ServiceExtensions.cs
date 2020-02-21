@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MovieFinder.Services.Interface;
+using MovieFinder.Utils;
 
 namespace MovieFinder.Extensions
 {
@@ -17,6 +19,8 @@ namespace MovieFinder.Extensions
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            services.Add(new ServiceDescriptor(typeof(IMoviesService), new MoviesService()));
         }
 
         public static void ConfigureIISIntegration(this IServiceCollection services)

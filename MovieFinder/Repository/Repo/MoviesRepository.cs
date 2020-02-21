@@ -22,7 +22,8 @@ namespace MovieFinder.Repository
 
         public IEnumerable<Movies> GetAllByTitle(string title)
         {
-            return DbSet.Where(m => m.Title.Contains(title));
+            title = title.ToLower().Replace(" ", "");
+            return DbSet.Where(m => m.Title.ToLower().Replace(" ", "").Contains(title));
         }
 
         public IEnumerable<Movies> GetAllRecommended()

@@ -22,7 +22,7 @@ namespace MovieFinder.Models
             }
 
             MovieTitle = movieTitlesDto.MovieTitle;
-            Year = movieTitlesDto.Year;
+            Year = (int)movieTitlesDto.Year;
         }
     }
 }

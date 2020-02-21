@@ -22,6 +22,7 @@
             <div><span>Year:</span>{{movies[movieIndex].year}}</div>
             <div><span>Director:</span> {{movies[movieIndex].director}}</div>
             <div><span>Genre:</span> {{getGenres(movies[movieIndex].genres)}}</div>
+            <div><span>Plot:</span> {{movies[movieIndex].synopsis.plot}}</div>
         </mat-card>  
         <button mat-button [disabled]="disableNext()" (click)="getNextMovie()">
             <mat-icon>arrow_forward_ios</mat-icon>

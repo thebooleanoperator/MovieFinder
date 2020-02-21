@@ -13,9 +13,15 @@ namespace MovieFinder.Repository.Repo
 
         }
         
-        public ImdbIds GetByString(string imdbId)
+        public ImdbIds GetByImdbId(string imdbId)
         {
             return DbSet.Where(i => i.ImdbId == imdbId).SingleOrDefault();
+        }
+
+        public IEnumerable<ImdbIds> GetByTitle(string title)
+        {
+            title = title.Replace(" ", "").ToLower();
+            return DbSet.Where(i => i.Title.Replace(" ", "").ToLower().Contains(title));
         }
     }
 }

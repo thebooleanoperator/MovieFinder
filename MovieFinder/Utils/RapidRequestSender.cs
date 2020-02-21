@@ -9,7 +9,12 @@ namespace MovieFinder.Utils
         private static string imdbRapidApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
         private static string utellyRapidApiUrl = "https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup";
 
-        public static HttpRequestMessage ImdbIdsRapidRequest(string title, string year)
+        /// <summary>
+        /// This is used to get an array of JSON ImdbIds from a title string.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static HttpRequestMessage ImdbIdsRapidRequest(string title, int? year)
         {
             string longurl = imdbRapidApiUrl;
             var uriBuilder = new UriBuilder(longurl);
@@ -17,8 +22,8 @@ namespace MovieFinder.Utils
             query["r"] = "json";
             query["page"] = "1";
             query["type"] = "movie";
+            query["y"] = year.ToString();
             query["s"] = title;
-            query["y"] = year;
             uriBuilder.Query = query.ToString();
             longurl = uriBuilder.ToString();
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);
@@ -28,7 +33,12 @@ namespace MovieFinder.Utils
 
             return request;
         }
-
+        /// <summary>
+        /// Used to get an array of JSON Movies with complete movie info.
+        /// </summary>
+        /// <param name="imdbId"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static HttpRequestMessage ImdbInfoRapidRequest(string imdbId, string year)
         {
             string longurl = imdbRapidApiUrl;
@@ -36,7 +46,7 @@ namespace MovieFinder.Utils
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["r"] = "json";
             query["type"] = "movie";
-            query["plot"] = "full";
+            query["plot"] = "short";
             query["i"] = imdbId;
             query["y"] = year;
             uriBuilder.Query = query.ToString();
