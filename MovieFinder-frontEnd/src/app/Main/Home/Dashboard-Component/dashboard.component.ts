@@ -3,6 +3,7 @@ import { LikedMoviesService } from 'src/app/Services/liked-movies.service'
 import { MovieDto } from '../../../DTO/movie.dto'
 import { UserDto } from 'src/app/Dto/user.dto';
 import { SignInService } from 'src/app/Services/sign-in.service';
+import { MoviesService } from 'src/app/Services/movies.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -21,3 +22,4 @@ export class DashboardComponent implements OnInit {
             .then((response: MovieDto[]) => this.likedMovies = response);
     }
 }
+

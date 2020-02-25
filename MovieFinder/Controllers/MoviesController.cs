@@ -110,7 +110,34 @@ namespace MovieFinder.Controllers
             return Ok();
         }*/
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetFromImdbId([FromBody] ImdbIds imdbIds)
+        {
+            if (imdbIds == null)
+            {
+                return BadRequest();
+            }
 
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbIds.ImdbId);
+            // If the movie exists, get the streaming data and the synopsis and return MovieSearchDto.
+            if (existingMovie != null)
+            {
+                var streamingData = _unitOfWork.StreamingData.GetByMovieId(existingMovie.MovieId);
+                var synopsis = _unitOfWork.Synopsis.GetByMovieId(existingMovie.MovieId);
+                var movieSearchDto = new MovieSearchDto(existingMovie, streamingData, synopsis); 
+                
+                return Ok(movieSearchDto);
+            }
+
+            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbIds);
+            var movie = new Movies(imdbInfo, imdbIds);
+
+            _unitOfWork.Movies.Add(movie);
+            _unitOfWork.SaveChanges();
+
+            return Ok(movie); 
+        }
 
         [HttpGet]
         [Authorize]
@@ -158,10 +185,5 @@ namespace MovieFinder.Controllers
 
             return Ok(movie);
         }
-
-        /*private Movies FindMovieByTitle(string title)
-        {
-            var imdbId = SaveImdbId()
-        }*/
     }
 }

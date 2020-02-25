@@ -38,11 +38,11 @@ namespace MovieFinder.Controllers
                 var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
                 return Ok(imdbIdsFromRapid);
             }
-            else
-            {
-                return Ok(imdbIds); 
-            }
+
+            return Ok(imdbIds); 
+            
         }
+
 
     }
 }
