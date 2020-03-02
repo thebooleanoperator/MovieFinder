@@ -20,11 +20,10 @@ namespace MovieFinder.Controllers
         private IHttpClientFactory _clientFactory;
         private IMoviesService _moviesService; 
 
-        public MoviesController(MovieFinderContext movieFinderContext, IHttpClientFactory clientFactory)
+        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
-            _clientFactory = clientFactory;
-            _moviesService = new MoviesService(_clientFactory, _unitOfWork); 
+            _moviesService = moviesService;
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace MovieFinder.Controllers
                     var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
 
                     // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-                    _moviesService.FillAssociatedTables(imdbInfo, movie, streamingDataDto);
+                    FillAssociatedTables(imdbInfo, movie, streamingDataDto);
                     movies.Add(movie);
                 }
             }
@@ -184,6 +183,30 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
 
             return Ok(movie);
+        }
+
+        /// <summary>
+        /// Helper method to add all movie info to tables at once.
+        /// </summary>
+        /// <param name="imdbInfo"></param>
+        /// <param name="movie"></param>
+        /// <param name="streamingDataDto"></param>
+        /// <param name="saveTables"></param>
+        public void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
+        {
+            var streamingData = new StreamingData(streamingDataDto, movie);
+            _unitOfWork.StreamingData.Add(streamingData);
+
+            var synopsis = new Synopsis(imdbInfo, movie);
+            _unitOfWork.Synopsis.Add(synopsis);
+
+            var genres = new Genres(imdbInfo, movie);
+            _unitOfWork.Genres.Add(genres);
+
+            if (saveTables)
+            {
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }

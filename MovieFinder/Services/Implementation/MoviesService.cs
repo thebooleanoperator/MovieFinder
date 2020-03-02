@@ -13,16 +13,10 @@ namespace MovieFinder.Utils
     public class MoviesService : IMoviesService
     {
         private IHttpClientFactory _clientFactory;
-        private UnitOfWork _unitOfWork;
-        // Constructor w/ no params so we can inject into controllers if need be.
-        public MoviesService()
-        {
-        }
 
-        public MoviesService(IHttpClientFactory clientFactory, UnitOfWork unitOfWork)
+        public MoviesService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<ImdbIds>> GetImdbIdsFromTitle(string title, int? year)
@@ -50,24 +44,9 @@ namespace MovieFinder.Utils
                 if (lowerMovieTitle.Contains(lowerTitle) && (imdbId.Year == year || year == null))
                 {
                     //If we already have the id saved, do not save a dupe.
-                    var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
-                    if (exisitingId != null)
-                    {
-                        imdbIds.Add(exisitingId);
-                    }
-                    else
-                    {
-                        imdbIds.Add(imdbId);
-                        _unitOfWork.ImdbIds.Add(imdbId);
-                    }
+                    imdbIds.Add(imdbId);
                 }
             }
-            if (imdbIds == null || imdbIds.Count() == 0)
-            {
-                return null;
-            }
-
-            _unitOfWork.SaveChanges();
             return imdbIds;
         }
 
@@ -130,23 +109,6 @@ namespace MovieFinder.Utils
                 }
             }
             return null;
-        }
-
-        public void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
-        {
-            var streamingData = new StreamingData(streamingDataDto, movie);
-            _unitOfWork.StreamingData.Add(streamingData);
-
-            var synopsis = new Synopsis(imdbInfo, movie);
-            _unitOfWork.Synopsis.Add(synopsis);
-
-            var genres = new Genres(imdbInfo, movie);
-            _unitOfWork.Genres.Add(genres);
-
-            if (saveTables)
-            {
-                _unitOfWork.SaveChanges();
-            }
         }
     }
 }

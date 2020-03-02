@@ -19,8 +19,6 @@ namespace MovieFinder.Extensions
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-
-            services.Add(new ServiceDescriptor(typeof(IMoviesService), new MoviesService()));
         }
 
         public static void ConfigureIISIntegration(this IServiceCollection services)

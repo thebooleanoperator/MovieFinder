@@ -44,6 +44,8 @@ namespace MovieFinder
 
             services.AddScoped<IIdentityService, IdentityService>();
 
+            services.AddTransient<IMoviesService, MoviesService>();
+
             services.AddIdentity<Users, IdentityRole>()
                 .AddEntityFrameworkStores<MovieFinderContext>()
                 .AddDefaultTokenProviders();

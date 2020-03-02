@@ -15,15 +15,14 @@ namespace MovieFinder.Controllers
         private UnitOfWork _unitOfWork;
         private IMoviesService _moviesService; 
 
-        public ImdbIdsController(MovieFinderContext movieFinderContext, IHttpClientFactory clientFactory)
+        public ImdbIdsController(MovieFinderContext movieFinderContext, IMoviesService moviesService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
-            _moviesService = new MoviesService(clientFactory, _unitOfWork);
-
+            _moviesService = moviesService;
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetByTitle([FromQuery] string title)
         {
             if (title == null || title.Length == 0)
@@ -36,6 +35,22 @@ namespace MovieFinder.Controllers
             if (imdbIds == null || imdbIds.Count() == 0)
             {
                 var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
+
+                if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
+                {
+                    return NoContent();
+                }
+
+                foreach(var imdbId in imdbIdsFromRapid)
+                {
+                    var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
+                    if (exisitingId == null)
+                    {
+                        _unitOfWork.ImdbIds.Add(exisitingId);
+                    }
+                }
+
+                _unitOfWork.SaveChanges();
                 return Ok(imdbIdsFromRapid);
             }
 

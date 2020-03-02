@@ -15,7 +15,6 @@ import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
-import { SearchComponent } from './Main/Home/Search-Component/search.component';
 import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
 
 
@@ -27,7 +26,6 @@ import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
     LoginComponent,
     ToolBarComponent,
     DashboardComponent,
-    SearchComponent,
     MoviesComponent
   ],
   imports: [
