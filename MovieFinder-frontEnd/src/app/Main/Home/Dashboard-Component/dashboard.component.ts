@@ -11,7 +11,7 @@ import { GenresService } from 'src/app/Services/genres-service';
 export class DashboardComponent {
     showSearch: boolean = false; 
     movies: Array<MovieDto>;
-    public displayedColumns : string[] = ['Title', 'Genre', 'Director', 'Year', 'ImdbRating', 'RunTime', 'OnNetflix'];
+    public displayedColumns : string[] = ['Title', 'Year'];
 
     constructor(private moviesService: MoviesService, private genresService: GenresService){}
 
