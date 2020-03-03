@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolBarService } from '../../../Services/tool-bar.service';
 import { SignInService } from '../../../Services/sign-in.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'tool-bar',
@@ -9,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./tool-bar.component.scss']
 })
 export class ToolBarComponent{
-    constructor(private signInService: SignInService, private router: Router)
+    constructor(private signInService: SignInService)
     {
 
     }

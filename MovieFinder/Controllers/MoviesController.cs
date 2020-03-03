@@ -109,16 +109,23 @@ namespace MovieFinder.Controllers
             return Ok();
         }*/
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetFromImdbId([FromBody] ImdbIds imdbIds)
+        public async Task<IActionResult> GetFromImdbId(string id)
         {
-            if (imdbIds == null)
+            if (id == null)
             {
                 return BadRequest();
             }
 
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbIds.ImdbId);
+            var imdbId = _unitOfWork.ImdbIds.GetByImdbId(id);
+
+            if (imdbId == null)
+            {
+                return BadRequest();
+            }
+
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
             // If the movie exists, get the streaming data and the synopsis and return MovieSearchDto.
             if (existingMovie != null)
             {
@@ -129,8 +136,8 @@ namespace MovieFinder.Controllers
                 return Ok(movieSearchDto);
             }
 
-            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbIds);
-            var movie = new Movies(imdbInfo, imdbIds);
+            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
+            var movie = new Movies(imdbInfo, imdbId);
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
