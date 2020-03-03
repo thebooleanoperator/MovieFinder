@@ -9,23 +9,17 @@ import { GenresService } from 'src/app/Services/genres-service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-    showSearch: boolean = false; 
     movies: Array<MovieDto>;
     public displayedColumns : string[] = ['Title', 'Year'];
 
     constructor(private moviesService: MoviesService, private genresService: GenresService){}
 
-    toggleSearch(): void {
-        this.showSearch = !this.showSearch;
-        if (!this.showSearch) {
-            this.movies = null;
-        }
-    }
-
     searchMovies(search:string) : void {
-        this.moviesService.getMoviesByTitle(search).subscribe((response) => {
-            this.movies = response;
-        })
+        if (search) {
+            this.moviesService.getMoviesByTitle(search).subscribe((response) => {
+                this.movies = response;
+            })
+        }
     }
 
     formatGenres(genres): string {

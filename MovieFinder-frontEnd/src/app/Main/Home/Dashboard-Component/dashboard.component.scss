@@ -33,9 +33,15 @@
         }
 
         .search-icon {
-            font-size: 56px;
+            font-size: 40px;
+            color: darkgrey;
             height: auto;
             width: auto;
+        }
+
+        .search-icon:hover {
+            cursor: pointer;
+            color: rgba(197, 72, 80, 0.459);
         }
 
         .search-icon:hover {
@@ -44,9 +50,16 @@
     }
 
     .search-results {
-        tr {
-            .mat-column-Title {
-                width: 300px;
+        table {
+            width: 490px;
+            tr {
+                .mat-column-Title {
+                    width: 300px;
+                }
+            }
+            .mat-row:hover {
+                background-color: lightblue;
+                cursor: pointer;
             }
         }
     }

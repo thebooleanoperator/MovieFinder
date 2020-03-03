@@ -46,7 +46,7 @@ namespace MovieFinder.Controllers
                     var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
                     if (exisitingId == null)
                     {
-                        _unitOfWork.ImdbIds.Add(exisitingId);
+                        _unitOfWork.ImdbIds.Add(imdbId);
                     }
                 }
 

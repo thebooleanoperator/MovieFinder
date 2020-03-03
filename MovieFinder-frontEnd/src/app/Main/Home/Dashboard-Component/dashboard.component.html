@@ -2,9 +2,8 @@
 <div id="search">
     <h2 class="search-title">Movie Finder</h2>
     <div class="search-box">
-        <mat-icon class="search-icon" (click)="toggleSearch()">search</mat-icon>
-        <input  [(ngModel)]="search" *ngIf="showSearch" class="search-input mat-elevation-z8" placeholder="Movie Search">
-        <button class="search-button" *ngIf="showSearch" mat-fab (click)="searchMovies(search)">Search</button>
+        <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
+        <input  [(ngModel)]="search" class="search-input mat-elevation-z8" placeholder="Movie Search" (keydown.enter)="searchMovies(search)">
     </div>
     <div class="search-results" *ngIf="movies">
         <table mat-table class="mat-elevation-z8" [dataSource]="movies">
