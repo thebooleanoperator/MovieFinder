@@ -1,4 +1,4 @@
 <div id="app">
-    <mat-progress-bar mode="buffer" *ngIf="showProgressBar"></mat-progress-bar>
+    <tool-bar *ngIf="isLoggedOn()"></tool-bar>
     <router-outlet></router-outlet>
 </div>

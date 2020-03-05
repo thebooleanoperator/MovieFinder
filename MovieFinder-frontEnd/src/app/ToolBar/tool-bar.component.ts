@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignInService } from '../../../Services/sign-in.service';
+import { SignInService } from '../Services/sign-in.service';
 
 @Component({
   selector: 'tool-bar',

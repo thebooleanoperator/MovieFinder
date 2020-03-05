@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 //Components
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
-import { ToolBarComponent } from './Main/Home/ToolBar/tool-bar.component';
+import { ToolBarComponent } from './ToolBar/tool-bar.component';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
