@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SignInService } from '../../../Services/sign-in.service';
+import { AuthService } from '../../../Services/auth-service';
 
 @Component({
     selector: 'login',
@@ -8,7 +8,7 @@ import { SignInService } from '../../../Services/sign-in.service';
 })
 
 export class LoginComponent {
-    constructor(private signInService: SignInService){}
+    constructor(private authService: AuthService){}
     //Data
     email: string; 
     password: string; 
@@ -17,7 +17,7 @@ export class LoginComponent {
     //Methods
     verifyUserAndLogin(email, password) {
         this.isLoading = true;
-        this.signInService.login(email, password)
+        this.authService.login(email, password)
             .finally(() => this.isLoading = false);
     }
 }

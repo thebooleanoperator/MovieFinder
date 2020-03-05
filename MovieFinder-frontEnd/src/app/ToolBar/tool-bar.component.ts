@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignInService } from '../Services/sign-in.service';
+import { AuthService } from '../Services/auth-service';
 
 @Component({
   selector: 'tool-bar',
@@ -7,13 +7,13 @@ import { SignInService } from '../Services/sign-in.service';
   styleUrls: ['./tool-bar.component.scss']
 })
 export class ToolBarComponent{
-    constructor(private signInService: SignInService)
+    constructor(private authService: AuthService)
     {
 
     }
 
     //Methods
     logout(): void {
-        this.signInService.logout();
+        this.authService.logout();
     }
 }

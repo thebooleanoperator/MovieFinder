@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SignInService } from 'src/app/Services/sign-in.service';
+import { AuthService } from 'src/app/Services/auth-service';
 
 @Component({
   selector: 'register',
@@ -7,7 +7,7 @@ import { SignInService } from 'src/app/Services/sign-in.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-    constructor(private signInService: SignInService){}
+    constructor(private authService: AuthService){}
     //Data
     firstName: string;
     lastName: string;
@@ -18,7 +18,7 @@ export class RegisterComponent {
     //Methods
     registerUser(firstName, lastName, email, password) {
         this.isLoading = true;
-        this.signInService.register(firstName, lastName, email, password)
+        this.authService.register(firstName, lastName, email, password)
             .finally(() => this.isLoading = false);
     }
 }

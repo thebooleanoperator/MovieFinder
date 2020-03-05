@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router, NavigationEnd, Event } from '@angular/router';
-import { SignInService } from './Services/sign-in.service';
+import { AuthService } from './Services/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +8,12 @@ import { SignInService } from './Services/sign-in.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    constructor(private signInService: SignInService)
+    constructor(private authService: AuthService)
     {
     }
     
     //Methods
     isLoggedOn(): boolean {
-        return this.signInService.isLoggedIn();
+        return this.authService.isLoggedIn();
     }
 }

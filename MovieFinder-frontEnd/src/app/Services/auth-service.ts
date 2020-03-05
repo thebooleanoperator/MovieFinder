@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { UserDto } from '../Dto/user.dto';
 
 @Injectable({providedIn: 'root'})
-export class SignInService {   
+export class AuthService {   
     constructor(private http: HttpClient, private router: Router){};
 
     public register(firstName: string, lastName: string, email: string, password: string): Promise<Object> {
