@@ -3,6 +3,7 @@ import { MovieDto } from 'src/app/DTO/movie.dto';
 import { MoviesService } from 'src/app/Services/movies.service';
 import { GenresService } from 'src/app/Services/genres-service';
 import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';
+import { ToolBarService } from 'src/app/Services/tool-bar.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -12,12 +13,14 @@ export class DashboardComponent {
     movies: Array<MovieDto>;
     public displayedColumns : string[] = ['Title', 'Year'];
 
-    constructor(private moviesService: MoviesService){}
+    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService){}
 
     searchMovies(search:string) : void {
         if (search) {
+            this.toolBarService.isLoading = true; 
             this.moviesService.getImdbIdsByTitle(search).subscribe((response) => {
                 this.movies = response;
+                this.toolBarService.isLoading = false; 
             })
         }
     }
