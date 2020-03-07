@@ -32,6 +32,15 @@
         .movie-info:hover{
             cursor: pointer;
         }
+        .movie-front {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                height: 425px;
+                width: 275px;
+            }
+        }
         .movie-back {
             display: flex;
             flex-direction: column;

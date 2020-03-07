@@ -42,7 +42,7 @@ export class MovieFinderComponent implements OnInit  {
         if (this.isLast(this.movieIndex) && index == 1) {
             this.movieIndex = 0; 
         }
-        else if (this.isFirst(this.movieIndex)) {
+        else if (this.isFirst(this.movieIndex) && index == -1) {
             this.movieIndex = this.movies.length - 1
         }
         else {

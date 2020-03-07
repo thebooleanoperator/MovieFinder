@@ -74,4 +74,8 @@ export class MovieComponent {
         }
         return streamsBuilder;
     }
+
+    useDefault(event) {
+        event.srcElement.src = "/assets/images/default-poster.png"
+    }
 }
