@@ -1,13 +1,17 @@
 <div id="movie-finder" *ngIf="pageLoaded">
-    <button mat-button (click)="changeMovie(-1)">
-        <mat-icon>arrow_back_ios</mat-icon>
-    </button>
+    <div class="movie-arrow">
+        <button mat-button (click)="changeMovie(-1)">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+    </div>
     <movie
         [movie]="getCurrentMovie()">
     </movie>
-    <button mat-button (click)="changeMovie(1)">
-        <mat-icon>arrow_forward_ios</mat-icon>
-    </button>  
+    <div class="movie-arrow">
+        <button  mat-button (click)="changeMovie(1)">
+            <mat-icon>arrow_forward_ios</mat-icon>
+        </button>  
+    </div>
 </div>
 <div class="movie-shell" *ngIf="!pageLoaded"></div>
 

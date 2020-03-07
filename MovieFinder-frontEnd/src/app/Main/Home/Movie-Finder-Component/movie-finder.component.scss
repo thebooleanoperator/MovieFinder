@@ -1,24 +1,17 @@
+#movie-finder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .movie-arrow {
+        display: flex;
+        margin-top: 335px;
+        height: 40px;
+    }
+}
+
 .movie-shell {
     border: 1px solid black;
     height: 450px;
     width: 300px;
 }
 
-
-
-.browsing {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    button {
-        border-radius: 50%;
-        height: 150px;
-        width: 150px;
-        min-width: unset;
-        min-height: unset;
-        font-size: 30px;
-        background-color: slategray;
-        color: white;
-    }
-}

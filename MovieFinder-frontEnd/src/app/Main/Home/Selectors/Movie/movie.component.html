@@ -1,4 +1,13 @@
 <div id="movies">
+    <div class="streamsContainer">
+            <img [ngStyle]="{'opacity': movie.streamingData.netflix ? '1' : '.1'}" src="assets/images/streaming-icons/netflix.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.hbo ? '1' : '.1'}" src="assets/images/streaming-icons/hbo.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.hulu ? '1' : '.1'}" src="assets/images/streaming-icons/hulu.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.disneyPlus ? '1' : '.1'}" src="assets/images/streaming-icons/disneyPlus.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.amazonPrime ? '1' : '.1'}" src="assets/images/streaming-icons/amazon.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.iTunes ? '1' : '.1'}" src="assets/images/streaming-icons/iTunes.png"/>
+            <img [ngStyle]="{'opacity': movie.streamingData.googlePlay ? '1' : '.1'}" src="assets/images/streaming-icons/googlePlay.png"/>
+    </div>
     <div class="rating-container">
         <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
             <img src="assets/images/rotten-tomatoes.png">
@@ -7,6 +16,8 @@
         <div class="imdb-rating" *ngIf="movie.imdbRating">
             <img src="assets/images/imdb.png">
             {{movie.imdbRating}}
+        </div>
+        <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
         </div>
     </div>
     <div class="movie-container">
@@ -20,14 +31,5 @@
             <div><span>Genre:</span> {{getGenres(movie.genres)}}</div>
             <div><span>Plot:</span> {{movie.synopsis.plot}}</div>
         </mat-card>  
-    </div>
-    <div class="streamsContainer">
-        <img [ngStyle]="{'opacity': movie.streamingData.netflix ? '1' : '.1'}" src="assets/images/streaming-icons/netflix.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.hbo ? '1' : '.1'}" src="assets/images/streaming-icons/hbo.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.hulu ? '1' : '.1'}" src="assets/images/streaming-icons/hulu.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.disneyPlus ? '1' : '.1'}" src="assets/images/streaming-icons/disneyPlus.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.amazonPrime ? '1' : '.1'}" src="assets/images/streaming-icons/amazon.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.iTunes ? '1' : '.1'}" src="assets/images/streaming-icons/iTunes.png"/>
-        <img [ngStyle]="{'opacity': movie.streamingData.googlePlay ? '1' : '.1'}" src="assets/images/streaming-icons/googlePlay.png"/>
     </div>
 </div>
