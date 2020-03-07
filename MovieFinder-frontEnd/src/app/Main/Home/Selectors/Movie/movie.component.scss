@@ -26,6 +26,14 @@
         .movie-info {
             height: 525px;
             width: 400px;
+            display: flex;
+            flex-direction: column;
+            padding: 7px 30px 30px 30px;
+
+            .info-title {
+                margin: 5px;
+                font-weight: bold;
+            }
         }
         .movie-info:hover{
             cursor: pointer;
