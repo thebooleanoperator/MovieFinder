@@ -57,20 +57,3 @@
         }
     }
 }
-
-.browsing {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    button {
-        border-radius: 50%;
-        height: 150px;
-        width: 150px;
-        min-width: unset;
-        min-height: unset;
-        font-size: 30px;
-        background-color: slategray;
-        color: white;
-    }
-}

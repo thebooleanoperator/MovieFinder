@@ -1,65 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input } from '@angular/core';
 import { MovieDto } from 'src/app/DTO/movie.dto';
-import { MoviesService } from 'src/app/Services/movies.service';
 
-@Component ({
-    selector: 'movies',
-    templateUrl: './movies.component.html',
-    styleUrls: ['./movies.component.scss']
+@Component({
+    selector: 'movie',
+    templateUrl: './movie.component.html',
+    styleUrls: ['./movie.component.scss']
 })
-export class MoviesComponent implements OnInit  {
-    constructor(private moviesService: MoviesService)
-    {
+export class MovieComponent {
+    // Data
+    @Input() movie: MovieDto; 
 
-    }
-
-    //Data 
-    showMovies: boolean;
-    showPoster: boolean;
-    movies: Array<MovieDto>;
-    movieIndex: number;
+    showPoster: boolean = true;
     
-  
-    //Methods    
-    ngOnInit () {
-        this.setMovies();   
-        this.showMovies = false;
-        this.showPoster = true;
-    }
-
-    startShowing(): void {
-        this.showMovies = true;
-    }
 
     transformMovie() {
         this.showPoster = !this.showPoster;
-    }
-
-    setMovies() {
-        return this.moviesService.getMovieRecs().subscribe((response: Array<MovieDto>) => {
-            this.movies = response; 
-            // Randomly go through the list of movies. 
-            // ToDo: randomize on server.
-            this.movieIndex = Math.floor(Math.random() * this.movies.length);
-        })
-    }
-
-    getNextMovie() {
-        this.movieIndex += 1; 
-        this.showPoster = true;
-    }
-
-    getPrevMovie() {
-        this.movieIndex -= 1;
-        this.showPoster = true;
-    }
-
-    disableNext(): boolean {
-        return this.movieIndex == this.movies.length - 1; 
-    }
-
-    disablePrev(): boolean {
-        return this.movieIndex == 0; 
     }
 
     getGenres(genres): string {

@@ -16,15 +16,15 @@ export class DashboardComponent {
     constructor(private moviesService: MoviesService, private toolBarService: ToolBarService){}
 
     searchMovies(search:string) : void {
+        // Only search if user such is not null.
         if (search) {
             this.toolBarService.isLoading = true; 
-            this.moviesService.getImdbIdsByTitle(search).subscribe((response) => {
-                this.movies = response;
-                this.toolBarService.isLoading = false; 
-            })
+            this.moviesService.getImdbIdsByTitle(search).toPromise()
+                .then((response) =>  this.movies = response)
+                .finally(() => this.toolBarService.isLoading = false);
         }
     }
-
+    
     test(imdbId: ImdbIdDto): void {
         this.moviesService.getMovieByImdbId(imdbId.imdbId).subscribe((response) => {
             console.log(response);

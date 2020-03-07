@@ -1,6 +1,8 @@
+import { GenresDto } from './genres.dto';
+import { StreamingDataDto } from './streamingData.dto';
+
 export class MovieDto {
     title: string;
-    genres: string;
     year: number;
     director: string;
     runTime: number;
@@ -8,4 +10,6 @@ export class MovieDto {
     poster: string;
     imdbRating: number;
     rottenTomatoesRating: number;
+    genres: GenresDto;
+    streamingData: StreamingDataDto;
 }

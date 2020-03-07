@@ -15,7 +15,8 @@ import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
-import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
+import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
+import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
     LoginComponent,
     ToolBarComponent,
     DashboardComponent,
-    MoviesComponent
+    MovieFinderComponent,
+    MovieComponent
   ],
   imports: [
     BrowserModule,

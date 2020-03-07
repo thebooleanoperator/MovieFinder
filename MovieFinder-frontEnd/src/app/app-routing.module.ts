@@ -4,7 +4,7 @@ import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
-import { MoviesComponent } from './Main/Home/Movies-Component/movies.component';
+import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
 import { AuthGuardService } from './Services/auth-guard.service';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
-    {path: 'movies', component: MoviesComponent, canActivate: [AuthGuardService]},
+    {path: 'movies', component: MovieFinderComponent, canActivate: [AuthGuardService]},
 
     {path: '**', redirectTo:'welcome'}
 ];
