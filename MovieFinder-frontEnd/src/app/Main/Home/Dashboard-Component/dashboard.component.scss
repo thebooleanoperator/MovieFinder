@@ -43,7 +43,7 @@
 
         .search-icon:hover {
             cursor: pointer;
-            color: lightgreen;
+            color: lightblue;
         }
 
         .search-icon:hover {
@@ -65,4 +65,8 @@
             }
         }
     }
+}
+
+.selected-movie {
+    z-index: 100;
 }

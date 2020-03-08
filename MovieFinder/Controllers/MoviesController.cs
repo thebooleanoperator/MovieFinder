@@ -4,10 +4,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
-using MovieFinder.Utils;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
@@ -17,7 +14,6 @@ namespace MovieFinder.Controllers
     public class MoviesController : Controller
     {
         private UnitOfWork _unitOfWork;
-        private IHttpClientFactory _clientFactory;
         private IMoviesService _moviesService; 
 
         public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService)
@@ -26,13 +22,50 @@ namespace MovieFinder.Controllers
             _moviesService = moviesService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateMovieFromImdbId([FromBody] ImdbIdDto imdbIdDto)
+        {
+            if (imdbIdDto == null)
+            {
+                return BadRequest("ImdbIdDto must not be null.");
+            }
+
+            var imdbId = _unitOfWork.ImdbIds.GetByImdbId(imdbIdDto.ImdbId); 
+
+            if (imdbId == null)
+            {
+                return BadRequest("ImdbId does not exist.");
+            }
+
+            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
+
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
+
+            // Don't create a duplicate Movie.
+            if (existingMovie != null)
+            {
+                return Ok(existingMovie);
+            }
+
+            var movie = new Movies(imdbInfo, imdbId);
+            var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
+
+            _unitOfWork.Movies.Add(movie);
+            _unitOfWork.SaveChanges();
+
+            // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
+            FillAssociatedTables(imdbInfo, movie, streamingDataDto);
+
+            return Ok(movie);
+        }
+
         /// <summary>
         /// Endpoint used to create Movies from MovieTitlesDto.
         /// </summary>
         /// <param name="movieInfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateMovie([FromBody] MovieTitlesDto movieInfo)
+        public async Task<IActionResult> CreateAllMoviesWithTitle([FromBody] MovieTitlesDto movieInfo)
         {
             var imdbIds = await _moviesService.GetImdbIdsFromTitle(movieInfo.MovieTitle, movieInfo.Year);
             if (imdbIds == null)
@@ -66,83 +99,52 @@ namespace MovieFinder.Controllers
             }
             return Ok(movies);
         }
-
+        
         /// <summary>
-        /// Endpoint used to add a certain count of movies to the database from the imdbIds table. 
+        /// Gets a movie, streamingData, and Synopsis from ImdbId.
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="count"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        /*[HttpPost("{page}")]
-        public async Task<IActionResult> AddMoviesFromImdbIdsTable(int page, [FromQuery] int count)
-        {
-            var movieTitles = _unitOfWork.MovieTitles.GetNext(page, count);
-
-            foreach (var moveiTitle in movieTitles)
-            {
-                var imdbIds = await SaveImdbId(moveiTitle.MovieTitle);
-                if (imdbIds == null)
-                {
-                    continue;
-                }
-
-                var imdbInfo = await GetImdbMovieInfo(imdbId);
-
-                if (imdbInfo == null)
-                {
-                    continue;
-                }
-
-                var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
-                if (existingMovie != null) { return Ok(); }
-
-                var movie = new Movies(imdbInfo, imdbId);
-                _unitOfWork.Movies.Add(movie);
-                _unitOfWork.SaveChanges();
-
-                var streamingDataDto = await GetStreamingData(movie.Title);
-                // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-                // Does not save every iteration.
-                FillAssociatedTables(imdbInfo, movie, streamingDataDto, false);
-            }
-            _unitOfWork.SaveChanges();
-            return Ok();
-        }*/
-
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetFromImdbId(string id)
+        public IActionResult GetFromImdbId(string id)
         {
             if (id == null)
             {
-                return BadRequest();
+                return BadRequest("Id must not be null.");
             }
 
             var imdbId = _unitOfWork.ImdbIds.GetByImdbId(id);
 
             if (imdbId == null)
             {
-                return BadRequest();
+                return BadRequest("There was no imdbId found with this id.");
             }
 
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
-            // If the movie exists, get the streaming data and the synopsis and return MovieSearchDto.
-            if (existingMovie != null)
+            var movie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
+            // If the movie does not exist return No Content. 
+            if (movie == null)
             {
-                var streamingData = _unitOfWork.StreamingData.GetByMovieId(existingMovie.MovieId);
-                var synopsis = _unitOfWork.Synopsis.GetByMovieId(existingMovie.MovieId);
-                var movieSearchDto = new MovieSearchDto(existingMovie, streamingData, synopsis); 
-                
-                return Ok(movieSearchDto);
+                return NoContent();
             }
 
-            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
-            var movie = new Movies(imdbInfo, imdbId);
+            var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
+            // If the streaming data does not exist return No Content. 
+            if (streamingData == null)
+            {
+                return NoContent();
+            }
 
-            _unitOfWork.Movies.Add(movie);
-            _unitOfWork.SaveChanges();
+            var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId);
+            // If the synopsis does not exist return No Content. 
+            if (synopsis == null)
+            {
+                return NoContent();
+            }
+           
+            var movieSearchDto = new MovieSearchDto(movie, streamingData, synopsis);
 
-            return Ok(movie); 
+            return Ok(movieSearchDto); 
         }
 
         [HttpGet]
