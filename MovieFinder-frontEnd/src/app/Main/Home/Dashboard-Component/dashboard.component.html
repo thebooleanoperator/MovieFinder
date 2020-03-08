@@ -2,7 +2,7 @@
     <h2 class="search-title">Movie Finder</h2>
     <div class="search-box">
         <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
-        <input  [(ngModel)]="search" class="search-input mat-elevation-z8" placeholder="Movie Search" (keydown.enter)="searchMovies(search)">
+        <input  [(ngModel)]="search" class="search-input mat-elevation-z8" placeholder="Search Movies..." (keydown.enter)="searchMovies(search)">
     </div>
     <div class="search-results" *ngIf="movies">
         <table mat-table class="mat-elevation-z8" [dataSource]="movies">
