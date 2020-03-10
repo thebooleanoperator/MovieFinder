@@ -17,6 +17,7 @@ import { LoginComponent } from './Outside/Welcome/Login/login.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
 import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
 import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
+import { SelectedMovieDialog } from './Main/Home/Dashboard-Component/Dialogs/selected-movie.dialog';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
     ToolBarComponent,
     DashboardComponent,
     MovieFinderComponent,
-    MovieComponent
+    MovieComponent,
+    SelectedMovieDialog
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,9 @@ import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
     AngularMaterialModule,
     AppRoutingModule,
     RouterModule,
+  ],
+  entryComponents: [
+      SelectedMovieDialog
   ],
   providers: [
       {

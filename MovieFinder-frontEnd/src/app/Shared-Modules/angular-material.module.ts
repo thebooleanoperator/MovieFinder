@@ -12,6 +12,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {MatCardModule} from '@angular/material/card';
     MatTableModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -42,7 +44,8 @@ import {MatCardModule} from '@angular/material/card';
     MatTableModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: []

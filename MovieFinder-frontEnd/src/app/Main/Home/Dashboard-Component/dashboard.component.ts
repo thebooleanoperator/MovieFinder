@@ -3,6 +3,8 @@ import { MovieDto } from 'src/app/DTO/movie.dto';
 import { MoviesService } from 'src/app/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';
 import { ToolBarService } from 'src/app/Services/tool-bar.service';
+import { SelectedMovieDialog } from './Dialogs/selected-movie.dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -22,7 +24,7 @@ export class DashboardComponent {
      */
     public displayedColumns : string[] = ['Title', 'Year'];
 
-    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService){}
+    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService, public dialog: MatDialog){}
 
     /**
      * Uses a user input search string to return an array of movies.
@@ -43,44 +45,49 @@ export class DashboardComponent {
      * 
      * @param imdbId 
      */
-    getSelectedMovie(imdbIdDto: ImdbIdDto) {
-        this.toolBarService.isLoading = true;
-        this.setSelecteMovie(imdbIdDto)
-            .then(() => {
-                // If the selected movie is null, we need to add the movie to db.
-                if (this.selectedMovie == null) {
-                    // Create the movie.
-                    this.createMovie(imdbIdDto)
-                        .then(() => {
-                            // After the movie is created, get the movie info from server.
-                            this.setSelecteMovie(imdbIdDto)
-                                .finally(() => {
-                                    console.log(this.selectedMovie)
-                                    this.toolBarService.isLoading = false
-                                });
-                        }); 
-                }   
-            })
+    async getSelectedMovie (imdbIdDto: ImdbIdDto) {
+        this.selectedMovie = await this.setSelecteMovie(imdbIdDto);
+        
+        if (this.selectedMovie == null) {
+            await this.createMovie(imdbIdDto); 
+            this.selectedMovie = await this.setSelecteMovie(imdbIdDto);
+        }
+
+        this.openDialog();
+    }
+
+    /**
+     * 
+     */
+    openDialog(): void {
+        const dialogRef = this.dialog.open(SelectedMovieDialog, {
+            width: '450px',
+            data: {movieDto: this.selectedMovie}
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+            console.log("dialog was closed");
+        })
     }
     
     /**
      * Gets a movie from server using imdbIdDto.
      * @param imdbId 
      */
-    private setSelecteMovie(imdbId: ImdbIdDto): Promise<any> {
+    private async setSelecteMovie(imdbId: ImdbIdDto): Promise<MovieDto> {
+        this.toolBarService.isLoading = true;
         return this.moviesService.getMovieByImdbId(imdbId.imdbId).toPromise()
-            .then((response) => {
-                console.log("movie", response);
-                this.selectedMovie = response
-            }); 
+            .then((response) => response)
+            .finally(() => this.toolBarService.isLoading = false);
     }
 
     /**
      * Creates a movie from an ImdbIdDto.
      * @param imdbIdDto 
      */
-    private createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
+    private async createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
         return this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((response) => response); 
+            .then((response) => response)
+            .finally(() => this.toolBarService.isLoading = false);
     }
 }
