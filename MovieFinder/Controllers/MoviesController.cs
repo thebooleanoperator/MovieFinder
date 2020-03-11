@@ -127,24 +127,14 @@ namespace MovieFinder.Controllers
             {
                 return NoContent();
             }
-
+            // Get Streaming Data, Synopsis, and Genres to return all movie info.
             var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
-            // If the streaming data does not exist return No Content. 
-            if (streamingData == null)
-            {
-                return NoContent();
-            }
-
             var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId);
-            // If the synopsis does not exist return No Content. 
-            if (synopsis == null)
-            {
-                return NoContent();
-            }
-           
-            var movieSearchDto = new MovieSearchDto(movie, streamingData, synopsis);
+            var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
 
-            return Ok(movieSearchDto); 
+            var moviesDto = new MoviesDto(movie, genres, streamingData, synopsis);
+
+            return Ok(moviesDto); 
         }
 
         [HttpGet]

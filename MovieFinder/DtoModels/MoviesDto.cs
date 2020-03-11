@@ -27,7 +27,17 @@ namespace MovieFinder.DtoModels
                 throw new ArgumentException($"{nameof(movie)} cannot be empty.");
             }
 
-            MovieId = movie.MovieId;
+            if (movie.MovieId <= 0)
+            {
+                throw new ArgumentException($"{nameof(movie.MovieId)} must be greater thatn zero.");
+            }
+
+            if (movie.Year <= 0)
+            {
+                throw new ArgumentException($"{nameof(movie.Year)} must be greater than zero.");
+            }
+
+            MovieId = movie.MovieId ;
             Year = movie.Year;
             Director = movie.Director;
             Title = movie.Title;

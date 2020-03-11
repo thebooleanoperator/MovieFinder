@@ -42,6 +42,13 @@ export class DashboardComponent {
     }
 
     /**
+     * When a user clicks backspace, clear the search results. 
+     */
+    clearSearchResults() {
+        this.movies = null;
+    }
+
+    /**
      * 
      * @param imdbId 
      */
