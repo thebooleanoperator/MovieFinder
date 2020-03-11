@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MovieDto } from 'src/app/DTO/movie.dto';
 
 @Component({
@@ -6,16 +6,13 @@ import { MovieDto } from 'src/app/DTO/movie.dto';
     templateUrl: './movie.component.html',
     styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent implements OnInit{
+export class MovieComponent {
     // Data
     @Input() test: string;
     @Input() movie: MovieDto; 
 
     showPoster: boolean = true;
-    
-    ngOnInit() {
-        console.log(this.movie);
-    }
+    posterError: boolean = false;
 
     transformMovie() {
         this.showPoster = !this.showPoster;
@@ -80,6 +77,7 @@ export class MovieComponent implements OnInit{
     }
 
     useDefault(event) {
-        event.srcElement.src = "/assets/images/default-poster.png"
+        event.srcElement.src = "/assets/images/default-poster.png";
+        this.posterError = true;
     }
 }

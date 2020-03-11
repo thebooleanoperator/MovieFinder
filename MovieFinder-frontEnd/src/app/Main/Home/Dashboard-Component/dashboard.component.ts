@@ -49,17 +49,21 @@ export class DashboardComponent {
     }
 
     /**
-     * 
+     * Gets a movie by imdb from server. If there is no movie with the imdbId provided,
+     * create the movie, then get it. 
      * @param imdbId 
      */
     async getSelectedMovie (imdbIdDto: ImdbIdDto) {
+        this.toolBarService.isLoading = true;
+
         this.selectedMovie = await this.setSelecteMovie(imdbIdDto);
-        
+        // If the movie is not in the db, create the movie, then get it.
         if (this.selectedMovie == null) {
             await this.createMovie(imdbIdDto); 
             this.selectedMovie = await this.setSelecteMovie(imdbIdDto);
         }
 
+        this.toolBarService.isLoading = false;
         this.openDialog();
     }
 
@@ -81,20 +85,18 @@ export class DashboardComponent {
      * Gets a movie from server using imdbIdDto.
      * @param imdbId 
      */
-    private async setSelecteMovie(imdbId: ImdbIdDto): Promise<MovieDto> {
+    private setSelecteMovie(imdbId: ImdbIdDto): Promise<MovieDto> {
         this.toolBarService.isLoading = true;
         return this.moviesService.getMovieByImdbId(imdbId.imdbId).toPromise()
-            .then((response) => response)
-            .finally(() => this.toolBarService.isLoading = false);
+            .then((response) => response);
     }
 
     /**
      * Creates a movie from an ImdbIdDto.
      * @param imdbIdDto 
      */
-    private async createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
+    private createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
         return this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((response) => response)
-            .finally(() => this.toolBarService.isLoading = false);
+            .then((response) => response);
     }
 }

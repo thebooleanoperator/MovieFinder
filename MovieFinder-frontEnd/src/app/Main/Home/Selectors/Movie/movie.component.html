@@ -1,12 +1,26 @@
 <div id="movies">
     <div class="streamsContainer">
-            <img [ngStyle]="{'opacity': movie.streamingData.netflix ? '1' : '.1'}" src="assets/images/streaming-icons/netflix.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.hbo ? '1' : '.1'}" src="assets/images/streaming-icons/hbo.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.hulu ? '1' : '.1'}" src="assets/images/streaming-icons/hulu.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.disneyPlus ? '1' : '.1'}" src="assets/images/streaming-icons/disneyPlus.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.amazonPrime ? '1' : '.1'}" src="assets/images/streaming-icons/amazon.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.iTunes ? '1' : '.1'}" src="assets/images/streaming-icons/iTunes.png"/>
-            <img [ngStyle]="{'opacity': movie.streamingData.googlePlay ? '1' : '.1'}" src="assets/images/streaming-icons/googlePlay.png"/>
+        <h3>Streaming On:</h3>
+        <img *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png"/>
+        <img *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png"/>
+        <img *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png"/>
+        <img *ngIf="movie.streamingData.disneyPlus" src="assets/images/streaming-icons/disneyPlus.png"/>
+        <img *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png"/>
+        <img *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png"/>
+        <img *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"/>
+    </div>
+    <div class="movie-container">
+        <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
+            <p *ngIf="posterError" class="info-title">{{movie.title}}</p>
+            <img [src]="movie.poster" (error)="useDefault($event)">
+        </mat-card>   
+        <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
+            <h2>{{movie.title}}</h2>
+            <div><span>Year:</span>{{movie.year}}</div>
+            <div><span>Director:</span> {{movie.director}}</div>
+            <div><span>Genre:</span> {{getGenres(movie.genres)}}</div>
+            <div><span>Plot:</span> {{movie.synopsis.plot}}</div>
+        </mat-card>  
     </div>
     <div class="rating-container">
         <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
@@ -19,18 +33,5 @@
         </div>
         <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
         </div>
-    </div>
-    <div class="movie-container">
-        <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
-            <p class="info-title">{{movie.title}}</p>
-            <img [src]="movie.poster" (error)="useDefault($event)">
-        </mat-card>   
-        <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
-            <h2>{{movie.title}}</h2>
-            <div><span>Year:</span>{{movie.year}}</div>
-            <div><span>Director:</span> {{movie.director}}</div>
-            <div><span>Genre:</span> {{getGenres(movie.genres)}}</div>
-            <div><span>Plot:</span> {{movie.synopsis.plot}}</div>
-        </mat-card>  
     </div>
 </div>
