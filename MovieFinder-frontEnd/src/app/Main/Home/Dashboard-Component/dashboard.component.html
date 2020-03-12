@@ -25,6 +25,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getSelectedMovie(row)"></tr>
         </table>
     </div>
+    <div *ngIf="noSearchResults" class="empty-search">
+        No movies found from search
+    </div>
 </div>
 
 

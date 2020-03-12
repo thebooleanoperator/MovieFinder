@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
-using MovieFinder.Utils;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
@@ -22,7 +20,7 @@ namespace MovieFinder.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetByTitle([FromQuery] string title)
         {
             if (title == null || title.Length == 0)
@@ -38,7 +36,7 @@ namespace MovieFinder.Controllers
 
                 if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
                 {
-                    return NoContent();
+                    return NotFound();
                 }
 
                 foreach(var imdbId in imdbIdsFromRapid)

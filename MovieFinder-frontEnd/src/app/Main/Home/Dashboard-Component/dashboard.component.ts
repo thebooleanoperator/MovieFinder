@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { MovieDto } from 'src/app/DTO/movie.dto';
 import { MoviesService } from 'src/app/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';
@@ -11,6 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService, public dialog: MatDialog)
+    {
+
+    }
+
     /**
      * Holds an array of movies returned from search results.
      */
@@ -20,11 +25,15 @@ export class DashboardComponent {
      */
     selectedMovie: MovieDto;
     /**
+     * 
+     */
+    noSearchResults: boolean = false;
+    /**
      * Column titles for search results table.
      */
     public displayedColumns : string[] = ['Title', 'Year'];
 
-    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService, public dialog: MatDialog){}
+
 
     /**
      * Uses a user input search string to return an array of movies.
@@ -36,7 +45,14 @@ export class DashboardComponent {
         if (search) {
             this.toolBarService.isLoading = true; 
             this.moviesService.getImdbIdsByTitle(search).toPromise()
-                .then((response) =>  this.movies = response)
+                .then((response) =>  {
+                    this.movies = response
+                })
+                .catch((error) => {
+                    if (error.status == 404) {
+                        this.noSearchResults = true;
+                    }
+                })
                 .finally(() => this.toolBarService.isLoading = false);
         }
     }
@@ -46,6 +62,7 @@ export class DashboardComponent {
      */
     clearSearchResults() {
         this.movies = null;
+        this.noSearchResults = false;
     }
 
     /**
@@ -68,7 +85,7 @@ export class DashboardComponent {
     }
 
     /**
-     * 
+     * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
     openDialog(): void {
         const dialogRef = this.dialog.open(SelectedMovieDialog, {
