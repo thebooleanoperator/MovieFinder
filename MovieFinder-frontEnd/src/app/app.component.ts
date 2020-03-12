@@ -1,19 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router, NavigationEnd, Event } from '@angular/router';
 import { AuthService } from './Services/auth-service';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-    constructor(private authService: AuthService)
+export class AppComponent implements OnInit {
+    constructor(private authService: AuthService, private router: Router)
     {
+        this.navEnd = router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        ) as Observable<NavigationEnd>
     }
+
+    //Data
+    navEnd: Observable<NavigationEnd>;
+    outsideUrls: Array<string> = ["/welcome", "/login", "/register"]
     
     //Methods
     isLoggedOn(): boolean {
         return this.authService.isLoggedIn();
+    }
+
+    ngOnInit() {
+        this.navEnd.subscribe((event) => {
+            if (this.outsideUrls.includes(event.url)) {
+                this.authService.logout(false);
+            }
+        })
     }
 }

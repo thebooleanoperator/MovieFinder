@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthDto } from '../Dto/auth.dto';
 import { Router } from '@angular/router';
@@ -6,7 +6,10 @@ import { UserDto } from '../Dto/user.dto';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {   
-    constructor(private http: HttpClient, private router: Router){};
+    constructor(private http: HttpClient, private router: Router)
+    {
+
+    }
 
     public register(firstName: string, lastName: string, email: string, password: string): Promise<Object> {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
@@ -37,9 +40,19 @@ export class AuthService {
             )
     }
 
-    public logout() {
-        localStorage.clear();;
-        this.router.navigate(['/welcome']);
+    public logout(reRoute=true) {
+        localStorage.clear();
+        reRoute ? this.router.navigate(['/welcome']): null;
+    }
+
+    public isLoggedIn() : boolean {
+        var currentUser = this.user;
+        var currentToken = this.token;
+
+        if (currentToken == null || currentUser == null) {
+            return false
+        }
+        return true;
     }
 
     get token(): string {
@@ -56,15 +69,5 @@ export class AuthService {
 
     set user(user: UserDto) {
         localStorage.setItem('user', JSON.stringify(user))
-    }
-
-    public isLoggedIn() : boolean {
-        var currentUser = this.user;
-        var currentToken = this.token;
-
-        if (currentToken == null || currentUser == null) {
-            return false
-        }
-        return true;
     }
 }
