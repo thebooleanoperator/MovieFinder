@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 //Components
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
-import { ToolBarComponent } from './ToolBars/Inside/tool-bar.component';
+import { InsideToolbarComponent } from './ToolBars/Inside/inside-toolbar.component';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
@@ -27,7 +27,7 @@ import { OutsideToolbarComponent } from './ToolBars/Outside/outside-toolbar.comp
     WelcomeComponent,
     RegisterComponent,
     LoginComponent,
-    ToolBarComponent,
+    InsideToolbarComponent,
     DashboardComponent,
     MovieFinderComponent,
     MovieComponent,

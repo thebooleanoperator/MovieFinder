@@ -1,5 +1,5 @@
 <div id="app">
-    <tool-bar *ngIf="isLoggedOn()"></tool-bar>
+    <inside-toolbar *ngIf="isLoggedOn()"></inside-toolbar>
     <outside-toolbar *ngIf="!isLoggedOn()"></outside-toolbar>
     <router-outlet></router-outlet>
 </div>
