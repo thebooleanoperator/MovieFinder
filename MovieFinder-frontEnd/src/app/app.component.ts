@@ -19,11 +19,20 @@ export class AppComponent implements OnInit {
 
     //Data
     navEnd: Observable<NavigationEnd>;
-    outsideUrls: Array<string> = ["/welcome", "/login", "/register"]
+    outsideUrls: Array<string> = ["/welcome", "/login", "/register"];
+    showLogin: boolean = true;
+    showRegister: boolean = true;
+    showWelcome: boolean = false;
     
     //Methods
     isLoggedOn(): boolean {
         return this.authService.isLoggedIn();
+    }
+
+    toggleOutsideButtons(welcome:boolean, login:boolean, register:boolean): void {
+        this.showWelcome = welcome;
+        this.showLogin = login;
+        this.showRegister = register;
     }
 
     ngOnInit() {
@@ -31,6 +40,17 @@ export class AppComponent implements OnInit {
         this.navEnd.subscribe((event) => {
             if (this.outsideUrls.includes(event.url)) {
                 this.authService.logout(false);
+                switch(event.url) {
+                    case '/welcome':
+                        this.toggleOutsideButtons(false, true, true);
+                        break;
+                    case '/login':
+                        this.toggleOutsideButtons(true, false, true); 
+                        break;
+                    case '/register':
+                        this.toggleOutsideButtons(true, true, false);
+                        break;
+                }
             }
         })
     }

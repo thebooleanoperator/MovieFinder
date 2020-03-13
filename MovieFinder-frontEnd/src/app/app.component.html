@@ -1,5 +1,10 @@
 <div id="app">
     <inside-toolbar *ngIf="isLoggedOn()"></inside-toolbar>
-    <outside-toolbar *ngIf="!isLoggedOn()"></outside-toolbar>
+    <outside-toolbar 
+        *ngIf="!isLoggedOn()" 
+        [showWelcome]="showWelcome"
+        [showLogin]="showLogin"
+        [showRegister]="showRegister">
+    </outside-toolbar>
     <router-outlet></router-outlet>
 </div>

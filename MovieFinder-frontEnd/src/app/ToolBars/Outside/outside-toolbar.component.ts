@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: 'outside-toolbar',
@@ -6,15 +6,7 @@ import { Component } from "@angular/core";
     styleUrls: ['./outside-toolbar.component.scss']
 })
 export class OutsideToolbarComponent {
-    //Data
-    showLogin: boolean = true;
-    showRegister: boolean = true;
-    showWelcome: boolean = false;
-
-    //Methods
-    toggleButtons(login:boolean, register:boolean, welcome:boolean): void {
-        this.showLogin = login;
-        this.showRegister = register;
-        this.showWelcome = welcome;
-    }
+    @Input() showWelcome: boolean;
+    @Input() showLogin: boolean;
+    @Input() showRegister: boolean;
 }
