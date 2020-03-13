@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 //Components
 import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Services/token-interceptor';
-import { ToolBarComponent } from './ToolBar/tool-bar.component';
+import { ToolBarComponent } from './ToolBars/Inside/tool-bar.component';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';
 import { LoginComponent } from './Outside/Welcome/Login/login.component';
@@ -18,6 +18,7 @@ import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.co
 import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
 import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
 import { SelectedMovieDialog } from './Main/Home/Dashboard-Component/Dialogs/selected-movie.dialog';
+import { OutsideToolbarComponent } from './ToolBars/Outside/outside-toolbar.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SelectedMovieDialog } from './Main/Home/Dashboard-Component/Dialogs/sel
     DashboardComponent,
     MovieFinderComponent,
     MovieComponent,
-    SelectedMovieDialog
+    SelectedMovieDialog,
+    OutsideToolbarComponent
   ],
   imports: [
     BrowserModule,

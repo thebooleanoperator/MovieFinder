@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationStart, Router, NavigationEnd, Event } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './Services/auth-service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Log the user out, and remove session when a user navigates to outside pages.
         this.navEnd.subscribe((event) => {
             if (this.outsideUrls.includes(event.url)) {
                 this.authService.logout(false);

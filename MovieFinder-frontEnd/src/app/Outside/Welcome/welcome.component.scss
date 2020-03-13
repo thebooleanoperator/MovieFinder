@@ -1,31 +1,6 @@
 #welcome {
     //background-image: url('https://cdn4.explainthatstuff.com/streaming-media-concept.png');
 
-    h1 {
-        text-align: center;
-        color: white;
-        margin: 10px;
-    }
-
-    .toolbar-container {
-        width: 100%;
-        .welcome-toolbar {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            background-color: rgba(245, 37, 71, 0.856);
-            .welcome-button {
-                padding: 5px;
-                margin: 10px;
-                .welcome-link {
-                    color: white;
-                }
-            }
-        }
-    }
-
     .description-container {
         display: flex;
         flex-direction: column;

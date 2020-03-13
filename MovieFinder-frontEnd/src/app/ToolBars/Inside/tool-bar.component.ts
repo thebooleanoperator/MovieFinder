@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../Services/auth-service';
-import { ToolBarService } from '../Services/tool-bar.service';
+import { Component } from '@angular/core';
+import { AuthService } from '../../Services/auth-service';
+import { ToolBarService } from '../../Services/tool-bar.service';
 
 @Component({
   selector: 'tool-bar',

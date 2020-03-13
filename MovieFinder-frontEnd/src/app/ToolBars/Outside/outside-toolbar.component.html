@@ -1,0 +1,16 @@
+<div class="toolbar-container">
+    <mat-toolbar-row class="welcome-toolbar">
+        <h1>Movie Finder</h1>
+        <div>
+            <button  class="welcome-button" mat-raised-button color="primary" *ngIf="showWelcome" (click)="toggleButtons(true, true, false)">
+                <a class="welcome-link" routerLink="/welcome" mat-button color="primary">Welcome</a>
+            </button>
+            <button class="welcome-button" mat-raised-button color="primary" *ngIf="showLogin" (click)="toggleButtons(false, true, true)">
+                <a class="welcome-link" routerLink="/login" mat-button color="primary">Login</a>
+            </button>
+            <button  class="welcome-button" mat-raised-button color="primary" *ngIf="showRegister" (click)="toggleButtons(true, false, true)">
+                <a class="welcome-link" routerLink="/register" mat-button color="primary">Register</a>
+            </button>
+        </div>
+    </mat-toolbar-row>
+</div>
