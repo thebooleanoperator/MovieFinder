@@ -1,23 +1,16 @@
 .register {
-    margin: 50px;
-    .register-form {
+    display: flex;
+    justify-content: center;
+    .register-card {
+        margin: 50px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
-        .logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 6px 8px;
-            margin: 15px;
-            border: 5px solid black;
-            height: 40px;
-            width: 40px;
-            font-weight: bolder;
-            background-color: rgba(0, 248, 124, 0.13);
-        }
+        width: 400px;
+        height: 400px;
+        background-color: rgba(199, 103, 103, 0.336);
+        border: 2px solid rgba(199, 103, 103, 0.87);
 
         .register-input {
             margin: 5px;
@@ -27,7 +20,7 @@
         }
 
         .register-button {
-            margin: 15px;
+            margin: 30px;
             padding: 10px;
         }
 
