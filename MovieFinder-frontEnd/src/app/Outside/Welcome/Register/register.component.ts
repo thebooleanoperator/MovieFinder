@@ -19,6 +19,9 @@ export class RegisterComponent {
     registerUser(firstName, lastName, email, password) {
         this.isLoading = true;
         this.authService.register(firstName, lastName, email, password)
+            .catch((error) => {
+                alert(error.error);
+            })
             .finally(() => this.isLoading = false);
     }
 }

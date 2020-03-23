@@ -18,6 +18,9 @@ export class LoginComponent {
     verifyUserAndLogin(email, password) {
         this.isLoading = true;
         this.authService.login(email, password)
+            .catch((error) => {
+                alert(error.error);
+            })
             .finally(() => this.isLoading = false);
     }
 }

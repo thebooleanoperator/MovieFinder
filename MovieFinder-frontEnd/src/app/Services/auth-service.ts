@@ -11,31 +11,24 @@ export class AuthService {
 
     }
 
-    public register(firstName: string, lastName: string, email: string, password: string): Promise<Object> {
+    public register(firstName: string, lastName: string, email: string, password: string): Promise<void> {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
                     this.router.navigate(['/dashboard']); 
-                },
-                (error) => {
-                    return error
                 }
             )
     }
 
-    public login(email: string, password: string): Promise<Object> {
+    public login(email: string, password: string): Promise<void> {
         return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
                     this.router.navigate(['/dashboard']); 
-                },
-                (error) => {
-                    alert(error)
-                    return error;
                 }
             )
     }

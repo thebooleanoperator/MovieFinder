@@ -44,7 +44,7 @@ namespace MovieFinder.Services
             {
                 return new AuthenticationDto
                 {
-                    Error = createdUser.Errors.Select(x => x.Description).ToString()
+                    Error = string.Join("\n", createdUser.Errors.Select(e => e.Description))
                 };
             }
 
