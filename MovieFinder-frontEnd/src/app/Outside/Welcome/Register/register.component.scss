@@ -12,11 +12,8 @@
         background-color: rgba(199, 103, 103, 0.336);
         border: 2px solid rgba(199, 103, 103, 0.87);
 
-        .register-input {
-            margin: 5px;
-            input {
-                background-color: rgba(236, 235, 235, 0.692);
-            }
+        mat-form-field {
+            width: 230px;
         }
 
         .register-button {

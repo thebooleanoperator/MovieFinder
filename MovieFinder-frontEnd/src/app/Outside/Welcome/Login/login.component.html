@@ -7,13 +7,21 @@
     <div class="login">
         <mat-card class="login-card">
             <h3>Sign In</h3>
-            <div class="login-input">
-                <input matInput [(ngModel)]="email" placeholder="Email">
-            </div>
-            <div class="login-input">
-                <input type="password" matInput [(ngModel)]="password" placeholder="Password">
-            </div>
-            <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(email, password)" *ngIf="!isLoading">Login</button>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter Email...</mat-label>
+                <input matInput [formControl]="email">
+                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter Password...</mat-label>
+                <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <button mat-raised-button (click)="verifyUserAndLogin(email.value, password.value)" *ngIf="!isLoading" 
+                [disabled]="password.invalid || email.invalid">Login</button>
             <mat-spinner *ngIf="isLoading"></mat-spinner>
         </mat-card>
     </div>
