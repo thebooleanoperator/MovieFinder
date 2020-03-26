@@ -5,13 +5,14 @@ import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';
 import { ToolBarService } from 'src/app/Services/tool-bar.service';
 import { SelectedMovieDialog } from './Dialogs/selected-movie.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { ImdbIdsService } from 'src/app/Services/imdbIds.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-    constructor(private moviesService: MoviesService, private toolBarService: ToolBarService, public dialog: MatDialog)
+    constructor(private moviesService: MoviesService, private imdbIdsService: ImdbIdsService, private toolBarService: ToolBarService, public dialog: MatDialog)
     {
 
     }
@@ -44,7 +45,7 @@ export class DashboardComponent {
         // Only search if user such is not null.
         if (search) {
             this.toolBarService.isLoading = true; 
-            this.moviesService.getImdbIdsByTitle(search).toPromise()
+            this.imdbIdsService.getImdbIdsByTitle(search).toPromise()
                 .then((response) =>  {
                     this.movies = response
                 })
