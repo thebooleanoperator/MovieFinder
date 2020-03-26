@@ -1,5 +1,5 @@
 <div id="movies">
-    <div class="streamsContainer">
+    <div *ngIf="isStreaming(movie)" class="streamsContainer">
         <h3>Streaming On:</h3>
         <img *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png"/>
         <img *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png"/>
@@ -8,6 +8,9 @@
         <img *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png"/>
         <img *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png"/>
         <img *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"/>
+    </div>
+    <div *ngIf="!isStreaming(movie)" class="streamsContainer">
+        <h3>Not Currently Streaming</h3>
     </div>
     <div class="movie-container">
         <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">

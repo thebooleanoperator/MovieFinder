@@ -50,34 +50,42 @@ export class MovieComponent {
         return genreBuilder;
     }
 
-    getStreams(streams): string {
-        var streamsBuilder = "";
-        if (streams.netflix) {
-            streamsBuilder += "Netflix";
-        }
-        if (streams.hbo) {
-            streamsBuilder += "HBO";
-        }
-        if (streams.hulu) {
-            streamsBuilder += "Hulu";
-        }
-        if (streams.disneyPlus) {
-            streamsBuilder += "Disney Plus";
-        }
-        if (streams.amazonPrime) {
-            streamsBuilder += "Amazon Prime";
-        }
-        if (streams.itunes) {
-            streamsBuilder += "ITunes";
-        }
-        if (streams.googlePlay) {
-            streamsBuilder += "Google Play";
-        }
-        return streamsBuilder;
-    }
-
     useDefault(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
+    }
+
+    isStreaming(movie:MovieDto): boolean {
+        if (this.isBeingStreamed(movie)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    isBeingStreamed(movie:MovieDto): boolean {
+        if (movie.streamingData.netflix != null) {
+           return true;
+        }
+        if (movie.streamingData.hbo != null) {
+            return true;
+        }
+        if (movie.streamingData.hulu != null) {
+            return true;
+        }
+        if (movie.streamingData.disneyPlus != null) {
+            return true;
+        }
+        if (movie.streamingData.amazonPrime != null) {
+            return true;
+        }
+        if (movie.streamingData.iTunes != null) {
+            return true;
+        }
+        if (movie.streamingData.googlePlay != null) {
+            return true;
+        }
+        return false;
     }
 }

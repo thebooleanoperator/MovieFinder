@@ -49,10 +49,14 @@ namespace MovieFinder.Controllers
                 }
 
                 _unitOfWork.SaveChanges();
-                return Ok(imdbIdsFromRapid);
+                var orderedImdbIds = imdbIdsFromRapid.OrderByDescending(i => i.Year); 
+
+                return Ok(orderedImdbIds);
             }
 
-            return Ok(imdbIds); 
+            var orderdImdbIds = imdbIds.OrderByDescending(i => i.Year);
+
+            return Ok(orderdImdbIds); 
             
         }
 

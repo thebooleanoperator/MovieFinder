@@ -1,9 +1,10 @@
 export class StreamingDataDto {
-    Netflix: string;
-    Hulu: string;
-    DisneyPlus: string;
-    AmazonPrime: string;
-    ITunes: string;
-    GooglePlay: string;
-    Name: string;
+    netflix: string;
+    hbo: string;
+    hulu: string;
+    disneyPlus: string;
+    amazonPrime: string;
+    iTunes: string;
+    googlePlay: string;
+    name: string;
 }
