@@ -6,6 +6,7 @@
             class="search-input mat-elevation-z8"
             [(ngModel)]="search"  
             placeholder="Search Movies..." 
+            (keyup)="searchMovies(search)"
             (keydown.enter)="searchMovies(search)"
             (keydown.backspace)="clearSearchResults()">
     </div>

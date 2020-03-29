@@ -30,11 +30,13 @@ export class DashboardComponent {
      */
     noSearchResults: boolean = false;
     /**
+     * Holds the timeout search function.
+     */
+    timeout: NodeJS.Timer;
+    /**
      * Column titles for search results table.
      */
     public displayedColumns : string[] = ['Title', 'Year'];
-
-
 
     /**
      * Uses a user input search string to return an array of movies.
@@ -42,19 +44,25 @@ export class DashboardComponent {
      * @param search 
      */
     searchMovies(search:string) : void {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
         // Only search if user such is not null.
         if (search) {
-            this.toolBarService.isLoading = true; 
-            this.imdbIdsService.getImdbIdsByTitle(search).toPromise()
-                .then((response) =>  {
-                    this.movies = response
-                })
-                .catch((error) => {
-                    if (error.status == 404) {
-                        this.noSearchResults = true;
-                    }
-                })
-                .finally(() => this.toolBarService.isLoading = false);
+            this.timeout = setTimeout(() => {
+                this.toolBarService.isLoading = true;
+                this.imdbIdsService.getImdbIdsByTitle(search).toPromise()
+                    .then((response) =>  {
+                        this.movies = response;
+                        this.noSearchResults = false;
+                    })
+                    .catch((error) => {
+                        if (error.status == 404) {
+                            this.noSearchResults = true;
+                        }
+                    })
+                    .finally(() => this.toolBarService.isLoading = false);
+            }, 300);
         }
     }
 

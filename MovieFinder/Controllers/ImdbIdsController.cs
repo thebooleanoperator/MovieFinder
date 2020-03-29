@@ -31,14 +31,14 @@ namespace MovieFinder.Controllers
             var imdbIds = _unitOfWork.ImdbIds.GetByTitle(title).ToList();
 
             // If there is an exact matching imdbIds return them.
-            if (imdbIds.Count() > 0)
+            if (imdbIds != null && imdbIds.Count() > 0)
             {
                 return Ok(imdbIds.OrderByDescending(i => i.Year));
             }
 
             var imdbIdsFromUtelly = await _moviesService.GetImdbIdsFromTitle(title, null);
             // If Utelly returns ImdbIds, add any that don't exist in the database and return in descending order by year.
-            if (imdbIdsFromUtelly.Count() > 0)
+            if (imdbIdsFromUtelly != null && imdbIdsFromUtelly.Count() > 0)
             {
                 foreach (var imdbId in imdbIdsFromUtelly)
                 {
