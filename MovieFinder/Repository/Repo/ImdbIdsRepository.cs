@@ -20,8 +20,8 @@ namespace MovieFinder.Repository.Repo
 
         public IEnumerable<ImdbIds> GetByTitle(string title)
         {
-            title = title.Replace(" ", "").ToLower();
-            return DbSet.Where(i => i.Title.Replace(" ", "").ToLower().Contains(title));
+            title = title.ToLower();
+            return DbSet.Where(i => i.Title.ToLower() == title);
         }
     }
 }

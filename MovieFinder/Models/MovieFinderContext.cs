@@ -14,9 +14,14 @@ namespace MovieFinder
         {
 
         }
+
         public DbSet<Movies> Movies { get; set; }
         public DbSet<LikedMovies> LikedMovies { get; set;}
         public DbSet<Synopsis> Synopsis { get; set; }
+        public DbSet<MovieTitles> MovieTitles { get; set; }
+        public DbSet<ImdbIds> ImdbIds { get; set; }
+        public DbSet<Genres> Genres { get; set; }
+        public DbSet<StreamingData> StreamingData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

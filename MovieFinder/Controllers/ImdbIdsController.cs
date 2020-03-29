@@ -30,36 +30,31 @@ namespace MovieFinder.Controllers
 
             var imdbIds = _unitOfWork.ImdbIds.GetByTitle(title).ToList();
 
-            if (imdbIds == null || imdbIds.Count() == 0)
+            // If there is an exact matching imdbIds return them.
+            if (imdbIds.Count() > 0)
             {
-                var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
+                return Ok(imdbIds.OrderByDescending(i => i.Year));
+            }
 
-                if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
-                {
-                    return NotFound();
-                }
-
-                foreach(var imdbId in imdbIdsFromRapid)
+            var imdbIdsFromUtelly = await _moviesService.GetImdbIdsFromTitle(title, null);
+            // If Utelly returns ImdbIds, add any that don't exist in the database and return in descending order by year.
+            if (imdbIdsFromUtelly.Count() > 0)
+            {
+                foreach (var imdbId in imdbIdsFromUtelly)
                 {
                     var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
                     if (exisitingId == null)
                     {
+                        // Add and save everytime to avoid adding duplicate pk into db.
                         _unitOfWork.ImdbIds.Add(imdbId);
+                        _unitOfWork.SaveChanges();
                     }
                 }
 
-                _unitOfWork.SaveChanges();
-                var orderedImdbIds = imdbIdsFromRapid.OrderByDescending(i => i.Year); 
-
-                return Ok(orderedImdbIds);
+                return Ok(imdbIdsFromUtelly.OrderByDescending(i => i.Year));
             }
 
-            var orderdImdbIds = imdbIds.OrderByDescending(i => i.Year);
-
-            return Ok(orderdImdbIds); 
-            
+            return NotFound($"Could not find any movies that match {title}");
         }
-
-
     }
 }
