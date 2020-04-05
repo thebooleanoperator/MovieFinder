@@ -24,7 +24,7 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
 
@@ -64,7 +64,7 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var parsedJson = await HttpValidator.ValidateAndParseIdResponse(response);
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
 
             if (parsedJson == null) { return null; }
 
@@ -105,7 +105,7 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
 
@@ -136,7 +136,7 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (jsonAndResponse == null) { return null; }
 
@@ -169,7 +169,7 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var parsedResponse = await HttpValidator.ValidateAndParseUtellyResponse(response);
+            var parsedResponse = await HttpValidator.ValidateAndParseResponse(response);
 
             if (parsedResponse == null) { return null; }
 

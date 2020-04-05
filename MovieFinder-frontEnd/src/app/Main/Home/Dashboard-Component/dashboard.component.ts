@@ -64,7 +64,7 @@ export class DashboardComponent {
                         }
                     })
                     .finally(() => this.toolBarService.isLoading = false);
-            }, 300);
+            }, 700);
         }
     }
 
