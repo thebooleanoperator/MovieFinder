@@ -35,6 +35,11 @@ namespace MovieFinder.Utils
             return request;
         }
 
+        /// <summary>
+        /// Gets a list of Ids by movie title from Rapid Api Imdb GET endpoint.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static HttpRequestMessage IdsRapidRequest(string title)
         {
             string longurl = idRapidUrl + $"/{title}";
@@ -101,6 +106,11 @@ namespace MovieFinder.Utils
             return request;
         }
 
+        /// <summary>
+        /// Gets an array of movies streaming data from Rapid Api Utelly GET endpoint.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static HttpRequestMessage UtellyRapidRequest(string title)
         {
             string longurl = utellyRapidApiUrl;

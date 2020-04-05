@@ -39,6 +39,11 @@ namespace MovieFinder.Controllers
 
             var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
 
+            if (imdbInfo == null)
+            {
+                return NotFound("Parsing movie info failed.");
+            }
+
             var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
 
             // Don't create a duplicate Movie.
@@ -76,6 +81,9 @@ namespace MovieFinder.Controllers
             foreach (var imdbId in imdbIds)
             {
                 var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
+                // If the imdbInfo is null, parse failed. Continue iteration.
+                if (imdbInfo == null) {continue;}
+
                 imdbInfo.IsRec = movieInfo.IsRec;
 
                 var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);

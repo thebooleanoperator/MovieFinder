@@ -84,12 +84,16 @@ namespace MovieFinder.Utils
                 {
                     continue;
                 }
-
             }
 
             return idsDtos;
         }
 
+        /// <summary>
+        /// Gets an imdbId objcet by an imdbId id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ImdbIds> GetImdbIdById(string id)
         {
             if (id == null)
@@ -137,9 +141,16 @@ namespace MovieFinder.Utils
             if (jsonAndResponse == null) { return null; }
 
             var parsedJson = jsonAndResponse;
-            //Get the ImdbInfoDto by converting JObject.
-            var infoDto = parsedJson.ToObject<ImdbInfoDto>();
-            return infoDto;
+            // If parse fails, return null.
+            try
+            {
+                //Get the ImdbInfoDto by converting JObject.
+                return parsedJson.ToObject<ImdbInfoDto>();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>

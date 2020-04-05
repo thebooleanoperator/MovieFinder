@@ -21,6 +21,11 @@ namespace MovieFinder.Controllers
             _moviesService = moviesService;
         }
 
+        /// <summary>
+        /// Gets a list of ImdbIds by title.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetByTitle([FromQuery] string title)
@@ -72,8 +77,6 @@ namespace MovieFinder.Controllers
             }
 
             return Ok(imdbIdsFromRapid.OrderByDescending(i => i.Year));
-
-            
         }
     }
 }

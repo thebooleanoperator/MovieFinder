@@ -26,7 +26,7 @@ export class DashboardComponent {
      */
     selectedMovie: MovieDto;
     /**
-     * 
+     * Toggles the No Search Results found message in view.
      */
     noSearchResults: boolean = false;
     /**
@@ -57,7 +57,8 @@ export class DashboardComponent {
                         this.noSearchResults = false;
                     })
                     .catch((error) => {
-                        if (error.status == 404) {
+                        // Clear search results and show not found message on 404 and 500.
+                        if (error.status == 404 || error.status == 500) {
                             this.noSearchResults = true;
                             this.movies = null;
                         }
@@ -124,6 +125,11 @@ export class DashboardComponent {
      */
     private createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
         return this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((response) => response);
+            .then((response) => response)
+            .catch((error) => {
+                if (error.status == 404) {
+                    alert("Error loading movie. Try again later.")
+                }
+            });
     }
 }
