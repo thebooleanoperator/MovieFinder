@@ -16,7 +16,6 @@ export class DashboardComponent {
     {
 
     }
-
     /**
      * Holds an array of movies returned from search results.
      */
@@ -36,22 +35,22 @@ export class DashboardComponent {
     /**
      * Column titles for search results table.
      */
-    public displayedColumns : string[] = ['Title', 'Year'];
+    displayedColumns : string[] = ['Title', 'Year'];
 
     /**
      * Uses a user input search string to return an array of movies.
      * Max 10 movies with names and years displayed to user.
      * @param search 
      */
-    searchMovies(search:string) : void {
+    searchMovies(search:string, year:number) : void {
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
         // Only search if user such is not null.
         if (search) {
             this.timeout = setTimeout(() => {
-                this.toolBarService.isLoading = true;
-                this.imdbIdsService.getImdbIdsByTitle(search).toPromise()
+            this.toolBarService.isLoading = true;
+                this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
                     .then((response) =>  {
                         this.movies = response;
                         this.noSearchResults = false;

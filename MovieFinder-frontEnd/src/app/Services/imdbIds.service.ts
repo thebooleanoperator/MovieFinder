@@ -10,7 +10,9 @@ export class ImdbIdsService {
 
     }
 
-    public getImdbIdsByTitle(title: string): Observable<any> {
-        return this.http.get(`http://localhost:5001/ImdbIds/?title=${title}`); 
+    public getImdbIdsByTitle(title: string, year:number): Observable<any> {
+        return year == null 
+            ? this.http.get(`http://localhost:5001/ImdbIds/?title=${title}`)
+            : this.http.get(`http://localhost:5001/ImdbIds/?title=${title}&year=${year}`);
     }      
 }

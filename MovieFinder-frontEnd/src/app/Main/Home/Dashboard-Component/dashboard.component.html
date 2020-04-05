@@ -7,18 +7,15 @@
                 class="search-input mat-elevation-z8"
                 [(ngModel)]="search"  
                 placeholder="Search Movies..." 
-                (keyup)="searchMovies(search)"
-                (keydown.enter)="searchMovies(search)"
+                (keyup)="searchMovies(search, year)"
+                (keydown.enter)="searchMovies(search, year)"
                 (keydown.backspace)="clearSearchResults()">
         </div>
         <div class="year-box">
             <input  
                 class="year-input mat-elevation-z8"
                 [(ngModel)]="year"  
-                placeholder="Year" 
-                (keyup)="searchMovies(search)"
-                (keydown.enter)="searchMovies(search)"
-                (keydown.backspace)="clearSearchResults()">
+                placeholder="Year">
         </div>
     </div>
 
