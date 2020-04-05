@@ -1,15 +1,27 @@
 <div id="search" >
     <h2 class="search-title">Movie Search</h2>
-    <div class="search-box">
-        <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
-        <input  
-            class="search-input mat-elevation-z8"
-            [(ngModel)]="search"  
-            placeholder="Search Movies..." 
-            (keyup)="searchMovies(search)"
-            (keydown.enter)="searchMovies(search)"
-            (keydown.backspace)="clearSearchResults()">
+    <div class="search-container">
+        <div class="search-box">
+            <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
+            <input  
+                class="search-input mat-elevation-z8"
+                [(ngModel)]="search"  
+                placeholder="Search Movies..." 
+                (keyup)="searchMovies(search)"
+                (keydown.enter)="searchMovies(search)"
+                (keydown.backspace)="clearSearchResults()">
+        </div>
+        <div class="year-box">
+            <input  
+                class="year-input mat-elevation-z8"
+                [(ngModel)]="year"  
+                placeholder="Year" 
+                (keyup)="searchMovies(search)"
+                (keydown.enter)="searchMovies(search)"
+                (keydown.backspace)="clearSearchResults()">
+        </div>
     </div>
+
     <div class="search-results" *ngIf="movies">
         <table mat-table class="mat-elevation-z8" [dataSource]="movies">
             <!-- Title Column -->

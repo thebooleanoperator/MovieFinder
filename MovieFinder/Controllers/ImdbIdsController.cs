@@ -28,14 +28,14 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetByTitle([FromQuery] string title)
+        public async Task<IActionResult> GetByTitle([FromQuery] string title, [FromQuery] int? year = null)
         {
             if (title == null || title.Length == 0)
             {
                 return NoContent();
             }
 
-            var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title).ToList();
+            var existingImdbIds = _unitOfWork.ImdbIds.GetByTitleAndYear(title, year).ToList();
 
             // If there is an exact matching imdbIds return them.
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
@@ -43,9 +43,10 @@ namespace MovieFinder.Controllers
                 return Ok(existingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
+            var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, year);
             // If there were no imdbIds found on inital search, search backupApi for movies.
-            if (imdbIdsFromRapid == null)
+            // There's no way to specify a year to the backup API, skip if user requests specific year.
+            if (imdbIdsFromRapid == null && year == null)
             {
                 imdbIdsFromRapid = new List<ImdbIds>();
                 var idsFromRapid = await _moviesService.GetIdsFromTitle(title);

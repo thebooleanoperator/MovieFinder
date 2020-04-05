@@ -18,10 +18,13 @@ namespace MovieFinder.Repository.Repo
             return DbSet.Where(i => i.ImdbId == imdbId).SingleOrDefault();
         }
 
-        public IEnumerable<ImdbIds> GetByTitle(string title)
+        public IEnumerable<ImdbIds> GetByTitleAndYear(string title, int? year)
         {
-            title = title.ToLower();
-            return DbSet.Where(i => i.Title.ToLower() == title);
+            if (year != null && year > 0)
+            {
+                return DbSet.Where(i => i.Title.ToLower() == title.ToLower() && i.Year == year);
+            }
+            return DbSet.Where(i => i.Title.ToLower() == title.ToLower());
         }
     }
 }
