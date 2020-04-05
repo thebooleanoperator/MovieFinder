@@ -35,16 +35,24 @@ namespace MovieFinder.Utils
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
             {
-                //Get the ImdbId by converting JObject to ImdbId.
-                ImdbIds imdbId = Jmovie.ToObject<ImdbIds>();
-
-                var lowerMovieTitle = imdbId.Title.ToLower();
-                var lowerTitle = title.ToLower();
-                if (lowerMovieTitle.Contains(lowerTitle) && (imdbId.Year == year || year == null))
+                try
                 {
-                    //If we already have the id saved, do not save a dupe.
-                    imdbIds.Add(imdbId);
+                    //Get the ImdbId by converting JObject to ImdbId.
+                    ImdbIds imdbId = Jmovie.ToObject<ImdbIds>();
+
+                    var lowerMovieTitle = imdbId.Title.ToLower();
+                    var lowerTitle = title.ToLower();
+                    if (lowerMovieTitle.Contains(lowerTitle) && (imdbId.Year == year || year == null))
+                    {
+                        //If we already have the id saved, do not save a dupe.
+                        imdbIds.Add(imdbId);
+                    }
                 }
+                catch
+                {
+                    continue;
+                }
+
             }
 
             return imdbIds;
@@ -67,8 +75,16 @@ namespace MovieFinder.Utils
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
             {
-                IdsDto idDto = Jmovie.ToObject<IdsDto>();
-                idsDtos.Add(idDto);
+                try
+                {
+                    IdsDto idDto = Jmovie.ToObject<IdsDto>();
+                    idsDtos.Add(idDto);
+                }
+                catch
+                {
+                    continue;
+                }
+
             }
 
             return idsDtos;
@@ -90,8 +106,14 @@ namespace MovieFinder.Utils
             if (parsedJson == null) { return null; }
 
             //Get the ImdbInfoDto by converting JObject.
-            var imdbId = parsedJson.ToObject<ImdbIds>();
-            return imdbId;
+            try
+            {
+                return parsedJson.ToObject<ImdbIds>();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -145,12 +167,20 @@ namespace MovieFinder.Utils
 
             foreach (var Jdata in streamingResults)
             {
-                var streamingData = Jdata.ToObject<StreamingDataDto>();
-                //Only return the data if title matches.
-                if (streamingData.Name.ToLower() == title.ToLower())
+                try
                 {
-                    return streamingData;
+                    var streamingData = Jdata.ToObject<StreamingDataDto>();
+                    //Only return the data if title matches.
+                    if (streamingData.Name.ToLower() == title.ToLower())
+                    {
+                        return streamingData;
+                    }
                 }
+                catch
+                {
+                    continue;
+                }
+
             }
             return null;
         }

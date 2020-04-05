@@ -49,7 +49,8 @@ namespace MovieFinder.Controllers
                 foreach (var id in idsFromRapid)
                 {
                     var imdbId = await _moviesService.GetImdbIdById(id.Id);
-                    imdbIdsFromRapid.Add(imdbId);
+                    // imdbId will be null when parsing fails.
+                    if (imdbId != null) { imdbIdsFromRapid.Add(imdbId); }
                 }
             }
 
