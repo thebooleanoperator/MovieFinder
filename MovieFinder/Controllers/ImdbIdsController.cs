@@ -39,16 +39,24 @@ namespace MovieFinder.Controllers
             }
 
             var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
-            // If Utelly returns ImdbIds, add any that don't exist in the database and return in descending order by year.
-            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
+            // If there were no imdbIds found on inital search, search backupApi for movies.
+            if (imdbIdsFromRapid == null)
             {
+                imdbIdsFromRapid = new List<ImdbIds>();
                 var idsFromRapid = await _moviesService.GetIdsFromTitle(title);
                 List<ImdbIds> imdbIdsFromRApid = new List<ImdbIds>();
 
                 foreach (var id in idsFromRapid)
                 {
                     var imdbId = await _moviesService.GetImdbIdById(id.Id);
+                    imdbIdsFromRapid.Add(imdbId);
                 }
+            }
+
+            // There was not movie with title found.
+            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
+            {
+                return NotFound();
             }
 
             foreach (var imdbId in imdbIdsFromRapid)

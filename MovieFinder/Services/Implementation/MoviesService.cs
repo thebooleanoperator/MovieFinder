@@ -58,7 +58,7 @@ namespace MovieFinder.Utils
 
             var parsedJson = await HttpValidator.ValidateAndParseIdResponse(response);
 
-            if (jsonAndResponse == null) { return null; }
+            if (parsedJson == null) { return null; }
 
             //Get each movie returned from search. 
             var searchResults = parsedJson["titles"].Children().ToList();
@@ -85,11 +85,10 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response);
 
-            if (jsonAndResponse == null) { return null; }
+            if (parsedJson == null) { return null; }
 
-            var parsedJson = jsonAndResponse;
             //Get the ImdbInfoDto by converting JObject.
             var imdbId = parsedJson.ToObject<ImdbIds>();
             return imdbId;
