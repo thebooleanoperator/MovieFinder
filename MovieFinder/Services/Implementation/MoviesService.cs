@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
-using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +46,53 @@ namespace MovieFinder.Utils
                     imdbIds.Add(imdbId);
                 }
             }
+
             return imdbIds;
+        }
+
+        public async Task<List<IdsDto>> GetIdsFromTitle(string title)
+        {
+            var request = RapidRequestSender.IdsRapidRequest(title);
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var parsedJson = await HttpValidator.ValidateAndParseIdResponse(response);
+
+            if (jsonAndResponse == null) { return null; }
+
+            //Get each movie returned from search. 
+            var searchResults = parsedJson["titles"].Children().ToList();
+            var idsDtos = new List<IdsDto>();
+            //Iterate through the search results and convert each Jmovie into a Movies object, 
+            //then check if the title and year match. Save and break on true. 
+            foreach (var Jmovie in searchResults)
+            {
+                IdsDto idDto = Jmovie.ToObject<IdsDto>();
+                idsDtos.Add(idDto);
+            }
+
+            return idsDtos;
+        }
+
+        public async Task<ImdbIds> GetImdbIdById(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var request = RapidRequestSender.ImdbInfoRapidRequest(id);
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response);
+
+            if (jsonAndResponse == null) { return null; }
+
+            var parsedJson = jsonAndResponse;
+            //Get the ImdbInfoDto by converting JObject.
+            var imdbId = parsedJson.ToObject<ImdbIds>();
+            return imdbId;
         }
 
         /// <summary>
@@ -77,7 +122,7 @@ namespace MovieFinder.Utils
         }
 
         /// <summary>
-        /// Returns the netflix Id for a movie or null if the movie is not on netflix. 
+        /// Returns the stream services a movie is streaming on by title.
         /// </summary>
         /// <param name="imdbId"></param>
         /// <returns></returns>

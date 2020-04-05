@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,33 +30,41 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
-            var imdbIds = _unitOfWork.ImdbIds.GetByTitle(title).ToList();
+            var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title).ToList();
 
             // If there is an exact matching imdbIds return them.
-            if (imdbIds != null && imdbIds.Count() > 0)
+            if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
-                return Ok(imdbIds.OrderByDescending(i => i.Year));
+                return Ok(existingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var imdbIdsFromUtelly = await _moviesService.GetImdbIdsFromTitle(title, null);
+            var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, null);
             // If Utelly returns ImdbIds, add any that don't exist in the database and return in descending order by year.
-            if (imdbIdsFromUtelly != null && imdbIdsFromUtelly.Count() > 0)
+            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
             {
-                foreach (var imdbId in imdbIdsFromUtelly)
-                {
-                    var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
-                    if (exisitingId == null)
-                    {
-                        // Add and save everytime to avoid adding duplicate pk into db.
-                        _unitOfWork.ImdbIds.Add(imdbId);
-                        _unitOfWork.SaveChanges();
-                    }
-                }
+                var idsFromRapid = await _moviesService.GetIdsFromTitle(title);
+                List<ImdbIds> imdbIdsFromRApid = new List<ImdbIds>();
 
-                return Ok(imdbIdsFromUtelly.OrderByDescending(i => i.Year));
+                foreach (var id in idsFromRapid)
+                {
+                    var imdbId = await _moviesService.GetImdbIdById(id.Id);
+                }
             }
 
-            return NotFound($"Could not find any movies that match {title}");
+            foreach (var imdbId in imdbIdsFromRapid)
+            {
+                var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
+                if (exisitingId == null)
+                {
+                    // Add and save everytime to avoid adding duplicate pk into db.
+                    _unitOfWork.ImdbIds.Add(imdbId);
+                    _unitOfWork.SaveChanges();
+                }
+            }
+
+            return Ok(imdbIdsFromRapid.OrderByDescending(i => i.Year));
+
+            
         }
     }
 }

@@ -59,6 +59,7 @@ export class DashboardComponent {
                     .catch((error) => {
                         if (error.status == 404) {
                             this.noSearchResults = true;
+                            this.movies = null;
                         }
                     })
                     .finally(() => this.toolBarService.isLoading = false);
