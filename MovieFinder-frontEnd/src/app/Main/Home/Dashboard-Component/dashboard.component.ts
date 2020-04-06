@@ -37,6 +37,14 @@ export class DashboardComponent {
      */
     displayedColumns : string[] = ['Title', 'Year'];
 
+    getYears(): number[] {
+        var years = [];
+        var currentYear = new Date().getFullYear();
+        for (var i = currentYear; i > 1900; i--){
+            years.push(i);
+        }
+        return years;
+    }
     /**
      * Uses a user input search string to return an array of movies.
      * Max 10 movies with names and years displayed to user.

@@ -55,22 +55,26 @@
             }
         }
     
-        .year-box {
+        .mat-form-field {
+            height: 40px;
+            width: 100px;
+            max-width: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 6px;
-            width: 100px;
             box-shadow: 2px 2px 2px 2px;
-            background-color: black;
-    
-            .year-input {
-                border: none;
-                box-shadow: none;
-                height: 40px;
-                font-size: 25px;
+            background-color: white;
+
+            ::ng-deep .mat-form-field-wrapper {
                 width: 100px;
-                padding-left: 5px;
+
+                .year-input {
+                    border: none;
+                    box-shadow: none;
+                    font-size: 17px;
+                    padding-left: 5px;
+                }
             }
         }
     }

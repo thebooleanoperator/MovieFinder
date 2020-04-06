@@ -11,12 +11,13 @@
                 (keydown.enter)="searchMovies(search, year)"
                 (keydown.backspace)="clearSearchResults()">
         </div>
-        <div class="year-box">
-            <input  
-                class="year-input mat-elevation-z8"
-                [(ngModel)]="year"  
-                placeholder="Year">
-        </div>
+        <mat-form-field>
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="year" class="year-input">
+                <mat-option>None</mat-option>
+                <mat-option value="{{yr}}" *ngFor="let yr of getYears()" (click)="searchMovies(search, year)">{{yr}}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="search-results" *ngIf="movies">
