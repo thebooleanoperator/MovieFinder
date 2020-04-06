@@ -1,11 +1,11 @@
 <mat-toolbar-row id="toolbar">
     <mat-toolbar-row class="main-toolbar">
         <div>
-            <a class="tool-button" mat-stroked-button routerLink="/dashboard">Search</a>
-            <a class="tool-button" mat-stroked-button routerLink="/movies">Staff Pics</a>
+            <a class="tool-button" mat-raised-button routerLink="/dashboard" color="primary">Search</a>
+            <a class="tool-button" mat-raised-button routerLink="/movies" color="primary">Staff Pics</a>
         </div>
         <div>
-            <button mat-button (click)="logout()">Log Out</button>
+            <button class="tool-button" (click)="logout()" mat-raised-button color="primary">Log Out</button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar-row>
