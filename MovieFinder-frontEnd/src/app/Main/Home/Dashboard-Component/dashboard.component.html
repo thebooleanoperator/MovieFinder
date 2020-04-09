@@ -1,23 +1,26 @@
 <div id="search" >
-    <h2 class="search-title" color="primary">Movie Search</h2>
+    <h2 class="search-title" color="primary">Stream Spotter</h2>
     <div class="search-container">
-        <div class="search-box">
-            <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
-            <input  
-                class="search-input mat-elevation-z8"
+        <div class="input-container">
+            <mat-form-field class="search-box">
+                <mat-label>Search Movies...</mat-label>
+                <input  
+                matInput 
                 [(ngModel)]="search"  
-                placeholder="Search Movies..." 
                 (keyup)="searchMovies(search, year)"
                 (keydown.enter)="searchMovies(search, year)"
-                (keydown.backspace)="clearSearchResults()">
+                (keydown.backspace)="clearSearchResults()"
+                autocomplete="false">
+                <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="year-box">
+                <mat-label>Year</mat-label>
+                <mat-select [(value)]="year" class="year-input">
+                    <mat-option>None</mat-option>
+                    <mat-option value="{{yr}}" *ngFor="let yr of getYears()" (click)="searchMovies(search, year)">{{yr}}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
-        <mat-form-field>
-            <mat-label>Year</mat-label>
-            <mat-select [(value)]="year" class="year-input">
-                <mat-option>None</mat-option>
-                <mat-option value="{{yr}}" *ngFor="let yr of getYears()" (click)="searchMovies(search, year)">{{yr}}</mat-option>
-            </mat-select>
-        </mat-form-field>
     </div>
 
     <div class="search-results" *ngIf="movies">

@@ -14,57 +14,82 @@
         display: flex;
         flex-direction: row;
         
-        .search-box {
+        .input-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 6px;
             height: 40px;
+            padding: 20px 15px 15px 15px;
             width: 500px;
+            border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
-            background-color: black;
-    
-    
-            .search-input {
-                border: none;
-                box-shadow: none;
-                height: 40px;
-                font-size: 25px;
+            background-color: rgba(243, 203, 210, 0.856);;
+
+            .search-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 width: 500px;
-                padding-left: 5px;
-            }
-    
-            .search-button {
-                margin: 5px;
-            }
-    
-            .search-icon {
-                font-size: 40px;
-                color: white;
-                height: auto;
-                width: auto;
-            }
-    
-            .search-icon:hover {
-                cursor: pointer;
-                color: lightblue;
-            }
-    
-            .search-icon:hover {
-                cursor: pointer;
+                height: 60px;
+
+                ::ng-deep .mat-form-field-wrapper  {
+                    height: 40px;
+                    width: 400px;
+                    background-color: rgba(245, 37, 71, 0.856);
+
+                    ::ng-deep .mat-form-field-infix {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: row;
+                        border: none;
+                        padding: unset;
+
+                        ::ng-deep .mat-input-element {
+                            height: 60px;
+                            font-size: 25px;
+                            caret-color: white;
+                            color: white;
+                            padding-left: 5px;
+                        }
+
+                        ::ng-deep .mat-form-field-label {
+                            top: 1.18125em;
+                            font-size: 25px;
+                            color: white;
+                            padding-left: 5px;
+                        }
+                    }
+
+                    ::ng-deep .mat-form-field-underline {
+                        display: none;
+                    }
+                }
+
+                .search-icon {
+                    height: auto;
+                    width: auto;
+                    font-size: 60px;
+                    color: white;
+                }
+        
+                .search-icon:hover {
+                    cursor: pointer;
+                }
             }
         }
     
-        .mat-form-field {
-            height: 40px;
+        .year-box {
+            height: 60px;
             width: 100px;
             max-width: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 6px;
-            box-shadow: 2px 2px 2px 2px;
-            background-color: white;
+            color: white;
+            background-color: rgba(245, 37, 71, 0.856);
 
             ::ng-deep .mat-form-field-wrapper {
                 width: 100px;
@@ -99,6 +124,10 @@
                         ::ng-deep .mat-select-value {
                             font-size: 25px;
                             vertical-align: middle;
+
+                            ::ng-deep .mat-select-value-text {
+                                color: white !important;
+                            }
                         }
 
                         ::ng-deep .mat-select-arrow-wrapper {
@@ -110,6 +139,7 @@
                 ::ng-deep .mat-form-field-label {
                     top: 1.10em;
                     padding-left: 5px;
+                    color: white !important;
                 }
             }
         }
