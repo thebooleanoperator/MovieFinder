@@ -24,7 +24,8 @@
             width: 500px;
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
-            background-color: rgba(243, 203, 210, 0.856);;
+            background-color: rgba(243, 203, 210, 0.856);
+
 
             .search-box {
                 display: flex;
@@ -165,6 +166,10 @@
         font-weight: bold;
         padding: 10px;
     }
+}
+
+::ng-deep .mat-select-panel {
+    background-color: rgba(243, 203, 210, 0.856);
 }
 
 .selected-movie {
