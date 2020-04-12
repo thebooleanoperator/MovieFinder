@@ -28,7 +28,7 @@ export class LoginComponent {
     
     getEmailErrorMessage() {
         if (this.email.hasError('required')) {
-            return 'You must enter a value';
+            return 'Email Required';
         }
 
         return this.email.hasError('email') ? 'Not a valid email' : '';
@@ -36,7 +36,7 @@ export class LoginComponent {
     
     getPasswordErrorMessage() {
         if (this.password.hasError('required')) {
-            return 'You must enter a value';
+            return 'Password Required';
         }
     }
 }

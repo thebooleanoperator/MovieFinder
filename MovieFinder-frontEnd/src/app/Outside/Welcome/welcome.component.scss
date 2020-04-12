@@ -1,74 +1,66 @@
 #welcome {
-    .description-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 50px 10px;
-        .logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 6px 8px;
-            margin: 15px;
-            border: 5px solid black;
-            height: 40px;
-            width: 40px;
-            font-weight: bolder;
-            background-color: rgba(245, 37, 71, 0.856);;
-            color: white;
-        }
-        .description {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            background-color: rgba(199, 103, 103, 0.336);
-            border: 2px solid rgba(199, 103, 103, 0.87);
-            color: rgb(67, 66, 68);
-            border-radius: 4%;
-            width: 50%;
-            padding: 20px;
-            font-size: 20px;
-            span {
-                margin: 10px;
-            }
-
-            .sign-up {
-                color: blue;
-                cursor: pointer;
-                text-decoration: none;
-            }
-        }
-    }   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     .welcome-container {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
 
-        .action-container {
-            margin: 30px;
-            padding: 10px;
-            border: 5px solid lightslategrey;
-            height: 500px;
-            width: 350px;
-            background-color: rgba(176, 196, 222, 0.534);
-            display: column;
-            flex-direction: row;
-            justify-content: center;
+        .description-container {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-
-            .switch-container {
+            margin: 50px 10px;
+            .logo {
                 display: flex;
-                flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                justify-content: end;
-                #user-instruction {
-                    opacity: .6;
-                    font-weight: bold;
+                padding: 6px 8px;
+                margin: 15px;
+                border: 5px solid black;
+                height: 40px;
+                width: 40px;
+                font-weight: bolder;
+                background-color: rgba(245, 37, 71, 0.856);;
+                color: white;
+            }
+            .description {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                background-color: rgba(199, 103, 103, 0.336);
+                border: 2px solid rgba(199, 103, 103, 0.87);
+                color: rgb(67, 66, 68);
+                border-radius: 4%;
+                width: 50%;
+                padding: 20px;
+                font-size: 20px;
+                span {
+                    margin: 10px;
+                }
+    
+                .sign-up {
+                    color: blue;
+                    cursor: pointer;
+                    text-decoration: none;
                 }
             }
+        }   
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #welcome {
+        .welcome-container {
+           .description-container {
+               display: none;
+           }
         }
     }
 }
+
 

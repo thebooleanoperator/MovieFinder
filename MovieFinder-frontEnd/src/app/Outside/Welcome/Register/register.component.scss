@@ -1,29 +1,76 @@
-.register {
+#register {
     display: flex;
-    justify-content: center;
-    .register-card {
-        margin: 50px;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 300px;
+    .message-1 {
+        color: rgba(83, 47, 47, 0.87);
+        font-size: 30px;
+        margin: 20px 10px 10px 10px;
+    }
+
+    .message-2 {
+        color: rgba(83, 47, 47, 0.87);
+        font-size: 20px;
+        margin: 5px;
+    }
+
+    .register {
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        align-items: center;
-        width: 400px;
-        height: 400px;
-        background-color: rgba(199, 103, 103, 0.336);
-        border: 2px solid rgba(199, 103, 103, 0.87);
+        .register-card {
+            margin: 10px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 400px;
+            height: 400px;
+            background-color: rgba(199, 103, 103, 0.336);
+            border: 2px solid rgba(199, 103, 103, 0.87);
+    
+            mat-form-field {
+                width: 230px;
+            }
+    
+            .register-button {
+                margin: 30px;
+                padding: 10px;
+            }
+    
+            .register-button:hover {
+                background-color: limegreen;
+                cursor: pointer;
+            }
+        }
+    }
+}
 
-        mat-form-field {
-            width: 230px;
+@media screen and (max-width: 1300px) {
+    #register {
+        margin-right: 0px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    #register {
+        .message-1 {    
+            font-size: 20px;
         }
 
-        .register-button {
-            margin: 30px;
-            padding: 10px;
+        .message-2 {
+            font-size: 15px;
+            
         }
 
-        .register-button:hover {
-            background-color: limegreen;
-            cursor: pointer;
+        .register {
+            .register-card {
+                width: 200px;
+
+                mat-form-field {
+                    width: 200px;
+                }
+            }
         }
     }
 }

@@ -4,38 +4,41 @@
   <meta charset="utf-8">
 </head>
 <body>
-    <div class="register">
-        <mat-card class="register-card">
-            <h3>Register</h3>
-            <mat-form-field  appearance="fill">
-                <mat-label>First Name...</mat-label>
-                <input matInput [formControl]="firstName" required>
-                <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage('firstName')}}</mat-error>
-            </mat-form-field>
-            <mat-form-field  appearance="fill">
-                <mat-label>Last Name...</mat-label>
-                <input matInput [formControl]="lastName" required>
-                <mat-error *ngIf="lastName.invalid">{{getNameErrorMessage('lastName')}}</mat-error>
-            </mat-form-field>
-            <mat-form-field  appearance="fill">
-                <mat-label>Enter Email...</mat-label>
-                <input matInput [formControl]="email" required>
-                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <mat-form-field  appearance="fill"> 
-                <mat-label>Enter Password...</mat-label>
-                <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password" required>
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    <div id="register">
+        <h2 class="message-1">Create A New Account</h2>
+        <h5 class="message-2">It's Quick, Easy and Free!</h5>
+        <div class="register">
+            <mat-card class="register-card">
+                <mat-form-field  appearance="fill">
+                    <mat-label>First Name...</mat-label>
+                    <input matInput [formControl]="firstName" required>
+                    <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage('firstName')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field  appearance="fill">
+                    <mat-label>Last Name...</mat-label>
+                    <input matInput [formControl]="lastName" required>
+                    <mat-error *ngIf="lastName.invalid">{{getNameErrorMessage('lastName')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field  appearance="fill">
+                    <mat-label>Enter Email...</mat-label>
+                    <input matInput [formControl]="email" required>
+                    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field  appearance="fill"> 
+                    <mat-label>Enter Password...</mat-label>
+                    <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password" required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+                </mat-form-field>
+                <button mat-raised-button (click)="registerUser(firstName.value, lastName.value, email.value, password.value)" *ngIf="!isLoading"
+                    [disabled]="firstName.invalid || lastName.invalid || email.invalid || password.invalid">
+                    Sign Up
                 </button>
-                <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <button mat-raised-button (click)="registerUser(firstName.value, lastName.value, email.value, password.value)" *ngIf="!isLoading"
-                [disabled]="firstName.invalid || lastName.invalid || email.invalid || password.invalid">
-                Sign Up
-            </button>
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-        </mat-card>
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
+            </mat-card>
+        </div>
     </div>
 </body>
 </html>

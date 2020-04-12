@@ -23,3 +23,15 @@ h1 {
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .toolbar-container {
+        .welcome-toolbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            height: 150px;
+        }
+    }
+}

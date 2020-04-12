@@ -5,25 +5,24 @@
 </head>
 <body>
     <div class="login">
-        <mat-card class="login-card">
-            <h3>Sign In</h3>
-            <mat-form-field appearance="fill">
-                <mat-label>Enter Email...</mat-label>
-                <input matInput [formControl]="email">
-                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Enter Password...</mat-label>
-                <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <button mat-raised-button (click)="verifyUserAndLogin(email.value, password.value)" *ngIf="!isLoading" 
-                [disabled]="password.invalid || email.invalid">Login</button>
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-        </mat-card>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="email">
+            <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <button class="login-button" mat-button (click)="verifyUserAndLogin(email.value, password.value)" *ngIf="!isLoading" 
+        [disabled]="password.invalid || email.invalid">
+            Login
+        </button>
+        <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
     </div>
 </body>
 </html>

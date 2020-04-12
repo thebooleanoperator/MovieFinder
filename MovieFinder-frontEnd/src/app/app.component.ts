@@ -28,29 +28,12 @@ export class AppComponent implements OnInit {
     isLoggedOn(): boolean {
         return this.authService.isLoggedIn();
     }
-
-    toggleOutsideButtons(welcome:boolean, login:boolean, register:boolean): void {
-        this.showWelcome = welcome;
-        this.showLogin = login;
-        this.showRegister = register;
-    }
-
+    
     ngOnInit() {
         // Log the user out, and remove session when a user navigates to outside pages.
         this.navEnd.subscribe((event) => {
             if (this.outsideUrls.includes(event.url)) {
                 this.authService.logout(false);
-                switch(event.url) {
-                    case '/welcome':
-                        this.toggleOutsideButtons(false, true, true);
-                        break;
-                    case '/login':
-                        this.toggleOutsideButtons(true, false, true); 
-                        break;
-                    case '/register':
-                        this.toggleOutsideButtons(true, true, false);
-                        break;
-                }
             }
         })
     }
