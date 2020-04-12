@@ -2,12 +2,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(245, 37, 71, 0.856);
+    background-color: rgba(192, 52, 76, 0.856);
 
     .tool-button {
-        padding: 5px;
-        margin: 10px;
-        width: 100px;
+        margin: 10px 2px;
+        background-color: rgba(189, 115, 115, 0.87);
+        color: white;
     }
 
     .tool-button:hover {
