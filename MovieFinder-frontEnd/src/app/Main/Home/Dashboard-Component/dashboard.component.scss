@@ -23,7 +23,7 @@
             width: 500px;
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
-            background-color: rgba(243, 203, 210, 0.856);
+            background-color: rgba(199, 103, 103, 0.336);
 
 
             .search-box {
@@ -36,7 +36,7 @@
                 ::ng-deep .mat-form-field-wrapper  {
                     height: 40px;
                     width: 400px;
-                    background-color: rgba(87, 13, 13, 0.87);
+                    background-color: rgba(199, 103, 103, 0.87);
 
                     ::ng-deep .mat-form-field-infix {
                         display: flex;
@@ -89,7 +89,7 @@
             align-items: center;
             margin: 6px;
             color: white;
-            background-color: rgba(87, 13, 13, 0.87);
+            background-color: rgba(199, 103, 103, 0.87);
 
             ::ng-deep .mat-form-field-wrapper {
                 width: 100px;
@@ -197,7 +197,7 @@
             table {
                 width: 300px;
                 tr {
-                    height: 30px;
+                    height: 40px;
                 }
             }
         }

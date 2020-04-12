@@ -2,8 +2,12 @@
     <mat-toolbar-row class="main-toolbar">
         <div>
             <mat-button-toggle-group>
-                <mat-button-toggle class="tool-button" routerLink="/dashboard">Search</mat-button-toggle>
-                <mat-button-toggle class="tool-button" routerLink="/movies">Staff Pics</mat-button-toggle>
+                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" routerLink="/dashboard">
+                    Search
+                </mat-button-toggle>
+                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': !isSearch, 'tool-button': isSearch}" routerLink="/movies">
+                    Staff Pics
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
         <div>

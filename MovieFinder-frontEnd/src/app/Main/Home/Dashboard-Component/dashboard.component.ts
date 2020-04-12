@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/DTO/movie.dto';
 import { MoviesService } from 'src/app/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';

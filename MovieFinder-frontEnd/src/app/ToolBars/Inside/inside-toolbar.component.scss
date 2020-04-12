@@ -10,8 +10,14 @@
         color: white;
     }
 
+    .selected-tool-button {
+        margin: 10px 2px;
+        background-color: rgba(83, 47, 47, 0.87);
+        color: white;
+    }
+
     .tool-button:hover {
         cursor: pointer;
-        background-color: grey;
+        background-color: rgba(83, 47, 47, 0.87);
     }
 }

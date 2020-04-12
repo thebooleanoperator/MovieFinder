@@ -10,23 +10,23 @@
         <div class="register">
             <mat-card class="register-card">
                 <mat-form-field  appearance="fill">
-                    <mat-label>First Name...</mat-label>
-                    <input matInput [formControl]="firstName" required>
+                    <mat-label>First Name</mat-label>
+                    <input matInput [formControl]="firstName" required autocomplete="off">
                     <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage('firstName')}}</mat-error>
                 </mat-form-field>
                 <mat-form-field  appearance="fill">
-                    <mat-label>Last Name...</mat-label>
-                    <input matInput [formControl]="lastName" required>
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [formControl]="lastName" required autocomplete="off">
                     <mat-error *ngIf="lastName.invalid">{{getNameErrorMessage('lastName')}}</mat-error>
                 </mat-form-field>
                 <mat-form-field  appearance="fill">
-                    <mat-label>Enter Email...</mat-label>
-                    <input matInput [formControl]="email" required>
+                    <mat-label>Email</mat-label>
+                    <input matInput [formControl]="email" required autocomplete="off">
                     <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field  appearance="fill"> 
-                    <mat-label>Enter Password...</mat-label>
-                    <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password" required>
+                    <mat-label>Password</mat-label>
+                    <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password" required autocomplete="off">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>

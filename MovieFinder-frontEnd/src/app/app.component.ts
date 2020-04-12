@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
     constructor(private authService: AuthService, private router: Router)
     {
+        // Returns a NavigationEnd observable, so we can check the url on route change end.
         this.navEnd = router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ) as Observable<NavigationEnd>
