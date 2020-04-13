@@ -171,6 +171,19 @@
     background-color: rgba(243, 203, 210, 0.856);
 }
 
+::ng-deep .cdk-overlay-container {
+    ::ng-deep .cdk-global-overlay-wrapper {
+        ::ng-deep .cdk-overlay-pane {
+            width: 800px !important;
+            max-width: unset !important;
+
+            ::ng-deep .mat-dialog-container {
+                padding: 0px;
+            }
+        }    
+    }
+}
+
 .selected-movie {
     z-index: 100;
 }

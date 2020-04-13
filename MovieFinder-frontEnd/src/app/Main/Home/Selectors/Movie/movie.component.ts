@@ -9,13 +9,8 @@ import { MovieDto } from 'src/app/DTO/movie.dto';
 export class MovieComponent {
     // Data
     @Input() movie: MovieDto; 
-
-    showPoster: boolean = true;
+    
     posterError: boolean = false;
-
-    transformMovie() {
-        this.showPoster = !this.showPoster;
-    }
 
     getGenres(genres): string {
         var genreBuilder = "";
