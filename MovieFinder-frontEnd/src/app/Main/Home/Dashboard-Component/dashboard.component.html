@@ -10,7 +10,7 @@
                 (keyup)="searchMovies(search, year)"
                 (keydown.enter)="searchMovies(search, year)"
                 (keydown.backspace)="clearSearchResults()"
-                autocomplete="false">
+                autocomplete="off">
                 <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
             </mat-form-field>
             <mat-form-field class="year-box">
