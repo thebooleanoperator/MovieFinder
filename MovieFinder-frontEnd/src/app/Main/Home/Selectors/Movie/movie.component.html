@@ -1,41 +1,41 @@
 <div id="movies">
-    <div *ngIf="isStreaming(movie)" class="streamsContainer">
-        <h3>Streaming On:</h3>
-        <img *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png"/>
-        <img *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png"/>
-        <img *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png"/>
-        <img *ngIf="movie.streamingData.disneyPlus" src="assets/images/streaming-icons/disneyPlus.png"/>
-        <img *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png"/>
-        <img *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png"/>
-        <img *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"/>
-    </div>
-    <div *ngIf="!isStreaming(movie)" class="streamsContainer">
-        <h3>Not Currently Streaming</h3>
-    </div>
-    <div class="movie-container">
-        <mat-card mat-button class="movie-info movie-front" *ngIf="showPoster" (click)="transformMovie()">
-            <p *ngIf="posterError" class="info-title">{{movie.title}}</p>
-            <img [src]="movie.poster" (error)="useDefault($event)">
-        </mat-card>   
-        <mat-card class="movie-info movie-back" *ngIf="!showPoster" (click)="transformMovie()"> 
-            <h2>{{movie.title}}</h2>
-            <div><span>Year:</span>{{movie.year}}</div>
-            <div><span>Director:</span> {{movie.director}}</div>
-            <div><span>Genre:</span> {{getGenres(movie.genres)}}</div>
-            <div><span>Run Time:</span>{{movie.runTime}} min</div>
-            <div><span>Plot:</span> {{movie.synopsis.plot}}</div>
-        </mat-card>  
-    </div>
-    <div class="rating-container">
-        <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
-            <img src="assets/images/rotten-tomatoes.png">
-            {{movie.rottenTomatoesRating}}%
+    <mat-card class="movie-card"> 
+        <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
+        <div class="info-container">
+            <div class="title-container">
+                <h2 class="title">{{movie.title}}</h2>
+                <div class="rating-container">
+                    <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
+                        <img src="assets/images/rotten-tomatoes.png">
+                        {{movie.rottenTomatoesRating}}%
+                    </div>
+                    <div class="imdb-rating" *ngIf="movie.imdbRating">
+                        <img src="assets/images/imdb.png">
+                        {{movie.imdbRating}}
+                    </div>
+                    <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
+                    </div>
+                </div>
+            </div>
+            <div class="data-container">
+                <div class="year">{{movie.year}}</div>
+                <div class="run-time">{{movie.runTime}} min</div>
+                <div class="genre">{{getGenres(movie.genres)}}</div>
+            </div>     
+            <div class="plot">{{movie.synopsis.plot}}</div>
+            <div *ngIf="isStreaming(movie)" class="streaming-container">
+                <h3>Streaming On:</h3>
+                <img class="stream-pic" *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.disneyPlus" src="assets/images/streaming-icons/disneyPlus.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"/>
+            </div>
+            <div *ngIf="!isStreaming(movie)" class="streaming-container">
+                <h3>Not Streaming :(</h3>
+            </div>
         </div>
-        <div class="imdb-rating" *ngIf="movie.imdbRating">
-            <img src="assets/images/imdb.png">
-            {{movie.imdbRating}}
-        </div>
-        <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
-        </div>
-    </div>
+    </mat-card>  
 </div>

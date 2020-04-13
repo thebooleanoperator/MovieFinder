@@ -1,75 +1,93 @@
 #movies {
-    .rating-container {
+    .movie-card {
         display: flex;
         flex-direction: row;
-        justify-content: center;
         align-items: center;
-        .rotten-rating, .imdb-rating {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            font-family: sans-serif;
-            font-weight: bold;
-            img {
-                padding: 5px;
-            }
-        }
-        .empty-rating {
-            height: 52px;
-        }
-    }
-    .movie-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center; 
-        align-items: center; 
-        .movie-info {
-            height: 525px;
-            width: 400px;
-            display: flex;
-            flex-direction: column;
-            padding: 7px 30px 30px 30px;
+        justify-content: center;
+        height: 400px;
+        width: 800px;
+        padding: 0px;
+        background-color: rgba(83, 47, 47, 0.87);;
 
-            .info-title {
-                margin: 5px;
-                font-weight: bold;
-            }
+        .movie-poster {
+            height: 400px;
+            width: 40%;
         }
-        .movie-info:hover{
-            cursor: pointer;
-        }
-        .movie-front {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(240, 233, 233, 0.603);
-            img {
-                height: 500px;
-                width: 375px;
+
+        .info-container {
+            height: 400px;
+            width: 60%;
+            color: white;
+
+            .title-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                height: 100px;
+
+                .title {
+                    margin: 0px;
+                    font-size: 35px;
+                }
+
+                .director {
+                    font-size: 15px;
+                }
+
+                .rating-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: start;
+                    margin-left: 10px;
+                    .rotten-rating, .imdb-rating {
+                        display: flex;
+                        align-items: center;
+                        padding: 5px 5px 5px 0px;
+                        font-family: sans-serif;
+                        font-weight: bold;
+                        img {
+                            margin: 5px 5px 5px 0px;
+                        }
+                    }
+                    .empty-rating {
+                        height: 52px;
+                    }
+                }
             }
-        }
-        .movie-back {
-            display: flex;
-            flex-direction: column;
-            background-color: rgba(240, 233, 233, 0.603);
-            h2 {
-                text-decoration: underline;
-                text-align: center;
+
+            .data-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start; 
+
+                .year {
+                    margin: 0px 10px 10px 0px;
+                }
+
+                .run-time {
+                    margin: 0px 10px;
+                }
+
+                .genre {
+                    margin: 0px 10px;
+                }
             }
-            div {
-                padding: 10px;
+
+            .plot {
+                margin-top: 10px;
+                height: 150px;
             }
-        }
-    }
-    .streamsContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: center; 
-        align-items: center; 
-        img {
-            height: 32px;
-            width: 32px;
-            padding: 10px;
+
+            .streaming-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start; 
+                align-items: center; 
+                img {
+                    margin: 5px;
+                }
+            }
         }
     }
 }
