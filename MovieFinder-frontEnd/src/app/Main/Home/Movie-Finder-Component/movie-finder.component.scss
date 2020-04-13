@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-top: 100px;
     .movie-arrow {
         display: flex;
-        margin-top: 335px;
-        height: 40px;
+        justify-content: center;
+        align-items: center;
     }
 }
 
