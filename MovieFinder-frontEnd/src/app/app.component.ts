@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './Services/auth-service';
 import { Observable } from 'rxjs';
@@ -10,6 +10,22 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+    /*wip
+    * logoutTimeout: NodeJS.Timer;
+    @HostListener('window:beforeunload')
+    handleUnload() {
+        this.logoutTimeout = setTimeout(() => {
+            return this.authService.logout(false);
+        }, 10000);
+    } 
+
+    @HostListener('window:onloadon')
+    handleLoad() {  
+        if (this.logoutTimeout) {
+            clearTimeout(this.logoutTimeout); 
+        }
+    }*/
+
     constructor(private authService: AuthService, private router: Router)
     {
         // Returns a NavigationEnd observable, so we can check the url on route change end.
@@ -20,11 +36,7 @@ export class AppComponent implements OnInit {
 
     //Data
     navEnd: Observable<NavigationEnd>;
-    outsideUrls: Array<string> = ["/welcome", "/login", "/register"];
-    showLogin: boolean = true;
-    showRegister: boolean = true;
-    showWelcome: boolean = false;
-    
+
     //Methods
     isLoggedOn(): boolean {
         return this.authService.isLoggedIn();
@@ -33,7 +45,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         // Log the user out, and remove session when a user navigates to outside pages.
         this.navEnd.subscribe((event) => {
-            if (this.outsideUrls.includes(event.url)) {
+            if (event.url == "/welcome") {
                 this.authService.logout(false);
             }
         })
