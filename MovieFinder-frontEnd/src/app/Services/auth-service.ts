@@ -34,7 +34,7 @@ export class AuthService {
     }
 
     public logout(reRoute=true) {
-        localStorage.clear();
+        sessionStorage.clear();
         reRoute ? this.router.navigate(['/welcome']): null;
     }
 
@@ -49,18 +49,18 @@ export class AuthService {
     }
 
     get token(): string {
-        return localStorage.getItem('token')
+        return sessionStorage.getItem('token')
     }
 
     set token(token : string) {
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
     } 
 
     get user(): UserDto {
-        return JSON.parse(localStorage.getItem('user'));
+        return JSON.parse(sessionStorage.getItem('user'));
     }
 
     set user(user: UserDto) {
-        localStorage.setItem('user', JSON.stringify(user))
+        sessionStorage.setItem('user', JSON.stringify(user))
     }
 }

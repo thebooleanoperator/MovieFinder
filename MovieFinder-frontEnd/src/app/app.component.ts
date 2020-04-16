@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './Services/auth-service';
 import { Observable } from 'rxjs';
@@ -9,23 +9,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-    /*wip
-    * logoutTimeout: NodeJS.Timer;
-    @HostListener('window:beforeunload')
-    handleUnload() {
-        this.logoutTimeout = setTimeout(() => {
-            return this.authService.logout(false);
-        }, 10000);
-    } 
-
-    @HostListener('window:onloadon')
-    handleLoad() {  
-        if (this.logoutTimeout) {
-            clearTimeout(this.logoutTimeout); 
-        }
-    }*/
-
+export class AppComponent implements OnInit, OnDestroy {
     constructor(private authService: AuthService, private router: Router)
     {
         // Returns a NavigationEnd observable, so we can check the url on route change end.
@@ -36,7 +20,7 @@ export class AppComponent implements OnInit {
 
     //Data
     navEnd: Observable<NavigationEnd>;
-
+    
     //Methods
     isLoggedOn(): boolean {
         return this.authService.isLoggedIn();
@@ -49,5 +33,9 @@ export class AppComponent implements OnInit {
                 this.authService.logout(false);
             }
         })
+    }
+
+    ngOnDestroy() {
+        this.authService.logout(false);
     }
 }
