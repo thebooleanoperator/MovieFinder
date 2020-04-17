@@ -63,10 +63,15 @@ namespace MovieFinder.Controllers
                 }
             }
 
-            // There was not movie with title found.
+            // There was not movie with title found. Try to get closely matched results. 
             if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
             {
-                return NotFound();
+                var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
+
+                // If close matches are empty, return NotFound. 
+                if (closelyMatchingImdbIds == null || closelyMatchingImdbIds.Count() == 0) { return NotFound(); }
+
+                return Ok(closelyMatchingImdbIds); 
             }
 
             foreach (var imdbId in imdbIdsFromRapid)

@@ -15,7 +15,7 @@ namespace MovieFinder.Utils
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static HttpRequestMessage ImdbIdsRapidRequest(string title, int? year)
+        public static HttpRequestMessage GetImdbIdsWithImdbAPI(string title, int? year)
         {
             string longurl = imdbRapidApiUrl;
             var uriBuilder = new UriBuilder(longurl);
@@ -36,11 +36,37 @@ namespace MovieFinder.Utils
         }
 
         /// <summary>
+        /// Used to get a Movie with all info. Overrides ImdbInfoRapidRequest by changing signature.\
+        /// Overloads GetImdbIdsWithImdbAPI with 1 parameter signature.
+        /// </summary>
+        /// <param name="imdbId"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public static HttpRequestMessage GetImdbIdsWithImdbAPI(string imdbId)
+        {
+            string longurl = imdbRapidApiUrl;
+            var uriBuilder = new UriBuilder(longurl);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["r"] = "json";
+            query["type"] = "movie";
+            query["plot"] = "short";
+            query["i"] = imdbId;
+            uriBuilder.Query = query.ToString();
+            longurl = uriBuilder.ToString();
+            var request = new HttpRequestMessage(HttpMethod.Get, longurl);
+
+            request.Headers.Add("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com");
+            request.Headers.Add("x-rapidapi-key", "98148972b0mshcf5fd6487ff6f4ap1b7554jsn9f54713ce432");
+
+            return request;
+        }
+
+        /// <summary>
         /// Gets a list of Ids by movie title from Rapid Api Imdb GET endpoint.
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static HttpRequestMessage IdsRapidRequest(string title)
+        public static HttpRequestMessage GetImdbIdWithBackupImdbAPI(string title)
         {
             string longurl = idRapidUrl + $"/{title}";
             var uriBuilder = new UriBuilder(longurl);
@@ -61,7 +87,7 @@ namespace MovieFinder.Utils
         /// <param name="imdbId"></param>
         /// <param name="year"></param>
         /// <returns></returns>
-        public static HttpRequestMessage ImdbInfoRapidRequest(string imdbId, string year)
+        public static HttpRequestMessage GetAllMovieInfoWithImdbAPI(string imdbId, string year)
         {
             string longurl = imdbRapidApiUrl;
             var uriBuilder = new UriBuilder(longurl);
@@ -71,31 +97,6 @@ namespace MovieFinder.Utils
             query["plot"] = "short";
             query["i"] = imdbId;
             query["y"] = year;
-            uriBuilder.Query = query.ToString();
-            longurl = uriBuilder.ToString();
-            var request = new HttpRequestMessage(HttpMethod.Get, longurl);
-
-            request.Headers.Add("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com");
-            request.Headers.Add("x-rapidapi-key", "98148972b0mshcf5fd6487ff6f4ap1b7554jsn9f54713ce432");
-
-            return request;
-        }
-
-        /// <summary>
-        /// Used to get a Movie with all info. Overrides ImdbInfoRapidRequest by changing signature.
-        /// </summary>
-        /// <param name="imdbId"></param>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        public static HttpRequestMessage ImdbInfoRapidRequest(string imdbId)
-        {
-            string longurl = imdbRapidApiUrl;
-            var uriBuilder = new UriBuilder(longurl);
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["r"] = "json";
-            query["type"] = "movie";
-            query["plot"] = "short";
-            query["i"] = imdbId;
             uriBuilder.Query = query.ToString();
             longurl = uriBuilder.ToString();
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);

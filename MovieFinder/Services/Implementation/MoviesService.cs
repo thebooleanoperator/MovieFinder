@@ -20,7 +20,7 @@ namespace MovieFinder.Utils
 
         public async Task<List<ImdbIds>> GetImdbIdsByTitle(string title, int? year)
         {
-            var request = RapidRequestSender.ImdbIdsRapidRequest(title, year);
+            var request = RapidRequestSender.GetImdbIdsWithImdbAPI(title, year);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -66,7 +66,7 @@ namespace MovieFinder.Utils
                 return null;
             }
 
-            var request = RapidRequestSender.ImdbInfoRapidRequest(imdbId);
+            var request = RapidRequestSender.GetImdbIdsWithImdbAPI(imdbId);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -87,7 +87,7 @@ namespace MovieFinder.Utils
 
         public async Task<List<IdsDto>> GetOnlyIdByTitle(string title)
         {
-            var request = RapidRequestSender.IdsRapidRequest(title);
+            var request = RapidRequestSender.GetImdbIdWithBackupImdbAPI(title);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -123,7 +123,7 @@ namespace MovieFinder.Utils
                 return null;
             }
 
-            var request = RapidRequestSender.ImdbInfoRapidRequest(imdbId.ImdbId, $"{imdbId.Year}");
+            var request = RapidRequestSender.GetAllMovieInfoWithImdbAPI(imdbId.ImdbId, $"{imdbId.Year}");
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
