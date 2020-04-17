@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace MovieFinder.Controllers
 {
     
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     public class MoviesController : Controller
     {
         private UnitOfWork _unitOfWork;
@@ -29,7 +29,7 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateMovieFromImdbId([FromBody] ImdbIdDto imdbIdDto)
+        public async Task<IActionResult> Create([FromBody] ImdbIdDto imdbIdDto)
         {
             if (imdbIdDto == null)
             {
@@ -71,57 +71,13 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Endpoint used to create Movies from MovieTitlesDto. Used to manually add movies to staff reccomendations.
-        /// </summary>
-        /// <param name="movieInfo"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateAllMoviesWithTitle([FromBody] MovieTitlesDto movieInfo)
-        {
-            var imdbIds = await _moviesService.GetImdbIdsByTitle(movieInfo.MovieTitle, movieInfo.Year);
-            if (imdbIds == null)
-            {
-                return BadRequest("Could not find imdbId.");
-            }
-            var movies = new List<Movies>();
-            foreach (var imdbId in imdbIds)
-            {
-                var imdbInfo = await _moviesService.GetMovieInfo(imdbId);
-                // If the imdbInfo is null, parse failed. Continue iteration.
-                if (imdbInfo == null) {continue;}
-
-                imdbInfo.IsRec = movieInfo.IsRec;
-
-                var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
-
-                // Don't save a dupe Movie.
-                if (existingMovie != null)
-                {
-                    movies.Add(existingMovie);
-                }
-                else
-                {
-                    var movie = new Movies(imdbInfo, imdbId);
-                    _unitOfWork.Movies.Add(movie);
-                    _unitOfWork.SaveChanges();
-                    var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
-
-                    // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-                    FillAssociatedTables(imdbInfo, movie, streamingDataDto);
-                    movies.Add(movie);
-                }
-            }
-            return Ok(movies);
-        }
-        
-        /// <summary>
         /// Gets a movie, streamingData, and Synopsis from ImdbId.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetFromImdbId(string id)
+        public IActionResult GetByImdbId(string id)
         {
             if (id == null)
             {
@@ -151,7 +107,11 @@ namespace MovieFinder.Controllers
             return Ok(moviesDto); 
         }
 
-        [HttpGet]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/Recommended")]
         [Authorize]
         public IActionResult GetRecommended()
         {
@@ -182,6 +142,7 @@ namespace MovieFinder.Controllers
         /// <param name="moviesDto"></param>
         /// <returns></returns>
         [HttpPatch]
+        [Authorize]
         public IActionResult UpdateRecommendation([FromBody] RecomendationDto recomendationDto)
         {
             var movie = _unitOfWork.Movies.Get(recomendationDto.MovieId); 

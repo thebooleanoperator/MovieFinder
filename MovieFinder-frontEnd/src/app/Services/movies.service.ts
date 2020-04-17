@@ -8,14 +8,14 @@ export class MoviesService {
     constructor(private http: HttpClient){};
     
     public getMovieRecs(): Observable<any> {
-        return this.http.get('http://localhost:5001/Movies/GetRecommended');
+        return this.http.get('http://localhost:5001/Movies/Recommended');
     } 
 
     public getMovieByImdbId(imdbId: string): Observable<any> {
-        return this.http.get(`http://localhost:5001/Movies/GetFromImdbId/${imdbId}`);  
+        return this.http.get(`http://localhost:5001/Movies/${imdbId}`);  
     }
 
     public createMovieFromImdbId(imdbIdDto: ImdbIdDto): Observable<any> {
-        return this.http.post('http://localhost:5001/Movies/CreateMovieFromImdbId', imdbIdDto);  
+        return this.http.post('http://localhost:5001/Movies', imdbIdDto);  
     }
 }
