@@ -18,7 +18,7 @@ namespace MovieFinder.Utils
             _clientFactory = clientFactory;
         }
 
-        public async Task<List<ImdbIds>> GetImdbIdsFromTitle(string title, int? year)
+        public async Task<List<ImdbIds>> GetImdbIdsByTitle(string title, int? year)
         {
             var request = RapidRequestSender.ImdbIdsRapidRequest(title, year);
             var client = _clientFactory.CreateClient();
@@ -56,23 +56,17 @@ namespace MovieFinder.Utils
                 }
 
             }
-
             return imdbIds;
         }
 
-        /// <summary>
-        /// Gets an imdbId objcet by an imdbId id. Need to use this to get the year 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<ImdbIds> GetImdbIdById(string id)
+        public async Task<ImdbIds> GetImdbIdById(string imdbId)
         {
-            if (id == null)
+            if (imdbId == null)
             {
                 return null;
             }
 
-            var request = RapidRequestSender.ImdbInfoRapidRequest(id);
+            var request = RapidRequestSender.ImdbInfoRapidRequest(imdbId);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -91,7 +85,7 @@ namespace MovieFinder.Utils
             }
         }
 
-        public async Task<List<IdsDto>> GetIdsFromTitle(string title)
+        public async Task<List<IdsDto>> GetOnlyIdByTitle(string title)
         {
             var request = RapidRequestSender.IdsRapidRequest(title);
             var client = _clientFactory.CreateClient();
@@ -122,12 +116,7 @@ namespace MovieFinder.Utils
             return idsDtos;
         }
 
-        /// <summary>
-        /// Gets all of the movie info from an ImdbId.
-        /// </summary>
-        /// <param name="imdbId"></param>
-        /// <returns></returns>
-        public async Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId)
+        public async Task<ImdbInfoDto> GetMovieInfo([FromBody] ImdbIds imdbId)
         {
             if (imdbId == null)
             {
@@ -155,11 +144,6 @@ namespace MovieFinder.Utils
             }
         }
 
-        /// <summary>
-        /// Returns the stream services a movie is streaming on by title.
-        /// </summary>
-        /// <param name="imdbId"></param>
-        /// <returns></returns>
         public async Task<StreamingDataDto> GetStreamingData(string title)
         {
             if (title == null)

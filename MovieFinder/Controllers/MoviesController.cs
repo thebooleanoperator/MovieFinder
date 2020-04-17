@@ -43,7 +43,7 @@ namespace MovieFinder.Controllers
                 return BadRequest("ImdbId does not exist.");
             }
 
-            var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
+            var imdbInfo = await _moviesService.GetMovieInfo(imdbId);
 
             if (imdbInfo == null)
             {
@@ -78,7 +78,7 @@ namespace MovieFinder.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAllMoviesWithTitle([FromBody] MovieTitlesDto movieInfo)
         {
-            var imdbIds = await _moviesService.GetImdbIdsFromTitle(movieInfo.MovieTitle, movieInfo.Year);
+            var imdbIds = await _moviesService.GetImdbIdsByTitle(movieInfo.MovieTitle, movieInfo.Year);
             if (imdbIds == null)
             {
                 return BadRequest("Could not find imdbId.");
@@ -86,7 +86,7 @@ namespace MovieFinder.Controllers
             var movies = new List<Movies>();
             foreach (var imdbId in imdbIds)
             {
-                var imdbInfo = await _moviesService.GetImdbMovieInfo(imdbId);
+                var imdbInfo = await _moviesService.GetMovieInfo(imdbId);
                 // If the imdbInfo is null, parse failed. Continue iteration.
                 if (imdbInfo == null) {continue;}
 
@@ -205,7 +205,7 @@ namespace MovieFinder.Controllers
         /// <param name="movie"></param>
         /// <param name="streamingDataDto"></param>
         /// <param name="saveTables"></param>
-        public void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
+        private void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
         {
             var streamingData = new StreamingData(streamingDataDto, movie);
             _unitOfWork.StreamingData.Add(streamingData);

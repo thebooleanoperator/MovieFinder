@@ -13,10 +13,40 @@ namespace MovieFinder.Services.Interface
 {
     public interface IMoviesService
     {
-        Task<ImdbInfoDto> GetImdbMovieInfo([FromBody] ImdbIds imdbId);
-        Task<List<ImdbIds>> GetImdbIdsFromTitle(string title, int? year);
+        /// <summary>
+        /// Gets ImdbId (id, title, year) from RapidAPI movie-database-alternative. 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        Task<List<ImdbIds>> GetImdbIdsByTitle(string title, int? year);
+
+        /// <summary>
+        /// Gets an imdbId objcet by an imdbId id. Need to use this to get the year 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ImdbIds> GetImdbIdById(string imdbId);
+
+        /// <summary>
+        /// Gets only the title and imdbId from unoffical Imdb API. 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        Task<List<IdsDto>> GetOnlyIdByTitle(string title);
+
+        /// <summary>
+        /// Gets all movie info from from movie-database-alternative
+        /// </summary>
+        /// <param name="imdbId"></param>
+        /// <returns></returns>
+        Task<ImdbInfoDto> GetMovieInfo([FromBody] ImdbIds imdbId);
+
+        /// <summary>
+        /// Gets all streaming data for a movie from Utelly API. 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         Task<StreamingDataDto> GetStreamingData(string title);
-        Task<List<IdsDto>> GetIdsFromTitle(string title);
-        Task<ImdbIds> GetImdbIdById(string id);
     }
 }

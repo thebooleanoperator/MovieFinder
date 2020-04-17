@@ -37,25 +37,26 @@ namespace MovieFinder.Controllers
 
             var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
 
-            // If there is an exact get all the close matches and return them. 
+            // If there is an exact match get all the close matches and return them. 
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
                 var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false); 
                 return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, year);
+            var imdbIdsFromRapid = await _moviesService.GetImdbIdsByTitle(title, year);
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 
             if (imdbIdsFromRapid == null)
             {
                 imdbIdsFromRapid = new List<ImdbIds>();
-                var idsFromRapid = await _moviesService.GetIdsFromTitle(title);
+                // Use movieService to call backup API.
+                var idsFromRapid = await _moviesService.GetOnlyIdByTitle(title);
                 List<ImdbIds> imdbIdsFromRApid = new List<ImdbIds>();
 
                 foreach (var id in idsFromRapid)
                 {
-                    // In order to get the year, we need to 
+                    // In order to get the year, we need to use the rate limited imdb api.
                     var imdbId = await _moviesService.GetImdbIdById(id.Id);
                     // imdbId will be null when parsing fails.
                     if (imdbId != null) { imdbIdsFromRapid.Add(imdbId); }
