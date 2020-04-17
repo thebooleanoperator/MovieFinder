@@ -24,6 +24,8 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
+            var rateLimit = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null; 
+
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
@@ -58,6 +60,37 @@ namespace MovieFinder.Utils
             return imdbIds;
         }
 
+        /// <summary>
+        /// Gets an imdbId objcet by an imdbId id. Need to use this to get the year 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ImdbIds> GetImdbIdById(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var request = RapidRequestSender.ImdbInfoRapidRequest(id);
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
+
+            if (parsedJson == null) { return null; }
+
+            //Get the ImdbInfoDto by converting JObject.
+            try
+            {
+                return parsedJson.ToObject<ImdbIds>();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<IdsDto>> GetIdsFromTitle(string title)
         {
             var request = RapidRequestSender.IdsRapidRequest(title);
@@ -87,37 +120,6 @@ namespace MovieFinder.Utils
             }
 
             return idsDtos;
-        }
-
-        /// <summary>
-        /// Gets an imdbId objcet by an imdbId id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<ImdbIds> GetImdbIdById(string id)
-        {
-            if (id == null)
-            {
-                return null;
-            }
-
-            var request = RapidRequestSender.ImdbInfoRapidRequest(id);
-            var client = _clientFactory.CreateClient();
-            var response = await client.SendAsync(request);
-
-            var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
-
-            if (parsedJson == null) { return null; }
-
-            //Get the ImdbInfoDto by converting JObject.
-            try
-            {
-                return parsedJson.ToObject<ImdbIds>();
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         /// <summary>

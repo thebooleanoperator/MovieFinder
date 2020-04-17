@@ -35,18 +35,19 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
-            var existingImdbIds = _unitOfWork.ImdbIds.GetByTitleAndYear(title, year).ToList();
+            var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
 
-            // If there is an exact matching imdbIds return them.
+            // If there is an exact get all the close matches and return them. 
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
-                return Ok(existingImdbIds.OrderByDescending(i => i.Year));
+                var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false); 
+                return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
             var imdbIdsFromRapid = await _moviesService.GetImdbIdsFromTitle(title, year);
-            // If there were no imdbIds found on inital search, search backupApi for movies.
-            // There's no way to specify a year to the backup API, skip if user requests specific year.
-            if (imdbIdsFromRapid == null && year == null)
+            // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
+            // There's no way to specify a year to the backup API, ignore the year. 
+            if (imdbIdsFromRapid == null)
             {
                 imdbIdsFromRapid = new List<ImdbIds>();
                 var idsFromRapid = await _moviesService.GetIdsFromTitle(title);
@@ -54,6 +55,7 @@ namespace MovieFinder.Controllers
 
                 foreach (var id in idsFromRapid)
                 {
+                    // In order to get the year, we need to 
                     var imdbId = await _moviesService.GetImdbIdById(id.Id);
                     // imdbId will be null when parsing fails.
                     if (imdbId != null) { imdbIdsFromRapid.Add(imdbId); }
@@ -68,7 +70,7 @@ namespace MovieFinder.Controllers
 
             foreach (var imdbId in imdbIdsFromRapid)
             {
-                var exisitingId = _unitOfWork.ImdbIds.GetByImdbId(imdbId.ImdbId);
+                var exisitingId = _unitOfWork.ImdbIds.Get(imdbId.ImdbId);
                 if (exisitingId == null)
                 {
                     // Add and save everytime to avoid adding duplicate pk into db.

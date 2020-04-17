@@ -13,18 +13,27 @@ namespace MovieFinder.Repository.Repo
 
         }
         
-        public ImdbIds GetByImdbId(string imdbId)
+        public ImdbIds Get(string imdbId)
         {
             return DbSet.Where(i => i.ImdbId == imdbId).SingleOrDefault();
         }
 
-        public IEnumerable<ImdbIds> GetByTitleAndYear(string title, int? year)
+        public IEnumerable<ImdbIds> GetByTitle(string title, int? year, bool exactMatch = true)
         {
-            if (year != null && year > 0)
+            // Only get titles with exact matching title. 
+            if (exactMatch)
             {
-                return DbSet.Where(i => i.Title.ToLower() == title.ToLower() && i.Year == year);
+                return year == null
+                    ? DbSet.Where(i => i.Title.ToLower() == title.ToLower())
+                    : DbSet.Where(i => i.Title.ToLower() == title.ToLower() && i.Year == year);
             }
-            return DbSet.Where(i => i.Title.ToLower() == title.ToLower());
+            // Use contains to get all titles like title parameter. 
+            else
+            {
+                return year == null
+                    ? DbSet.Where(i => i.Title.ToLower().Contains(title.ToLower()))
+                    : DbSet.Where(i => i.Title.ToLower().Contains(title.ToLower()) && i.Year == year);
+            }
         }
     }
 }

@@ -22,7 +22,13 @@ namespace MovieFinder.Controllers
             _moviesService = moviesService;
         }
 
+        /// <summary>
+        /// Creates a movie with an ImdbIdDto. This is used by Movie Finder when user clicks movie title.
+        /// </summary>
+        /// <param name="imdbIdDto"></param>
+        /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateMovieFromImdbId([FromBody] ImdbIdDto imdbIdDto)
         {
             if (imdbIdDto == null)
@@ -30,7 +36,7 @@ namespace MovieFinder.Controllers
                 return BadRequest("ImdbIdDto must not be null.");
             }
 
-            var imdbId = _unitOfWork.ImdbIds.GetByImdbId(imdbIdDto.ImdbId); 
+            var imdbId = _unitOfWork.ImdbIds.Get(imdbIdDto.ImdbId); 
 
             if (imdbId == null)
             {
@@ -65,7 +71,7 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Endpoint used to create Movies from MovieTitlesDto.
+        /// Endpoint used to create Movies from MovieTitlesDto. Used to manually add movies to staff reccomendations.
         /// </summary>
         /// <param name="movieInfo"></param>
         /// <returns></returns>
@@ -122,7 +128,7 @@ namespace MovieFinder.Controllers
                 return BadRequest("Id must not be null.");
             }
 
-            var imdbId = _unitOfWork.ImdbIds.GetByImdbId(id);
+            var imdbId = _unitOfWork.ImdbIds.Get(id);
 
             if (imdbId == null)
             {
