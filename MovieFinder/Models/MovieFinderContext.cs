@@ -34,50 +34,37 @@ namespace MovieFinder
                     entity.HasAlternateKey(m => m.UserId);
 
                     entity.Property(m => m.UserId)
-                            .HasColumnName("UserId")
-                            .ValueGeneratedOnAdd(); 
+                            .ValueGeneratedOnAdd();
 
-                    entity.Property(m => m.FirstName)
-                            .HasColumnName("FirstName");
+                    entity.Property(m => m.FirstName);
 
-                    entity.Property(m => m.LastName)
-                            .HasColumnName("LastName");
+                    entity.Property(m => m.LastName);
                 });
 
             modelBuilder
                 .Entity<Movies>(entity =>
                 {
                     entity.HasKey(m => m.MovieId);
-                
-                    entity.Property(m => m.MovieId)
-                          .HasColumnName("MovieId");
 
-                    entity.Property(m => m.Year)
-                          .HasColumnName("Year");
+                    entity.Property(m => m.MovieId);
 
-                    entity.Property(m => m.Director)
-                          .HasColumnName("Director");
+                    entity.Property(m => m.Year);
 
-                    entity.Property(m => m.Title)
-                          .HasColumnName("Title");
+                    entity.Property(m => m.Director);
 
-                    entity.Property(m => m.RunTime)
-                          .HasColumnName("RunTime");
+                    entity.Property(m => m.Title);
 
-                    entity.Property(m => m.RottenTomatoesRating)
-                          .HasColumnName("RottenTomatoesRating");
+                    entity.Property(m => m.RunTime);
 
-                    entity.Property(m => m.ImdbRating)
-                          .HasColumnName("ImdbRating");
+                    entity.Property(m => m.RottenTomatoesRating);
 
-                    entity.Property(m => m.ImdbId)
-                          .HasColumnName("ImdbId");
+                    entity.Property(m => m.ImdbRating);
 
-                    entity.Property(m => m.Poster)
-                          .HasColumnName("Poster");
+                    entity.Property(m => m.ImdbId);
 
-                    entity.Property(m => m.IsRec)
-                          .HasColumnName("IsRec");
+                    entity.Property(m => m.Poster);
+
+                    entity.Property(m => m.IsRec);
                 });
 
             modelBuilder
@@ -85,17 +72,13 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.LikedId);
 
-                    entity.Property(m => m.LikedId)
-                            .HasColumnName("LikedId");
+                    entity.Property(m => m.LikedId);
 
-                    entity.Property(m => m.UserId)
-                            .HasColumnName("UserId");
+                    entity.Property(m => m.UserId);
 
-                    entity.Property(m => m.MovieId)
-                            .HasColumnName("MovieId");
+                    entity.Property(m => m.MovieId);
 
                     entity.Property(m => m.DateCreated)
-                            .HasColumnName("DateCreated")
                             .HasDefaultValueSql("GetUtcDate()"); 
                 });
 
@@ -104,14 +87,11 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.SynopsisId);
 
-                    entity.Property(m => m.SynopsisId)
-                          .HasColumnName("SynopsisId");
+                    entity.Property(m => m.SynopsisId);
 
-                    entity.Property(m => m.Plot)
-                          .HasColumnName("Plot");
+                    entity.Property(m => m.Plot);
 
-                    entity.Property(m => m.MovieId)
-                          .HasColumnName("MovieId");
+                    entity.Property(m => m.MovieId);
                 });
 
             modelBuilder
@@ -119,14 +99,11 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.MovieTitleId);
 
-                    entity.Property(m => m.MovieTitleId)
-                            .HasColumnName("MovieTitleId");
+                    entity.Property(m => m.MovieTitleId);
 
-                    entity.Property(m => m.MovieTitle)
-                            .HasColumnName("MovieTitle");
+                    entity.Property(m => m.MovieTitle);
 
-                    entity.Property(m => m.Year)
-                            .HasColumnName("Year"); 
+                    entity.Property(m => m.Year);
 
                 });
 
@@ -134,16 +111,13 @@ namespace MovieFinder
                 .Entity<ImdbIds>(entity =>
                 {
                     entity.HasKey(m => m.ImdbId);
-                              
+
                     entity.Property(m => m.ImdbId)
-                            .HasColumnName("ImdbId")
                             .ValueGeneratedNever();
 
-                    entity.Property(m => m.Title)
-                            .HasColumnName("Title");
+                    entity.Property(m => m.Title);
 
-                    entity.Property(m => m.Year)
-                            .HasColumnName("Year"); 
+                    entity.Property(m => m.Year);
                 });
 
             modelBuilder
@@ -151,32 +125,23 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.GenreId);
 
-                    entity.Property(m => m.GenreId)
-                            .HasColumnName("GenreId");
+                    entity.Property(m => m.GenreId);
 
-                    entity.Property(m => m.Action)
-                            .HasColumnName("Action");
+                    entity.Property(m => m.Action);
 
-                    entity.Property(m => m.Adventure)
-                            .HasColumnName("Adventure");
+                    entity.Property(m => m.Adventure);
 
-                    entity.Property(m => m.Horror)
-                            .HasColumnName("Horror");
+                    entity.Property(m => m.Horror);
 
-                    entity.Property(m => m.Biography)
-                            .HasColumnName("Biography");
+                    entity.Property(m => m.Biography);
 
-                    entity.Property(m => m.Comedy)
-                            .HasColumnName("Comedy");
+                    entity.Property(m => m.Comedy);
 
-                    entity.Property(m => m.Crime)
-                            .HasColumnName("Crime");
+                    entity.Property(m => m.Crime);
 
-                    entity.Property(m => m.Thriller)
-                            .HasColumnName("Thriller");
+                    entity.Property(m => m.Thriller);
 
-                    entity.Property(m => m.Romance)
-                          .HasColumnName("Romance");
+                    entity.Property(m => m.Romance);
                 });
 
             modelBuilder
@@ -184,29 +149,31 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.StreamingDataId);
 
-                    entity.Property(m => m.StreamingDataId)
-                          .HasColumnName("StreamingDataId");
+                    entity.Property(m => m.StreamingDataId);
 
-                    entity.Property(m => m.Netflix)
-                          .HasColumnName("Netflix");
+                    entity.Property(m => m.Netflix);
 
-                    entity.Property(m => m.HBO)
-                          .HasColumnName("HBO");
+                    entity.Property(m => m.HBO);
 
-                    entity.Property(m => m.Hulu)
-                          .HasColumnName("Hulu");
+                    entity.Property(m => m.Hulu);
 
-                    entity.Property(m => m.DisneyPlus)
-                          .HasColumnName("DisneyPlus");
+                    entity.Property(m => m.DisneyPlus);
 
-                    entity.Property(m => m.AmazonPrime)
-                          .HasColumnName("AmazonPrime");
-                    
-                    entity.Property(m => m.ITunes)
-                          .HasColumnName("ITunes");
+                    entity.Property(m => m.AmazonPrime);
 
-                    entity.Property(m => m.GooglePlay)
-                          .HasColumnName("GooglePlay");
+                    entity.Property(m => m.ITunes);
+
+                    entity.Property(m => m.GooglePlay);
+                });
+
+            modelBuilder
+                .Entity<RateLimits>(entity =>
+                {
+                    entity.HasKey(m => m.RateLimitId);
+
+                    entity.Property(m => m.RateLimitId);
+
+                    entity.Property(m => m.RequestsRemaining);
                 });
         }
     }
