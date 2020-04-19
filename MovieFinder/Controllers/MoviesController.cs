@@ -38,14 +38,14 @@ namespace MovieFinder.Controllers
 
             var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId); 
 
-            var rapidMovieInfo = await _moviesService.GetMovieInfo(imdbId);
+            var rapidMovieData = await _moviesService.GetMovieInfo(imdbId);
 
-            if (rapidMovieInfo == null)
+            if (rapidMovieData == null)
             {
                 return NotFound("Parsing movie info failed.");
             }
 
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(rapidMovieInfo.ImdbId);
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(rapidMovieData.ImdbId);
 
             // Don't create a duplicate Movie.
             if (existingMovie != null)
@@ -53,14 +53,14 @@ namespace MovieFinder.Controllers
                 return Ok(existingMovie);
             }
 
-            var movie = new Movies(rapidMovieInfo, imdbId);
-            var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
+            var movie = new Movies(rapidMovieData, imdbId);
+            var rapidStreamingData = await _moviesService.GetStreamingData(movie.Title);
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
             // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-            FillAssociatedTables(rapidMovieInfo, movie, streamingDataDto);
+            FillAssociatedTables(rapidMovieData, movie, rapidStreamingData);
 
             return Ok(movie);
         }
@@ -106,7 +106,7 @@ namespace MovieFinder.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/Recommended")]
+        [HttpGet("Recommended")]
         [Authorize]
         public IActionResult GetRecommended()
         {
@@ -161,15 +161,15 @@ namespace MovieFinder.Controllers
         /// <param name="movie"></param>
         /// <param name="streamingDataDto"></param>
         /// <param name="saveTables"></param>
-        private void FillAssociatedTables(ImdbInfoDto imdbInfo, Movies movie, StreamingDataDto streamingDataDto, bool saveTables = true)
+        private void FillAssociatedTables(RapidMovieDto rapidMovieData, Movies movie, RapidStreamingDto rapidStreamingData, bool saveTables = true)
         {
-            var streamingData = new StreamingData(streamingDataDto, movie);
+            var streamingData = new StreamingData(rapidStreamingData, movie);
             _unitOfWork.StreamingData.Add(streamingData);
 
-            var synopsis = new Synopsis(imdbInfo, movie);
+            var synopsis = new Synopsis(rapidMovieData, movie);
             _unitOfWork.Synopsis.Add(synopsis);
 
-            var genres = new Genres(imdbInfo, movie);
+            var genres = new Genres(rapidMovieData, movie);
             _unitOfWork.Genres.Add(genres);
 
             if (saveTables)

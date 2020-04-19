@@ -7,7 +7,7 @@ import { ImdbIdDto } from '../Dto/imdbId.dto';
 export class MoviesService {   
     constructor(private http: HttpClient){};
     
-    public getMovieRecs(): Observable<any> {
+    public getRecommended(): Observable<any> {
         return this.http.get('http://localhost:5001/Movies/Recommended');
     } 
 

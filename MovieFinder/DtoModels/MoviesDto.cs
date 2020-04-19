@@ -20,6 +20,11 @@ namespace MovieFinder.DtoModels
         public StreamingData StreamingData { get; set; }
         public Synopsis Synopsis { get; set; }
 
+        public MoviesDto()
+        {
+
+        }
+
         public MoviesDto(Movies movie, Genres genres, StreamingData streamingData, Synopsis synopsis)
         {
             if (movie == null)

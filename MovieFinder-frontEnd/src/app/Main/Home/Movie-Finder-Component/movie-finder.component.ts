@@ -21,7 +21,7 @@ export class MovieFinderComponent implements OnInit  {
     
     //Methods    
     ngOnInit () {
-        this.moviesService.getMovieRecs().toPromise()
+        this.moviesService.getRecommended().toPromise()
             .then((response: Array<MovieDto>) => {
                 this.movies = response; 
                 // Randomly go through the list of movies. 
