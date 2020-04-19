@@ -71,6 +71,21 @@ namespace MovieFinder.Models
             IsRec = rapidMovieInfo.IsRec;
         }
 
+        public void Patch(MoviesDto moviesDto)
+        {
+            if (moviesDto == null)
+            {
+                throw new ArgumentException($"{nameof(moviesDto)} cannot be empty.");
+            }
+
+            if (moviesDto.MovieId <= 0)
+            {
+                throw new ArgumentException($"{nameof(moviesDto)} must be greater than zero.");
+            }
+
+            IsRec = moviesDto.IsRec;
+        }
+
         private int? getMovieRunTime(string runTimeString)
         {
             var splitRunTime = runTimeString.Split(' ');
@@ -143,21 +158,6 @@ namespace MovieFinder.Models
             {
                 return null;
             }
-        }
-
-        public void Patch(Movies movie, RecomendationDto recomendationDto)
-        {
-            if (recomendationDto == null)
-            {
-                throw new ArgumentException($"{nameof(recomendationDto)} cannot be empty.");
-            }
-
-            if (recomendationDto.MovieId <= 0)
-            {
-                throw new ArgumentException($"{nameof(recomendationDto)} must be greater than zero.");
-            }
-
-            movie.IsRec = recomendationDto.IsRec;
         }
     }
 }

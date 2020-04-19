@@ -117,7 +117,7 @@ namespace MovieFinder.Controllers
                 return BadRequest();
             }
 
-            var recDtos = new List<MoviesDto>();
+            var recMovieDtos = new List<MoviesDto>();
 
             foreach(var movie in recommendedMovies)
             {
@@ -125,29 +125,29 @@ namespace MovieFinder.Controllers
                 var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
                 var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId); 
                 var movieDto = new MoviesDto(movie, genres, streamingData, synopsis);
-                recDtos.Add(movieDto);
+                recMovieDtos.Add(movieDto);
             }
 
-            return Ok(recDtos);
+            return Ok(recMovieDtos);
         }
 
         /// <summary>
-        /// Endpoint used to update Movies from MoviesDto.
+        /// Endpoint used to update Movies recommendation bit.
         /// </summary>
         /// <param name="moviesDto"></param>
         /// <returns></returns>
         [HttpPatch]
         [Authorize]
-        public IActionResult UpdateRecommendation([FromBody] RecomendationDto recomendationDto)
+        public IActionResult Update([FromBody] MoviesDto moviesDto)
         {
-            var movie = _unitOfWork.Movies.Get(recomendationDto.MovieId); 
+            var movie = _unitOfWork.Movies.Get(moviesDto.MovieId); 
 
             if (movie == null)
             {
                 return BadRequest();
             }
 
-            movie.Patch(movie, recomendationDto);
+            movie.Patch(moviesDto);
             _unitOfWork.Movies.Update(movie);
             _unitOfWork.SaveChanges();
 
