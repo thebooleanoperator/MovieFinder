@@ -2,6 +2,7 @@
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Services.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -18,7 +19,7 @@ namespace MovieFinder.Utils
             _clientFactory = clientFactory;
         }
 
-        public async Task<List<ImdbIds>> GetImdbIdsByTitle(string title, int? year)
+        public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year)
         {
             var request = RapidRequestSender.GetImdbIdsWithImdbAPI(title, year);
             var client = _clientFactory.CreateClient();
@@ -32,7 +33,7 @@ namespace MovieFinder.Utils
 
             //Get each movie returned from search. 
             var searchResults = parsedJson["Search"].Children().ToList();
-            var imdbIds = new List<ImdbIds>();
+            var rapidDtos = new List<RapidImdbDto>();
             //Iterate through the search results and convert each Jmovie into a Movies object, 
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
@@ -40,14 +41,16 @@ namespace MovieFinder.Utils
                 try
                 {
                     //Get the ImdbId by converting JObject to ImdbId.
-                    ImdbIds imdbId = Jmovie.ToObject<ImdbIds>();
+                    RapidImdbDto rapidDto = Jmovie.ToObject<RapidImdbDto>();
 
-                    var lowerMovieTitle = imdbId.Title.ToLower();
+                    var lowerMovieTitle = rapidDto.Title.ToLower();
                     var lowerTitle = title.ToLower();
-                    if (lowerMovieTitle.Contains(lowerTitle) && (imdbId.Year == year || year == null))
+                    // Only return objects that have similart titles and matching year (if provided).
+                    if (lowerMovieTitle.Contains(lowerTitle) && (rapidDto.Year == year || year == null))
                     {
-                        //If we already have the id saved, do not save a dupe.
-                        imdbIds.Add(imdbId);
+                        // If the rate limit fails to parse, throw general sytem exception. 
+                        rapidDto.RequestsRemaining = int.TryParse(rateLimit, out var requestsRemaining) ? requestsRemaining : throw new Exception(); 
+                        rapidDtos.Add(rapidDto);
                     }
                 }
                 catch
@@ -56,10 +59,10 @@ namespace MovieFinder.Utils
                 }
 
             }
-            return imdbIds;
+            return rapidDtos;
         }
 
-        public async Task<ImdbIds> GetImdbIdById(string imdbId)
+        public async Task<RapidImdbDto> GetImdbIdById(string imdbId)
         {
             if (imdbId == null)
             {
@@ -77,7 +80,7 @@ namespace MovieFinder.Utils
             //Get the ImdbInfoDto by converting JObject.
             try
             {
-                return parsedJson.ToObject<ImdbIds>();
+                return parsedJson.ToObject<RapidImdbDto>();
             }
             catch
             {
@@ -85,7 +88,7 @@ namespace MovieFinder.Utils
             }
         }
 
-        public async Task<List<IdsDto>> GetOnlyIdByTitle(string title)
+        public async Task<List<RapidImdbDto>> GetOnlyIdByTitle(string title)
         {
             var request = RapidRequestSender.GetImdbIdWithBackupImdbAPI(title);
             var client = _clientFactory.CreateClient();
@@ -97,15 +100,15 @@ namespace MovieFinder.Utils
 
             //Get each movie returned from search. 
             var searchResults = parsedJson["titles"].Children().ToList();
-            var idsDtos = new List<IdsDto>();
+            var rapidDtos = new List<RapidImdbDto>();
             //Iterate through the search results and convert each Jmovie into a Movies object, 
             //then check if the title and year match. Save and break on true. 
             foreach (var Jmovie in searchResults)
             {
                 try
                 {
-                    IdsDto idDto = Jmovie.ToObject<IdsDto>();
-                    idsDtos.Add(idDto);
+                    RapidImdbDto rapidDto = Jmovie.ToObject<RapidImdbDto>();
+                    rapidDtos.Add(rapidDto);
                 }
                 catch
                 {
@@ -113,7 +116,7 @@ namespace MovieFinder.Utils
                 }
             }
 
-            return idsDtos;
+            return rapidDtos;
         }
 
         public async Task<ImdbInfoDto> GetMovieInfo([FromBody] ImdbIds imdbId)

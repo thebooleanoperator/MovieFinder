@@ -47,9 +47,8 @@ namespace MovieFinder.Controllers
             var imdbIdsFromRapid = await _moviesService.GetImdbIdsByTitle(title, year);
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 
-            if (imdbIdsFromRapid == null)
+            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() ==0)
             {
-                imdbIdsFromRapid = new List<ImdbIds>();
                 // Use movieService to call backup API.
                 var idsFromRapid = await _moviesService.GetOnlyIdByTitle(title);
                 List<ImdbIds> imdbIdsFromRApid = new List<ImdbIds>();
