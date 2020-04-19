@@ -14,5 +14,6 @@ namespace MovieFinder.DtoModels
         public string Plot { get; set; }
         public string Poster { get; set; }
         public bool IsRec { get; set; }
+        public int RequestsRemaining { get; set; }
     }
 }

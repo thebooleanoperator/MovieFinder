@@ -138,6 +138,10 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
+            // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
+            var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
+            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
             var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (jsonAndResponse == null) { return null; }
@@ -147,7 +151,9 @@ namespace MovieFinder.Utils
             try
             {
                 //Get the ImdbInfoDto by converting JObject.
-                return parsedJson.ToObject<RapidMovieDto>();
+                var rapidMovieDto = parsedJson.ToObject<RapidMovieDto>();
+                rapidMovieDto.RequestsRemaining = requestsRemaining;
+                return rapidMovieDto; 
             }
             catch
             {
@@ -166,6 +172,10 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
+            // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
+            var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
+            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
             var parsedResponse = await HttpValidator.ValidateAndParseResponse(response);
 
             if (parsedResponse == null) { return null; }
@@ -181,6 +191,7 @@ namespace MovieFinder.Utils
                     //Only return the data if title matches.
                     if (streamingData.Name.ToLower() == title.ToLower())
                     {
+                        streamingData.RequestsRemaining = requestsRemaining; 
                         return streamingData;
                     }
                 }

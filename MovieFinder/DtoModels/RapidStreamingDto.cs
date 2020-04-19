@@ -12,6 +12,7 @@ namespace MovieFinder.DtoModels
         public string ITunes { get; set; }
         public string GooglePlay { get; set; }
         public string Name { get; set; }
+        public int RequestsRemaining { get; set; }
         public List<StreamingLocationsDto> Locations { get; set; }
     }
 }
