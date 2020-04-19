@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
@@ -34,57 +35,63 @@ namespace MovieFinder.Controllers
             {
                 return NoContent();
             }
-
+            // The ImdbdIds that exactly match the search query. 
             var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
+            // The ImdbIds that have titles that contain the search query.
+            var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
 
             // If there is an exact match get all the close matches and return them. 
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
-                var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false); 
                 return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var imdbIdsFromRapid = await _moviesService.GetImdbIdsByTitle(title, year);
+            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year);
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 
-            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() ==0)
+            if (rapidDtos == null || rapidDtos.Count() ==0)
             {
-                // Use movieService to call backup API.
-                var idsFromRapid = await _moviesService.GetOnlyIdByTitle(title);
-                List<ImdbIds> imdbIdsFromRApid = new List<ImdbIds>();
-
-                foreach (var id in idsFromRapid)
+                rapidDtos = new List<RapidImdbDto>();
+                // Use movieService to call backup API. This will return only the ImdbId and Title, no Years. 
+                var partialRapidDtos = await _moviesService.GetOnlyIdByTitle(title);
+                foreach (var partialRapidDto in partialRapidDtos)
                 {
-                    // In order to get the year, we need to use the rate limited imdb api.
-                    var imdbId = await _moviesService.GetImdbIdById(id.Id);
+                    // In order to get the Year, we need to use the rate limited imdb api.
+                    var rapidDto = await _moviesService.GetImdbIdById(partialRapidDto.Id);
                     // imdbId will be null when parsing fails.
-                    if (imdbId != null) { imdbIdsFromRapid.Add(imdbId); }
+                    if (rapidDto != null) {
+                        rapidDtos.Add(rapidDto);
+                    }
                 }
             }
 
             // There was not movie with title found. Try to get closely matched results. 
-            if (imdbIdsFromRapid == null || imdbIdsFromRapid.Count() == 0)
+            if (rapidDtos == null || rapidDtos.Count() == 0)
             {
-                var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
-
                 // If close matches are empty, return NotFound. 
-                if (closelyMatchingImdbIds == null || closelyMatchingImdbIds.Count() == 0) { return NotFound(); }
+                if (closelyMatchingImdbIds == null || closelyMatchingImdbIds.Count() == 0)
+                {
+                    return NotFound();
+                }
 
                 return Ok(closelyMatchingImdbIds); 
             }
 
-            foreach (var imdbId in imdbIdsFromRapid)
+            var ImdbIds = new List<ImdbIds>();
+            foreach (var rapidDto in rapidDtos)
             {
-                var exisitingId = _unitOfWork.ImdbIds.Get(imdbId.ImdbId);
+                var exisitingId = _unitOfWork.ImdbIds.Get(rapidDto.ImdbId);
                 if (exisitingId == null)
                 {
                     // Add and save everytime to avoid adding duplicate pk into db.
+                    var imdbId = new ImdbIds(rapidDto); 
                     _unitOfWork.ImdbIds.Add(imdbId);
                     _unitOfWork.SaveChanges();
+                    ImdbIds.Add(imdbId); 
                 }
             }
 
-            return Ok(imdbIdsFromRapid.OrderByDescending(i => i.Year));
+            return Ok(ImdbIds.OrderByDescending(i => i.Year));
         }
     }
 }

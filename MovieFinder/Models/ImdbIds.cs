@@ -1,6 +1,6 @@
 ﻿namespace MovieFinder.Models
 {
-    public class ImdbIds
+    public partial class ImdbIds
     {
         public string ImdbId { get; set; }
         public string Title { get; set; }
