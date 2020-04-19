@@ -4,15 +4,9 @@ namespace MovieFinder.DtoModels
 {
     public class RapidStreamingDto
     {
-        public string Netflix { get; set; }
-        public string HBO { get; set; }
-        public string Hulu { get; set; }
-        public string DisneyPlus { get; set; }
-        public string AmazonPrime { get; set; }
-        public string ITunes { get; set; }
-        public string GooglePlay { get; set; }
         public string Name { get; set; }
         public int RequestsRemaining { get; set; }
-        public List<StreamingLocationsDto> Locations { get; set; }
+        public List<StreamingDataDto> Locations { get; set; }
+        public StreamingDataDto External_Ids {get;set;}
     }
 }

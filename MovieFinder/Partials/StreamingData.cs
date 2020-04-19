@@ -6,6 +6,7 @@ namespace MovieFinder.Models
     {
         public StreamingData()
         {
+
         }
 
         public StreamingData(RapidStreamingDto rapidStreamingData, Movies movie)

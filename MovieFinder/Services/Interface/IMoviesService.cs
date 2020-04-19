@@ -47,6 +47,6 @@ namespace MovieFinder.Services.Interface
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        Task<RapidStreamingDto> GetStreamingData(string title);
+        Task<RapidStreamingDto> GetStreamingData(string title, string imdbId);
     }
 }

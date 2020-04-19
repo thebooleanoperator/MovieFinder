@@ -161,7 +161,7 @@ namespace MovieFinder.Utils
             }
         }
 
-        public async Task<RapidStreamingDto> GetStreamingData(string title)
+        public async Task<RapidStreamingDto> GetStreamingData(string title, string imdbId)
         {
             if (title == null)
             {
@@ -188,8 +188,8 @@ namespace MovieFinder.Utils
                 try
                 {
                     var streamingData = Jdata.ToObject<RapidStreamingDto>();
-                    //Only return the data if title matches.
-                    if (streamingData.Name.ToLower() == title.ToLower())
+                    //Only return the data if the streaming data response matches title and imdbId. 
+                    if (StreamingDataIsMatch(streamingData, title, imdbId))
                     {
                         streamingData.RequestsRemaining = requestsRemaining; 
                         return streamingData;
@@ -202,6 +202,31 @@ namespace MovieFinder.Utils
 
             }
             return null;
+        }
+
+        /// <summary>
+        /// Private helper function to match rapid streaming data response with user selected movie. 
+        /// </summary>
+        /// <param name="rapidStreamingData"></param>
+        /// <param name="movieTitle"></param>
+        /// <param name="imdbId"></param>
+        /// <returns></returns>
+        private bool StreamingDataIsMatch(RapidStreamingDto rapidStreamingData, string movieTitle, string imdbId)
+        {
+            var rapidTitle = rapidStreamingData.Name.ToLower(); 
+            if (rapidTitle != movieTitle.ToLower())
+            {
+                return false; 
+            }
+
+            var rapidImdbId = rapidStreamingData.External_Ids.Imdb.Id; 
+            if (rapidImdbId != imdbId)
+            {
+                return false;
+            }
+
+            // If both checks pass, we have a match. 
+            return true; 
         }
     }
 }
