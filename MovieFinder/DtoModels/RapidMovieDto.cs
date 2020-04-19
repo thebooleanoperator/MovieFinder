@@ -2,7 +2,7 @@
 
 namespace MovieFinder.DtoModels
 {
-    public class ImdbInfoDto
+    public class RapidMovieDto
     {
         public int MovieId { get; set; }
         public string Genre { get; set; }

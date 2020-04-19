@@ -25,8 +25,10 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
-            var rateLimit = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null; 
-
+            // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
+            var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
+            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+            
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
@@ -49,7 +51,7 @@ namespace MovieFinder.Utils
                     if (lowerMovieTitle.Contains(lowerTitle) && (rapidDto.Year == year || year == null))
                     {
                         // If the rate limit fails to parse, throw general sytem exception. 
-                        rapidDto.RequestsRemaining = int.TryParse(rateLimit, out var requestsRemaining) ? requestsRemaining : throw new Exception(); 
+                        rapidDto.RequestsRemaining = requestsRemaining; 
                         rapidDtos.Add(rapidDto);
                     }
                 }
@@ -73,6 +75,10 @@ namespace MovieFinder.Utils
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
+            // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
+            var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
+            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
@@ -80,7 +86,9 @@ namespace MovieFinder.Utils
             //Get the ImdbInfoDto by converting JObject.
             try
             {
-                return parsedJson.ToObject<RapidImdbDto>();
+                var rapidDto =  parsedJson.ToObject<RapidImdbDto>();
+                rapidDto.RequestsRemaining = requestsRemaining; 
+                return rapidDto;
             }
             catch
             {
@@ -119,7 +127,7 @@ namespace MovieFinder.Utils
             return rapidDtos;
         }
 
-        public async Task<ImdbInfoDto> GetMovieInfo([FromBody] ImdbIds imdbId)
+        public async Task<RapidMovieDto> GetMovieInfo([FromBody] ImdbIds imdbId)
         {
             if (imdbId == null)
             {
@@ -139,7 +147,7 @@ namespace MovieFinder.Utils
             try
             {
                 //Get the ImdbInfoDto by converting JObject.
-                return parsedJson.ToObject<ImdbInfoDto>();
+                return parsedJson.ToObject<RapidMovieDto>();
             }
             catch
             {
@@ -147,7 +155,7 @@ namespace MovieFinder.Utils
             }
         }
 
-        public async Task<StreamingDataDto> GetStreamingData(string title)
+        public async Task<RapidStreamingDto> GetStreamingData(string title)
         {
             if (title == null)
             {
@@ -169,7 +177,7 @@ namespace MovieFinder.Utils
             {
                 try
                 {
-                    var streamingData = Jdata.ToObject<StreamingDataDto>();
+                    var streamingData = Jdata.ToObject<RapidStreamingDto>();
                     //Only return the data if title matches.
                     if (streamingData.Name.ToLower() == title.ToLower())
                     {

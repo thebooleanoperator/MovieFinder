@@ -1,5 +1,4 @@
 ﻿using MovieFinder.DtoModels;
-using System.Collections.Generic;
 
 namespace MovieFinder.Models
 {
@@ -9,23 +8,23 @@ namespace MovieFinder.Models
         {
         }
 
-        public StreamingData(StreamingDataDto streamingDataDto, Movies movie)
+        public StreamingData(RapidStreamingDto rapidStreamingData, Movies movie)
         {
 
             MovieId = movie.MovieId;
-            Netflix = OnApp(streamingDataDto, "netflix");
-            HBO = OnApp(streamingDataDto, "hbo");
-            Hulu = OnApp(streamingDataDto, "hulu");
-            DisneyPlus = OnApp(streamingDataDto, "disney");
-            AmazonPrime = OnApp(streamingDataDto, "prime");
-            ITunes = OnApp(streamingDataDto, "itunes");
-            GooglePlay = OnApp(streamingDataDto, "google"); 
+            Netflix = OnApp(rapidStreamingData, "netflix");
+            HBO = OnApp(rapidStreamingData, "hbo");
+            Hulu = OnApp(rapidStreamingData, "hulu");
+            DisneyPlus = OnApp(rapidStreamingData, "disney");
+            AmazonPrime = OnApp(rapidStreamingData, "prime");
+            ITunes = OnApp(rapidStreamingData, "itunes");
+            GooglePlay = OnApp(rapidStreamingData, "google"); 
         }
 
-        public string OnApp(StreamingDataDto dataDto, string appName)
+        public string OnApp(RapidStreamingDto rapidStreamingData, string appName)
         {
-            if (dataDto == null) { return null; }
-            foreach(var location in dataDto.Locations)
+            if (rapidStreamingData == null) { return null; }
+            foreach(var location in rapidStreamingData.Locations)
             {
                 if (location.Display_Name.ToLower().Contains(appName))
                 {

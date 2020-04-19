@@ -2,7 +2,7 @@
 
 namespace MovieFinder.DtoModels
 {
-    public class StreamingDataDto
+    public class RapidStreamingDto
     {
         public string Netflix { get; set; }
         public string HBO { get; set; }

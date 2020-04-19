@@ -9,14 +9,14 @@ namespace MovieFinder.Models
         {
         }
         
-        public Genres(ImdbInfoDto imdbInfo, Movies movie)
+        public Genres(RapidMovieDto rapidMovieDto, Movies movie)
         {
             if (movie == null)
             {
                 throw new ArgumentException($"Movie for genres cannot be null.");
             }
 
-            if (imdbInfo == null)
+            if (rapidMovieDto == null)
             {
                 throw new ArgumentException($"Movie for genres cannot be null.");
             }
@@ -26,12 +26,12 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"MovieId for genres cannot be null.");
             }
 
-            if (imdbInfo.Genre == null)
+            if (rapidMovieDto.Genre == null)
             {
                 throw new ArgumentException($"Genres cannot be null.");
             }
 
-            var genres = imdbInfo.Genre.ToLower();
+            var genres = rapidMovieDto.Genre.ToLower();
 
             MovieId = movie.MovieId;
             Action = genres.Contains("action");

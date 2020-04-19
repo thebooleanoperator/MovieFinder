@@ -29,28 +29,23 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody] ImdbIdDto imdbIdDto)
+        public async Task<IActionResult> Create([FromBody] MoviesDto moviesDto)
         {
-            if (imdbIdDto == null)
+            if (moviesDto == null)
             {
                 return BadRequest("ImdbIdDto must not be null.");
             }
 
-            var imdbId = _unitOfWork.ImdbIds.Get(imdbIdDto.ImdbId); 
+            var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId); 
 
-            if (imdbId == null)
-            {
-                return BadRequest("ImdbId does not exist.");
-            }
+            var rapidMovieInfo = await _moviesService.GetMovieInfo(imdbId);
 
-            var imdbInfo = await _moviesService.GetMovieInfo(imdbId);
-
-            if (imdbInfo == null)
+            if (rapidMovieInfo == null)
             {
                 return NotFound("Parsing movie info failed.");
             }
 
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbInfo.ImdbId);
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(rapidMovieInfo.ImdbId);
 
             // Don't create a duplicate Movie.
             if (existingMovie != null)
@@ -58,14 +53,14 @@ namespace MovieFinder.Controllers
                 return Ok(existingMovie);
             }
 
-            var movie = new Movies(imdbInfo, imdbId);
+            var movie = new Movies(rapidMovieInfo, imdbId);
             var streamingDataDto = await _moviesService.GetStreamingData(movie.Title);
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
             // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-            FillAssociatedTables(imdbInfo, movie, streamingDataDto);
+            FillAssociatedTables(rapidMovieInfo, movie, streamingDataDto);
 
             return Ok(movie);
         }

@@ -17,41 +17,41 @@ namespace MovieFinder.Models
         /// <param name="imdbInfo"></param>
         /// <param name="imdbId"></param>
         /// <param name="netflixId"></param>
-        public Movies(ImdbInfoDto imdbInfo, ImdbIds imdbId)
+        public Movies(RapidMovieDto rapidMovieInfo, ImdbIds imdbId)
         {
-            if(imdbInfo == null)
+            if(rapidMovieInfo == null)
             {
-                throw new ArgumentException($"{imdbInfo} must not be null");
+                throw new ArgumentException($"{rapidMovieInfo} must not be null");
             }
 
-            if (imdbInfo.Director == null)
+            if (rapidMovieInfo.Director == null)
             {
-                throw new ArgumentException($"{imdbInfo.Director} must be have characters");
+                throw new ArgumentException($"{rapidMovieInfo.Director} must be have characters");
             }
 
-            if (imdbInfo.Title == null)
+            if (rapidMovieInfo.Title == null)
             {
-                throw new ArgumentException($"{imdbInfo.Title} must be have characters");
+                throw new ArgumentException($"{rapidMovieInfo.Title} must be have characters");
             }
 
-            if (imdbInfo.RunTime == null)
+            if (rapidMovieInfo.RunTime == null)
             {
-                throw new ArgumentException($"{imdbInfo.RunTime} must be have characters");
+                throw new ArgumentException($"{rapidMovieInfo.RunTime} must be have characters");
             }
 
-            if (imdbInfo.Ratings == null)
+            if (rapidMovieInfo.Ratings == null)
             {
-                throw new ArgumentException($"{imdbInfo.Ratings} cannot be null");
+                throw new ArgumentException($"{rapidMovieInfo.Ratings} cannot be null");
             }
 
-            if (imdbInfo.ImdbId == null)
+            if (rapidMovieInfo.ImdbId == null)
             {
-                throw new ArgumentException($"{imdbInfo.ImdbId} must be have characters");
+                throw new ArgumentException($"{rapidMovieInfo.ImdbId} must be have characters");
             }
 
-            if (imdbInfo.Poster == null)
+            if (rapidMovieInfo.Poster == null)
             {
-                throw new ArgumentException($"{imdbInfo.Poster} must be have characters");
+                throw new ArgumentException($"{rapidMovieInfo.Poster} must be have characters");
 
             }
 
@@ -60,15 +60,15 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbId.Year} must be have characters");
             }
 
-            Director = imdbInfo.Director;
-            Title = imdbInfo.Title;
-            RunTime = getMovieRunTime(imdbInfo.RunTime);
-            ImdbId = imdbInfo.ImdbId;
-            ImdbRating = getImdbRating("Internet Movie Database", imdbInfo.Ratings);
-            RottenTomatoesRating = getRottenRating("Rotten Tomatoes", imdbInfo.Ratings);
+            Director = rapidMovieInfo.Director;
+            Title = rapidMovieInfo.Title;
+            RunTime = getMovieRunTime(rapidMovieInfo.RunTime);
+            ImdbId = rapidMovieInfo.ImdbId;
+            ImdbRating = getImdbRating("Internet Movie Database", rapidMovieInfo.Ratings);
+            RottenTomatoesRating = getRottenRating("Rotten Tomatoes", rapidMovieInfo.Ratings);
             Year = imdbId.Year;
-            Poster = imdbInfo.Poster;
-            IsRec = imdbInfo.IsRec;
+            Poster = rapidMovieInfo.Poster;
+            IsRec = rapidMovieInfo.IsRec;
         }
 
         private int? getMovieRunTime(string runTimeString)

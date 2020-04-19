@@ -9,11 +9,11 @@ namespace MovieFinder.Models
         {
         }
 
-        public Synopsis(ImdbInfoDto imdbInfo, Movies movie)
+        public Synopsis(RapidMovieDto rapidMovieData, Movies movie)
         {
-            if (imdbInfo.Plot == null)
+            if (rapidMovieData.Plot == null)
             {
-                throw new ArgumentException($"{imdbInfo.Plot} must have characters");
+                throw new ArgumentException($"{rapidMovieData.Plot} must have characters");
             }
 
             if (movie.MovieId <= 0)
@@ -21,7 +21,7 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{movie.MovieId} must be greater than 0");
             }
 
-            Plot = imdbInfo.Plot;
+            Plot = rapidMovieData.Plot;
             MovieId = movie.MovieId;
         }
     }
