@@ -22,6 +22,7 @@ namespace MovieFinder
         public DbSet<ImdbIds> ImdbIds { get; set; }
         public DbSet<Genres> Genres { get; set; }
         public DbSet<StreamingData> StreamingData { get; set; }
+        public DbSet<RateLimits> RateLimits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -171,7 +172,8 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.RateLimitId);
 
-                    entity.Property(m => m.RateLimitId);
+                    entity.Property(m => m.RateLimitId)
+                        .ValueGeneratedNever();
 
                     entity.Property(m => m.RequestsRemaining);
                 });
