@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieFinder.Migrations
 {
-    public partial class RequestLimits : Migration
+    public partial class RateLimits : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +10,7 @@ namespace MovieFinder.Migrations
                 name: "RateLimits",
                 columns: table => new
                 {
-                    RateLimitId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RateLimitId = table.Column<int>(nullable: false),
                     RequestsRemaining = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

@@ -20,14 +20,12 @@ namespace MovieFinder
                     var context = services.GetRequiredService<MovieFinderContext>();
                     DataSeeder.SeedRateLimits(context); 
                 }
-                catch (Exception ex)
+                catch
                 {
                     Console.WriteLine("An error occurred while seeding the database.");
                 }
             }
-
             host.Run(); 
-
         }
         
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

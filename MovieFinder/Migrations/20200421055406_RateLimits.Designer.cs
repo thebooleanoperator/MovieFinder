@@ -10,8 +10,8 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20200418234336_RequestLimits")]
-    partial class RequestLimits
+    [Migration("20200421055406_RateLimits")]
+    partial class RateLimits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -238,9 +238,7 @@ namespace MovieFinder.Migrations
 
             modelBuilder.Entity("MovieFinder.Models.RateLimits", b =>
                 {
-                    b.Property<int>("RateLimitId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("RateLimitId");
 
                     b.Property<int>("RequestsRemaining");
 

@@ -236,9 +236,7 @@ namespace MovieFinder.Migrations
 
             modelBuilder.Entity("MovieFinder.Models.RateLimits", b =>
                 {
-                    b.Property<int>("RateLimitId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("RateLimitId");
 
                     b.Property<int>("RequestsRemaining");
 

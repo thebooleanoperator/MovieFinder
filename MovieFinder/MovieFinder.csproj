@@ -10,6 +10,8 @@
     <Compile Remove="Migrations\20191217034042_Identity-User.Designer.cs" />
     <Compile Remove="Migrations\20200123041831_UserEmail.cs" />
     <Compile Remove="Migrations\20200123041831_UserEmail.Designer.cs" />
+    <Compile Remove="Migrations\20200418234336_RequestLimits.cs" />
+    <Compile Remove="Migrations\20200418234336_RequestLimits.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
