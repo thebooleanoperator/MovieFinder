@@ -2,13 +2,14 @@
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Services.Interface;
+using MovieFinder.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MovieFinder.Utils
+namespace MovieFinder.Services.Implementation
 {
     public class MoviesService : IMoviesService
     {
@@ -19,15 +20,26 @@ namespace MovieFinder.Utils
             _clientFactory = clientFactory;
         }
 
-        public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year)
+        public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year, int remainingRequests)
         {
+            // Don't hit the imdb alt API if there are no requests left.
+            if (remainingRequests <= 0)
+            {
+                return null;
+            }
+
             var request = RapidRequestSender.GetImdbIdsWithImdbAPI(title, year);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
-            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+            int.TryParse(requestsRemainingString, out remainingRequests);
+
+            if (remainingRequests <= 0)
+            {
+                return null;
+            }
             
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
@@ -51,7 +63,6 @@ namespace MovieFinder.Utils
                     if (lowerMovieTitle.Contains(lowerTitle) && (rapidDto.Year == year || year == null))
                     {
                         // If the rate limit fails to parse, throw general sytem exception. 
-                        rapidDto.RequestsRemaining = requestsRemaining; 
                         rapidDtos.Add(rapidDto);
                     }
                 }

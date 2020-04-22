@@ -35,18 +35,20 @@ namespace MovieFinder.Controllers
             {
                 return NoContent();
             }
-            // The ImdbdIds that exactly match the search query. 
+
             var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
-            // The ImdbIds that have titles that contain the search query.
             var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
 
-            // If there is an exact match get all the close matches and return them. 
+            // If there is an exact match return the close matches. 
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
                 return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year);
+            var imdbAlternative = _unitOfWork.RateLimits.GetImdbAlternative(); 
+
+            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year, imdbAlternative.RequestsRemaining);
+
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 
             if (rapidDtos == null || rapidDtos.Count() ==0)
@@ -68,13 +70,7 @@ namespace MovieFinder.Controllers
             // There was not movie with title found. Try to get closely matched results. 
             if (rapidDtos == null || rapidDtos.Count() == 0)
             {
-                // If close matches are empty, return NotFound. 
-                if (closelyMatchingImdbIds == null || closelyMatchingImdbIds.Count() == 0)
-                {
-                    return NotFound();
-                }
-
-                return Ok(closelyMatchingImdbIds); 
+                return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
             var ImdbIds = new List<ImdbIds>();

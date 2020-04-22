@@ -10,10 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using MovieFinder.Extensions;
 using MovieFinder.Models;
 using MovieFinder.Services;
+using MovieFinder.Services.Implementation;
 using MovieFinder.Services.Interface;
 using MovieFinder.Settings;
 using MovieFinder.Utils;
-using System;
 using System.Text;
 
 namespace MovieFinder
@@ -43,6 +43,8 @@ namespace MovieFinder
             services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["MovieFinderConnectionString"]));
 
             services.AddScoped<IIdentityService, IdentityService>();
+
+            services.AddTransient<IRateLimitsService, RateLimitsService>();
 
             services.AddTransient<IMoviesService, MoviesService>();
 
