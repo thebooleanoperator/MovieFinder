@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
+using MovieFinder.Enum;
 using MovieFinder.Models;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
@@ -14,16 +15,18 @@ namespace MovieFinder.Services.Implementation
     public class MoviesService : IMoviesService
     {
         private IHttpClientFactory _clientFactory;
+        private IRateLimitsService _rateLimitsService; 
 
-        public MoviesService(IHttpClientFactory clientFactory)
+        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService)
         {
             _clientFactory = clientFactory;
+            _rateLimitsService = rateLimitsService; 
         }
 
-        public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year, int remainingRequests)
+        public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year)
         {
             // Don't hit the imdb alt API if there are no requests left.
-            if (remainingRequests <= 0)
+            if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.ImdbAlternative))
             {
                 return null;
             }
@@ -34,13 +37,10 @@ namespace MovieFinder.Services.Implementation
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
-            int.TryParse(requestsRemainingString, out remainingRequests);
+            var newRemainingRequests = int.TryParse(requestsRemainingString, out var reamining) ? reamining : throw new Exception();
 
-            if (remainingRequests <= 0)
-            {
-                return null;
-            }
-            
+
+
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }

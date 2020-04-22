@@ -45,9 +45,7 @@ namespace MovieFinder.Controllers
                 return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var imdbAlternative = _unitOfWork.RateLimits.GetImdbAlternative(); 
-
-            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year, imdbAlternative.RequestsRemaining);
+            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year);
 
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 

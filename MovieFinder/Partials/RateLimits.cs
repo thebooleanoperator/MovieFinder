@@ -26,5 +26,15 @@ namespace MovieFinder.Models
             RateLimitId = rateLimitsEnum;
             RequestsRemaining = initialLimit;
         }
+
+        public void Patch(int remainingRequests)
+        {
+            if (remainingRequests < 0)
+            {
+                throw new ArgumentException($"{nameof(remainingRequests)} cannot be a negative numer.");
+            }
+
+            RequestsRemaining = remainingRequests; 
+        }
     }
 }
