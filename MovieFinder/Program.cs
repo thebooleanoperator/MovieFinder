@@ -18,7 +18,7 @@ namespace MovieFinder
                 try
                 {
                     var context = services.GetRequiredService<MovieFinderContext>();
-                    DataSeeder.SeedRateLimits(context); 
+                    DataSeeder.SeedData(context); 
                 }
                 catch
                 {

@@ -10,7 +10,7 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20200421055406_RateLimits")]
+    [Migration("20200422035047_RateLimits")]
     partial class RateLimits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

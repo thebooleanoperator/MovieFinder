@@ -23,7 +23,7 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{nameof(initialLimit)} cannot be a negative numer.");
             }
 
-            RateLimitId = (int)rateLimitsEnum;
+            RateLimitId = rateLimitsEnum;
             RequestsRemaining = initialLimit;
         }
     }

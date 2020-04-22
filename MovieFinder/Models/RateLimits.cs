@@ -1,8 +1,10 @@
-﻿namespace MovieFinder.Models
+﻿using MovieFinder.Enum;
+
+namespace MovieFinder.Models
 {
     public partial class RateLimits
     {
-        public int RateLimitId { get; set; }
+        public RateLimitsEnum RateLimitId { get; set; }
         public int RequestsRemaining { get; set; }
     }
 }
