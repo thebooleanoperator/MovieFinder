@@ -45,6 +45,14 @@ export class DashboardComponent {
         }
         return years;
     }
+
+    getYear(year: number): number {
+        return year > 0 ? year : null;
+    }
+
+    moviesExist(movies: MovieDto[]) : boolean {
+        return movies && movies.length > 0; 
+    }
     /**
      * Uses a user input search string to return an array of movies.
      * Max 10 movies with names and years displayed to user.
@@ -61,7 +69,7 @@ export class DashboardComponent {
                 this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
                     .then((response) =>  {
                         this.movies = response;
-                        this.noSearchResults = false;
+                        this.noSearchResults = this.movies.length > 0 ? false : true; 
                     })
                     .catch((error) => {
                         // Clear search results and show not found message on 404 and 500.

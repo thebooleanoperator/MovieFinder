@@ -27,7 +27,7 @@ namespace MovieFinder.Models
             RequestsRemaining = initialLimit;
         }
 
-        public void Patch(int remainingRequests)
+        public void Put(int remainingRequests)
         {
             if (remainingRequests < 0)
             {

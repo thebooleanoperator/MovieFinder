@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="search-results" *ngIf="movies">
+    <div class="search-results" *ngIf="moviesExist(movies)">
         <table mat-table class="mat-elevation-z8" [dataSource]="movies">
             <!-- Title Column -->
             <ng-container class="item" matColumnDef="Title">
@@ -33,7 +33,7 @@
             <!-- Year Column -->
             <ng-container class="item" matColumnDef="Year">
                 <th mat-header-cell *matHeaderCellDef>Year</th>
-                <td mat-cell *matCellDef="let movie"> {{movie.year}} </td>
+                <td mat-cell *matCellDef="let movie"> {{getYear(movie.year)}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getSelectedMovie(row)"></tr>

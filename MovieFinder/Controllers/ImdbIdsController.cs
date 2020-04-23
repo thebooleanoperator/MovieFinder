@@ -38,11 +38,12 @@ namespace MovieFinder.Controllers
 
             var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
             var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
+            var closelyMatchRapidDtos = RapidImdbDto.ConvertFromImdbIds(closelyMatchingImdbIds); 
 
-            // If there is an exact match return the close matches. 
+            // If there is an exact match do not send requests. 
             if (existingImdbIds != null && existingImdbIds.Count() > 0)
             {
-                return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
+                return Ok(closelyMatchRapidDtos.OrderByDescending(i => i.Year));
             }
 
             var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year);
@@ -58,8 +59,14 @@ namespace MovieFinder.Controllers
                 {
                     // In order to get the Year, we need to use the rate limited imdb api.
                     var rapidDto = await _moviesService.GetImdbIdById(partialRapidDto.Id);
-                    // imdbId will be null when parsing fails.
-                    if (rapidDto != null) {
+                    // imdbId will be null when parsing fails or the API requests limit is reached.
+                    if (rapidDto == null)
+                    {
+                        partialRapidDto.ImdbId = partialRapidDto.Id;
+                        rapidDtos.Add(partialRapidDto);    
+                    }
+                    else
+                    {
                         rapidDtos.Add(rapidDto);
                     }
                 }
@@ -71,21 +78,22 @@ namespace MovieFinder.Controllers
                 return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
             }
 
-            var ImdbIds = new List<ImdbIds>();
             foreach (var rapidDto in rapidDtos)
             {
                 var exisitingId = _unitOfWork.ImdbIds.Get(rapidDto.ImdbId);
-                if (exisitingId == null)
+                if (exisitingId == null && string.IsNullOrEmpty(rapidDto.Id))
                 {
                     // Add and save everytime to avoid adding duplicate pk into db.
                     var imdbId = new ImdbIds(rapidDto); 
                     _unitOfWork.ImdbIds.Add(imdbId);
                     _unitOfWork.SaveChanges();
-                    ImdbIds.Add(imdbId); 
                 }
             }
 
-            return Ok(ImdbIds.OrderByDescending(i => i.Year));
+            // Add the close matches to give users all possible movies.
+            var allRapidDtos = rapidDtos.Concat(closelyMatchRapidDtos); 
+
+            return Ok(allRapidDtos.OrderByDescending(i => i.Year));
         }
     }
 }

@@ -36,12 +36,12 @@ namespace MovieFinder.Services.Implementation
             switch (rateLimitsEnum)
             {
                 case RateLimitsEnum.ImdbAlternative:
-                    imdbAlternative.Patch(requestsRemaining);
+                    imdbAlternative.Put(requestsRemaining);
                     _unitOfWork.RateLimits.Update(imdbAlternative); 
                     break;
 
                 case RateLimitsEnum.Utelly:
-                    utelly.Patch(requestsRemaining);
+                    utelly.Put(requestsRemaining);
                     _unitOfWork.RateLimits.Update(utelly);
                     break;
             }
