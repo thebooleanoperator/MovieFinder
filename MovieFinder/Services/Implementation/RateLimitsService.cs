@@ -4,6 +4,7 @@ using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using System;
+using System.Threading.Tasks;
 
 namespace MovieFinder.Services.Implementation
 {
@@ -25,7 +26,7 @@ namespace MovieFinder.Services.Implementation
             utelly = _unitOfWork.RateLimits.GetUtelly(); 
         }
 
-        public void Update(RateLimitsEnum rateLimitsEnum, int requestsRemaining)
+        public async Task Update(RateLimitsEnum rateLimitsEnum, int requestsRemaining)
         {
             if (!RateLimitsValidator.IsValidRateLimits(rateLimitsEnum))
             {
@@ -36,12 +37,16 @@ namespace MovieFinder.Services.Implementation
             {
                 case RateLimitsEnum.ImdbAlternative:
                     imdbAlternative.Patch(requestsRemaining);
+                    _unitOfWork.RateLimits.Update(imdbAlternative); 
                     break;
 
                 case RateLimitsEnum.Utelly:
                     utelly.Patch(requestsRemaining);
+                    _unitOfWork.RateLimits.Update(utelly);
                     break;
             }
+            
+            await _unitOfWork.SaveChangesAsync(); 
         }
 
         public bool IsRequestsRemaining(RateLimitsEnum rateLimitsEnum)

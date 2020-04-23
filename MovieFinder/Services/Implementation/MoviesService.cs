@@ -39,30 +39,26 @@ namespace MovieFinder.Services.Implementation
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
             var newRemainingRequests = int.TryParse(requestsRemainingString, out var reamining) ? reamining : throw new Exception();
 
-
+            await _rateLimitsService.Update(RateLimitsEnum.ImdbAlternative, newRemainingRequests); 
 
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
 
-            //Get each movie returned from search. 
             var searchResults = parsedJson["Search"].Children().ToList();
             var rapidDtos = new List<RapidImdbDto>();
-            //Iterate through the search results and convert each Jmovie into a Movies object, 
-            //then check if the title and year match. Save and break on true. 
+
             foreach (var Jmovie in searchResults)
             {
                 try
                 {
-                    //Get the ImdbId by converting JObject to ImdbId.
                     RapidImdbDto rapidDto = Jmovie.ToObject<RapidImdbDto>();
 
                     var lowerMovieTitle = rapidDto.Title.ToLower();
                     var lowerTitle = title.ToLower();
-                    // Only return objects that have similart titles and matching year (if provided).
+
                     if (lowerMovieTitle.Contains(lowerTitle) && (rapidDto.Year == year || year == null))
                     {
-                        // If the rate limit fails to parse, throw general sytem exception. 
                         rapidDtos.Add(rapidDto);
                     }
                 }
@@ -82,24 +78,29 @@ namespace MovieFinder.Services.Implementation
                 return null;
             }
 
+            // Don't hit the imdb alt API if there are no requests left.
+            if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.ImdbAlternative))
+            {
+                return null;
+            }
+
             var request = RapidRequestSender.GetImdbIdsWithImdbAPI(imdbId);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
-            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+            var newRemainingRequests = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
+            await _rateLimitsService.Update(RateLimitsEnum.ImdbAlternative, newRemainingRequests);
 
             var parsedJson = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (parsedJson == null) { return null; }
 
-            //Get the ImdbInfoDto by converting JObject.
             try
             {
-                var rapidDto =  parsedJson.ToObject<RapidImdbDto>();
-                rapidDto.RequestsRemaining = requestsRemaining; 
-                return rapidDto;
+                return parsedJson.ToObject<RapidImdbDto>();
             }
             catch
             {
@@ -117,11 +118,9 @@ namespace MovieFinder.Services.Implementation
 
             if (parsedJson == null) { return null; }
 
-            //Get each movie returned from search. 
             var searchResults = parsedJson["titles"].Children().ToList();
             var rapidDtos = new List<RapidImdbDto>();
-            //Iterate through the search results and convert each Jmovie into a Movies object, 
-            //then check if the title and year match. Save and break on true. 
+
             foreach (var Jmovie in searchResults)
             {
                 try
@@ -145,26 +144,30 @@ namespace MovieFinder.Services.Implementation
                 return null;
             }
 
+            // Don't hit the imdb alt API if there are no requests left.
+            if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.ImdbAlternative))
+            {
+                return null;
+            }
+
             var request = RapidRequestSender.GetAllMovieInfoWithImdbAPI(imdbId.ImdbId, $"{imdbId.Year}");
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
-            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+            var newRemainingRequests = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
+            await _rateLimitsService.Update(RateLimitsEnum.ImdbAlternative, newRemainingRequests);
 
             var jsonAndResponse = await HttpValidator.ValidateAndParseResponse(response, true);
 
             if (jsonAndResponse == null) { return null; }
 
             var parsedJson = jsonAndResponse;
-            // If parse fails, return null.
             try
             {
-                //Get the ImdbInfoDto by converting JObject.
-                var rapidMovieDto = parsedJson.ToObject<RapidMovieDto>();
-                rapidMovieDto.RequestsRemaining = requestsRemaining;
-                return rapidMovieDto; 
+                return parsedJson.ToObject<RapidMovieDto>();
             }
             catch
             {
@@ -179,19 +182,26 @@ namespace MovieFinder.Services.Implementation
                 return null;
             }
 
+            // Don't hit the imdb alt API if there are no requests left.
+            if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.Utelly))
+            {
+                return null;
+            }
+
             var request = RapidRequestSender.UtellyRapidRequest(title);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 
             var requestsRemainingString = response.Headers.TryGetValues("x-ratelimit-requests-remaining", out var values) ? values.FirstOrDefault() : null;
-            var requestsRemaining = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+            var newRemainingRequests = int.TryParse(requestsRemainingString, out var rateLimit) ? rateLimit : throw new Exception();
+
+            await _rateLimitsService.Update(RateLimitsEnum.Utelly, newRemainingRequests);
 
             var parsedResponse = await HttpValidator.ValidateAndParseResponse(response);
 
             if (parsedResponse == null) { return null; }
 
-            //Get the ImdbInfoDto by converting JObject.
             var streamingResults = parsedResponse["results"].Children().ToList();
 
             foreach (var Jdata in streamingResults)
@@ -202,7 +212,6 @@ namespace MovieFinder.Services.Implementation
                     //Only return the data if the streaming data response matches title and imdbId. 
                     if (StreamingDataIsMatch(streamingData, title, imdbId))
                     {
-                        streamingData.RequestsRemaining = requestsRemaining; 
                         return streamingData;
                     }
                 }

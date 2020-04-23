@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieFinder.Repository.Interface;
 using MovieFinder.Repository.Repo;
+using System.Threading.Tasks;
 
 namespace MovieFinder.Repository
 {
@@ -36,6 +37,11 @@ namespace MovieFinder.Repository
         public int SaveChanges()
         {
             return _context.SaveChanges(); 
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync(); 
         }
     }
 }
