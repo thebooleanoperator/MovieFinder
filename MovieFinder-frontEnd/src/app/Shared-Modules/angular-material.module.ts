@@ -15,6 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatCardModule,
     MatDialogModule,
     MatSelectModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTooltipModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -51,7 +53,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatCardModule,
     MatDialogModule,
     MatSelectModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: []

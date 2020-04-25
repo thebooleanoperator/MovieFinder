@@ -2,6 +2,7 @@
 using MovieFinder.DtoModels;
 using MovieFinder.Enum;
 using MovieFinder.Models;
+using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
 using System;
@@ -15,12 +16,14 @@ namespace MovieFinder.Services.Implementation
     public class MoviesService : IMoviesService
     {
         private IHttpClientFactory _clientFactory;
-        private IRateLimitsService _rateLimitsService; 
+        private IRateLimitsService _rateLimitsService;
+        private UnitOfWork _unitOfWork; 
 
-        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService)
+        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService, MovieFinderContext movieFinderContext)
         {
             _clientFactory = clientFactory;
-            _rateLimitsService = rateLimitsService; 
+            _rateLimitsService = rateLimitsService;
+            _unitOfWork = new UnitOfWork(movieFinderContext); 
         }
 
         public async Task<List<RapidImdbDto>> GetImdbIdsByTitle(string title, int? year)
@@ -141,13 +144,19 @@ namespace MovieFinder.Services.Implementation
         {
             if (imdbId == null)
             {
-                return null;
+                var rapidMovieDto = new RapidMovieDto();
+                rapidMovieDto.HasError = true;
+                rapidMovieDto.ErrorMessage = "Imdb Id does not exist.";
+                return rapidMovieDto;
             }
 
             // Don't hit the imdb alt API if there are no requests left.
             if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.ImdbAlternative))
             {
-                return null;
+                var rapidMovieDto = new RapidMovieDto();
+                rapidMovieDto.HasError = true;
+                rapidMovieDto.ErrorMessage = "Max requests reached. Try again tomorrow.";
+                return rapidMovieDto;
             }
 
             var request = RapidRequestSender.GetAllMovieInfoWithImdbAPI(imdbId.ImdbId, $"{imdbId.Year}");
@@ -171,7 +180,10 @@ namespace MovieFinder.Services.Implementation
             }
             catch
             {
-                return null;
+                var rapidMovieDto = new RapidMovieDto();
+                rapidMovieDto.HasError = true;
+                rapidMovieDto.ErrorMessage = "Failed To Parse Movie Info."; 
+                return rapidMovieDto;
             }
         }
 
@@ -222,6 +234,16 @@ namespace MovieFinder.Services.Implementation
 
             }
             return null;
+        }
+
+        public MoviesDto GetCompleteMovie(Movies movie)
+        {
+            // Get Streaming Data, Synopsis, and Genres to return all movie info.
+            var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
+            var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId);
+            var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
+
+            return  new MoviesDto(movie, genres, streamingData, synopsis);
         }
 
         /// <summary>

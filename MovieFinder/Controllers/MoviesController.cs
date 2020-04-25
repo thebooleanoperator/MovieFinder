@@ -33,24 +33,23 @@ namespace MovieFinder.Controllers
         {
             if (moviesDto == null)
             {
-                return BadRequest("ImdbIdDto must not be null.");
+                return BadRequest("No movie provided.");
             }
 
-            var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId); 
+            var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
+
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
+
+            if (existingMovie != null)
+            {
+                return Ok(_moviesService.GetCompleteMovie(existingMovie)); 
+            }
 
             var rapidMovieData = await _moviesService.GetMovieInfo(imdbId);
 
-            if (rapidMovieData == null)
+            if (rapidMovieData.HasError == true)
             {
-                return NotFound("Parsing movie info failed.");
-            }
-
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(rapidMovieData.ImdbId);
-
-            // Don't create a duplicate Movie.
-            if (existingMovie != null)
-            {
-                return Ok(existingMovie);
+                return NotFound(rapidMovieData.ErrorMessage);
             }
 
             var movie = new Movies(rapidMovieData, imdbId);
@@ -62,7 +61,9 @@ namespace MovieFinder.Controllers
             // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
             FillAssociatedTables(rapidMovieData, movie, rapidStreamingData);
 
-            return Ok(movie);
+            var completeMovieDto = _moviesService.GetCompleteMovie(movie); 
+
+            return Ok(completeMovieDto);
         }
 
         /// <summary>
@@ -74,11 +75,6 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult GetByImdbId(string id)
         {
-            if (id == null)
-            {
-                return BadRequest("Id must not be null.");
-            }
-
             var imdbId = _unitOfWork.ImdbIds.Get(id);
 
             if (imdbId == null)
@@ -92,14 +88,10 @@ namespace MovieFinder.Controllers
             {
                 return NoContent();
             }
-            // Get Streaming Data, Synopsis, and Genres to return all movie info.
-            var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
-            var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId);
-            var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
 
-            var moviesDto = new MoviesDto(movie, genres, streamingData, synopsis);
+            var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
 
-            return Ok(moviesDto); 
+            return Ok(completeMoviesDto); 
         }
 
         /// <summary>
@@ -121,11 +113,8 @@ namespace MovieFinder.Controllers
 
             foreach(var movie in recommendedMovies)
             {
-                var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
-                var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
-                var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId); 
-                var movieDto = new MoviesDto(movie, genres, streamingData, synopsis);
-                recMovieDtos.Add(movieDto);
+                var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
+                recMovieDtos.Add(completeMoviesDto);
             }
 
             return Ok(recMovieDtos);

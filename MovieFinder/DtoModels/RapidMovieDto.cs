@@ -15,5 +15,7 @@ namespace MovieFinder.DtoModels
         public string Poster { get; set; }
         public bool IsRec { get; set; }
         public int RequestsRemaining { get; set; }
+        public bool HasError { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }
