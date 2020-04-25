@@ -91,7 +91,7 @@ namespace MovieFinder.Controllers
             }
 
             // Add the close matches to give users all possible movies.
-            var allRapidDtos = rapidDtos.Concat(closelyMatchRapidDtos); 
+            var allRapidDtos = RapidImdbDto.CombineWithNoDuplicates(rapidDtos, closelyMatchRapidDtos.ToList()); 
 
             return Ok(allRapidDtos.OrderByDescending(i => i.Year));
         }

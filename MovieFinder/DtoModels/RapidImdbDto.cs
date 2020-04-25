@@ -45,5 +45,32 @@ namespace MovieFinder.DtoModels
 
             return rapidDtos; 
         }
+
+        /// <summary>
+        /// Concats two lists of RapidImdbDtos together without concating any duplicates. 
+        /// </summary>
+        /// <param name="rapidDtos1"></param>
+        /// <param name="rapidDtos2"></param>
+        /// <returns></returns>
+        public static IEnumerable<RapidImdbDto> CombineWithNoDuplicates(List<RapidImdbDto> rapidDtos1, List<RapidImdbDto> rapidDtos2)
+        {
+            var seenIds = new List<string>(); 
+
+            foreach (var imdbId in rapidDtos1)
+            {
+                seenIds.Add(imdbId.ImdbId); 
+            }
+
+            foreach (var imdbId in rapidDtos2)
+            {
+                if (!seenIds.Contains(imdbId.ImdbId))
+                {
+                    rapidDtos1.Add(imdbId);
+                    seenIds.Add(imdbId.ImdbId); 
+                }
+            }
+
+            return rapidDtos1;
+        }
     }
 }
