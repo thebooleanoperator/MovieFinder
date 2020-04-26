@@ -84,24 +84,30 @@ export class DashboardComponent {
     }
 
     /**
+     * Creates a movie from an ImdbIdDto.
+     * @param imdbIdDto 
+     */
+    createMovie(imdbIdDto: ImdbIdDto): void {
+        this.toolBarService.isLoading = true;
+        this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
+            .then((moviesDto) => {
+                this.selectedMovie = moviesDto;
+                this.openDialog();
+            })
+            .catch((error) => {
+                if (error.status == 404) {
+                    alert("Movie not found");
+                }
+            })
+            .finally(() => this.toolBarService.isLoading = false);
+    }
+
+    /**
      * When a user clicks backspace, clear the search results. 
      */
     clearSearchResults() {
         this.movies = null;
         this.noSearchResults = false;
-    }
-
-    /**
-     * Calls create movie to get the movie a user has selected. 
-     * @param imdbId 
-     */
-    async getSelectedMovie (imdbIdDto: ImdbIdDto) {
-        this.toolBarService.isLoading = true;
-
-        await this.createMovie(imdbIdDto)
-            .finally(() => this.toolBarService.isLoading = false);
-
-        this.openDialog();
     }
 
     /**
@@ -116,20 +122,5 @@ export class DashboardComponent {
         dialogRef.afterClosed().subscribe(() => {
             console.log("dialog was closed");
         })
-    }
-
-    /**
-     * Creates a movie from an ImdbIdDto.
-     * @param imdbIdDto 
-     */
-    private createMovie(imdbIdDto: ImdbIdDto): Promise<any> {
-        this.toolBarService.isLoading = true;
-        return this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((response) => this.selectedMovie = response)
-            .catch((error) => {
-                if (error.status == 404) {
-                    alert("Error loading movie. Try again later.")
-                }
-            });
     }
 }

@@ -36,14 +36,14 @@ namespace MovieFinder.Controllers
                 return BadRequest("No movie provided.");
             }
 
-            var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
-
-            var existingMovie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
+            var existingMovie = _unitOfWork.Movies.GetByImdbId(moviesDto.ImdbId);
 
             if (existingMovie != null)
             {
                 return Ok(_moviesService.GetCompleteMovie(existingMovie)); 
             }
+
+            var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
 
             var rapidMovieData = await _moviesService.GetMovieInfo(imdbId);
 
