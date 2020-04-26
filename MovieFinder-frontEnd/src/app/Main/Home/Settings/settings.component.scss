@@ -1,4 +1,24 @@
-::ng-deep .cdk-overlay-3 {
+::ng-deep .cdk-overlay-pane {
     display: flex;
     justify-content: center;
+    
+    .mat-bottom-sheet-container {
+        background-color: rgba(192, 52, 76, 0.856);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .settings-button {
+            background-color: rgba(189, 115, 115, 0.87);
+            width: 100px;
+            .settings-label {
+                color: white;
+                cursor: pointer;
+            }
+        }
+
+        .settings-button:hover {
+            background-color: rgba(83, 47, 47, 0.87);
+        }
+    }
 }
