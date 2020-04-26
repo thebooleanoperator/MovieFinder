@@ -10,6 +10,17 @@
         color: white;
     }
 
+    .settings {
+        color: white;
+        margin: 10px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .settings:hover {
+        color: rgba(83, 47, 47, 0.87) !important;
+    }
+
     .selected-tool-button {
         margin: 10px 2px;
         background-color: rgba(83, 47, 47, 0.87);

@@ -1,12 +1,16 @@
-import {MatBottomSheet} from '@angular/material/bottom-sheet';
-import { Injectable } from '@angular/core';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Component } from '@angular/core';
 
-@Injectable({providedIn: 'root'})
-  export class Settings {
-    constructor(private _bottomSheet: MatBottomSheet) {}
+@Component({
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss']
+})
+export class SettingsComponent {
+    constructor(private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>) {}
 
-    openBottomSheet(): void {
-        this._bottomSheet.open(Settings);
-      }
-  
-  }
+    openLink(event: MouseEvent): void {
+        this._bottomSheetRef.dismiss();
+        event.preventDefault();
+    }
+}

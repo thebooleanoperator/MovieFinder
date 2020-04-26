@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from '../../Services/auth-service';
+import { Component, OnInit } from '@angular/core';
 import { ToolBarService } from '../../Services/tool-bar.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/internal/operators/filter';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { SettingsComponent } from 'src/app/Main/Home/Settings/settings.component';
 
 @Component({
   selector: 'inside-toolbar',
@@ -11,10 +12,10 @@ import { filter } from 'rxjs/internal/operators/filter';
   styleUrls: ['./inside-toolbar.component.scss']
 })
 export class InsideToolbarComponent implements OnInit{
-    constructor(private authService: AuthService, private toolBarService: ToolBarService, private router: Router)
+    constructor(private _toolBarService: ToolBarService, protected _router: Router, private _settingsSheet: MatBottomSheet)
     {
         // Returns a NavigationEnd observable, so we can check the url on route change end.
-        this.navEnd = router.events.pipe(
+        this.navEnd = _router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ) as Observable<NavigationEnd>
     }
@@ -38,11 +39,11 @@ export class InsideToolbarComponent implements OnInit{
         })
     }
     //Methods
-    logout(): void {
-        this.authService.logout();
+    getIsLoading(): boolean {
+        return this._toolBarService.isLoading; 
     }
 
-    getIsLoading(): boolean {
-        return this.toolBarService.isLoading; 
+    openSettings(): void {
+        this._settingsSheet.open(SettingsComponent)
     }
 }

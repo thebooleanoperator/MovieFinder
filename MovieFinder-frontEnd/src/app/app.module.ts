@@ -19,6 +19,7 @@ import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-f
 import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
 import { SelectedMovieDialog } from './Main/Home/Dashboard-Component/Dialogs/selected-movie.dialog';
 import { OutsideToolbarComponent } from './ToolBars/Outside/outside-toolbar.component';
+import { SettingsComponent } from './Main/Home/Settings/settings.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { OutsideToolbarComponent } from './ToolBars/Outside/outside-toolbar.comp
     MovieFinderComponent,
     MovieComponent,
     SelectedMovieDialog,
-    OutsideToolbarComponent
+    OutsideToolbarComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { OutsideToolbarComponent } from './ToolBars/Outside/outside-toolbar.comp
     RouterModule,
   ],
   entryComponents: [
-      SelectedMovieDialog
+      SelectedMovieDialog,
+      SettingsComponent
   ],
   providers: [
       {
