@@ -1,12 +1,24 @@
 <div id="movie-finder">
     <div class="recs-container" *ngIf="pageLoaded">
-        <div class="movie-arrow">
+        <div class="inline-movie-arrow">
             <button mat-button (click)="changeMovie(-1)">
                 <mat-icon>arrow_back_ios</mat-icon>
             </button>
         </div>
         <movie [movie]="getCurrentMovie()"></movie>
-        <div class="movie-arrow">
+        <div class="inline-movie-arrow">
+            <button  mat-button (click)="changeMovie(1)">
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </button>  
+        </div>
+    </div>
+    <div class="block-arrow-container">
+        <div class="block-movie-arrow">
+            <button  mat-button (click)="changeMovie(1)">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>  
+        </div>
+        <div class="block-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">
                 <mat-icon>arrow_forward_ios</mat-icon>
             </button>  

@@ -23,7 +23,7 @@
             width: 500px;
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
-            background-color: rgba(83, 47, 47, 0.87);
+            background-color: unset;
 
 
             .search-box {
@@ -199,12 +199,15 @@
                 height: 40px;
                 height: 100px;
                 flex-direction: column;
+                background-color: unset;
+                padding: 20px;
                 .search-box {
                     width: 300px;
                 }
             }
             .year-box {
                 margin-top: 12px;
+
 
                 ::ng-deep .mat-form-field-wrapper {
                     height: 44px;

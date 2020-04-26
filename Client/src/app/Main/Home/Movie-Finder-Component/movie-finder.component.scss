@@ -1,14 +1,20 @@
 #movie-finder {
+    margin-top: 150px;
     .recs-container {
         display: flex;
         flex-direction: row;
         justify-content: center;
-        margin-top: 100px;
-        .movie-arrow {
+        .inline-movie-arrow {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+    }
+}
+
+.block-arrow-container {
+    .block-movie-arrow {
+        display: none;
     }
 }
 
@@ -22,4 +28,25 @@
     align-items: center;
     margin:  112px auto;
 }
+
+@media screen and (max-width: 850px) {
+    #movie-finder {
+        .recs-container {
+            .inline-movie-arrow {
+                display: none;
+            }
+        }
+
+        .block-arrow-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .block-movie-arrow {
+                display: inline;
+            }
+        }
+    }
+}
+
 
