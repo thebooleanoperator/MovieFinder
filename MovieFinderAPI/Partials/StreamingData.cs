@@ -1,4 +1,5 @@
 ﻿using MovieFinder.DtoModels;
+using System;
 
 namespace MovieFinder.Models
 {
@@ -20,6 +21,22 @@ namespace MovieFinder.Models
             AmazonPrime = OnApp(rapidStreamingData, "prime");
             ITunes = OnApp(rapidStreamingData, "itunes");
             GooglePlay = OnApp(rapidStreamingData, "google"); 
+        }
+
+        public void Patch(RapidStreamingDto rapidStreamingData)
+        {
+            if (rapidStreamingData == null)
+            {
+                throw new ArgumentException($"{nameof(rapidStreamingData)} is required.");
+            }
+
+            Netflix = OnApp(rapidStreamingData, "netflix");
+            HBO = OnApp(rapidStreamingData, "hbo");
+            Hulu = OnApp(rapidStreamingData, "hulu");
+            DisneyPlus = OnApp(rapidStreamingData, "disney");
+            AmazonPrime = OnApp(rapidStreamingData, "prime");
+            ITunes = OnApp(rapidStreamingData, "itunes");
+            GooglePlay = OnApp(rapidStreamingData, "google");
         }
 
         public string OnApp(RapidStreamingDto rapidStreamingData, string appName)

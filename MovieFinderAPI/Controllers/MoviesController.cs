@@ -14,12 +14,14 @@ namespace MovieFinder.Controllers
     public class MoviesController : Controller
     {
         private UnitOfWork _unitOfWork;
-        private IMoviesService _moviesService; 
+        private IMoviesService _moviesService;
+        private IStreamingDataService _streamingDataService;
 
-        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService)
+        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService, IStreamingDataService streamingDataService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _moviesService = moviesService;
+            _streamingDataService = streamingDataService;
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetByImdbId(string id)
+        public async Task<IActionResult> GetByImdbId(string id)
         {
             var imdbId = _unitOfWork.ImdbIds.Get(id);
 
@@ -91,11 +93,13 @@ namespace MovieFinder.Controllers
 
             var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
 
+            await _streamingDataService.UpdateStreamingData(completeMoviesDto); 
+
             return Ok(completeMoviesDto); 
         }
 
         /// <summary>
-        /// 
+        /// Gets the movies that have been reccomended by StreamSpotter staff.
         /// </summary>
         /// <returns></returns>
         [HttpGet("Recommended")]

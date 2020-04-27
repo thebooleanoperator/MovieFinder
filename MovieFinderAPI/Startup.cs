@@ -46,6 +46,8 @@ namespace MovieFinder
 
             services.AddTransient<IRateLimitsService, RateLimitsService>();
 
+            services.AddTransient<IStreamingDataService, StreamingDataService>();
+
             services.AddTransient<IMoviesService, MoviesService>();
 
             services.AddIdentity<Users, IdentityRole>()

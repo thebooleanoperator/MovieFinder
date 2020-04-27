@@ -49,6 +49,7 @@ namespace MovieFinder.DtoModels
             RunTime = movie.RunTime.ToString();
             ImdbRating = movie.ImdbRating;
             RottenTomatoesRating = movie.RottenTomatoesRating;
+            ImdbId = movie.ImdbId;
             IsRec = movie.IsRec;
             Poster = movie.Poster;
             Genres = genres;
