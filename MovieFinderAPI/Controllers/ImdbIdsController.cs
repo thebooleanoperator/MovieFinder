@@ -57,17 +57,26 @@ namespace MovieFinder.Controllers
                 var partialRapidDtos = await _moviesService.GetOnlyIdByTitle(title);
                 foreach (var partialRapidDto in partialRapidDtos)
                 {
-                    // In order to get the Year, we need to use the rate limited imdb api.
-                    var rapidDto = await _moviesService.GetImdbIdById(partialRapidDto.Id);
-                    // imdbId will be null when parsing fails or the API requests limit is reached.
-                    if (rapidDto == null)
+                    var exisitngImdbId = _unitOfWork.ImdbIds.Get(partialRapidDto.ImdbId); 
+                    if (exisitngImdbId != null)
                     {
-                        partialRapidDto.ImdbId = partialRapidDto.Id;
-                        rapidDtos.Add(partialRapidDto);    
+                        var rapidDtoFromExistingImdbId = new RapidImdbDto(exisitngImdbId); 
+                        rapidDtos.Add(rapidDtoFromExistingImdbId);
                     }
                     else
                     {
-                        rapidDtos.Add(rapidDto);
+                        // In order to get the Year, we need to use the rate limited imdb api.
+                        var rapidDto = await _moviesService.GetImdbIdById(partialRapidDto.Id);
+                        // imdbId will be null when parsing fails or the API requests limit is reached.
+                        if (rapidDto == null)
+                        {
+                            partialRapidDto.ImdbId = partialRapidDto.Id;
+                            rapidDtos.Add(partialRapidDto);
+                        }
+                        else
+                        {
+                            rapidDtos.Add(rapidDto);
+                        }
                     }
                 }
             }

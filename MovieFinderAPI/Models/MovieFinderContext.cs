@@ -165,6 +165,9 @@ namespace MovieFinder
                     entity.Property(m => m.ITunes);
 
                     entity.Property(m => m.GooglePlay);
+
+                    entity.Property(m => m.LastUpdated)
+                        .HasDefaultValueSql("getdate()");
                 });
 
             modelBuilder

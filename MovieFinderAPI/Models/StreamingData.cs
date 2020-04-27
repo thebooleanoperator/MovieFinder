@@ -1,4 +1,6 @@
-﻿namespace MovieFinder.Models
+﻿using System;
+
+namespace MovieFinder.Models
 {
     public partial class StreamingData
     {
@@ -11,6 +13,7 @@
         public string AmazonPrime { get; set; }
         public string ITunes { get; set; }
         public string GooglePlay { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }
 
