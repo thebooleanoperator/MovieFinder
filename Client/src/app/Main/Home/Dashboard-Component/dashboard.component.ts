@@ -16,6 +16,7 @@ export class DashboardComponent {
     {
 
     }
+    
     /**
      * Holds an array of movies returned from search results.
      */
@@ -37,6 +38,9 @@ export class DashboardComponent {
      */
     displayedColumns : string[] = ['Title', 'Year'];
 
+    /**
+     * Gets an array of numbers representing the years from 1900 to present.
+     */
     getYears(): number[] {
         var years = [];
         var currentYear = new Date().getFullYear();
@@ -46,13 +50,30 @@ export class DashboardComponent {
         return years;
     }
 
+    /**
+     * Gets the year. Checks if greater than 0.
+     * @param year 
+     */
     getYear(year: number): number {
         return year > 0 ? year : null;
     }
 
+    /**
+     * Toggles the movies list and the No Movies Found response in view.
+     * @param movies 
+     */
     moviesExist(movies: MovieDto[]) : boolean {
         return movies && movies.length > 0; 
     }
+
+    /**
+     * When a user clicks backspace, clear the search results. 
+     */
+    clearSearchResults() {
+        this.movies = null;
+        this.noSearchResults = false;
+    }
+
     /**
      * Uses a user input search string to return an array of movies.
      * Max 10 movies with names and years displayed to user.
@@ -84,36 +105,59 @@ export class DashboardComponent {
     }
 
     /**
-     * Creates a movie from an ImdbIdDto.
+     * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
+     * and set selectedMovie.
      * @param imdbIdDto 
      */
-    createMovie(imdbIdDto: ImdbIdDto): void {
+    async getOrCreateMovie(imdbIdDto: ImdbIdDto) {
+        this.selectedMovie = await this.getMovie(imdbIdDto.imdbId); 
+
+        if (!this.selectedMovie) {
+            this.selectedMovie = await this.createMovie(imdbIdDto); 
+        }
+        // Only open the dialog if seletedMovie is set.
+        if (this.selectedMovie) {
+            this.openDialog();
+        }
+    }
+
+    /**
+     * Aysnchronous function that gets a movie from MovieFinderAPI with imdbId string.
+     * @param imdbId 
+     */
+    private async getMovie(imdbId: string): Promise<MovieDto> {
         this.toolBarService.isLoading = true;
-        this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((moviesDto) => {
-                this.selectedMovie = moviesDto;
-                this.openDialog();
+        return await this.moviesService.getMovieByImdbId(imdbId).toPromise()
+            .then((movieDto) => movieDto)
+            .catch((error) => {
+                if (error.status == 400) {
+                    alert("Cannot find movie.")
+                }
             })
+            .finally(() =>this.toolBarService.isLoading = false);
+    }
+
+    /**
+     * Aysnchronous function that creates a movie with MovieFinderAPI.
+     * Sends an ImdbIdDto as a param to api.
+     * @param imdbId 
+     */
+    private async createMovie(imdbIdDto: ImdbIdDto): Promise<MovieDto> {
+        this.toolBarService.isLoading = true;
+        return await this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
+            .then((moviesDto) => moviesDto)
             .catch((error) => {
                 if (error.status == 404) {
                     alert("Movie not found");
                 }
             })
-            .finally(() => this.toolBarService.isLoading = false);
-    }
-
-    /**
-     * When a user clicks backspace, clear the search results. 
-     */
-    clearSearchResults() {
-        this.movies = null;
-        this.noSearchResults = false;
+            .finally(() =>this.toolBarService.isLoading = false);
     }
 
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    openDialog(): void {
+    private openDialog() {
         const dialogRef = this.dialog.open(SelectedMovieDialog, {
             width: '450px',
             data: {movieDto: this.selectedMovie}

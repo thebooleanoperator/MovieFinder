@@ -40,7 +40,7 @@ namespace MovieFinder.Controllers
 
             if (existingMovie != null)
             {
-                return Ok(_moviesService.GetCompleteMovie(existingMovie)); 
+                return NoContent(); 
             }
 
             var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
