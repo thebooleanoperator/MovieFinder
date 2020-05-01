@@ -38,13 +38,6 @@ namespace MovieFinder.Services.Interface
         Task<RapidMovieDto> GetMovieInfo([FromBody] ImdbIds imdbId);
 
         /// <summary>
-        /// Gets all streaming data for a movie from Utelly API. 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        Task<RapidStreamingDto> GetStreamingData(string title, string imdbId);
-
-        /// <summary>
         /// Returns a moviesDto filled out with Synopsis, Genre, and Streaming Data info.
         /// </summary>
         /// <param name="movie"></param>

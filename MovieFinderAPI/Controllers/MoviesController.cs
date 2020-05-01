@@ -40,6 +40,7 @@ namespace MovieFinder.Controllers
 
             var existingMovie = _unitOfWork.Movies.GetByImdbId(moviesDto.ImdbId);
 
+            // Don't create a movie that exists in db.
             if (existingMovie != null)
             {
                 return NoContent(); 
@@ -55,7 +56,7 @@ namespace MovieFinder.Controllers
             }
 
             var movie = new Movies(rapidMovieData, imdbId);
-            var rapidStreamingData = await _moviesService.GetStreamingData(movie.Title, movie.ImdbId);
+            var rapidStreamingData = await _streamingDataService.GetStreamingData(movie.Title, movie.ImdbId);
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();

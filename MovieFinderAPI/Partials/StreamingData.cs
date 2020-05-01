@@ -37,6 +37,7 @@ namespace MovieFinder.Models
             AmazonPrime = OnApp(rapidStreamingData, "prime");
             ITunes = OnApp(rapidStreamingData, "itunes");
             GooglePlay = OnApp(rapidStreamingData, "google");
+            LastUpdated = DateTime.Now;
         }
 
         public string OnApp(RapidStreamingDto rapidStreamingData, string appName)

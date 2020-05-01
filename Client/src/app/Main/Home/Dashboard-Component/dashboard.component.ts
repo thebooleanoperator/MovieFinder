@@ -16,7 +16,7 @@ export class DashboardComponent {
     {
 
     }
-    
+
     /**
      * Holds an array of movies returned from search results.
      */
@@ -165,6 +165,6 @@ export class DashboardComponent {
 
         dialogRef.afterClosed().subscribe(() => {
             console.log("dialog was closed");
-        })
+        });
     }
 }
