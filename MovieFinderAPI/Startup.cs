@@ -42,13 +42,15 @@ namespace MovieFinder
 
             services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["MovieFinderConnectionString"]));
 
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
-            services.AddTransient<IRateLimitsService, RateLimitsService>();
+            services.AddScoped<IRateLimitsService, RateLimitsService>();
 
-            services.AddTransient<IStreamingDataService, StreamingDataService>();
+            services.AddScoped<IStreamingDataService, StreamingDataService>();
 
-            services.AddTransient<IMoviesService, MoviesService>();
+            services.AddScoped<IMoviesService, MoviesService>();
+
+            services.AddScoped<IImdbIdsService, ImdbIdsService>();
 
             services.AddIdentity<Users, IdentityRole>()
                 .AddEntityFrameworkStores<MovieFinderContext>()

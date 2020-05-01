@@ -14,12 +14,12 @@ namespace MovieFinder.Controllers
     public class ImdbIdsController : Controller
     {
         private UnitOfWork _unitOfWork;
-        private IMoviesService _moviesService; 
+        private IImdbIdsService _imdbIdsService; 
 
-        public ImdbIdsController(MovieFinderContext movieFinderContext, IMoviesService moviesService)
+        public ImdbIdsController(MovieFinderContext movieFinderContext, IImdbIdsService imdbIdsService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
-            _moviesService = moviesService;
+            _imdbIdsService = imdbIdsService;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace MovieFinder.Controllers
                 return Ok(closelyMatchRapidDtos.OrderByDescending(i => i.Year));
             }
 
-            var rapidDtos = await _moviesService.GetImdbIdsByTitle(title, year);
+            var rapidDtos = await _imdbIdsService.GetImdbIdsByTitle(title, year);
 
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
             // There's no way to specify a year to the backup API, ignore the year. 
@@ -54,7 +54,7 @@ namespace MovieFinder.Controllers
             {
                 rapidDtos = new List<RapidImdbDto>();
                 // Use movieService to call backup API. This will return only the ImdbId and Title, no Years. 
-                var partialRapidDtos = await _moviesService.GetOnlyIdByTitle(title);
+                var partialRapidDtos = await _imdbIdsService.GetOnlyIdByTitle(title);
                 foreach (var partialRapidDto in partialRapidDtos)
                 {
                     var exisitngImdbId = _unitOfWork.ImdbIds.Get(partialRapidDto.ImdbId); 
@@ -66,7 +66,7 @@ namespace MovieFinder.Controllers
                     else
                     {
                         // In order to get the Year, we need to use the rate limited imdb api.
-                        var rapidDto = await _moviesService.GetImdbIdById(partialRapidDto.Id);
+                        var rapidDto = await _imdbIdsService.GetImdbIdById(partialRapidDto.Id);
                         // imdbId will be null when parsing fails or the API requests limit is reached.
                         if (rapidDto == null)
                         {
