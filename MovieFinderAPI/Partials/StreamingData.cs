@@ -40,17 +40,17 @@ namespace MovieFinder.Models
             LastUpdated = DateTime.Now;
         }
 
-        public string OnApp(RapidStreamingDto rapidStreamingData, string appName)
+        public bool OnApp(RapidStreamingDto rapidStreamingData, string appName)
         {
-            if (rapidStreamingData == null) { return null; }
+            if (rapidStreamingData == null) { return false; }
             foreach(var location in rapidStreamingData.Locations)
             {
                 if (location.Display_Name.ToLower().Contains(appName))
                 {
-                    return location.Icon;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 }
