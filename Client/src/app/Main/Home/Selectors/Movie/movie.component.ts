@@ -59,25 +59,25 @@ export class MovieComponent {
     }
 
     isBeingStreamed(movie:MovieDto): boolean {
-        if (movie.streamingData.netflix != null) {
+        if (movie.streamingData.netflix) {
            return true;
         }
-        if (movie.streamingData.hbo != null) {
+        if (movie.streamingData.hbo) {
             return true;
         }
-        if (movie.streamingData.hulu != null) {
+        if (movie.streamingData.hulu) {
             return true;
         }
-        if (movie.streamingData.disneyPlus != null) {
+        if (movie.streamingData.disneyPlus) {
             return true;
         }
-        if (movie.streamingData.amazonPrime != null) {
+        if (movie.streamingData.amazonPrime) {
             return true;
         }
-        if (movie.streamingData.iTunes != null) {
+        if (movie.streamingData.iTunes) {
             return true;
         }
-        if (movie.streamingData.googlePlay != null) {
+        if (movie.streamingData.googlePlay) {
             return true;
         }
         return false;
