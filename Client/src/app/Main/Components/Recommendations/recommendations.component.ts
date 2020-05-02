@@ -3,10 +3,10 @@ import { MovieDto } from 'src/app/Data/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 
 @Component ({
-    templateUrl: './movie-finder.component.html',
-    styleUrls: ['./movie-finder.component.scss']
+    templateUrl: './recommendations.component.html',
+    styleUrls: ['./recommendations.component.scss']
 })
-export class MovieFinderComponent implements OnInit  {
+export class RecommendationsComponent implements OnInit  {
     constructor(private moviesService: MoviesService)
     {
 
