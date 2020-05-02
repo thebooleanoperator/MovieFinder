@@ -17,7 +17,6 @@ namespace MovieFinder
 
         public DbSet<Movies> Movies { get; set; }
         public DbSet<LikedMovies> LikedMovies { get; set;}
-        public DbSet<Synopsis> Synopsis { get; set; }
         public DbSet<MovieTitles> MovieTitles { get; set; }
         public DbSet<ImdbIds> ImdbIds { get; set; }
         public DbSet<Genres> Genres { get; set; }
@@ -63,6 +62,8 @@ namespace MovieFinder
 
                     entity.Property(m => m.ImdbId);
 
+                    entity.Property(m => m.Plot);
+
                     entity.Property(m => m.Poster);
 
                     entity.Property(m => m.IsRec);
@@ -81,18 +82,6 @@ namespace MovieFinder
 
                     entity.Property(m => m.DateCreated)
                             .HasDefaultValueSql("GetUtcDate()"); 
-                });
-
-            modelBuilder
-                .Entity<Synopsis>(entity =>
-                {
-                    entity.HasKey(m => m.SynopsisId);
-
-                    entity.Property(m => m.SynopsisId);
-
-                    entity.Property(m => m.Plot);
-
-                    entity.Property(m => m.MovieId);
                 });
 
             modelBuilder

@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20200123041831_UserEmail.Designer.cs" />
     <Compile Remove="Migrations\20200418234336_RequestLimits.cs" />
     <Compile Remove="Migrations\20200418234336_RequestLimits.Designer.cs" />
+    <Compile Remove="Migrations\20200502234310_RemoveSynopsis.cs" />
+    <Compile Remove="Migrations\20200502234310_RemoveSynopsis.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

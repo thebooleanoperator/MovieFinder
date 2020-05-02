@@ -9,7 +9,6 @@ namespace MovieFinder.Repository
     {
         public IMoviesRepository Movies { get; set; }
         public ILikedMoviesRepository LikedMovies { get; set; }
-        public ISynopsisRepository Synopsis { get; set; }
         public IUsersRepository Users { get; set; }
         public IMovieTitlesRepository MovieTitles { get; set; }
         public IImdbIdsRepository ImdbIds { get; set; }
@@ -25,7 +24,6 @@ namespace MovieFinder.Repository
         
             Movies = new MoviesRepository(_context);
             LikedMovies = new LikedMoviesRepository(_context);
-            Synopsis = new SynopsisRepository(_context);
             Users = new UsersRepository(_context);
             MovieTitles = new MovieTitlesRepository(_context);
             ImdbIds = new ImdbIdsRepository(_context);

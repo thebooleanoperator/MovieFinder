@@ -61,8 +61,14 @@ namespace MovieFinder.Controllers
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
-            // Creates Synposis, Genres, and StreamingData table asscoiated with movie created.
-            FillAssociatedTables(rapidMovieData, movie, rapidStreamingData);
+            // Create StreamingData and Genres. 
+            var streamingData = new StreamingData(rapidStreamingData, movie);
+            _unitOfWork.StreamingData.Add(streamingData);
+
+            var genres = new Genres(rapidMovieData, movie);
+            _unitOfWork.Genres.Add(genres);
+
+            _unitOfWork.SaveChanges();
 
             var completeMovieDto = _moviesService.GetCompleteMovie(movie); 
 
@@ -146,30 +152,6 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
 
             return Ok(movie);
-        }
-
-        /// <summary>
-        /// Helper method to add all movie info to tables at once.
-        /// </summary>
-        /// <param name="imdbInfo"></param>
-        /// <param name="movie"></param>
-        /// <param name="streamingDataDto"></param>
-        /// <param name="saveTables"></param>
-        private void FillAssociatedTables(RapidMovieDto rapidMovieData, Movies movie, RapidStreamingDto rapidStreamingData, bool saveTables = true)
-        {
-            var streamingData = new StreamingData(rapidStreamingData, movie);
-            _unitOfWork.StreamingData.Add(streamingData);
-
-            var synopsis = new Synopsis(rapidMovieData, movie);
-            _unitOfWork.Synopsis.Add(synopsis);
-
-            var genres = new Genres(rapidMovieData, movie);
-            _unitOfWork.Genres.Add(genres);
-
-            if (saveTables)
-            {
-                _unitOfWork.SaveChanges();
-            }
         }
     }
 }

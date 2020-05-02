@@ -15,17 +15,17 @@ namespace MovieFinder.DtoModels
         public decimal? RottenTomatoesRating { get; set; }
         public string ImdbId { get; set; }
         public bool IsRec { get; set; }
+        public string Plot { get; set; }
         public string Poster { get; set; }
         public Genres Genres { get; set; }
         public StreamingData StreamingData { get; set; }
-        public Synopsis Synopsis { get; set; }
 
         public MoviesDto()
         {
 
         }
 
-        public MoviesDto(Movies movie, Genres genres, StreamingData streamingData, Synopsis synopsis)
+        public MoviesDto(Movies movie, Genres genres, StreamingData streamingData)
         {
             if (movie == null)
             {
@@ -50,11 +50,11 @@ namespace MovieFinder.DtoModels
             ImdbRating = movie.ImdbRating;
             RottenTomatoesRating = movie.RottenTomatoesRating;
             ImdbId = movie.ImdbId;
-            IsRec = movie.IsRec;
+            Plot = movie.Plot;
             Poster = movie.Poster;
+            IsRec = movie.IsRec;
             Genres = genres;
             StreamingData = streamingData;
-            Synopsis = synopsis;
         }
     }
 }

@@ -74,12 +74,11 @@ namespace MovieFinder.Services.Implementation
 
         public MoviesDto GetCompleteMovie(Movies movie)
         {
-            // Get Streaming Data, Synopsis, and Genres to return all movie info.
+            // Get Streaming Data, and Genres to return all movie info.
             var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
-            var synopsis = _unitOfWork.Synopsis.GetByMovieId(movie.MovieId);
             var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
 
-            return  new MoviesDto(movie, genres, streamingData, synopsis);
+            return  new MoviesDto(movie, genres, streamingData);
         }
     }
 }

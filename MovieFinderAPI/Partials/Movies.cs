@@ -49,6 +49,11 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{rapidMovieInfo.ImdbId} must be have characters");
             }
 
+            if (rapidMovieInfo.Plot == null)
+            {
+                throw new ArgumentException($"{rapidMovieInfo.ImdbId} must be have characters");
+            }
+
             if (rapidMovieInfo.Poster == null)
             {
                 throw new ArgumentException($"{rapidMovieInfo.Poster} must be have characters");
@@ -68,7 +73,8 @@ namespace MovieFinder.Models
             RottenTomatoesRating = getRottenRating("Rotten Tomatoes", rapidMovieInfo.Ratings);
             Year = imdbId.Year;
             Poster = rapidMovieInfo.Poster;
-            IsRec = rapidMovieInfo.IsRec;
+            Plot = rapidMovieInfo.Plot;
+            IsRec = rapidMovieInfo.IsRec;      
         }
 
         public void Patch(MoviesDto moviesDto)
