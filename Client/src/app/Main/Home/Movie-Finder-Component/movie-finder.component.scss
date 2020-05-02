@@ -1,5 +1,11 @@
 #movie-finder {
-    margin-top: 150px;
+    margin-top: 100px;
+    .recs-title {
+        font-size: 35px;
+        color: rgba(83, 47, 47, 0.87);
+        text-align: center;
+        margin-bottom: 50px;
+    }
     .recs-container {
         display: flex;
         flex-direction: row;
@@ -31,6 +37,7 @@
 
 @media screen and (max-width: 850px) {
     #movie-finder {
+        margin-top: 50px;
         .recs-container {
             .inline-movie-arrow {
                 display: none;

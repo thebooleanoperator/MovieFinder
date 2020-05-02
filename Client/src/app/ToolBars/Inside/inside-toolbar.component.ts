@@ -38,6 +38,7 @@ export class InsideToolbarComponent implements OnInit{
             }
         })
     }
+    
     //Methods
     getIsLoading(): boolean {
         return this._toolBarService.isLoading; 

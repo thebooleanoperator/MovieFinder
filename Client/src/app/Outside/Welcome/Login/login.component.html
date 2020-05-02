@@ -18,11 +18,9 @@
             </button>
             <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
-        <button class="login-button" mat-button (click)="verifyUserAndLogin(email.value, password.value)" *ngIf="!isLoading" 
-        [disabled]="password.invalid || email.invalid">
+        <button class="login-button" mat-button (click)="verifyUserAndLogin(email.value, password.value)" [disabled]="password.invalid || email.invalid">
             Login
         </button>
-        <mat-spinner class="spinner" diameter="50" strokeWidth="7" *ngIf="isLoading"></mat-spinner>
     </div>
 </body>
 </html>

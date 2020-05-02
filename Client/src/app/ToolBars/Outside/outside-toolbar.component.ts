@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { ToolBarService } from 'src/app/Services/tool-bar.service';
 
 @Component({
     selector: 'outside-toolbar',
@@ -6,7 +7,13 @@ import { Component, Input } from "@angular/core";
     styleUrls: ['./outside-toolbar.component.scss']
 })
 export class OutsideToolbarComponent {
-    @Input() showWelcome: boolean;
-    @Input() showLogin: boolean;
-    @Input() showRegister: boolean;
+    constructor(private _toolBarService: ToolBarService)
+    {
+
+    }
+
+    //Methods
+    getIsLoading(): boolean {
+        return this._toolBarService.isLoading; 
+    }
 }

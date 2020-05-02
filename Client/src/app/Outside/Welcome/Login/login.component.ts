@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../Services/auth-service';
 import { FormControl, Validators } from '@angular/forms';
+import { ToolBarService } from 'src/app/Services/tool-bar.service';
 
 @Component({
     selector: 'login',
@@ -9,21 +10,20 @@ import { FormControl, Validators } from '@angular/forms';
 })
 
 export class LoginComponent {
-    constructor(private authService: AuthService){}
+    constructor(private authService: AuthService, private _toolBarService: ToolBarService){}
     //Data
     email: FormControl = new FormControl('', [Validators.required, Validators.email]); 
     password: FormControl = new FormControl('', [Validators.required]); 
-    isLoading: boolean = false;
     hide: boolean = true;
 
     //Methods
     verifyUserAndLogin(email, password) {
-        this.isLoading = true;
+        this._toolBarService.isLoading = true;
         this.authService.login(email, password)
             .catch((error) => {
                 alert(error.error);
             })
-            .finally(() => this.isLoading = false);
+            .finally(() => this._toolBarService.isLoading = false);
     }
     
     getEmailErrorMessage() {
