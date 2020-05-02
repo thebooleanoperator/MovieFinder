@@ -1,5 +1,5 @@
 //Modules
-import { AngularMaterialModule } from './Shared-Modules/angular-material.module';
+import { AngularMaterialModule } from './Shared/angular-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
