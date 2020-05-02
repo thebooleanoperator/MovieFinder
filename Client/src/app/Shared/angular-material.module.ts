@@ -18,6 +18,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatListModule} from '@angular/material/list';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatListModule} from '@angular/material/list';
     MatButtonToggleModule,
     MatTooltipModule,
     MatBottomSheetModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -60,7 +62,8 @@ import {MatListModule} from '@angular/material/list';
     MatButtonToggleModule,
     MatTooltipModule,
     MatBottomSheetModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: []

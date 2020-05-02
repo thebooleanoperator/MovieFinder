@@ -19,18 +19,18 @@
             align-items: center;
             margin: 6px;
             height: 40px;
-            padding: 30px 25px 25px 25px;
-            width: 550px;
+            padding: 20px;
+            width: 475px;
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
             background-color: unset;
 
 
-            .search-box {
+            .input-box {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 550px;
+                width: 475px;
                 height: 60px;
 
                 ::ng-deep .mat-form-field-wrapper  {
@@ -79,78 +79,94 @@
                 }
             }
         }
-    
-        .year-box {
-            height: 60px;
-            width: 100px;
-            max-width: 100px;
+        .year-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 6px;
-            color: rgba(83, 47, 47, 0.87);
-            background-color: rgba(235, 145, 145, 0.87);
-
-            ::ng-deep .mat-form-field-wrapper {
+            height: 40px;
+            padding: 20px;
+            width: 100px;
+            border-radius: 2%;
+            box-shadow: 2px 2px 2px 2px;
+            background-color: unset;
+            .year-box {
+                height: 60px;
                 width: 100px;
-                height: 40px;
-                font-size: 25px;
-                padding-bottom: unset;
-
-                ::ng-deep .mat-form-field-flex {
+                max-width: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 6px;
+                color: rgba(83, 47, 47, 0.87);
+                background-color: rgba(235, 145, 145, 0.87);
+    
+                ::ng-deep .mat-form-field-wrapper {
+                    width: 100px;
                     height: 40px;
-                }
-
-                ::ng-deep .mat-form-field-infix {
-                    height: 40px;
-                    border-top: unset;
-                    padding: unset;
-                }
-
-                ::ng-deep .mat-form-field-underline {
-                    display: none;
-                }
-
-                .year-input {
-                    border: none;
-                    box-shadow: none;
-                    font-size: 15px;
-                    padding-left: 5px;
-
-                    ::ng-deep .mat-select-trigger {
-                        height: 45px;
-                        vertical-align: middle;
-
-                        ::ng-deep .mat-select-value {
-                            font-size: 25px;
+                    font-size: 25px;
+                    padding-bottom: unset;
+    
+                    ::ng-deep .mat-form-field-flex {
+                        height: 40px;
+                    }
+    
+                    ::ng-deep .mat-form-field-infix {
+                        height: 40px;
+                        border-top: unset;
+                        padding: unset;
+                    }
+    
+                    ::ng-deep .mat-form-field-underline {
+                        display: none;
+                    }
+    
+                    .year-input {
+                        border: none;
+                        box-shadow: none;
+                        font-size: 15px;
+                        padding-left: 5px;
+    
+                        ::ng-deep .mat-select-trigger {
+                            height: 45px;
                             vertical-align: middle;
-
-                            ::ng-deep .mat-select-value-text {
-                                color: rgba(83, 47, 47, 0.87) !important;
+    
+                            ::ng-deep .mat-select-value {
+                                font-size: 25px;
+                                vertical-align: middle;
+    
+                                ::ng-deep .mat-select-value-text {
+                                    color: rgba(83, 47, 47, 0.87) !important;
+                                }
+                            }
+    
+                            ::ng-deep .mat-select-arrow-wrapper {
+                                padding-right: 10px;
                             }
                         }
-
-                        ::ng-deep .mat-select-arrow-wrapper {
-                            padding-right: 10px;
-                        }
                     }
-                }
-
-                ::ng-deep .mat-form-field-label {
-                    top: 1.10em;
-                    padding-left: 5px;
-                    color: rgba(83, 47, 47, 0.87) !important;
+    
+                    ::ng-deep .mat-form-field-label {
+                        top: 1.10em;
+                        padding-left: 5px;
+                        color: rgba(83, 47, 47, 0.87) !important;
+                    }
                 }
             }
         }
     }
-
     .search-results {
         table {
             width: 500px;
-            tr {
+            .mat-row {
+                .mat-cell {
+                    font-size: 16px;
+                }
                 .mat-column-Title {
-                    width: 300px;
+                    width: 375px;
+                }
+                .mat-column-Year {
+                    width: 75px;
                 }
             }
             .mat-row:hover {
@@ -164,6 +180,7 @@
         font-size: 25px;
         font-weight: bold;
         padding: 10px;
+        color: rgba(83, 47, 47, 0.87);
     }
 }
 
@@ -194,23 +211,24 @@
             font-size: 35px;
         }
         .search-container {
+            flex-direction: column;
+            align-items: center;
             .input-container {
                 width: 300px;
                 height: 40px;
-                height: 100px;
+                height: 60px;
                 flex-direction: column;
                 background-color: unset;
-                padding: 20px;
-                .search-box {
+                padding: 15px;
+                .input-box {
                     width: 300px;
                 }
             }
-            .year-box {
-                margin-top: 8px;
-
-
-                ::ng-deep .mat-form-field-wrapper {
-                    height: 50px;
+            .year-container {
+                padding: 10px;
+                .year-box {
+                    margin-top: 8px;
+                    height: 40px;
                 }
             }
         }

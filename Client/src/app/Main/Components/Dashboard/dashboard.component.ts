@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
@@ -13,15 +13,16 @@ import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 })
 export class DashboardComponent {
     constructor(private moviesService: MoviesService, private imdbIdsService: ImdbIdsService, 
-        private toolBarService: ToolBarService, public dialog: MatDialog)
-    {
-
-    }
+        private toolBarService: ToolBarService, public dialog: MatDialog){}
 
     /**
-     * Holds an array of movies returned from search results.
+     * Holds an array of all movies returned from search results.
      */
-    movies: Array<MovieDto>;
+    movies: MovieDto[];
+    /**
+     * 
+     */
+    displayedMovies: MovieDto[];
     /**
      * The movie a user has selected from the search results. 
      */
@@ -42,7 +43,15 @@ export class DashboardComponent {
      * Used to disable input search when a user is selecting a movie.
      */
     gettingMovie: boolean = false;
-
+    /**
+     * Used to set the number of movies displayed from search results.
+     */
+    moviesPerPage: number = 8;
+    /**
+     * 
+     */
+    totalPages: number;
+    
     /**
      * Gets an array of numbers representing the years from 1900 to present.
      */
@@ -98,17 +107,40 @@ export class DashboardComponent {
                 this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
                     .then((response) =>  {
                         this.movies = response;
-                        this.noSearchResults = this.movies.length > 0 ? false : true; 
+                        this.setTotalPages(this.movies.length, this.moviesPerPage);
+                        this.setDisplayedMovies(this.movies, this.moviesPerPage)
+                        this.noSearchResults = this.movies.length > 0 ? false : true;
                     })
                     .catch((error) => {
                         // Clear search results and show not found message on 404 and 500.
                         if (error.status == 404 || error.status == 500) {
                             this.noSearchResults = true;
                             this.movies = null;
+                            this.displayedMovies = null;
+                            this.totalPages = null;
                         }
                     })
                     .finally(() => this.toolBarService.isLoading = false);
             }, 700);
+        }
+    }
+
+    setDisplayedMovies(movies:MovieDto[], moviesPerPage:number, page:number=0): void {
+        if (movies == null || movies.length <= 0) {
+            this.displayedMovies = null; 
+        }
+        else {
+            var startingIndex = page * moviesPerPage; 
+            var endingIndex = startingIndex + moviesPerPage;
+            movies.length > endingIndex 
+                ? this.displayedMovies = movies.slice(startingIndex, endingIndex)
+                : this.displayedMovies = movies.slice(startingIndex);   
+        }
+    }
+
+    setTotalPages(totalMovies, moviesPerPage): void {
+        if (totalMovies > 0) {
+            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
         }
     }
 

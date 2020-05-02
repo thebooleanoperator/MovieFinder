@@ -1,8 +1,8 @@
 <div id="search" >
     <h2 class="search-title" color="primary">Stream Spotter</h2>
     <div class="search-container">
-        <div class="input-container">
-            <mat-form-field class="search-box">
+        <mat-card class="input-container">
+            <mat-form-field class="input-box">
                 <mat-label>Search Movies...</mat-label>
                 <input  
                 matInput 
@@ -14,6 +14,8 @@
                 autocomplete="off">
                 <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
             </mat-form-field>
+        </mat-card>
+        <mat-card class="year-container">
             <mat-form-field class="year-box">
                 <mat-label>Year</mat-label>
                 <mat-select [(value)]="year" class="year-input">
@@ -21,10 +23,11 @@
                     <mat-option value="{{yr}}" *ngFor="let yr of getYears()" (click)="searchMovies(search, year)">{{yr}}</mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </mat-card>
     </div>
+
     <div class="search-results" *ngIf="moviesExist(movies, search)">
-        <table mat-table class="mat-elevation-z8" [dataSource]="movies">
+        <table mat-table class="mat-elevation-z8" [dataSource]="displayedMovies">
             <!-- Title Column -->
             <ng-container class="item" matColumnDef="Title">
                 <th mat-header-cell *matHeaderCellDef>Title</th>
@@ -38,6 +41,12 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getOrCreateMovie(row)"></tr>
         </table>
+        <mat-paginator 
+            [pageSize]="moviesPerPage" 
+            [length]="movies.length" 
+            (page)="pageEvent = setDisplayedMovies(movies, moviesPerPage, $event.pageIndex)"
+            hidePageSize>
+        </mat-paginator>
     </div>
     <div *ngIf="noSearchResults" class="empty-search">
         No movies found from search
