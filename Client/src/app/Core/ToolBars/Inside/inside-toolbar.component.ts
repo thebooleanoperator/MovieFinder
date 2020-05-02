@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/internal/operators/filter';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { SettingsComponent } from 'src/app/Main/Home/Settings/settings.component';
+import { SettingsComponent } from 'src/app/Main/Components/Settings/settings.component';
 
 @Component({
   selector: 'inside-toolbar',

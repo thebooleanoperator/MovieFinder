@@ -12,14 +12,14 @@ import { AppComponent } from './app.component';
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
 import { OutsideToolbarComponent } from './Core/ToolBars/Outside/outside-toolbar.component';
 import { InsideToolbarComponent } from './Core/ToolBars/Inside/inside-toolbar.component';
-import { WelcomeComponent } from './Outside/Welcome/welcome.component';
-import { RegisterComponent } from './Outside/Welcome/Register/register.component';
-import { LoginComponent } from './Outside/Welcome/Login/login.component';
-import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
-import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
-import { MovieComponent } from './Main/Home/Selectors/Movie/movie.component';
-import { SelectedMovieDialog } from './Main/Home/Dashboard-Component/Dialogs/selected-movie.dialog';
-import { SettingsComponent } from './Main/Home/Settings/settings.component';
+import { WelcomeComponent } from './Main/Components/Welcome/welcome.component';
+import { RegisterComponent } from './Main/Components/Register/register.component';
+import { LoginComponent } from './Main/Components/Login/login.component';
+import { DashboardComponent } from './Main/Components/Dashboard-Component/dashboard.component';
+import { MovieFinderComponent } from './Main/Components/Movie-Finder-Component/movie-finder.component';
+import { MovieComponent } from './Main/Components/Movie/movie.component';
+import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
+import { SettingsComponent } from './Main/Components/Settings/settings.component';
 
 
 @NgModule({

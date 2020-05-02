@@ -3,7 +3,7 @@ import { MovieDto } from 'src/app/Data/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
-import { SelectedMovieDialog } from './Dialogs/selected-movie.dialog';
+import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 
@@ -12,7 +12,8 @@ import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-    constructor(private moviesService: MoviesService, private imdbIdsService: ImdbIdsService, private toolBarService: ToolBarService, public dialog: MatDialog)
+    constructor(private moviesService: MoviesService, private imdbIdsService: ImdbIdsService, 
+        private toolBarService: ToolBarService, public dialog: MatDialog)
     {
 
     }
