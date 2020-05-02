@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { ImdbIdDto } from '../Dto/imdbId.dto';
+import { Observable } from 'rxjs';
+import { ImdbIdDto } from '../../Data/imdbId.dto';
 
 @Injectable({providedIn:'root'})
 export class MoviesService {   

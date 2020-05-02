@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MovieDto } from 'src/app/DTO/movie.dto';
-import { MovieDialogDto } from 'src/app/Dto/movieDialog.dto';
+import { MovieDto } from 'src/app/Data/movie.dto';
+import { MovieDialogDto } from 'src/app/Data/movieDialog.dto';
 
 @Component ({
     selector: "selected-movie-dialog",

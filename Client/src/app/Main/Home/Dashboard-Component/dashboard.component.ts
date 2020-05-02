@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MovieDto } from 'src/app/DTO/movie.dto';
-import { MoviesService } from 'src/app/Services/movies.service';
-import { ImdbIdDto } from 'src/app/Dto/imdbId.dto';
-import { ToolBarService } from 'src/app/Services/tool-bar.service';
+import { Component } from '@angular/core';
+import { MovieDto } from 'src/app/Data/movie.dto';
+import { MoviesService } from 'src/app/Core/Services/movies.service';
+import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { SelectedMovieDialog } from './Dialogs/selected-movie.dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { ImdbIdsService } from 'src/app/Services/imdbIds.service';
+import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 
 @Component({
   templateUrl: './dashboard.component.html',

@@ -1,9 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Router } from '@angular/router';
-import { UserDto } from '../Dto/user.dto'; 
+import { UserDto } from '../../Data/user.dto'; 
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UserService {

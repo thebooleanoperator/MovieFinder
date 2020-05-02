@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { ToolBarService } from 'src/app/Services/tool-bar.service';
+import { Component } from "@angular/core";
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
     selector: 'outside-toolbar',

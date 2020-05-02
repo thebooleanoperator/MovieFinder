@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MovieDto } from 'src/app/DTO/movie.dto';
+import { MovieDto } from 'src/app/Data/movie.dto';
 
 @Component({
     selector: 'movie',

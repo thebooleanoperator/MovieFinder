@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/Services/auth-service';
+import { AuthService } from 'src/app/Core/Services/auth-service';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({

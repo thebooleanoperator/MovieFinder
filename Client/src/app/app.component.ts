@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { AuthService } from './Services/auth-service';
+import { AuthService } from './Core/Services/auth-service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 

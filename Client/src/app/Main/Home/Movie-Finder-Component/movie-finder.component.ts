@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MovieDto } from 'src/app/DTO/movie.dto';
-import { MoviesService } from 'src/app/Services/movies.service';
+import { MovieDto } from 'src/app/Data/movie.dto';
+import { MoviesService } from 'src/app/Core/Services/movies.service';
 
 @Component ({
     templateUrl: './movie-finder.component.html',

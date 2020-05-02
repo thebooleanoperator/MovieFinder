@@ -20,7 +20,7 @@
             margin: 6px;
             height: 40px;
             padding: 30px 25px 25px 25px;
-            width: 500px;
+            width: 550px;
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
             background-color: unset;
@@ -30,12 +30,12 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 500px;
+                width: 550px;
                 height: 60px;
 
                 ::ng-deep .mat-form-field-wrapper  {
                     height: 40px;
-                    width: 400px;
+                    width: 450px;
                     background-color: rgba(235, 145, 145, 0.87);
 
                     ::ng-deep .mat-form-field-infix {
@@ -206,11 +206,11 @@
                 }
             }
             .year-box {
-                margin-top: 12px;
+                margin-top: 8px;
 
 
                 ::ng-deep .mat-form-field-wrapper {
-                    height: 44px;
+                    height: 50px;
                 }
             }
         }

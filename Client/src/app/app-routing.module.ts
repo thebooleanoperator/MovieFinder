@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { DashboardComponent } from './Main/Home/Dashboard-Component/dashboard.component';
 import { MovieFinderComponent } from './Main/Home/Movie-Finder-Component/movie-finder.component';
-import { AuthGuardService } from './Services/auth-guard.service';
+import { AuthGuardService } from './Core/Services/auth-guard.service';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},

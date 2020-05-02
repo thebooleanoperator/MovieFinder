@@ -1,6 +1,6 @@
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/Services/auth-service';
+import { AuthService } from 'src/app/Core/Services/auth-service';
 
 @Component({
     selector: 'settings',

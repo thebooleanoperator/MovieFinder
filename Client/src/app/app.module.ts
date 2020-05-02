@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 
 //Components
 import { AppComponent } from './app.component';
-import { TokenInterceptor } from './Services/token-interceptor';
+import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
 import { InsideToolbarComponent } from './ToolBars/Inside/inside-toolbar.component';
 import { WelcomeComponent } from './Outside/Welcome/welcome.component';
 import { RegisterComponent } from './Outside/Welcome/Register/register.component';

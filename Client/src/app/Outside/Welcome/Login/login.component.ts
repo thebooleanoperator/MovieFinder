@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../Services/auth-service';
+import { AuthService } from '../../../Core/Services/auth-service';
 import { FormControl, Validators } from '@angular/forms';
-import { ToolBarService } from 'src/app/Services/tool-bar.service';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
     selector: 'login',
