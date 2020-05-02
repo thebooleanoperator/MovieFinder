@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './Main/Components/Welcome/welcome.component';
-import { DashboardComponent } from './Main/Components/Dashboard-Component/dashboard.component';
-import { MovieFinderComponent } from './Main/Components/Movie-Finder-Component/movie-finder.component';
+import { DashboardComponent } from './Main/Components/Dashboard/dashboard.component';
+import { MovieFinderComponent } from './Main/Components/Recommendations/movie-finder.component';
 import { AuthGuardService } from './Core/Services/auth-guard.service';
 
 const routes: Routes = [

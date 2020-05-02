@@ -15,8 +15,8 @@ import { InsideToolbarComponent } from './Core/ToolBars/Inside/inside-toolbar.co
 import { WelcomeComponent } from './Main/Components/Welcome/welcome.component';
 import { RegisterComponent } from './Main/Components/Register/register.component';
 import { LoginComponent } from './Main/Components/Login/login.component';
-import { DashboardComponent } from './Main/Components/Dashboard-Component/dashboard.component';
-import { MovieFinderComponent } from './Main/Components/Movie-Finder-Component/movie-finder.component';
+import { DashboardComponent } from './Main/Components/Dashboard/dashboard.component';
+import { MovieFinderComponent } from './Main/Components/Recommendations/movie-finder.component';
 import { MovieComponent } from './Main/Components/Movie/movie.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
