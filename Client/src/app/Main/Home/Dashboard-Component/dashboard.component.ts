@@ -37,6 +37,10 @@ export class DashboardComponent {
      * Column titles for search results table.
      */
     displayedColumns : string[] = ['Title', 'Year'];
+    /**
+     * Used to disable input search when a user is selecting a movie.
+     */
+    gettingMovie: boolean = false;
 
     /**
      * Gets an array of numbers representing the years from 1900 to present.
@@ -62,31 +66,34 @@ export class DashboardComponent {
      * Toggles the movies list and the No Movies Found response in view.
      * @param movies 
      */
-    moviesExist(movies: MovieDto[]) : boolean {
+    moviesExist(movies: MovieDto[], search: string) : boolean {
+        if (!search) {
+            return false;
+        }
         return movies && movies.length > 0; 
     }
 
     /**
      * When a user clicks backspace, clear the search results. 
      */
-    clearSearchResults() {
+    clearSearchResults(): void {
         this.movies = null;
         this.noSearchResults = false;
     }
-
+    
     /**
      * Uses a user input search string to return an array of movies.
-     * Max 10 movies with names and years displayed to user.
      * @param search 
      */
     searchMovies(search:string, year:number) : void {
         if (this.timeout) {
             clearTimeout(this.timeout);
+            this.movies = null;
         }
-        // Only search if user such is not null.
+        // Only search if user search is not null.
         if (search) {
             this.timeout = setTimeout(() => {
-            this.toolBarService.isLoading = true;
+                this.toolBarService.isLoading = true;
                 this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
                     .then((response) =>  {
                         this.movies = response;
@@ -110,12 +117,14 @@ export class DashboardComponent {
      * @param imdbIdDto 
      */
     async getOrCreateMovie(imdbIdDto: ImdbIdDto) {
+        this.gettingMovie = true;
         this.selectedMovie = await this.getMovie(imdbIdDto.imdbId); 
 
         if (!this.selectedMovie) {
             this.selectedMovie = await this.createMovie(imdbIdDto); 
         }
-        // Only open the dialog if seletedMovie is set.
+        this.gettingMovie = false;
+        // Only open the dialog if selectedMovie is set.
         if (this.selectedMovie) {
             this.openDialog();
         }

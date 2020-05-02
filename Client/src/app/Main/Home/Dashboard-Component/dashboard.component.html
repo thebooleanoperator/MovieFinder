@@ -10,6 +10,7 @@
                 (keyup)="searchMovies(search, year)"
                 (keydown.enter)="searchMovies(search, year)"
                 (keydown.backspace)="clearSearchResults()"
+                [disabled]="gettingMovie"
                 autocomplete="off">
                 <mat-icon class="search-icon" (click)="searchMovies(search)">search</mat-icon>
             </mat-form-field>
@@ -22,8 +23,7 @@
             </mat-form-field>
         </div>
     </div>
-
-    <div class="search-results" *ngIf="moviesExist(movies)">
+    <div class="search-results" *ngIf="moviesExist(movies, search)">
         <table mat-table class="mat-elevation-z8" [dataSource]="movies">
             <!-- Title Column -->
             <ng-container class="item" matColumnDef="Title">
