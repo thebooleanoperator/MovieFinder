@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolBarService } from '../../Core/Services/tool-bar.service';
+import { ToolBarService } from '../../Services/tool-bar.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/internal/operators/filter';
