@@ -111,7 +111,7 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpGet("Recommended")]
         [Authorize]
-        public IActionResult GetRecommended()
+        public async Task<IActionResult> GetRecommended()
         {
             var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(); 
 
@@ -125,6 +125,7 @@ namespace MovieFinder.Controllers
             foreach(var movie in recommendedMovies)
             {
                 var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
+                await _streamingDataService.UpdateStreamingData(completeMoviesDto);
                 recMovieDtos.Add(completeMoviesDto);
             }
 
