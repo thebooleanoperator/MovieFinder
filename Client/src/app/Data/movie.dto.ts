@@ -7,6 +7,7 @@ export class MovieDto {
     director: string;
     runTime: number;
     netflix: number;
+    plot: string;
     poster: string;
     imdbRating: number;
     rottenTomatoesRating: number;
