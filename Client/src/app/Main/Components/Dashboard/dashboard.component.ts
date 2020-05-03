@@ -20,7 +20,7 @@ export class DashboardComponent {
      */
     movies: MovieDto[];
     /**
-     * 
+     * Holds the array of the movies being shown on current page. Used for client side paging.
      */
     displayedMovies: MovieDto[];
     /**
@@ -48,9 +48,14 @@ export class DashboardComponent {
      */
     moviesPerPage: number = 8;
     /**
-     * 
+     * Holds the total number of pages of search results returned by the server.
      */
     totalPages: number;
+    /**
+     * True if a catch block in a promise has been entered. 
+     * Don't want to show multiple alerts to user for 1 request.
+     */
+    errorFound: boolean = false;
     
     /**
      * Gets an array of numbers representing the years from 1900 to present.
@@ -125,6 +130,12 @@ export class DashboardComponent {
         }
     }
 
+    /**
+     * Sets the displayed movies shown in the current page. Used for client side paging.
+     * @param movies 
+     * @param moviesPerPage 
+     * @param page 
+     */
     setDisplayedMovies(movies:MovieDto[], moviesPerPage:number, page:number=0): void {
         if (movies == null || movies.length <= 0) {
             this.displayedMovies = null; 
@@ -138,6 +149,11 @@ export class DashboardComponent {
         }
     }
 
+    /**
+     * Sets the total pages variable. Used for client side paging.
+     * @param totalMovies 
+     * @param moviesPerPage 
+     */
     setTotalPages(totalMovies, moviesPerPage): void {
         if (totalMovies > 0) {
             this.totalPages = Math.ceil(totalMovies / moviesPerPage);
@@ -153,7 +169,8 @@ export class DashboardComponent {
         this.gettingMovie = true;
         this.selectedMovie = await this.getMovie(imdbIdDto.imdbId); 
 
-        if (!this.selectedMovie) {
+        // Only create the movie if no movie was found from get and get did not have an error.
+        if (!this.selectedMovie && !this.errorFound) {
             this.selectedMovie = await this.createMovie(imdbIdDto); 
         }
         this.gettingMovie = false;
@@ -168,12 +185,14 @@ export class DashboardComponent {
      * @param imdbId 
      */
     private async getMovie(imdbId: string): Promise<MovieDto> {
+        this.errorFound = false;
         this.toolBarService.isLoading = true;
         return await this.moviesService.getMovieByImdbId(imdbId).toPromise()
             .then((movieDto) => movieDto)
             .catch((error) => {
                 if (error.status == 400) {
-                    alert("Cannot find movie.")
+                    this.errorFound = true;
+                    alert("Cannot find movie.");
                 }
             })
             .finally(() =>this.toolBarService.isLoading = false);
@@ -185,13 +204,13 @@ export class DashboardComponent {
      * @param imdbId 
      */
     private async createMovie(imdbIdDto: ImdbIdDto): Promise<MovieDto> {
+        this.errorFound = false;
         this.toolBarService.isLoading = true;
         return await this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
             .then((moviesDto) => moviesDto)
-            .catch((error) => {
-                if (error.status == 404) {
-                    alert("Movie not found");
-                }
+            .catch(() => {
+                this.errorFound = true;
+                alert("Movie could not be created.");
             })
             .finally(() =>this.toolBarService.isLoading = false);
     }
