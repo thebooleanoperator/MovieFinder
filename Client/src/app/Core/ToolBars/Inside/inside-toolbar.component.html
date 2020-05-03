@@ -3,7 +3,10 @@
         <div>
             <mat-button-toggle-group>
                 <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" routerLink="/dashboard">
-                    Search
+                    Home
+                </mat-button-toggle>
+                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': !isSearch, 'tool-button': isSearch}" routerLink="/movies">
+                    Favorites
                 </mat-button-toggle>
                 <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': !isSearch, 'tool-button': isSearch}" routerLink="/movies">
                     Staff Pics

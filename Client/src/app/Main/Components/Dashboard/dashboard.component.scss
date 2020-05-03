@@ -21,7 +21,7 @@
             height: 40px;
             padding: 20px;
             width: 475px;
-            border-radius: 2%;
+            border-radius: 7%;
             box-shadow: 2px 2px 2px 2px;
             background-color: unset;
 
@@ -31,12 +31,12 @@
                 justify-content: center;
                 align-items: center;
                 width: 475px;
-                height: 60px;
 
                 ::ng-deep .mat-form-field-wrapper  {
                     height: 40px;
                     width: 450px;
                     background-color: rgba(235, 145, 145, 0.87);
+                    border-radius: 7%;
 
                     ::ng-deep .mat-form-field-infix {
                         display: flex;
@@ -90,6 +90,8 @@
             border-radius: 2%;
             box-shadow: 2px 2px 2px 2px;
             background-color: unset;
+            border-radius: 10%;
+
             .year-box {
                 height: 60px;
                 width: 100px;
@@ -100,7 +102,8 @@
                 margin: 6px;
                 color: rgba(83, 47, 47, 0.87);
                 background-color: rgba(235, 145, 145, 0.87);
-    
+                border-radius: 10%;
+
                 ::ng-deep .mat-form-field-wrapper {
                     width: 100px;
                     height: 40px;
@@ -205,9 +208,10 @@
     z-index: 100;
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 675px) {
     #search {
         .search-title {
+            margin: 10px;
             font-size: 35px;
         }
         .search-container {
@@ -215,28 +219,76 @@
             align-items: center;
             .input-container {
                 width: 300px;
-                height: 40px;
-                height: 60px;
+                height: 30px;
                 flex-direction: column;
                 background-color: unset;
                 padding: 15px;
                 .input-box {
                     width: 300px;
+
+                    ::ng-deep .mat-form-field-wrapper {
+                        height: 20px;
+
+                        ::ng-deep .mat-form-field-infix {
+
+                            ::ng-deep .mat-input-element {
+                                height: 40px;
+                            }
+    
+                            ::ng-deep .mat-form-field-label {
+                                top: 1.15em;
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                    .search-icon {
+                        font-size: 40px;
+                    }
                 }
             }
             .year-container {
                 padding: 10px;
+                height: 30px;
+
                 .year-box {
                     margin-top: 8px;
-                    height: 40px;
+                    height: 30px;
+
+                    ::ng-deep .mat-form-field-wrapper {
+                        height: 40px;
+
+                        .year-input {
+                            ::ng-deep .mat-select-trigger {
+
+                                ::ng-deep .mat-select-value {
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+
+                        ::ng-deep .mat-form-field-infix {
+                            
+                            ::ng-deep .mat-form-field-label {
+                                top: 1.45em;
+                                font-size: 20px;
+                            }
+                        }
+                        
+                        ::ng-deep .mat-select-value {
+                            font-size: 15px;
+                        }
+                    }
                 }
             }
         }
         .search-results {
+            padding-top: 5px;
             table {
                 width: 300px;
-                tr {
-                    height: 40px;
+                .mat-row {
+                    .mat-cell {
+                        font-size: 13px;
+                    }
                 }
             }
         }

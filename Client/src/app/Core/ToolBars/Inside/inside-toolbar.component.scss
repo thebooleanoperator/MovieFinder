@@ -5,6 +5,7 @@
     background-color: rgba(192, 52, 76, 0.856);
 
     .tool-button {
+        width: 90px;
         margin: 10px 2px;
         background-color: rgba(189, 115, 115, 0.87);
         color: white;
@@ -22,6 +23,7 @@
     }
 
     .selected-tool-button {
+        width: 90px;
         margin: 10px 2px;
         background-color: rgba(83, 47, 47, 0.87);
         color: white;
