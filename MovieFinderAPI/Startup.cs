@@ -40,7 +40,7 @@ namespace MovieFinder
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["MovieFinderConnectionString"]));
+            services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["TestStreamSpotterConnectionString"]));
 
             services.AddTransient<IIdentityService, IdentityService>();
 

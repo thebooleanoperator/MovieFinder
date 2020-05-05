@@ -65,10 +65,13 @@
 
         .register {
             .register-card {
-                width: 200px;
+                width: 250px;
 
                 mat-form-field {
                     width: 200px;
+                    ::ng-deep .mat-form-field-flex {
+                        height: 50px;
+                    }
                 }
             }
         }

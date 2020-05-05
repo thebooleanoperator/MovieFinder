@@ -19,27 +19,37 @@ export class InsideToolbarComponent implements OnInit{
             filter(event => event instanceof NavigationEnd)
         ) as Observable<NavigationEnd>
     }
-
-    //Data
+    
     navEnd: Observable<NavigationEnd>;
-    searchUrl: string = "/dashboard"; 
-    staffPickUrl: string = "/movies"; 
-    isSearch: boolean = true; 
+    searchUrl: string = "/dashboard";
+    favoritesUrl: string = ""; 
+    staffPickUrl: string = "/movies";
+    isSearch: boolean;
+    isFavorites: boolean;
+    isStaffPicks: boolean; 
 
     ngOnInit(): void {
         this.navEnd.subscribe((event) => {
             switch(event.url) {
                 case this.searchUrl:
-                    this.isSearch = true;
+                    this.setSelectedNavButton(true, false, false); 
+                    break;
+                case this.favoritesUrl:
+                    this.setSelectedNavButton(false, true, false); 
                     break;
                 case this.staffPickUrl:
-                    this.isSearch = false;
+                    this.setSelectedNavButton(false, false, true);
                     break;
             }
         })
     }
+
+    setSelectedNavButton(search:boolean, favorites:boolean, staff:boolean): void {
+        this.isSearch = search;
+        this.isFavorites = favorites;
+        this.isStaffPicks = staff;
+    }
     
-    //Methods
     getIsLoading(): boolean {
         return this._toolBarService.isLoading; 
     }
