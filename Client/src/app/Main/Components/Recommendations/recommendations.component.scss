@@ -1,7 +1,6 @@
 #movie-finder {
-    margin-top: 100px;
     .recs-title {
-        font-size: 35px;
+        font-size: 50px;
         color: rgba(83, 47, 47, 0.87);
         text-align: center;
         margin-bottom: 50px;
@@ -37,7 +36,9 @@
 
 @media screen and (max-width: 850px) {
     #movie-finder {
-        margin-top: 50px;
+        .recs-title {
+            font-size: 35px;
+        }
         .recs-container {
             .inline-movie-arrow {
                 display: none;

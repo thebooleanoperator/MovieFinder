@@ -20,6 +20,7 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
 import { MovieComponent } from './Main/Components/Movie/movie.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
+import { FavoritesComponent } from './Main/Components/Favorites/favorites.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { SettingsComponent } from './Main/Components/Settings/settings.component
     RecommendationsComponent,
     MovieComponent,
     SelectedMovieDialog,
-    SettingsComponent
+    SettingsComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,

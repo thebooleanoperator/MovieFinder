@@ -6,6 +6,7 @@ using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,12 +17,14 @@ namespace MovieFinder.Services.Implementation
     {
         private IHttpClientFactory _clientFactory;
         private IRateLimitsService _rateLimitsService;
+        private IStreamingDataService _streamingDataService; 
         private UnitOfWork _unitOfWork; 
 
-        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService, MovieFinderContext movieFinderContext)
+        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService, IStreamingDataService streamingDataService, MovieFinderContext movieFinderContext)
         {
             _clientFactory = clientFactory;
             _rateLimitsService = rateLimitsService;
+            _streamingDataService = streamingDataService;
             _unitOfWork = new UnitOfWork(movieFinderContext); 
         }
 
@@ -80,5 +83,25 @@ namespace MovieFinder.Services.Implementation
 
             return  new MoviesDto(movie, genres, streamingData);
         }
-    }
+
+        public List<MoviesDto> GetCompleteLikedMovies(List<LikedMovies> likedMovies)
+        {
+            if (likedMovies == null || likedMovies.Count == 0)
+            {
+                return null;
+            }
+
+            var completeLikedMovies = new List<MoviesDto>();
+
+            foreach (var likedMovie in likedMovies)
+            {
+                var movie = _unitOfWork.Movies.Get(likedMovie.MovieId);
+                var completeMovie = GetCompleteMovie(movie);
+                _streamingDataService.UpdateStreamingData(completeMovie); 
+                completeLikedMovies.Add(completeMovie);
+            }
+
+            return completeLikedMovies;
+        }
+     }
 }

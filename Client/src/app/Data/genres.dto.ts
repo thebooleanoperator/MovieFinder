@@ -7,5 +7,4 @@ export class GenresDto {
     Crime : boolean;
     Thriller : boolean;
     Romance  : boolean;
-
 }

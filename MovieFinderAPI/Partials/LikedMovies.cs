@@ -19,7 +19,6 @@ namespace MovieFinder.Models
 
             MovieId = likedMoviesDto.MovieId;
             UserId = likedMoviesDto.UserId; 
-
         }
     }
 }

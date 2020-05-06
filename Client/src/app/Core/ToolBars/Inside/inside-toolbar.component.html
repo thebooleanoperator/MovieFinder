@@ -3,15 +3,15 @@
         <div>
             <mat-button-toggle-group>
                 <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
-                    routerLink="/dashboard">
+                    (click)="setSelectedNavButton(true, false, false)" routerLink="/dashboard">
                     Search
                 </mat-button-toggle>
                 <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
-                    routerLink="">
+                    (click)="setSelectedNavButton(false, true, false)" routerLink="/favorites">
                     Favorites
                 </mat-button-toggle>
                 <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
-                    routerLink="/movies">
+                    (click)="setSelectedNavButton(false, false, true)" routerLink="/movies">
                     Staff Pics
                 </mat-button-toggle>
             </mat-button-toggle-group>

@@ -21,5 +21,12 @@ namespace MovieFinder.Services.Interface
         /// <param name="movie"></param>
         /// <returns></returns>
         MoviesDto GetCompleteMovie(Movies movie);
+
+        /// <summary>
+        /// Takes a list of likedMoves, and returns a list of complete movies, with updated streaming data.
+        /// </summary>
+        /// <param name="likedMovies"></param>
+        /// <returns></returns>
+        List<MoviesDto> GetCompleteLikedMovies(List<LikedMovies> likedMovies);
     }
 }

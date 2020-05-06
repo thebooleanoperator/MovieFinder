@@ -15,27 +15,9 @@ namespace MovieFinder.Repository.Repo
             _context = context; 
         }
 
-        public List<Movies> GetAll(int userId)
+        public IEnumerable<LikedMovies> GetAllByUserId(int userId)
         {
-            var movies = _context.Set<Movies>();
-            var likedMovies = DbSet
-                                .Join(movies, lm => lm.MovieId,
-                                    m => m.MovieId,
-                                    (lm, m) => new { LikedMovie = lm, Movie = m }
-                                    )
-                                .Where(z => z.LikedMovie.UserId == userId)
-                                .Where(z => z.LikedMovie.MovieId == z.Movie.MovieId)
-                                .Select(e => new Movies
-                                {
-                                    MovieId = e.Movie.MovieId,
-                                    Year = e.Movie.Year,
-                                    Director = e.Movie.Director,
-                                    Title = e.Movie.Title,
-                                    RunTime = e.Movie.RunTime
-                                })
-                                .ToList();
-           
-            return likedMovies; 
+            return DbSet.Where(lm => lm.UserId == userId);
         }
     }
 }

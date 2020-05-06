@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
+using MovieFinder.Services.Implementation;
 using MovieFinder.Utils;
+using System.Linq;
 
 namespace MovieFinder.Controllers
 {
@@ -13,25 +15,25 @@ namespace MovieFinder.Controllers
     public class LikedMoviesController : Controller 
     {
         private UnitOfWork _unitOfWork;
-        private Session _session; 
+        private Session _session;
+        private MoviesService _moviesService; 
 
-        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext)
+        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext, MoviesService moviesService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
-            _session = new Session(httpContext.HttpContext.User); 
+            _session = new Session(httpContext.HttpContext.User);
+            _moviesService = moviesService;
         }
 
+        /// <summary>
+        /// Creates a likedMovie.
+        /// </summary>
+        /// <param name="likedMoviesDto"></param>
+        /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
         { 
-            //Need to implement Users to make sure we are connecting an existing user. 
-            var user = _unitOfWork.Users.Get(likedMoviesDto.UserId); 
-
-            if(user == null)
-            {
-                return NotFound(); 
-            }
-
             var movie = _unitOfWork.Movies.Get(likedMoviesDto.MovieId);
 
             if(movie == null)
@@ -47,24 +49,24 @@ namespace MovieFinder.Controllers
             return Ok(likedMovie);
         }
 
+        /// <summary>
+        /// Gets all of a users likedMovies by userId.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllByUserId()
         {
-            //Need to implement Users to make sure we are connecting an existing user. 
-            var user = _unitOfWork.Users.GetByUserId(_session.UserId);
+            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId).ToList();
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var completeLikedMovies = _moviesService.GetCompleteLikedMovies(likedMovies);
 
-            var likedMovies =_unitOfWork.LikedMovies.GetAll(_session.UserId);
-
-            if (likedMovies.Count == 0)
+            if (completeLikedMovies == null || completeLikedMovies.Count() == 0)
             {
                 return NoContent();
             }
-            return Ok(likedMovies); 
+
+            return Ok(completeLikedMovies); 
         }
     }
 }
