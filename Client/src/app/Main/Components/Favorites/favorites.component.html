@@ -1,6 +1,6 @@
 <div id="favorites">
     <h1 class="title">Favorites</h1>
-    <div class="favorites-list" *ngFor="movie in likedMovies"> 
+    <div class="favorites-list" *ngFor="let movie of likedMovies"> 
         {{movie.title}}
     </div>
 </div>

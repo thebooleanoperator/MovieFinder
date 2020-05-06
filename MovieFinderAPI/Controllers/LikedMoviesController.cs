@@ -5,6 +5,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Implementation;
+using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
 using System.Linq;
 
@@ -16,9 +17,9 @@ namespace MovieFinder.Controllers
     {
         private UnitOfWork _unitOfWork;
         private Session _session;
-        private MoviesService _moviesService; 
+        private IMoviesService _moviesService; 
 
-        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext, MoviesService moviesService)
+        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext, IMoviesService moviesService)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _session = new Session(httpContext.HttpContext.User);

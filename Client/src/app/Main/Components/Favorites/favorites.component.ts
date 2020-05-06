@@ -13,11 +13,18 @@ export class FavoritesComponent implements OnInit {
     
     favoriteMovies: MovieDto; 
 
-    ngOnInit() {
-        this._toolBarService.isLoading = true;
-        this._favoritesService.getFavoritedMovies().toPromise()
-            .then((moviesDto) => this.favoriteMovies = moviesDto)
-            .catch(() => alert("Unable to get liked movies."))
-            .finally(() => this._toolBarService.isLoading = false);
+    /**
+     * Using setTimeout prevents synchronous call while rendering page.
+     * Otherwise throws ExpressionHasChangedException.
+     * Reference: https://blog.angular-university.io/angular-debugging/
+     */
+    ngOnInit() {        
+        setTimeout(() => {
+            this._toolBarService.isLoading = true;
+            this._favoritesService.getFavoritedMovies().toPromise()
+                .then((moviesDto) => this.favoriteMovies = moviesDto)
+                .catch(() => alert("Unable to get liked movies."))
+                .finally(() => this._toolBarService.isLoading = false);
+        });
     }
 }

@@ -16,8 +16,7 @@ namespace MovieFinder.Services.Implementation
         private UnitOfWork _unitOfWork;
         private IRateLimitsService _rateLimitsService; 
 
-        public StreamingDataService(IHttpClientFactory clientFactory,
-            MovieFinderContext movieFinderContext, IMoviesService moviesService, IRateLimitsService rateLimitsService)
+        public StreamingDataService(IHttpClientFactory clientFactory, MovieFinderContext movieFinderContext, IRateLimitsService rateLimitsService)
         {
             _clientFactory = clientFactory;
             _unitOfWork = new UnitOfWork(movieFinderContext);
