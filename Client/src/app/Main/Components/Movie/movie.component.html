@@ -4,18 +4,21 @@
         <div class="info-container">
             <div class="title-container">
                 <h2 class="title">{{movie.title}}</h2>
-                <div class="rating-container">
-                    <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
-                        <img src="assets/images/rotten-tomatoes.png" matTooltip="Rotten Tomatoes">
-                        {{movie.rottenTomatoesRating}}%
-                    </div>
-                    <div class="imdb-rating" *ngIf="movie.imdbRating">
-                        <img src="assets/images/imdb.png" matTooltip="Imdb">
-                        {{movie.imdbRating}}
-                    </div>
-                    <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
-                    </div>
+            </div>
+            <div class="rating-container">
+                <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
+                    <img src="assets/images/rotten-tomatoes.png" matTooltip="Rotten Tomatoes">
+                    {{movie.rottenTomatoesRating}}%
                 </div>
+                <div class="imdb-rating" *ngIf="movie.imdbRating">
+                    <img src="assets/images/imdb.png" matTooltip="Imdb">
+                    {{movie.imdbRating}}
+                </div>
+                <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
+                </div>
+                <button class="like-button">
+                    <mat-icon class="thumb" matTooltip="Add To Favorites">thumb_up</mat-icon>
+                </button>
             </div>
             <div class="data-container">
                 <div class="year">{{movie.year}}</div>

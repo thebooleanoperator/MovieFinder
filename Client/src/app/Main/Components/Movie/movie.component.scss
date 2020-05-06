@@ -18,40 +18,56 @@
             height: 400px;
             width: 60%;
             color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
 
             .title-container {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-                height: 100px;
-                padding: 10px 5px;   
+                padding: 5px;   
                 
                 .title {
+                    margin: 5px;
                     font-size: 35px;
                 }
 
                 .director {
                     font-size: 15px;
                 }
+            }
 
-                .rating-container {
+            .rating-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin-left: 10px;
+                .rotten-rating, .imdb-rating {
                     display: flex;
-                    flex-direction: row;
-                    justify-content: flex-start;
-                    margin-left: 10px;
-                    .rotten-rating, .imdb-rating {
-                        display: flex;
-                        align-items: center;
-                        padding: 5px 5px 5px 0px;
-                        font-family: sans-serif;
-                        font-weight: bold;
-                        img {
-                            margin: 5px 5px 5px 0px;
-                        }
+                    align-items: center;
+                    padding: 5px 5px 5px 0px;
+                    font-family: sans-serif;
+                    font-weight: bold;
+                    img {
+                        margin: 5px 5px 5px 0px;
                     }
-                    .empty-rating {
-                        height: 52px;
+                }
+                .empty-rating {
+                    height: 52px;
+                }
+                .like-button {
+                    background-color: unset;
+                    border: unset;
+                    cursor: pointer;
+                    
+                    .thumb {
+                        font-size: 30px;
+                        color: lightgreen;
+                    }
+                    .thumb:hover {
+                        color: green;
                     }
                 }
             }
@@ -60,7 +76,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start; 
-                padding: 10px 5px;
+                padding: 5px;
 
                 .year {
                     
@@ -78,7 +94,7 @@
 
             .plot {
                 margin-top: 10px;
-                height: 150px;
+                height: 100px;
                 padding: 0px 5px;
             }
 
