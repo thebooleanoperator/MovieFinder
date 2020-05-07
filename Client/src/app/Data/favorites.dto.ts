@@ -1,5 +1,7 @@
+import { MovieDto } from './movie.dto';
+
 export class FavortiesDto {
-    LikedMovieId: number;
-    MoviedId: number;
+    LikedId: number;
+    MovieId: number;
     UserId: number;
 }

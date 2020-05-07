@@ -16,7 +16,7 @@
                 </div>
                 <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
                 </div>
-                <button class="like-button">
+                <button class="like-button" (click)="addToFavorites(movie)">
                     <mat-icon class="thumb" matTooltip="Add To Favorites">thumb_up</mat-icon>
                 </button>
             </div>

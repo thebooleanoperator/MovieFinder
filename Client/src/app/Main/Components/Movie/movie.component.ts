@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
+import { FavoritesService } from 'src/app/Core/Services/favorites.service';
+import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { AuthService } from 'src/app/Core/Services/auth-service';
 
 @Component({
     selector: 'movie',
@@ -7,6 +10,8 @@ import { MovieDto } from 'src/app/Data/movie.dto';
     styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent {
+    constructor(private _favoritesService: FavoritesService, private _authService: AuthService){}
+
     // Data
     @Input() movie: MovieDto; 
     
@@ -81,5 +86,16 @@ export class MovieComponent {
             return true;
         }
         return false;
+    }
+
+    addToFavorites(movie: MovieDto): void {
+        var favoritesDto: FavortiesDto = new FavortiesDto();
+        favoritesDto.MovieId = movie.movieId;
+        favoritesDto.UserId = this._authService.user.userId;
+    
+        this._favoritesService.saveFavorite(favoritesDto).toPromise()
+            .then(() => console.log("test"))
+            .catch(() => alert("Failed to add movie to favorites."))
+            .finally(() =>console.log("test"))
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
-using MovieFinder.Services.Implementation;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
 using System.Linq;
@@ -56,7 +55,7 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public IActionResult GetAllByUserId()
+        public IActionResult GetAll()
         {
             var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId).ToList();
 
