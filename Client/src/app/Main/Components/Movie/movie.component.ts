@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { FavortiesDto } from 'src/app/Data/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
     selector: 'movie',
@@ -10,13 +11,15 @@ import { AuthService } from 'src/app/Core/Services/auth-service';
     styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent {
-    constructor(private _favoritesService: FavoritesService, private _authService: AuthService){}
+    constructor(private _favoritesService: FavoritesService, private _authService: AuthService, private _toolBarService: ToolBarService){}
 
     // Data
     @Input() movie: MovieDto; 
+    @Input() favoriteMovies: MovieDto[]
     
     posterError: boolean = false;
-
+    alertUser: boolean = false;
+     
     getGenres(genres): string {
         var genreBuilder = "";
 
@@ -89,13 +92,25 @@ export class MovieComponent {
     }
 
     addToFavorites(movie: MovieDto): void {
-        var favoritesDto: FavortiesDto = new FavortiesDto();
-        favoritesDto.MovieId = movie.movieId;
-        favoritesDto.UserId = this._authService.user.userId;
-    
+        var favoritesDto: FavortiesDto = new FavortiesDto(movie, this._authService.user);
+        this._toolBarService.isLoading = true;
         this._favoritesService.saveFavorite(favoritesDto).toPromise()
-            .then(() => console.log("test"))
+            .then((likedMovieDto: FavortiesDto) => {
+                this.alertUser = true;
+                setTimeout(() => {
+                    this.alertUser = false;
+                }, 500)
+            })
             .catch(() => alert("Failed to add movie to favorites."))
-            .finally(() =>console.log("test"))
+            .finally(() => this._toolBarService.isLoading = false)
+    }
+
+    isFavorite(movie: MovieDto): boolean {
+        if (!this.favoriteMovies) {
+            return false
+        }
+        return this.favoriteMovies.some((favoriteMovie) => {
+            return favoriteMovie.movieId == movie.movieId;
+        });
     }
 }

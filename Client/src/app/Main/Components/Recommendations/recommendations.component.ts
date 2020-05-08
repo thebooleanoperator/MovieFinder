@@ -1,35 +1,30 @@
 import { Component, OnInit } from "@angular/core";
 import { MovieDto } from 'src/app/Data/movie.dto';
-import { MoviesService } from 'src/app/Core/Services/movies.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component ({
     templateUrl: './recommendations.component.html',
     styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit  {
-    constructor(private moviesService: MoviesService)
-    {
-
-    }
+    constructor(private _route: ActivatedRoute){}
 
     //Data 
     selectedMovie: MovieDto;
-    movies: Array<MovieDto>;
+    movies: MovieDto[];
+    favoriteMovies: MovieDto[];
     movieIndex: number;
-    pageLoaded: boolean = false;
     
     //Methods    
     ngOnInit () {
-        this.moviesService.getRecommended().toPromise()
-            .then((response: Array<MovieDto>) => {
-                this.movies = response; 
-                // Randomly go through the list of movies. 
+        this._route.data
+            .subscribe((data) => {
+                this.movies = data.movies;
+                this.favoriteMovies = data.favoriteMovies;
+                // Randomly go through the list of movies.
                 // ToDo: randomize on server.
                 this.movieIndex = Math.floor(Math.random() * this.movies.length);
                 this.selectedMovie = this.movies[this.movieIndex];
-            })
-            .finally(() => {
-                this.pageLoaded = true;
             });
     }
 

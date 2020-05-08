@@ -13,7 +13,7 @@ export class FavoritesService {
         return this.http.post(`http://localhost:5001/LikedMovies`, favoritesDto);
     }
 
-    getFavoritedMovies(): Observable<any> {
+    getFavoriteMovies(): Observable<any> {
         return this.http.get(`http://localhost:5001/LikedMovies`);
     }
 }

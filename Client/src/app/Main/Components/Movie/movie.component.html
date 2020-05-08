@@ -7,18 +7,21 @@
             </div>
             <div class="rating-container">
                 <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
-                    <img src="assets/images/rotten-tomatoes.png" matTooltip="Rotten Tomatoes">
+                    <img src="assets/images/rotten-tomatoes.png">
                     {{movie.rottenTomatoesRating}}%
                 </div>
                 <div class="imdb-rating" *ngIf="movie.imdbRating">
-                    <img src="assets/images/imdb.png" matTooltip="Imdb">
+                    <img src="assets/images/imdb.png">
                     {{movie.imdbRating}}
                 </div>
                 <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
                 </div>
-                <button class="like-button" (click)="addToFavorites(movie)">
-                    <mat-icon class="thumb" matTooltip="Add To Favorites">thumb_up</mat-icon>
-                </button>
+                <div class="favorites-container" *ngIf="!isFavorite(movie)">
+                    <mat-icon class="thumb" *ngIf="!alertUser" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
+                        thumb_up
+                    </mat-icon>
+                    <mat-icon class="check" *ngIf="alertUser">done</mat-icon>
+                </div>
             </div>
             <div class="data-container">
                 <div class="year">{{movie.year}}</div>

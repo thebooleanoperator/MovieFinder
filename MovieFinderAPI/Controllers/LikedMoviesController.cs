@@ -33,7 +33,14 @@ namespace MovieFinder.Controllers
         [HttpPost]
         [Authorize]
         public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
-        { 
+        {
+            var usersLikedMovies = _unitOfWork.LikedMovies.GetAllByUserId(likedMoviesDto.UserId).ToList();
+
+            if (usersLikedMovies.Any(lm => lm.MovieId == likedMoviesDto.MovieId))
+            {
+                return BadRequest("Movie is already liked by user");
+            }
+
             var movie = _unitOfWork.Movies.Get(likedMoviesDto.MovieId);
 
             if(movie == null)
@@ -51,6 +58,7 @@ namespace MovieFinder.Controllers
 
         /// <summary>
         /// Gets all of a users likedMovies by userId.
+        /// ToDO: Consider moving to MoviesController.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

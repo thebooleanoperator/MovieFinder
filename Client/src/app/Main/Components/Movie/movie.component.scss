@@ -43,6 +43,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
+                align-items: center;
                 margin-left: 10px;
                 .rotten-rating, .imdb-rating {
                     display: flex;
@@ -57,17 +58,20 @@
                 .empty-rating {
                     height: 52px;
                 }
-                .like-button {
-                    background-color: unset;
-                    border: unset;
-                    cursor: pointer;
-                    
+                .favorites-container {
                     .thumb {
                         font-size: 30px;
                         color: lightgreen;
+                        cursor: pointer;
+                        margin-left: 5px;
                     }
                     .thumb:hover {
                         color: green;
+                    }
+                    .check {
+                        font-size: 30px;
+                        color: lightgreen;
+                        margin-left: 5px;
                     }
                 }
             }

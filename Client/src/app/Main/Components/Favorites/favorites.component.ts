@@ -21,7 +21,7 @@ export class FavoritesComponent implements OnInit {
     ngOnInit() {        
         setTimeout(() => {
             this._toolBarService.isLoading = true;
-            this._favoritesService.getFavoritedMovies().toPromise()
+            this._favoritesService.getFavoriteMovies().toPromise()
                 .then((moviesDto) => this.favoriteMovies = moviesDto)
                 .catch(() => alert("Unable to get liked movies."))
                 .finally(() => this._toolBarService.isLoading = false);
