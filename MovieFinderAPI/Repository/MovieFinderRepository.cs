@@ -37,7 +37,7 @@ namespace MovieFinder.Repository
             DbSet.Update(entity);
         }
 
-        public void Remove(TEntity entity)
+        public void Delete(TEntity entity)
         {
             DbSet.Remove(entity);
         }

@@ -42,6 +42,27 @@ export class MovieComponent {
             .finally(() => this._toolBarService.isLoading = false)
     }
 
+    removeFromFavorites(movie: MovieDto) {
+        var favoriteToDelete = this.getFavoriteByMovieId(movie.movieId);
+        this._toolBarService.isLoading = true;
+        this._favoritesService.deleteFavorite(favoriteToDelete.likedId).toPromise()
+            .then(() => {
+                this.favoriteMovies = this.favoriteMovies.filter((favorite) => {
+                    return favorite.movieId != favoriteToDelete.movieId;
+                });
+                // Emit to parent that favoriteMovies has been changed.
+                this.favoriteAdded.emit(this.favoriteMovies); 
+            })
+            .catch(() => alert("Could not remove from favorites."))
+            .finally(() => this._toolBarService.isLoading = false);
+    }
+
+    getFavoriteByMovieId(movieId: number): FavortiesDto {
+        return this.favoriteMovies.find((favorite) => {
+            return favorite.movieId == movieId;
+        });
+    }
+
     getGenres(genres): string {
         var genreBuilder = "";
 

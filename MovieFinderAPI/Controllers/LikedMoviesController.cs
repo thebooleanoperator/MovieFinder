@@ -16,13 +16,11 @@ namespace MovieFinder.Controllers
     {
         private UnitOfWork _unitOfWork;
         private Session _session;
-        private IMoviesService _moviesService; 
 
-        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext, IMoviesService moviesService)
+        public LikedMoviesController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContext)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _session = new Session(httpContext.HttpContext.User);
-            _moviesService = moviesService;
         }
 
         /// <summary>
@@ -72,6 +70,28 @@ namespace MovieFinder.Controllers
             }
 
             return Ok(likedMovies); 
+        }
+
+        /// <summary>
+        /// Deletes a likedMovie by likedMovieId.
+        /// </summary>
+        /// <param name="likedMovieId"></param>
+        /// <returns></returns>
+        [HttpDelete("{likedMovieId}")]
+        [Authorize]
+        public IActionResult Delete(int likedMovieId)
+        {
+            var likedMovie = _unitOfWork.LikedMovies.Get(likedMovieId);
+            
+            if (likedMovie == null)
+            {
+                return BadRequest("Liked movie does not exist.");
+            }
+
+            _unitOfWork.LikedMovies.Delete(likedMovie);
+            _unitOfWork.SaveChanges();
+
+            return Ok();
         }
     }
 }

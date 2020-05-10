@@ -33,17 +33,8 @@ export class RecommendationsComponent implements OnInit  {
 
     onFavoriteAdded(favorites: FavortiesDto[]) {
         this.favoriteMovies = favorites;
-        this.isFavorite = true;
+        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
     }
-
-    getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
-        if (!favorites) {
-            return false
-        }
-        return favorites.some((favorite) => {
-            return favorite.movieId == movie.movieId;
-        });
-    }   
 
     getCurrentMovie() {
         return this.selectedMovie; 
@@ -62,6 +53,15 @@ export class RecommendationsComponent implements OnInit  {
         this.selectedMovie = this.movies[this.movieIndex];
         this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
     }
+
+    getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
+        if (!favorites) {
+            return false
+        }
+        return favorites.some((favorite) => {
+            return favorite.movieId == movie.movieId;
+        });
+    }  
 
     isFirst(index): boolean {
         return index == 0;

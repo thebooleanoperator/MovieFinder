@@ -70,8 +70,14 @@
                     .thumb:hover {
                         color: green;
                     }
-                    .check {
-                     
+                    .not-interested {
+                        font-size: 30px;
+                        color: red;
+                        cursor: pointer;
+                        margin-left: 5px;
+                    }
+                    .not-interested:hover {
+                        color: darkred;
                     }
                 }
             }

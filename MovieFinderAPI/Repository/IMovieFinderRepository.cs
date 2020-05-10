@@ -13,6 +13,6 @@ namespace MovieFinder.Repository
         IQueryable<TEntity> GetAll(); 
         void Add(TEntity entity);
         void Update(TEntity entity);
-        void Remove(TEntity entity); 
+        void Delete(TEntity entity); 
     }
 }

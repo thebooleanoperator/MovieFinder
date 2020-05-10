@@ -16,4 +16,8 @@ export class FavoritesService {
     getFavoriteMovies(): Observable<any> {
         return this.http.get(`http://localhost:5001/LikedMovies`);
     }
+
+    deleteFavorite(favoriteId: number): Observable<any> {
+        return this.http.delete(`http://localhost:5001/LikedMovies/${favoriteId}`)
+    }
 }
