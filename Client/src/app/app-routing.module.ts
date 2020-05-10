@@ -10,7 +10,7 @@ import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},
-    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {favoriteMovies: FavoritesResolver}},
     {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService]},
     {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { movies: MoviesResolver, favoriteMovies: FavoritesResolver}},
 

@@ -31,15 +31,25 @@ export class RecommendationsComponent implements OnInit  {
             });
     }
 
+    /**
+     * Event listner that gets called whenever child component updates favoriteMovies.
+     * @param favorites 
+     */
     onFavoriteAdded(favorites: FavortiesDto[]) {
         this.favoriteMovies = favorites;
         this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
     }
 
+    /**
+     * Gets the selected movie.
+     */
     getCurrentMovie() {
         return this.selectedMovie; 
     }
 
+    /**
+     * Changes the movie selected from movies array and passes to child movie selector to display.
+     */
     changeMovie(index) {
         if (this.isLast(this.movieIndex) && index == 1) {
             this.movieIndex = 0; 
@@ -54,6 +64,11 @@ export class RecommendationsComponent implements OnInit  {
         this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
     }
 
+    /**
+     * Check if a movie is in the favorites array.
+     * @param movie 
+     * @param favorites 
+     */
     getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
         if (!favorites) {
             return false
@@ -63,10 +78,18 @@ export class RecommendationsComponent implements OnInit  {
         });
     }  
 
+    /**
+     * Keeps changeMovie from going below 0 index.
+     * @param index 
+     */
     isFirst(index): boolean {
         return index == 0;
     }
 
+    /**
+     * Keeps changeMovie from going over movies array length.
+     * @param index 
+     */
     isLast(index): boolean {
         return index == this.movies.length - 1; 
     }

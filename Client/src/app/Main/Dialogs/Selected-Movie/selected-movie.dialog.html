@@ -1,3 +1,7 @@
 <div>
-    <movie [movie]="movieDto"></movie>
+    <movie 
+        [movie]="movie"
+        [favoriteMovies]="favoriteMovies"
+        [isFavorite]="isFavorite"
+        (favoriteAdded)="onFavoriteAdded($event)"></movie>
 </div>

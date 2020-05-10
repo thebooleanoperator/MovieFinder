@@ -6,19 +6,31 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
+import { ActivatedRoute } from '@angular/router';
+import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-    constructor(private moviesService: MoviesService, private imdbIdsService: ImdbIdsService, 
-        private toolBarService: ToolBarService, public dialog: MatDialog){}
+export class DashboardComponent implements OnInit {
+    constructor(
+        private _route: ActivatedRoute,
+        private _dialogWatcher: DialogWatcherService,
+        private moviesService: MoviesService, 
+        private imdbIdsService: ImdbIdsService, 
+        private toolBarService: ToolBarService, 
+        public dialog: MatDialog){}
 
     /**
      * Holds an array of all movies returned from search results.
      */
     movies: MovieDto[];
+    /**
+     * Holds all of a users favorited movies.
+     */
+    favoriteMovies: FavortiesDto[];
     /**
      * Holds the array of the movies being shown on current page. Used for client side paging.
      */
@@ -56,7 +68,13 @@ export class DashboardComponent {
      * Don't want to show multiple alerts to user for 1 request.
      */
     errorFound: boolean = false;
-    
+
+    ngOnInit() {
+        this._route.data.subscribe((data) => {
+            this.favoriteMovies = data.favoriteMovies;
+        })
+    }
+
     /**
      * Gets an array of numbers representing the years from 1900 to present.
      */
@@ -161,6 +179,21 @@ export class DashboardComponent {
     }
 
     /**
+     * Used to get isFavorite value to send to dialog.
+     * @param movie 
+     * @param favoriteMovies 
+     */
+    getIsFavorite(movie: MovieDto, favoriteMovies: FavortiesDto[]): boolean {
+        if (!favoriteMovies) {
+            return false;
+        }
+
+        return favoriteMovies.some((favorite) => {
+            return favorite.movieId == movie.movieId;
+        })
+    }
+
+    /**
      * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
      * and set selectedMovie.
      * @param imdbIdDto 
@@ -176,7 +209,7 @@ export class DashboardComponent {
         this.gettingMovie = false;
         // Only open the dialog if selectedMovie is set.
         if (this.selectedMovie) {
-            this.openDialog();
+            this.openDialog(this.selectedMovie, this.favoriteMovies);
         }
     }
 
@@ -218,14 +251,15 @@ export class DashboardComponent {
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    private openDialog() {
-        const dialogRef = this.dialog.open(SelectedMovieDialog, {
+    private openDialog(movie, favoriteMovies) {
+        var isFavorite = this.getIsFavorite(movie, favoriteMovies);
+        this.dialog.open(SelectedMovieDialog, {
             width: '450px',
-            data: {movieDto: this.selectedMovie}
+            data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
         });
 
-        dialogRef.afterClosed().subscribe(() => {
-            console.log("dialog was closed");
-        });
+        this._dialogWatcher.closeEvent$.subscribe((favorites) => {
+            this.favoriteMovies = favorites;
+        })
     }
 }
