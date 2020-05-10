@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { ActivatedRoute } from '@angular/router';
+import { FavortiesDto } from 'src/app/Data/favorites.dto';
 
 @Component ({
     templateUrl: './recommendations.component.html',
@@ -12,9 +13,10 @@ export class RecommendationsComponent implements OnInit  {
     //Data 
     selectedMovie: MovieDto;
     movies: MovieDto[];
-    favoriteMovies: MovieDto[];
+    favoriteMovies: FavortiesDto[];
+    isFavorite: boolean; 
     movieIndex: number;
-    
+
     //Methods    
     ngOnInit () {
         this._route.data
@@ -25,8 +27,18 @@ export class RecommendationsComponent implements OnInit  {
                 // ToDo: randomize on server.
                 this.movieIndex = Math.floor(Math.random() * this.movies.length);
                 this.selectedMovie = this.movies[this.movieIndex];
+                this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
             });
     }
+
+    getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
+        if (!favorites) {
+            return false
+        }
+        return favorites.some((favorite) => {
+            return favorite.MovieId == movie.movieId;
+        });
+    }   
 
     getCurrentMovie() {
         return this.selectedMovie; 
@@ -43,6 +55,7 @@ export class RecommendationsComponent implements OnInit  {
             this.movieIndex += index
         }
         this.selectedMovie = this.movies[this.movieIndex];
+        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
     }
 
     isFirst(index): boolean {

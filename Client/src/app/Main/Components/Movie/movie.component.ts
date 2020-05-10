@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { FavortiesDto } from 'src/app/Data/favorites.dto';
@@ -11,15 +11,37 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
     styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent {
-    constructor(private _favoritesService: FavoritesService, private _authService: AuthService, private _toolBarService: ToolBarService){}
+    constructor(
+        private _favoritesService: FavoritesService, 
+        private _authService: AuthService, 
+        private _toolBarService: ToolBarService){}
 
-    // Data
+    // Inputs
     @Input() movie: MovieDto; 
-    @Input() favoriteMovies: MovieDto[]
+    @Input() favoriteMovies: FavortiesDto[];
+    @Input() isFavorite: boolean;
+
+    //Outputs
+    @Output() favoriteMoviesChange: EventEmitter<FavortiesDto[]> = new EventEmitter<FavortiesDto[]>(); 
     
     posterError: boolean = false;
     alertUser: boolean = false;
-     
+
+    addToFavorites(movie: MovieDto): void {
+        var favorite: FavortiesDto = new FavortiesDto(movie, this._authService.user);
+        this._toolBarService.isLoading = true;
+        this._favoritesService.saveFavorite(favorite).toPromise()
+            .then((favoritesDto: FavortiesDto) => {
+                this.favoriteMovies
+                    ? this.favoriteMovies.push(favoritesDto)
+                    : this.favoriteMovies = [favoritesDto];
+                // Emit to parent that favoriteMovies has been changed.
+                this.favoriteMoviesChange.emit(this.favoriteMovies); 
+            })
+            .catch(() => alert("Failed to add movie to favorites."))
+            .finally(() => this._toolBarService.isLoading = false)
+    }
+
     getGenres(genres): string {
         var genreBuilder = "";
 
@@ -89,28 +111,5 @@ export class MovieComponent {
             return true;
         }
         return false;
-    }
-
-    addToFavorites(movie: MovieDto): void {
-        var favoritesDto: FavortiesDto = new FavortiesDto(movie, this._authService.user);
-        this._toolBarService.isLoading = true;
-        this._favoritesService.saveFavorite(favoritesDto).toPromise()
-            .then((likedMovieDto: FavortiesDto) => {
-                this.alertUser = true;
-                setTimeout(() => {
-                    this.alertUser = false;
-                }, 500)
-            })
-            .catch(() => alert("Failed to add movie to favorites."))
-            .finally(() => this._toolBarService.isLoading = false)
-    }
-
-    isFavorite(movie: MovieDto): boolean {
-        if (!this.favoriteMovies) {
-            return false
-        }
-        return this.favoriteMovies.some((favoriteMovie) => {
-            return favoriteMovie.movieId == movie.movieId;
-        });
     }
 }

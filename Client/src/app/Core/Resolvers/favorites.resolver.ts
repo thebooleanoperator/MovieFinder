@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { MovieDto } from 'src/app/Data/movie.dto';
 import { ToolBarService } from '../Services/tool-bar.service';
 import { FavoritesService } from '../Services/favorites.service';
+import { FavortiesDto } from 'src/app/Data/favorites.dto';
 
 @Injectable()
-export class FavoritesResolver implements Resolve<MovieDto[]> {
+export class FavoritesResolver implements Resolve<FavortiesDto[]> {
   constructor(private _favoritesService: FavoritesService, private _toolBarService: ToolBarService) {}
 
   resolve(): Promise<any> {

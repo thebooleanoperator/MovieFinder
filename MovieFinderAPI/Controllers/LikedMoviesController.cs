@@ -58,7 +58,6 @@ namespace MovieFinder.Controllers
 
         /// <summary>
         /// Gets all of a users likedMovies by userId.
-        /// ToDO: Consider moving to MoviesController.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -67,14 +66,12 @@ namespace MovieFinder.Controllers
         {
             var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId).ToList();
 
-            var completeLikedMovies = _moviesService.GetCompleteLikedMovies(likedMovies);
-
-            if (completeLikedMovies == null || completeLikedMovies.Count() == 0)
+            if (likedMovies == null || likedMovies.Count() == 0)
             {
                 return NoContent();
             }
 
-            return Ok(completeLikedMovies); 
+            return Ok(likedMovies); 
         }
     }
 }

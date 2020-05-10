@@ -25,7 +25,7 @@
             .title-container {
                 display: flex;
                 flex-direction: row;
-                justify-content: flex-start;
+                justify-content: space-between;
                 align-items: center;
                 padding: 5px;   
                 
@@ -34,8 +34,10 @@
                     font-size: 35px;
                 }
 
-                .director {
-                    font-size: 15px;
+                .check {
+                    font-size: 30px;
+                    color: lightgreen;
+                    margin: 5px;
                 }
             }
 
@@ -69,9 +71,7 @@
                         color: green;
                     }
                     .check {
-                        font-size: 30px;
-                        color: lightgreen;
-                        margin-left: 5px;
+                     
                     }
                 }
             }

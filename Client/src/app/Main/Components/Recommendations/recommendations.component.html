@@ -6,7 +6,11 @@
                 <mat-icon>arrow_back_ios</mat-icon>
             </button>
         </div>
-        <movie [movie]="getCurrentMovie()" [favoriteMovies]="favoriteMovies"></movie>
+        <movie 
+            [movie]="getCurrentMovie()" 
+            [(favoriteMovies)]="favoriteMovies"
+            [isFavorite]="isFavorite">
+        </movie>
         <div class="inline-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">
                 <mat-icon>arrow_forward_ios</mat-icon>
