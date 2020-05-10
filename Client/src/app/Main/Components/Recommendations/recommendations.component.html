@@ -8,8 +8,9 @@
         </div>
         <movie 
             [movie]="getCurrentMovie()" 
-            [(favoriteMovies)]="favoriteMovies"
-            [isFavorite]="isFavorite">
+            [favoriteMovies]="favoriteMovies"
+            [isFavorite]="isFavorite"
+            (favoriteAdded)="onFavoriteAdded($event)">
         </movie>
         <div class="inline-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">

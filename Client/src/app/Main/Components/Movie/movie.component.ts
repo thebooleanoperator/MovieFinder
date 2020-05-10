@@ -22,7 +22,7 @@ export class MovieComponent {
     @Input() isFavorite: boolean;
 
     //Outputs
-    @Output() favoriteMoviesChange: EventEmitter<FavortiesDto[]> = new EventEmitter<FavortiesDto[]>(); 
+    @Output() favoriteAdded: EventEmitter<FavortiesDto[]> = new EventEmitter<FavortiesDto[]>(); 
     
     posterError: boolean = false;
     alertUser: boolean = false;
@@ -36,7 +36,7 @@ export class MovieComponent {
                     ? this.favoriteMovies.push(favoritesDto)
                     : this.favoriteMovies = [favoritesDto];
                 // Emit to parent that favoriteMovies has been changed.
-                this.favoriteMoviesChange.emit(this.favoriteMovies); 
+                this.favoriteAdded.emit(this.favoriteMovies); 
             })
             .catch(() => alert("Failed to add movie to favorites."))
             .finally(() => this._toolBarService.isLoading = false)

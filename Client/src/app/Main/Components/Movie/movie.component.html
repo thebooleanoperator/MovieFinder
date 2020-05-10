@@ -4,7 +4,7 @@
         <div class="info-container">
             <div class="title-container">
                 <h2 class="title">{{movie.title}}</h2>
-                <mat-icon class="check" *ngIf="true" matTooltip="Liked">done</mat-icon>
+                <mat-icon class="check" *ngIf="isFavorite" matTooltip="Liked">done</mat-icon>
             </div>
             <div class="rating-container">
                 <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
@@ -17,8 +17,8 @@
                 </div>
                 <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
                 </div>
-                <div class="favorites-container" *ngIf="!isFavorite">
-                    <mat-icon class="thumb" *ngIf="!alertUser" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
+                <div class="favorites-container">
+                    <mat-icon class="thumb" *ngIf="!isFavorite" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
                         thumb_up
                     </mat-icon>
                 </div>

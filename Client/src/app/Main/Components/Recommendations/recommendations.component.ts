@@ -31,12 +31,17 @@ export class RecommendationsComponent implements OnInit  {
             });
     }
 
+    onFavoriteAdded(favorites: FavortiesDto[]) {
+        this.favoriteMovies = favorites;
+        this.isFavorite = true;
+    }
+
     getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
         if (!favorites) {
             return false
         }
         return favorites.some((favorite) => {
-            return favorite.MovieId == movie.movieId;
+            return favorite.movieId == movie.movieId;
         });
     }   
 
