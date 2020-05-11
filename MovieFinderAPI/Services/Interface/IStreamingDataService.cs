@@ -10,7 +10,7 @@ namespace MovieFinder.Services.Interface
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        Task<RapidStreamingDto> GetStreamingData(string title, string imdbId);
+        Task<RapidStreamingDto> GetStreamingData(string imdbId);
 
         /// <summary>
         /// Updates StreamingData for a movie if it has not been updated in last 7 days.

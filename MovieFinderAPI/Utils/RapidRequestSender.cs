@@ -7,7 +7,7 @@ namespace MovieFinder.Utils
     public class RapidRequestSender
     {
         private static string imdbRapidApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
-        private static string utellyRapidApiUrl = "https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup";
+        private static string utellyRapidApiUrl = "https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/idlookup";
         private static string idRapidUrl = "https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search";
 
         /// <summary>
@@ -112,13 +112,14 @@ namespace MovieFinder.Utils
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        public static HttpRequestMessage UtellyRapidRequest(string title)
+        public static HttpRequestMessage UtellyRapidRequest(string imdbId)
         {
             string longurl = utellyRapidApiUrl;
             var uriBuilder = new UriBuilder(longurl);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["term"] = title;
-            query["country"] = "us";
+            query["source_id"] = imdbId;
+            query["source"] = "imdb";
+            query["country"] = "US";
             uriBuilder.Query = query.ToString();
             longurl = uriBuilder.ToString();
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);

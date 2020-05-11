@@ -56,7 +56,7 @@ namespace MovieFinder.Controllers
             }
 
             var movie = new Movies(rapidMovieData, imdbId);
-            var rapidStreamingData = await _streamingDataService.GetStreamingData(movie.Title, movie.ImdbId);
+            var rapidStreamingData = await _streamingDataService.GetStreamingData(movie.ImdbId);
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();

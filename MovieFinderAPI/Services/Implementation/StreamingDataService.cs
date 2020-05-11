@@ -23,20 +23,15 @@ namespace MovieFinder.Services.Implementation
             _rateLimitsService = rateLimitsService;
         }
 
-        public async Task<RapidStreamingDto> GetStreamingData(string title, string imdbId)
+        public async Task<RapidStreamingDto> GetStreamingData(string imdbId)
         {
-            if (title == null)
-            {
-                return null;
-            }
-
             // Don't hit the imdb alt API if there are no requests left.
             if (!_rateLimitsService.IsRequestsRemaining(RateLimitsEnum.Utelly))
             {
                 return null;
             }
 
-            var request = RapidRequestSender.UtellyRapidRequest(title);
+            var request = RapidRequestSender.UtellyRapidRequest(imdbId);
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 
@@ -46,30 +41,18 @@ namespace MovieFinder.Services.Implementation
 
             await _rateLimitsService.Update(RateLimitsEnum.Utelly, newRemainingRequests);
 
-            var parsedResponse = await HttpValidator.ValidateAndParseResponse(response);
+            var parsedResponse = await HttpValidator.ValidateAndParseStreamingDataResponse(response);
 
             if (parsedResponse == null) { return null; }
 
-            var streamingResults = parsedResponse["results"].Children().ToList();
-
-            foreach (var Jdata in streamingResults)
+            try
             {
-                try
-                {
-                    var streamingData = Jdata.ToObject<RapidStreamingDto>();
-                    //Only return the data if the streaming data response matches title and imdbId. 
-                    if (StreamingDataIsMatch(streamingData, title, imdbId))
-                    {
-                        return streamingData;
-                    }
-                }
-                catch
-                {
-                    continue;
-                }
-
+                return parsedResponse.ToObject<RapidStreamingDto>();
             }
-            return null;
+            catch
+            {
+                return null; 
+            }
         }
 
         public async Task UpdateStreamingData(MoviesDto moviesDto)
@@ -79,38 +62,13 @@ namespace MovieFinder.Services.Implementation
             // Only update if the there has been no update in last 7 days.
             if (needsUpdate == true)
             {
-                var updatedStreamingData = await GetStreamingData(moviesDto.Title, moviesDto.ImdbId);
+                var updatedStreamingData = await GetStreamingData(moviesDto.ImdbId);
 
                 moviesDto.StreamingData.Patch(updatedStreamingData);
 
                 _unitOfWork.StreamingData.Update(moviesDto.StreamingData);
                 _unitOfWork.SaveChanges();
             }
-        }
-
-        /// <summary>
-        /// Private helper function to match rapid streaming data response with user selected movie. 
-        /// </summary>
-        /// <param name="rapidStreamingData"></param>
-        /// <param name="movieTitle"></param>
-        /// <param name="imdbId"></param>
-        /// <returns></returns>
-        private bool StreamingDataIsMatch(RapidStreamingDto rapidStreamingData, string movieTitle, string imdbId)
-        {
-            var rapidTitle = rapidStreamingData.Name.ToLower();
-            if (rapidTitle != movieTitle.ToLower())
-            {
-                return false;
-            }
-
-            var rapidImdbId = rapidStreamingData.External_Ids.Imdb.Id;
-            if (rapidImdbId != imdbId)
-            {
-                return false;
-            }
-
-            // If both checks pass, we have a match. 
-            return true;
         }
     }
 }
