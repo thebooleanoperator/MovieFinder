@@ -75,33 +75,29 @@ namespace MovieFinder.Services.Implementation
             }
         }
 
-        public MoviesDto GetCompleteMovie(Movies movie)
+        public async Task<MoviesDto> GetCompleteMovie(Movies movie)
         {
             // Get Streaming Data, and Genres to return all movie info.
             var streamingData = _unitOfWork.StreamingData.GetByMovieId(movie.MovieId);
             var genres = _unitOfWork.Genres.GetByMovieId(movie.MovieId);
+            var completeMovie = new MoviesDto(movie, genres, streamingData);
 
-            return  new MoviesDto(movie, genres, streamingData);
+            await  _streamingDataService.UpdateStreamingData(completeMovie);
+
+            return completeMovie;
         }
 
-        public List<MoviesDto> GetCompleteLikedMovies(List<LikedMovies> likedMovies)
+        public async Task<IEnumerable<MoviesDto>> GetCompleteMovie(IEnumerable<Movies> movies)
         {
-            if (likedMovies == null || likedMovies.Count == 0)
+            var completeMovies = new List<MoviesDto>();
+
+            foreach (var movie in movies)
             {
-                return null;
+                var completeMovie = await GetCompleteMovie(movie);
+                completeMovies.Add(completeMovie);
             }
 
-            var completeLikedMovies = new List<MoviesDto>();
-
-            foreach (var likedMovie in likedMovies)
-            {
-                var movie = _unitOfWork.Movies.Get(likedMovie.MovieId);
-                var completeMovie = GetCompleteMovie(movie);
-                _streamingDataService.UpdateStreamingData(completeMovie); 
-                completeLikedMovies.Add(completeMovie);
-            }
-
-            return completeLikedMovies;
+            return completeMovies;
         }
      }
 }

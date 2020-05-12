@@ -76,7 +76,7 @@ namespace MovieFinder.Controllers
 
             _unitOfWork.SaveChanges();
 
-            var completeMovieDto = _moviesService.GetCompleteMovie(movie); 
+            var completeMovieDto = await _moviesService.GetCompleteMovie(movie); 
 
             return Ok(completeMovieDto);
         }
@@ -104,9 +104,7 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
-            var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
-
-            await _streamingDataService.UpdateStreamingData(completeMoviesDto); 
+            var completeMoviesDto = await _moviesService.GetCompleteMovie(movie);
 
             return Ok(completeMoviesDto); 
         }
@@ -123,19 +121,12 @@ namespace MovieFinder.Controllers
 
             if (recommendedMovies == null)
             {
-                return BadRequest();
+                return BadRequest("Failed to get recommended movies.");
             }
 
-            var recMovieDtos = new List<MoviesDto>();
+            var completeMovieDtos = await _moviesService.GetCompleteMovie(recommendedMovies);
 
-            foreach(var movie in recommendedMovies)
-            {
-                var completeMoviesDto = _moviesService.GetCompleteMovie(movie);
-                await _streamingDataService.UpdateStreamingData(completeMoviesDto);
-                recMovieDtos.Add(completeMoviesDto);
-            }
-
-            return Ok(recMovieDtos);
+            return Ok(completeMovieDtos);
         }
 
         /// <summary>
@@ -143,7 +134,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Favorites")]
-        public IActionResult GetFavorites()
+        public async Task<IActionResult> GetFavorites()
         {
             var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId);
 
@@ -154,7 +145,9 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
-            return Ok(favoriteMovies);
+            var completeMovieDtos = await _moviesService.GetCompleteMovie(favoriteMovies);
+
+            return Ok(completeMovieDtos);
         }
 
         /// <summary>

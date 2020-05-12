@@ -20,13 +20,13 @@ namespace MovieFinder.Services.Interface
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        MoviesDto GetCompleteMovie(Movies movie);
+        Task<MoviesDto> GetCompleteMovie(Movies movie);
 
         /// <summary>
-        /// Takes a list of likedMoves, and returns a list of complete movies, with updated streaming data.
+        /// Overrides GetCompletedMovie to take an array of movies.
         /// </summary>
-        /// <param name="likedMovies"></param>
+        /// <param name="moviesDto"></param>
         /// <returns></returns>
-        List<MoviesDto> GetCompleteLikedMovies(List<LikedMovies> likedMovies);
+        Task<IEnumerable<MoviesDto>> GetCompleteMovie(IEnumerable<Movies> moviesDto);
     }
 }
