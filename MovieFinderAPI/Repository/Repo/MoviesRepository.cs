@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
 using MovieFinder.Repository.Interface;
+using MovieFinder.Repository.Repo;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,13 @@ namespace MovieFinder.Repository
         public IEnumerable<Movies> GetAllRecommended()
         {
             return DbSet.Where(m => m.IsRec == true);
+        }
+
+        public IEnumerable<Movies> GetMoviesFromFavorites(IEnumerable<LikedMovies> likedMovies)
+        {
+            var likedMovieIds = likedMovies.Select(lm => lm.MovieId).ToList();
+
+            return DbSet.Where(m => likedMovieIds.Contains(m.MovieId));
         }
     }
 }

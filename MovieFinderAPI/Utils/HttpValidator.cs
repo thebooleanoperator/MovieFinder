@@ -8,6 +8,12 @@ namespace MovieFinder.Utils
 {
     public class HttpValidator
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="checkMovieFound"></param>
+        /// <returns></returns>
         public static async Task<JObject> ValidateAndParseResponse(HttpResponseMessage response, bool checkMovieFound = false)
         {
             if (!response.IsSuccessStatusCode)
@@ -29,6 +35,11 @@ namespace MovieFinder.Utils
             return parsedJson;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public static async Task<JToken> ValidateAndParseStreamingDataResponse(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)

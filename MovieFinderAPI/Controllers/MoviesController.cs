@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
+using MovieFinder.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
@@ -16,12 +19,15 @@ namespace MovieFinder.Controllers
         private UnitOfWork _unitOfWork;
         private IMoviesService _moviesService;
         private IStreamingDataService _streamingDataService;
+        private Session _sessionVars; 
 
-        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService, IStreamingDataService streamingDataService)
+        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService, 
+            IStreamingDataService streamingDataService, IHttpContextAccessor httpContext)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _moviesService = moviesService;
             _streamingDataService = streamingDataService;
+            _sessionVars = new Session(httpContext.HttpContext.User);
         }
 
         /// <summary>
@@ -130,6 +136,25 @@ namespace MovieFinder.Controllers
             }
 
             return Ok(recMovieDtos);
+        }
+
+        /// <summary>
+        /// Gets all of a users liked movies.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Favorites")]
+        public IActionResult GetFavorites()
+        {
+            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId);
+
+            var favoriteMovies = _unitOfWork.Movies.GetMoviesFromFavorites(likedMovies).ToList();
+
+            if (favoriteMovies == null || favoriteMovies.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(favoriteMovies);
         }
 
         /// <summary>
