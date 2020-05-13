@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { MoviesService } from 'src/app/Core/Services/movies.service';
     styleUrls: ['./favorites.component.scss']
 })
 
-export class FavoritesComponent implements OnInit {
+export class FavoritesComponent implements OnInit, AfterViewInit {
     constructor(
         private _moviesService: MoviesService, 
         private _toolBarService: ToolBarService, 
@@ -28,6 +28,10 @@ export class FavoritesComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit() {
+         this.loadUntilScroll();
+    }
+
     useDefaultPoster(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
@@ -36,7 +40,7 @@ export class FavoritesComponent implements OnInit {
     getNextFavorites(page:number, count:number) {
         if (this.nextExists) {
             this._toolBarService.isLoading = true;
-            this._moviesService.getFavorites(page, count).toPromise()
+            return this._moviesService.getFavorites(page, count).toPromise()
                 .then((favoriteMoviesDtos) => {
                     if (favoriteMoviesDtos) {
                         this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos); 
@@ -47,5 +51,14 @@ export class FavoritesComponent implements OnInit {
                 .catch(() => alert("Unable to load favorites."))
                 .finally(() => this._toolBarService.isLoading = false);
         }
+    }
+
+    loadUntilScroll() {
+        setTimeout(() => {
+            if (window.innerWidth <= document.body.clientWidth && this.nextExists) {
+                this.getNextFavorites(this.page, this.count)
+                    .finally(() => this.loadUntilScroll());
+            }
+        }, 500); 
     }
 }
