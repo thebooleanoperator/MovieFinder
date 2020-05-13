@@ -4,8 +4,8 @@
         class="posters"
         infiniteScroll
         [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="50"
-        (scrolled)="test()"> 
+        [infiniteScrollThrottle]="500"
+        (scrolled)="getNextFavorites(page, count)"> 
         <img *ngFor="let movie of favoriteMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
         (error)="useDefaultPoster($event)" (click)="null"> 
     </div>

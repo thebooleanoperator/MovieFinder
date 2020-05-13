@@ -133,10 +133,10 @@ namespace MovieFinder.Controllers
         /// Gets all of a users liked movies.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Favorites")]
-        public async Task<IActionResult> GetFavorites()
+        [HttpGet("Favorites/{page?}/{count?}")]
+        public async Task<IActionResult> GetFavorites([FromQuery] int? page = null, int? count = null)
         {
-            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId);
+            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, page, count);
 
             var favoriteMovies = _unitOfWork.Movies.GetMoviesFromFavorites(likedMovies).ToList();
 

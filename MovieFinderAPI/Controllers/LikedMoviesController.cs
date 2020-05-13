@@ -32,7 +32,7 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
         {
-            var usersLikedMovies = _unitOfWork.LikedMovies.GetAllByUserId(likedMoviesDto.UserId).ToList();
+            var usersLikedMovies = _unitOfWork.LikedMovies.GetAllByUserId(likedMoviesDto.UserId, null, null).ToList();
 
             if (usersLikedMovies.Any(lm => lm.MovieId == likedMoviesDto.MovieId))
             {
@@ -62,7 +62,7 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult GetAll()
         {
-            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId).ToList();
+            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId, null, null).ToList();
 
             if (likedMovies == null || likedMovies.Count() == 0)
             {

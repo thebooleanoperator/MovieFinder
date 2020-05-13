@@ -10,7 +10,7 @@ export class FavoriteMoviesResolver implements Resolve<MovieDto[]> {
 
   resolve(): Promise<any> {
     this._toolBarService.isLoading = true;
-    return this._moviesService.getFavorites().toPromise()
+    return this._moviesService.getFavorites(0, 20).toPromise()
         .then((favoriteMovieDtos) => {
             return favoriteMovieDtos;
         })

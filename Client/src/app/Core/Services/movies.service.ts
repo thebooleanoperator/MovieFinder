@@ -11,8 +11,8 @@ export class MoviesService {
         return this.http.get('http://localhost:5001/Movies/Recommended');
     } 
     
-    public getFavorites(): Observable<any> {
-        return this.http.get('http://localhost:5001/Movies/Favorites');
+    public getFavorites(page:number, count:number): Observable<any> {
+        return this.http.get(`http://localhost:5001/Movies/Favorites?page=${page}&count=${count}`);
     }
 
     public getMovieByImdbId(imdbId: string): Observable<any> {
