@@ -1,5 +1,6 @@
 // Modules
 import { AngularMaterialModule } from './Shared/angular-material.module';
+import { AngularLibrariesModule } from './Shared/angular-libraries.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,8 +27,6 @@ import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolve
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +48,7 @@ import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     AngularMaterialModule,
+    AngularLibrariesModule,
     AppRoutingModule,
     RouterModule,
   ],

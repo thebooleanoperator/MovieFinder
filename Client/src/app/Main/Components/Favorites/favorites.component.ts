@@ -28,4 +28,8 @@ export class FavoritesComponent implements OnInit {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
     }
+
+    test() {
+        console.log("test");
+    }
 }
