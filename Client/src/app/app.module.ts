@@ -22,8 +22,10 @@ import { FavoritesComponent } from './Main/Components/Favorites/favorites.compon
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
+import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
+
 
 
 @NgModule({
@@ -61,7 +63,8 @@ import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
           multi: true
       },
       MoviesResolver,
-      FavoritesResolver
+      FavoritesResolver,
+      FavoriteMoviesResolver
     ],
   bootstrap: [AppComponent]
 })

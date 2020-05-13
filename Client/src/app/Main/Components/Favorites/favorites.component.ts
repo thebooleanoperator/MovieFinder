@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     templateUrl: './favorites.component.html',
@@ -9,22 +10,22 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 })
 
 export class FavoritesComponent implements OnInit {
-    constructor(private _favoritesService: FavoritesService, private _toolBarService: ToolBarService){}
+    constructor(
+        private _favoritesService: FavoritesService, 
+        private _toolBarService: ToolBarService, 
+        private _route: ActivatedRoute){}
     
     favoriteMovies: MovieDto; 
+    posterError: boolean = false;
 
-    /**
-     * Using setTimeout prevents synchronous call while rendering page.
-     * Otherwise throws ExpressionHasChangedException.
-     * Reference: https://blog.angular-university.io/angular-debugging/
-     */
-    ngOnInit() {        
-        setTimeout(() => {
-            this._toolBarService.isLoading = true;
-            this._favoritesService.getFavoriteMovies().toPromise()
-                .then((moviesDto) => this.favoriteMovies = moviesDto)
-                .catch(() => alert("Unable to get liked movies."))
-                .finally(() => this._toolBarService.isLoading = false);
-        });
+    ngOnInit() {
+        this._route.data.subscribe((data) => {
+            this.favoriteMovies = data.favoriteMovies;
+        })
+    }
+
+    useDefaultPoster(event) {
+        event.srcElement.src = "/assets/images/default-poster.png";
+        this.posterError = true;
     }
 }

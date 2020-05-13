@@ -1,6 +1,7 @@
 <div id="favorites">
     <h1 class="title">Favorites</h1>
-    <div class="favorites-list" *ngFor="let movie of likedMovies"> 
-        {{movie.title}}
+    <div class="posters"> 
+        <img *ngFor="let movie of favoriteMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
+        (error)="useDefaultPoster($event)" (click)="null"> 
     </div>
 </div>

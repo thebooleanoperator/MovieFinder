@@ -7,11 +7,12 @@ import { AuthGuardService } from './Core/Services/auth-guard.service';
 import { FavoritesComponent } from './Main/Components/Favorites/favorites.component';
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
+import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},
-    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {favoriteMovies: FavoritesResolver}},
-    {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService]},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {favorites: FavoritesResolver}},
+    {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService], resolve: {favoriteMovies: FavoriteMoviesResolver}},
     {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { movies: MoviesResolver, favoriteMovies: FavoritesResolver}},
 
     {path: '**', redirectTo:'dashboard'}

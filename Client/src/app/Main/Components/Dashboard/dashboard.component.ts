@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this._route.data.subscribe((data) => {
-            this.favoriteMovies = data.favoriteMovies;
+            this.favoriteMovies = data.favorites;
         })
     }
 
