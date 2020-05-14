@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
         private moviesService: MoviesService, 
         private imdbIdsService: ImdbIdsService, 
         private toolBarService: ToolBarService, 
-        public dialog: MatDialog){}
+        private dialog: MatDialog){}
 
     /**
      * Holds an array of all movies returned from search results.
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
     /**
      * Holds all of a users favorited movies.
      */
-    favoriteMovies: FavortiesDto[];
+    favorites: FavortiesDto[];
     /**
      * Holds the array of the movies being shown on current page. Used for client side paging.
      */
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this._route.data.subscribe((data) => {
-            this.favoriteMovies = data.favorites;
+            this.favorites = data.favorites;
         })
     }
 
@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
         this.gettingMovie = false;
         // Only open the dialog if selectedMovie is set.
         if (this.selectedMovie) {
-            this.openDialog(this.selectedMovie, this.favoriteMovies);
+            this.openDialog(this.selectedMovie, this.favorites);
         }
     }
 
@@ -259,7 +259,7 @@ export class DashboardComponent implements OnInit {
         });
 
         this._dialogWatcher.closeEvent$.subscribe((favorites) => {
-            this.favoriteMovies = favorites;
+            this.favorites = favorites;
         })
     }
 }

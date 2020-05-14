@@ -108,6 +108,22 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
 
         this._dialogWatcher.closeEvent$.subscribe((favorites) => {
             this.favorites = favorites;
+            this.setFavoriteMovies(this.favorites, this.favoriteMovies);
+        });
+    }
+
+    /**
+     * When the select movie dialog closes, the movie needs to be removed from favorites if a user
+     * clicked to remove.
+     * @param favorites 
+     * @param favoriteMovies 
+     */
+    setFavoriteMovies(favorites: FavortiesDto[], favoriteMovies: MovieDto[]) {
+        var favoriteIds = favorites.map((favorite) => favorite.movieId);
+        this.favoriteMovies = favoriteMovies.filter((favMovie) => {
+            if (favoriteIds.includes(favMovie.movieId)) {
+                return favMovie;
+            }
         });
     }
 }

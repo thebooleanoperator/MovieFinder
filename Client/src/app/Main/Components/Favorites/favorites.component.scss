@@ -19,3 +19,17 @@
         }
     }
 }
+
+@media screen and (max-width: 676px) {
+    #favorites {
+        .title {
+            font-size: 35px;
+        }
+        .posters {
+            img {
+                height: 250px;
+                width: 150px;
+            }
+        }
+    }
+}

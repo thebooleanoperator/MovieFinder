@@ -18,7 +18,7 @@ export class MovieComponent {
 
     // Inputs
     @Input() movie: MovieDto; 
-    @Input() favoriteMovies: FavortiesDto[];
+    @Input() favorites: FavortiesDto[];
     @Input() isFavorite: boolean;
 
     //Outputs
@@ -32,11 +32,11 @@ export class MovieComponent {
         this._toolBarService.isLoading = true;
         this._favoritesService.saveFavorite(favorite).toPromise()
             .then((favoritesDto: FavortiesDto) => {
-                this.favoriteMovies
-                    ? this.favoriteMovies.push(favoritesDto)
-                    : this.favoriteMovies = [favoritesDto];
+                this.favorites
+                    ? this.favorites.push(favoritesDto)
+                    : this.favorites = [favoritesDto];
                 // Emit to parent that favoriteMovies has been changed.
-                this.favoriteAdded.emit(this.favoriteMovies); 
+                this.favoriteAdded.emit(this.favorites); 
             })
             .catch(() => alert("Failed to add movie to favorites."))
             .finally(() => this._toolBarService.isLoading = false)
@@ -47,18 +47,18 @@ export class MovieComponent {
         this._toolBarService.isLoading = true;
         this._favoritesService.deleteFavorite(favoriteToDelete.likedId).toPromise()
             .then(() => {
-                this.favoriteMovies = this.favoriteMovies.filter((favorite) => {
+                this.favorites = this.favorites.filter((favorite) => {
                     return favorite.movieId != favoriteToDelete.movieId;
                 });
                 // Emit to parent that favoriteMovies has been changed.
-                this.favoriteAdded.emit(this.favoriteMovies); 
+                this.favoriteAdded.emit(this.favorites); 
             })
             .catch(() => alert("Could not remove from favorites."))
             .finally(() => this._toolBarService.isLoading = false);
     }
 
     getFavoriteByMovieId(movieId: number): FavortiesDto {
-        return this.favoriteMovies.find((favorite) => {
+        return this.favorites.find((favorite) => {
             return favorite.movieId == movieId;
         });
     }
