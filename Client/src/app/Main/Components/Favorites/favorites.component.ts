@@ -32,12 +32,19 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
          this.loadUntilScroll();
     }
 
-    useDefaultPoster(event) {
+    /**
+     * Binds to error loading movie poster. Loads default-poster when error triggered.
+     */
+    useDefaultPoster(event): void {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
     }
 
-    getNextFavorites(page:number, count:number) {
+    /**
+     * Function used to get next page of movie favorites results from server.
+     * Called by infite scroll component.
+     */
+    getNextFavorites(page:number, count:number): Promise<void> {
         if (this.nextExists) {
             this._toolBarService.isLoading = true;
             return this._moviesService.getFavorites(page, count).toPromise()
@@ -53,12 +60,32 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
         }
     }
 
-    loadUntilScroll() {
+    /**
+     * Used to load movies until vertical scroll bar appears. Measures the width of the screen,
+     * when the inner width is not greater than client width, scroll bar deos not exist.
+     */
+    loadUntilScroll(): void {
         setTimeout(() => {
-            if (window.innerWidth <= document.body.clientWidth && this.nextExists) {
+            if (this.shouldLoadNextPage()) {
                 this.getNextFavorites(this.page, this.count)
                     .finally(() => this.loadUntilScroll());
             }
         }, 500); 
+    }
+
+    /**
+     * Returns if the next page needs to be loaded to trigger scroll bar.
+     */
+    shouldLoadNextPage(): boolean {
+        if (window.innerWidth > document.body.clientWidth) {
+            return false;
+        }
+        if (!this.nextExists) {
+            return false;
+        }
+        if (document.body.clientWidth <= 676) {
+            return false;
+        }
+        return true;
     }
 }
