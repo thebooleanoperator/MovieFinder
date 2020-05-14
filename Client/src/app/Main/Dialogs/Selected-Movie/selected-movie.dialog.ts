@@ -7,7 +7,8 @@ import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.servi
 
 @Component ({
     selector: "selected-movie-dialog",
-    templateUrl: "./selected-movie.dialog.html"
+    templateUrl: "./selected-movie.dialog.html",
+    styleUrls: ["./selected-movie.dialog.scss"]
 })
 export class SelectedMovieDialog {
     constructor(

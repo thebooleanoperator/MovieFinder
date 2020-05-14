@@ -3,6 +3,10 @@ import { MovieDto } from 'src/app/Data/movie.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { ActivatedRoute } from '@angular/router';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
+import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
+import { FavortiesDto } from 'src/app/Data/favorites.dto';
 
 @Component({
     templateUrl: './favorites.component.html',
@@ -13,9 +17,12 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
     constructor(
         private _moviesService: MoviesService, 
         private _toolBarService: ToolBarService, 
-        private _route: ActivatedRoute){}
+        private _route: ActivatedRoute,
+        private _dialog: MatDialog,
+        private _dialogWatcher: DialogWatcherService){}
     
     favoriteMovies: MovieDto[]; 
+    favorites: FavortiesDto[];
     page: number = 1;
     count: number = 20;
     nextExists: boolean;
@@ -23,6 +30,7 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._route.data.subscribe((data) => {
+            this.favorites = data.favorites;
             this.favoriteMovies = data.favoriteMovies;
             this.nextExists = this.favoriteMovies.length < this.count ? false : true;
         });
@@ -87,5 +95,19 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
+     */
+    openMovieDialog(movie: MovieDto, favorite: FavortiesDto[]) {
+        this._dialog.open(SelectedMovieDialog, {
+            width: '450px',
+            data: {movie: movie, favoriteMovies: favorite, isFavorite: true}
+        });
+
+        this._dialogWatcher.closeEvent$.subscribe((favorites) => {
+            this.favorites = favorites;
+        });
     }
 }

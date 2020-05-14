@@ -7,6 +7,6 @@
         [infiniteScrollThrottle]="500"
         (scrolled)="getNextFavorites(page, count)"> 
         <img *ngFor="let movie of favoriteMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
-        (error)="useDefaultPoster($event)" (click)="null"> 
+        (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
     </div>
 </div>
