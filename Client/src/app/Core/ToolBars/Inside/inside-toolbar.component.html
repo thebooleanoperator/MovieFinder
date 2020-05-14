@@ -2,18 +2,18 @@
     <mat-toolbar-row class="main-toolbar">
         <div>
             <mat-button-toggle-group>
-                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
-                    (click)="setSelectedNavButton(true, false, false)" routerLink="/dashboard">
+                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
+                    (click)="goToDashboard()" [disabled]="navInProcess">
                     Search
-                </mat-button-toggle>
-                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
-                    (click)="setSelectedNavButton(false, true, false)" routerLink="/favorites">
+                </button>
+                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
+                    (click)="goToFavorites()" [disabled]="navInProcess">
                     Favorites
-                </mat-button-toggle>
-                <mat-button-toggle class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
-                    (click)="setSelectedNavButton(false, false, true)" routerLink="/movies">
+                </button>
+                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
+                    (click)="goToRecommended()" [disabled]="navInProcess">
                     Staff Pics
-                </mat-button-toggle>
+                </button>
             </mat-button-toggle-group>
         </div>
         <div>

@@ -6,8 +6,23 @@
 
     .tool-button {
         width: 90px;
+        height: 45px;
         margin: 10px 2px;
         background-color: rgba(189, 115, 115, 0.87);
+        color: white;
+    }
+
+    
+    .tool-button:hover {
+        cursor: pointer;
+        background-color: rgba(83, 47, 47, 0.87);
+    }
+
+    .selected-tool-button {
+        width: 90px;
+        height: 45px;
+        margin: 10px 2px;
+        background-color: rgba(83, 47, 47, 0.87);
         color: white;
     }
 
@@ -20,17 +35,5 @@
 
     .settings:hover {
         color: rgba(83, 47, 47, 0.87) !important;
-    }
-
-    .selected-tool-button {
-        width: 90px;
-        margin: 10px 2px;
-        background-color: rgba(83, 47, 47, 0.87);
-        color: white;
-    }
-
-    .tool-button:hover {
-        cursor: pointer;
-        background-color: rgba(83, 47, 47, 0.87);
     }
 }
