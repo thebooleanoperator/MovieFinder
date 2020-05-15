@@ -40,12 +40,14 @@
                         color: rgba(83, 47, 47, 0.87);
                         padding-left: 5px;
                     }
-
-                    ::ng-deep .mat-form-field-label {
-                        top: 1.18125em;
-                        font-size: 25px;
-                        color: rgba(83, 47, 47, 0.87);
-                        padding-left: 5px;
+                    ::ng-deep .mat-form-field-label-wrapper {
+                        top: -.94375em;
+                        ::ng-deep .mat-form-field-label {
+                            top: 1.18125em;
+                            font-size: 25px;
+                            color: rgba(83, 47, 47, 0.87);
+                            padding-left: 5px;
+                        }
                     }
                 }
 
@@ -90,6 +92,7 @@
             
                             ::ng-deep .mat-select-value {
                                 font-size: 25px;
+                                vertical-align: middle;
         
                                 ::ng-deep .mat-select-value-text {
                                     color: rgba(83, 47, 47, 0.87) !important;
@@ -101,12 +104,14 @@
                             }
                         }
                     }
-
-                    ::ng-deep .mat-form-field-label {
-                        font-size: 25px;
-                        padding-left: 5px;
-                        color: rgba(83, 47, 47, 0.87) !important;
-                        top: 1.18125em;
+                    ::ng-deep .mat-form-field-label-wrapper {
+                        top: -.94375em;
+                        ::ng-deep .mat-form-field-label {
+                            font-size: 25px;
+                            padding-left: 5px;
+                            color: rgba(83, 47, 47, 0.87) !important;
+                            top: 1.18125em;
+                        }
                     }
                 }
 
@@ -167,7 +172,10 @@
 }
 
 ::ng-deep .mat-select-panel {
-    background-color: rgba(243, 203, 210, 0.856);
+    background-color: rgba(218, 216, 213);
+    ::ng-deep .mat-option {
+        color: rgba(83, 47, 47, 0.87);
+    }
 }
 
 .selected-movie {
@@ -190,18 +198,19 @@
 
                         ::ng-deep .mat-input-element {
                             height: 30px;
-                            font-size: 20px;
+                            font-size: 20px !important;
                             caret-color: rgba(83, 47, 47, 0.87);
                             color: rgba(83, 47, 47, 0.87);
                             padding-left: 5px;
                         }
-    
-                        ::ng-deep .mat-form-field-label {
-                            top: 1.38125em;
-                            font-size: 20px;
-                            color: rgba(83, 47, 47, 0.87);
-                            padding-left: 5px;
+                        ::ng-deep .mat-form-field-label-wrapper {
+                            top: -1.44375em !important;
+                            ::ng-deep .mat-form-field-label {
+                                top: 1.68125em !important;
+                                font-size: 20px !important;
+                            }
                         }
+     
                     }
                 }
     
@@ -212,7 +221,7 @@
             .year-box {    
                 ::ng-deep .mat-form-field-wrapper {
                     height: 50px;
-                    width: 70px;
+                    width: 75px;
                     ::ng-deep .mat-form-field-infix {
                         height: 50px;
 
@@ -221,7 +230,7 @@
                                 height: 50px;
                 
                                 ::ng-deep .mat-select-value {
-                                    font-size: 20px;
+                                    font-size: 20px !important;
                                 }
                 
                                 ::ng-deep .mat-select-arrow-wrapper {
@@ -233,11 +242,13 @@
                                 }
                             }
                         }
-    
-                        ::ng-deep .mat-form-field-label {
-                            font-size: 20px;
-                            color: rgba(83, 47, 47, 0.87) !important;
-                            top: 1.38125em;
+                        ::ng-deep .mat-form-field-label-wrapper {
+                            top: -1.44375em !important;
+                            ::ng-deep .mat-form-field-label {
+                                font-size: 20px !important;
+                                top: 1.68125em !important;
+                                padding-left: 2px !important;
+                            }
                         }
                     }
                 }

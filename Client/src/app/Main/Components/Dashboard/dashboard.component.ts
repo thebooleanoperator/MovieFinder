@@ -125,8 +125,8 @@ export class DashboardComponent implements OnInit {
         }
         // Only search if user search is not null.
         if (search) {
+            this.toolBarService.isLoading = true;
             this.timeout = setTimeout(() => {
-                this.toolBarService.isLoading = true;
                 this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
                     .then((response) =>  {
                         this.movies = response;
