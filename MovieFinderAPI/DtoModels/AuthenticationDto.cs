@@ -1,9 +1,11 @@
-﻿namespace MovieFinder.DtoModels
+﻿using MovieFinder.Models;
+
+namespace MovieFinder.DtoModels
 {
     public class AuthenticationDto
     {
         public string Token { get; set; }
-        public bool Success { get; set; }
+        public string RefreshToken { get; set; }
         public string Error { get; set; }
         public UsersDto UserDto { get; set; }
     }

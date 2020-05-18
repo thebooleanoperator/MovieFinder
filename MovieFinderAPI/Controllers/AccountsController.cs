@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
@@ -24,23 +24,19 @@ namespace MovieFinder.Controllers
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
         {
             Users.VerifyCreateDto(createAccountDto);
 
             var authenticationResponse = await _identityService.RegisterUserAsync(createAccountDto);
 
-            if (!authenticationResponse.Success)
+            if (!String.IsNullOrEmpty(authenticationResponse.Error))
             {
                 return BadRequest(authenticationResponse.Error);
             }
 
-            return Ok(new AuthenticationDto
-            {
-                Token = authenticationResponse.Token,
-                Success = true,
-                UserDto = authenticationResponse.UserDto
-            }); 
+            return Ok(authenticationResponse); 
         }
 
         /// <summary>
@@ -49,23 +45,33 @@ namespace MovieFinder.Controllers
         /// <param name="loginDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
         {
             Users.VerifyLoginDto(loginDto);
 
             var authenticationResponse = await _identityService.LoginAsync(loginDto); 
 
-            if (!authenticationResponse.Success)
+            if (!String.IsNullOrEmpty(authenticationResponse.Error))
             {
                 return BadRequest(authenticationResponse.Error);
             }
 
-            return Ok(new AuthenticationDto
+            return Ok(authenticationResponse);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
+        {
+            var authenticationResponse = await _identityService.RefreshTokenAsync(refreshRequest);
+
+            if (!String.IsNullOrEmpty(authenticationResponse.Error))
             {
-                Token = authenticationResponse.Token,
-                Success = true,
-                UserDto = authenticationResponse.UserDto
-            });
+                return BadRequest(authenticationResponse.Error);
+            }
+
+            return Ok(authenticationResponse);
         }
     }
 }

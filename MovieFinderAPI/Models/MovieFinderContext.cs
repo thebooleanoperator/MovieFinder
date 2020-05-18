@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
+using System;
 
 namespace MovieFinder
 {
@@ -22,6 +23,7 @@ namespace MovieFinder
         public DbSet<Genres> Genres { get; set; }
         public DbSet<StreamingData> StreamingData { get; set; }
         public DbSet<RateLimits> RateLimits { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -168,6 +170,28 @@ namespace MovieFinder
                         .ValueGeneratedNever();
 
                     entity.Property(m => m.RequestsRemaining);
+                });
+
+            modelBuilder
+                .Entity<RefreshToken>(entity =>
+                {
+                    entity.HasKey(m => m.Token);
+
+                    entity.Property(m => m.Token)
+                        .ValueGeneratedNever();
+
+                    entity.Property(m => m.JwtId);
+
+                    entity.Property(m => m.DateCreated)
+                        .HasDefaultValueSql("GetUtcDate()");
+
+                    entity.Property(m => m.ExpirationDate);
+
+                    entity.Property(m => m.IsUsed);
+
+                    entity.Property(m => m.Invalidated);
+
+                    entity.Property(m => m.UserId);
                 });
         }
     }
