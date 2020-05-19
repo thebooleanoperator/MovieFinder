@@ -28,17 +28,18 @@ export class AuthService {
                 (response : AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
+                    this.setRefreshToken(response.refreshToken);
                     this.router.navigate(['/dashboard']); 
                 }
             )
     }
 
-    public logout(reRoute=true) {
+    logout(reRoute=true) {
         sessionStorage.clear();
         reRoute ? this.router.navigate(['/welcome']): null;
     }
 
-    public isLoggedIn() : boolean {
+    isLoggedIn() : boolean {
         var currentUser = this.user;
         var currentToken = this.token;
 
@@ -46,6 +47,15 @@ export class AuthService {
             return false
         }
         return true;
+    }
+
+    private setRefreshToken(token: string) {
+        document.cookie = `refreshToken=${token}; path=/; Domain=localhost:5001; HttpOnly`;
+    }
+
+    testGettingCookie() {
+        var x = document.cookie;
+        console.log(x);
     }
 
     get token(): string {

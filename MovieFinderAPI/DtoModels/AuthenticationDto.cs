@@ -1,6 +1,4 @@
-﻿using MovieFinder.Models;
-
-namespace MovieFinder.DtoModels
+﻿namespace MovieFinder.DtoModels
 {
     public class AuthenticationDto
     {

@@ -114,7 +114,7 @@ namespace MovieFinder.Services
 
             if (storedRefreshToken.IsUsed)
             {
-                return new AuthenticationDto() { Error = "Refresh token is has been used." };
+                return new AuthenticationDto() { Error = "Refresh token has been used." };
             }
 
             if (storedRefreshToken.JwtId != jti)
@@ -180,7 +180,7 @@ namespace MovieFinder.Services
             {
                 Token = Guid.NewGuid().ToString(),
                 JwtId = token.Id,
-                ExpirationDate = DateTime.UtcNow.AddMonths(6),
+                ExpirationDate = DateTime.UtcNow.AddMonths(_jwtSettings.RefreshLifetime),
                 IsUsed = true,
                 UserId = newUser.UserId
             };

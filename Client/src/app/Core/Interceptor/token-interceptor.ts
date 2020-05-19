@@ -12,6 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     public intercept(request: HttpRequest<any>,  next: HttpHandler): Observable<HttpEvent<any>> {
         request = request.clone({
+            withCredentials: true, // Needed to allow access to send cookies.
             setHeaders: {
                 Authorization: `Bearer ${this.authService.token}`
             }

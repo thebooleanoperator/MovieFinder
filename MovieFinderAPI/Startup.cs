@@ -14,6 +14,7 @@ using MovieFinder.Services.Implementation;
 using MovieFinder.Services.Interface;
 using MovieFinder.Settings;
 using MovieFinder.Utils;
+using System;
 using System.Text;
 
 namespace MovieFinder
@@ -75,7 +76,8 @@ namespace MovieFinder
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 RequireExpirationTime = false,
-                ValidateLifetime = true
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero 
             };
 
             services.AddSingleton(tokenValidationParameters);
@@ -108,7 +110,14 @@ namespace MovieFinder
 
             app.UseHttpsRedirection();
 
-            app.UseCors("CorsPolicy");
+            app.UseCors(builder =>
+            {
+                builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            });
 
             app.UseAuthentication();
 
