@@ -7,6 +7,6 @@ namespace MovieFinder.Services.Interface
     {
         Task<AuthenticationDto> RegisterUserAsync(CreateAccountDto createAccountDto);
         Task<AuthenticationDto> LoginAsync(LoginDto loginDto);
-        Task<AuthenticationDto> RefreshTokenAsync(RefreshTokenRequestDto refreshRequest);
+        Task<AuthenticationDto> RefreshTokenAsync(string jwtToken, string refreshToken);
     }
 }

@@ -14,7 +14,11 @@ export class MoviesResolver implements Resolve<MovieDto[]> {
         .then((movieDtos) => {
             return movieDtos;
         })
-        .catch(() => alert("Could not load recommended movies."))
+        .catch((error) => {
+            if (error.status != 401) {
+                alert("Could not load recommended movies.");
+            }
+        })
         .finally(() => this._toolBarService.isLoading = false);
   }
 }

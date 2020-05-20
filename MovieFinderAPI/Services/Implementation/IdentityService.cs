@@ -85,9 +85,9 @@ namespace MovieFinder.Services
             return AuthenticationResult(user); 
         }
 
-        public async Task<AuthenticationDto> RefreshTokenAsync(RefreshTokenRequestDto refreshRequest)
+        public async Task<AuthenticationDto> RefreshTokenAsync(string jwtToken, string refreshToken)
         {
-            var validatedToken = GetPrincipalFromToken(refreshRequest.Token); 
+            var validatedToken = GetPrincipalFromToken(jwtToken); 
 
             if (validatedToken == null)
             {
@@ -95,7 +95,7 @@ namespace MovieFinder.Services
             }
 
             var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
-            var storedRefreshToken = _unitOfWork.RefreshToken.GetByToken(refreshRequest.RefreshToken);
+            var storedRefreshToken = _unitOfWork.RefreshToken.GetByToken(refreshToken);
 
             if (storedRefreshToken == null)
             {
@@ -126,7 +126,7 @@ namespace MovieFinder.Services
             _unitOfWork.RefreshToken.Update(storedRefreshToken);
             _unitOfWork.SaveChanges();
 
-            var user = await _userManager.FindByIdAsync(validatedToken.Claims.Single(x => x.Type == "UserId").Value);
+            var user = await _userManager.FindByIdAsync(validatedToken.FindFirst(claim => claim.Type == "Id").Value);
             return AuthenticationResult(user);
         }
 
@@ -137,7 +137,17 @@ namespace MovieFinder.Services
 
             try
             {
-                var princpal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken); 
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+                var princpal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken); 
                 if (!IsJwtWithValidSecurityAlgorithim(validatedToken))
                 {
                     return null;
@@ -166,8 +176,9 @@ namespace MovieFinder.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
-                    new Claim("id", newUser.Id),
+                    new Claim("Id", newUser.Id.ToString()),
                     new Claim("UserId", newUser.UserId.ToString())
                 }),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
@@ -181,7 +192,7 @@ namespace MovieFinder.Services
                 Token = Guid.NewGuid().ToString(),
                 JwtId = token.Id,
                 ExpirationDate = DateTime.UtcNow.AddMonths(_jwtSettings.RefreshLifetime),
-                IsUsed = true,
+                IsUsed = false,
                 UserId = newUser.UserId
             };
 

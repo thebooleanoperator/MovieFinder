@@ -14,7 +14,11 @@ export class FavoriteMoviesResolver implements Resolve<MovieDto[]> {
         .then((favoriteMovieDtos) => {
             return favoriteMovieDtos;
         })
-        .catch(() => alert("Could not load favorite movies."))
+        .catch((error) => {
+            if (error.status != 401) {
+                alert("Could not load favorite movies.");
+            }
+        })
         .finally(() => this._toolBarService.isLoading = false);
   }
 }

@@ -11,7 +11,7 @@ export class AuthService {
 
     }
 
-    public register(firstName: string, lastName: string, email: string, password: string): Promise<void> {
+    register(firstName: string, lastName: string, email: string, password: string): Promise<void> {
         return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
@@ -22,7 +22,7 @@ export class AuthService {
             )
     }
 
-    public login(email: string, password: string): Promise<void> {
+    login(email: string, password: string): Promise<void> {
         return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password}).toPromise()
             .then(
                 (response : AuthDto) => {
@@ -32,6 +32,19 @@ export class AuthService {
                     this.router.navigate(['/dashboard']); 
                 }
             )
+    }
+
+    
+    refreshToken() {
+        var jwtToken = this.token; 
+        return this.http.post('http://localhost:5001/Accounts/RefreshToken', {'Token': jwtToken}).toPromise()
+        .then(
+            (response : AuthDto) => {
+                this.token = response.token;
+                this.user = response.userDto;
+                this.setRefreshToken(response.refreshToken);
+            }
+        ) 
     }
 
     logout(reRoute=true) {
@@ -50,12 +63,7 @@ export class AuthService {
     }
 
     private setRefreshToken(token: string) {
-        document.cookie = `refreshToken=${token}; path=/; Domain=localhost:5001; HttpOnly`;
-    }
-
-    testGettingCookie() {
-        var x = document.cookie;
-        console.log(x);
+        document.cookie = `refreshToken=${token}; path=/;`;
     }
 
     get token(): string {

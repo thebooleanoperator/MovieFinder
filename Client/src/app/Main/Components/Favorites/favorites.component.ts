@@ -63,7 +63,11 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
                         this.nextExists = favoriteMoviesDtos.length < this.count ? false : true;
                     }
                 })
-                .catch(() => alert("Unable to load favorites."))
+                .catch((error) => {
+                    if (error.status != 401) {
+                        alert("Unable to load favorites.");
+                    }
+                })
                 .finally(() => this._toolBarService.isLoading = false);
         }
     }

@@ -134,6 +134,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Favorites/{page?}/{count?}")]
+        [Authorize]
         public async Task<IActionResult> GetFavorites([FromQuery] int? page = null, int? count = null)
         {
             var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, page, count);

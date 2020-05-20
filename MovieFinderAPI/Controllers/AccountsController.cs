@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
@@ -11,11 +12,13 @@ namespace MovieFinder.Controllers
     [Route("[controller]/{action}")]
     public class AccountsController : Controller
     {
-        private IIdentityService _identityService; 
+        private IIdentityService _identityService;
+        private IRequestCookieCollection _cookies; 
 
-        public AccountsController(IIdentityService identityService)
+        public AccountsController(IIdentityService identityService, IHttpContextAccessor httpContext)
         {
             _identityService = identityService;
+            _cookies = httpContext.HttpContext.Request.Cookies;
         }
 
         /// <summary>
@@ -64,7 +67,8 @@ namespace MovieFinder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
         {
-            var authenticationResponse = await _identityService.RefreshTokenAsync(refreshRequest);
+            var refreshToken = _cookies["refreshToken"];
+            var authenticationResponse = await _identityService.RefreshTokenAsync(refreshRequest.Token, refreshToken);
 
             if (!String.IsNullOrEmpty(authenticationResponse.Error))
             {
