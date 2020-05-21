@@ -110,7 +110,7 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
             data: {movie: movie, favoriteMovies: favorite, isFavorite: true}
         });
 
-        this._dialogWatcher.closeEvent$.subscribe((favorites) => {
+        this._dialogWatcher.$closeEvent.subscribe((favorites) => {
             this.favorites = favorites;
             this.setFavoriteMovies(this.favorites, this.favoriteMovies);
         });

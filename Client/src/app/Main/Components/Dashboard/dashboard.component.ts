@@ -198,54 +198,29 @@ export class DashboardComponent implements OnInit {
      * and set selectedMovie.
      * @param imdbIdDto 
      */
-    async getOrCreateMovie(imdbIdDto: ImdbIdDto) {
+    getOrCreateMovie(imdbIdDto: ImdbIdDto) {
         this.gettingMovie = true;
-        this.selectedMovie = await this.getMovie(imdbIdDto.imdbId); 
-
-        // Only create the movie if no movie was found from get and get did not have an error.
-        if (!this.selectedMovie && !this.errorFound) {
-            this.selectedMovie = await this.createMovie(imdbIdDto); 
-        }
-        this.gettingMovie = false;
-        // Only open the dialog if selectedMovie is set.
-        if (this.selectedMovie) {
-            this.openDialog(this.selectedMovie, this.favorites);
-        }
-    }
-
-    /**
-     * Aysnchronous function that gets a movie from MovieFinderAPI with imdbId string.
-     * @param imdbId 
-     */
-    private async getMovie(imdbId: string): Promise<MovieDto> {
-        this.errorFound = false;
         this.toolBarService.isLoading = true;
-        return await this.moviesService.getMovieByImdbId(imdbId).toPromise()
-            .then((movieDto) => movieDto)
-            .catch((error) => {
-                if (error.status == 400) {
-                    this.errorFound = true;
-                    alert("Cannot find movie.");
+        this.moviesService.$getOrCreateMovie(imdbIdDto.imdbId, imdbIdDto)
+            .subscribe(
+                (data) => {
+                    this.selectedMovie = data; 
+                    if (this.selectedMovie) {
+                        this.openDialog(this.selectedMovie, this.favorites);
+                    }
+                },
+                (error) => {
+                    if (error.status != 401) {
+                        alert("Failed to load movie. Try again later.")
+                    }
+                    this.gettingMovie = false;
+                    this.toolBarService.isLoading = false;
+                },
+                () => {
+                    this.gettingMovie = false;
+                    this.toolBarService.isLoading = false;
                 }
-            })
-            .finally(() =>this.toolBarService.isLoading = false);
-    }
-
-    /**
-     * Aysnchronous function that creates a movie with MovieFinderAPI.
-     * Sends an ImdbIdDto as a param to api.
-     * @param imdbId 
-     */
-    private async createMovie(imdbIdDto: ImdbIdDto): Promise<MovieDto> {
-        this.errorFound = false;
-        this.toolBarService.isLoading = true;
-        return await this.moviesService.createMovieFromImdbId(imdbIdDto).toPromise()
-            .then((moviesDto) => moviesDto)
-            .catch(() => {
-                this.errorFound = true;
-                alert("Movie could not be created.");
-            })
-            .finally(() =>this.toolBarService.isLoading = false);
+            )
     }
 
     /**
@@ -258,7 +233,7 @@ export class DashboardComponent implements OnInit {
             data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
         });
 
-        this._dialogWatcher.closeEvent$.subscribe((favorites) => {
+        this._dialogWatcher.$closeEvent.subscribe((favorites) => {
             this.favorites = favorites;
         })
     }
