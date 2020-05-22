@@ -30,6 +30,10 @@ export class DashboardComponent implements OnInit {
      */
     movies: MovieDto[];
     /**
+     * 
+     */
+    year: number;
+    /**
      * Holds all of a users favorited movies.
      */
     favorites: FavortiesDto[];
@@ -78,7 +82,9 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
-     * 
+     * Uses SwitchMap to to send fromEvent search observable into imdbIds search.
+     * Then subscribe and set appropraite variables.
+     * ToDo: Look to improve this.
      */
     $searchForImdbIds = 
         fromEvent<any>(document, 'keyup') 
@@ -87,7 +93,7 @@ export class DashboardComponent implements OnInit {
                 debounceTime(1000),
                 distinctUntilChanged(),
                 switchMap(userSearch => {
-                    var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch);
+                    var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
                     // If null, a user has deleted all search chars, and we need to hide loading.
                     if (!userSearch) {
                         this.toolBarService.isLoading = false;
@@ -97,10 +103,12 @@ export class DashboardComponent implements OnInit {
             )
             .subscribe(
                 (data: MovieDto[]) => {
+                    this.noSearchResults = data ? false : true;
                     this.movies = data;
-                    this.setTotalPages(this.movies .length, this.moviesPerPage);
-                    this.setDisplayedMovies(this.movies , this.moviesPerPage)
-                    this.noSearchResults = this.movies.length > 0 ? false : true;
+                    if (!this.noSearchResults) {
+                        this.setTotalPages(this.movies .length, this.moviesPerPage);
+                        this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                    }
                     this.toolBarService.isLoading = false;
                 },
                 (error) => {
@@ -115,22 +123,27 @@ export class DashboardComponent implements OnInit {
                 }
             );
     
+    /**
+     * Only used to search for imdbIds when a user clicks on magnifying glass OR
+     * user selects year to filter search.
+     * @param search 
+     * @param year 
+     */
     searchMovies(search: string, year: number) {
         if (search) {
             this.toolBarService.isLoading  = true;
             this.imdbIdsService.getImdbIdsByTitle(search, year) 
                 .subscribe((data: MovieDto[]) => {
-                    this.movies = data; 
-                    this.setTotalPages(this.movies.length, this.moviesPerPage);
-                    this.setDisplayedMovies(this.movies, this.moviesPerPage)
-                    this.noSearchResults = this.movies.length > 0 ? false : true;
-                    this.toolBarService.isLoading  = false;
+                    this.noSearchResults = data ? false : true;
+                    this.movies = data;
+                    if (!this.noSearchResults) {
+                        this.setTotalPages(this.movies .length, this.moviesPerPage);
+                        this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                    }
+                    this.toolBarService.isLoading = false;
                 })
         }
     }
-
-    ///// BUILD A NEW METHOD SEARCH THAT SEARCHES WHEN THE YEAR IS CHANGED. 
-    ///// LOOK INTO WHY COMPLETE IS NOT GETTING CALLED ON SWITCHMAP
 
     /**
      * Gets an array of numbers representing the years from 1900 to present.

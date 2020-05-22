@@ -61,7 +61,11 @@ namespace MovieFinder.Controllers
                     if (exisitngImdbId != null)
                     {
                         var rapidDtoFromExistingImdbId = new RapidImdbDto(exisitngImdbId); 
-                        rapidDtos.Add(rapidDtoFromExistingImdbId);
+
+                        if (rapidDtoFromExistingImdbId.Year == year)
+                        {
+                            rapidDtos.Add(rapidDtoFromExistingImdbId);
+                        }
                     }
                     else
                     {
@@ -75,7 +79,10 @@ namespace MovieFinder.Controllers
                         }
                         else
                         {
-                            rapidDtos.Add(rapidDto);
+                            if (rapidDto.Year == year)
+                            {
+                                rapidDtos.Add(rapidDto);
+                            }
                         }
                     }
                 }
@@ -84,7 +91,12 @@ namespace MovieFinder.Controllers
             // There was not movie with title found. Try to get closely matched results. 
             if (rapidDtos == null || rapidDtos.Count() == 0)
             {
-                return Ok(closelyMatchingImdbIds.OrderByDescending(i => i.Year));
+                var closeMatches = closelyMatchingImdbIds.OrderByDescending(i => i.Year);
+                if (year == null && closeMatches.Count() > 0)
+                {
+                    return Ok(closeMatches);
+                }
+                return NoContent();
             }
 
             foreach (var rapidDto in rapidDtos)
