@@ -18,6 +18,6 @@ export class FavoritesService {
     }
 
     deleteFavorite(favoriteId: number): Observable<any> {
-        return this.http.delete(`http://localhost:5001/LikedMovies/${favoriteId}`)
+        return this.http.delete(`http://localhost:5001/LikedMovies/${favoriteId}`);
     }
 }

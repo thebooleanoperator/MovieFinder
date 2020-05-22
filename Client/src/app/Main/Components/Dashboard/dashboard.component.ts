@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
@@ -9,8 +9,8 @@ import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
-import { Observable, fromEvent } from 'rxjs';
-import { map, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
      */
     movies: MovieDto[];
     /**
-     * 
+     * Used to filter search by year.
      */
     year: number;
     /**
