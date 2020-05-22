@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, fromEvent } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ToolBarService } from './tool-bar.service';
 
 @Injectable({providedIn:'root'})
 export class ImdbIdsService {
 
-    constructor(private http: HttpClient)
+    constructor(private http: HttpClient, private _toolBarService: ToolBarService)
     {
 
     }
 
-    public getImdbIdsByTitle(title: string, year:number): Observable<any> {
-        return year == null 
-            ? this.http.get(`http://localhost:5001/ImdbIds/?title=${title}`)
-            : this.http.get(`http://localhost:5001/ImdbIds/?title=${title}&year=${year}`);
+    public getImdbIdsByTitle(title: string, year:number = null): Observable<any> {
+        if (title) {
+            this._toolBarService.isLoading = true;
+            return this.http.get(`http://localhost:5001/ImdbIds/?title=${title}&year=${year}`);
+        }
+        return of();
     }      
 }

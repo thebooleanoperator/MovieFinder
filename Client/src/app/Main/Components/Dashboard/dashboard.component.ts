@@ -9,6 +9,8 @@ import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
+import { Observable, fromEvent } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -76,6 +78,61 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
+     * 
+     */
+    $searchForImdbIds = 
+        fromEvent<any>(document, 'keyup') 
+            .pipe (
+                map((event) => event.target.value),
+                debounceTime(1000),
+                distinctUntilChanged(),
+                switchMap(userSearch => {
+                    var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch);
+                    // If null, a user has deleted all search chars, and we need to hide loading.
+                    if (!userSearch) {
+                        this.toolBarService.isLoading = false;
+                    }
+                    return imdbIdsObservable
+                })
+            )
+            .subscribe(
+                (data: MovieDto[]) => {
+                    this.movies = data;
+                    this.setTotalPages(this.movies .length, this.moviesPerPage);
+                    this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                    this.noSearchResults = this.movies.length > 0 ? false : true;
+                    this.toolBarService.isLoading = false;
+                },
+                (error) => {
+                    // Handle unauthroized errors with http interceptor.
+                    if (error.status != 401) {
+                        this.noSearchResults = true;
+                        this.movies = null;
+                        this.displayedMovies = null;
+                        this.totalPages = null;
+                        this.toolBarService.isLoading  = false;
+                    }
+                }
+            );
+    
+    searchMovies(search: string, year: number) {
+        if (search) {
+            this.toolBarService.isLoading  = true;
+            this.imdbIdsService.getImdbIdsByTitle(search, year) 
+                .subscribe((data: MovieDto[]) => {
+                    this.movies = data; 
+                    this.setTotalPages(this.movies.length, this.moviesPerPage);
+                    this.setDisplayedMovies(this.movies, this.moviesPerPage)
+                    this.noSearchResults = this.movies.length > 0 ? false : true;
+                    this.toolBarService.isLoading  = false;
+                })
+        }
+    }
+
+    ///// BUILD A NEW METHOD SEARCH THAT SEARCHES WHEN THE YEAR IS CHANGED. 
+    ///// LOOK INTO WHY COMPLETE IS NOT GETTING CALLED ON SWITCHMAP
+
+    /**
      * Gets an array of numbers representing the years from 1900 to present.
      */
     getYears(): number[] {
@@ -113,41 +170,7 @@ export class DashboardComponent implements OnInit {
         this.movies = null;
         this.noSearchResults = false;
     }
-    
-    /**
-     * Uses a user input search string to return an array of movies.
-     * @param search 
-     */
-    searchMovies(search:string, year:number) : void {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-            this.movies = null;
-        }
-        // Only search if user search is not null.
-        if (search) {
-            this.toolBarService.isLoading = true;
-            this.timeout = setTimeout(() => {
-                this.imdbIdsService.getImdbIdsByTitle(search, year).toPromise()
-                    .then((response) =>  {
-                        this.movies = response;
-                        this.setTotalPages(this.movies.length, this.moviesPerPage);
-                        this.setDisplayedMovies(this.movies, this.moviesPerPage)
-                        this.noSearchResults = this.movies.length > 0 ? false : true;
-                    })
-                    .catch((error) => {
-                        // Clear search results and show not found message on 404 and 500.
-                        if (error.status == 404 || error.status == 500) {
-                            this.noSearchResults = true;
-                            this.movies = null;
-                            this.displayedMovies = null;
-                            this.totalPages = null;
-                        }
-                    })
-                    .finally(() => this.toolBarService.isLoading = false);
-            }, 700);
-        }
-    }
-
+        
     /**
      * Sets the displayed movies shown in the current page. Used for client side paging.
      * @param movies 
