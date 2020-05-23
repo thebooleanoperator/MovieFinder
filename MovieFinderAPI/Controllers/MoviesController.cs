@@ -6,7 +6,6 @@ using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -133,11 +132,11 @@ namespace MovieFinder.Controllers
         /// Gets all of a users liked movies.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Favorites/{page?}/{count?}")]
+        [HttpGet("Favorites/{skip?}/{count?}")]
         [Authorize]
-        public async Task<IActionResult> GetFavorites([FromQuery] int? page = null, int? count = null)
+        public async Task<IActionResult> GetFavorites([FromQuery] int? skip = null, int? count = null)
         {
-            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, page, count);
+            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, skip, count);
 
             var favoriteMovies = _unitOfWork.Movies.GetMoviesFromFavorites(likedMovies).ToList();
 

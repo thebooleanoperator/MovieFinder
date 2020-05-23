@@ -1,20 +1,12 @@
 #movie-finder {
-    .recs-title {
-        font-size: 50px;
-        color: rgba(83, 47, 47, 0.87);
-        text-align: center;
-        margin-bottom: 50px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
+    display: flex;
+    justify-content: center;
     .recs-container {
         display: flex;
         flex-direction: row;
         justify-content: center;
-        .inline-movie-arrow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        align-items: center;
+        align-content: center;
     }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./favorites.component.scss']
 })
 
-export class FavoritesComponent implements OnInit, AfterViewInit {
+export class FavoritesComponent implements OnInit {
     constructor(
         private _moviesService: MoviesService, 
         private _toolBarService: ToolBarService, 
@@ -24,22 +24,33 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
     
     favoriteMovies: MovieDto[]; 
     favorites: FavortiesDto[];
-    page: number = 1;
-    count: number = 20;
+    skip: number = 20;
+    count: number = 10;
     nextExists: boolean;
     posterError: boolean = false;
+    routerSubscription: Subscription; 
 
     ngOnInit() {
-        this._route.data.subscribe((data) => {
-            this.favorites = data.favorites;
-            this.favoriteMovies = data.favoriteMovies;
-            // If the favorites returned from resolver are less than count, we know next does not exist.
-            this.nextExists = this.favoriteMovies.length < this.count ? false : true;
-        });
-    }
-
-    ngAfterViewInit() {
-         this.loadUntilScroll();
+        this.routerSubscription = this._route.data
+            .subscribe(
+                (data) => {
+                    this.favorites = data.favorites;
+                    this.favoriteMovies = data.favoriteMovies;
+                    // If the favorites returned from resolver are less than count, or favorites is null, we know next does not exist.
+                    if (this.favoriteMovies) {
+                        this.nextExists = this.favoriteMovies.length < this.count ? false : true;
+                    }
+                    else {
+                        this.nextExists = false;
+                    }
+                   
+                },
+                (error) => {
+                    if (error.status != 401) {
+                        alert("Failed to load favorites page.");
+                    }
+                }
+            );
     }
 
     /**
@@ -54,15 +65,15 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
      * Function used to get next page of movie favorites results from server.
      * Called by infite scroll component.
      */
-    getNextFavorites(page:number, count:number): Subscription {
+    getNextFavorites(skip:number, count:number): Subscription {
         if (this.nextExists) {
             this._toolBarService.isLoading = true;
-            return this._moviesService.getFavorites(page, count)
+            return this._moviesService.getFavorites(skip, count)
                 .subscribe (
                     (favoriteMoviesDtos) => {
                         if (favoriteMoviesDtos) {
                             this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos); 
-                            this.page += 1;
+                            this.skip += count;
                             this.nextExists = favoriteMoviesDtos.length < this.count ? false : true;
                         }
                     },
@@ -74,19 +85,6 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
                     () =>  this._toolBarService.isLoading = false
                 );
         }
-    }
-
-    /**
-     * Used to load movies until vertical scroll bar appears. Measures the width of the screen,
-     * when the inner width is not greater than client width, scroll bar deos not exist.
-     */
-    loadUntilScroll(): void {
-        setTimeout(() => {
-            if (this.shouldLoadNextPage()) {
-                this.getNextFavorites(this.page, this.count);
-                this.loadUntilScroll();
-            }
-        }, 500); 
     }
 
     /**

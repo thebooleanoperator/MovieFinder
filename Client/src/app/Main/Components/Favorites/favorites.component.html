@@ -1,12 +1,15 @@
 <div id="favorites">
-    <h1 class="title">Favorites</h1>
     <div 
+        *ngIf="favoriteMovies"
         class="posters"
         infiniteScroll
         [infiniteScrollDistance]="2"
         [infiniteScrollThrottle]="500"
-        (scrolled)="getNextFavorites(page, count)"> 
+        (scrolled)="getNextFavorites(skip, count)"> 
         <img *ngFor="let movie of favoriteMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
         (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
+    </div>
+    <div *ngIf="!favoriteMovies" class="empty-message">
+        <p>To add favorites, click the <mat-icon class="thumb">thumb_up</mat-icon> on any movie</p>
     </div>
 </div>

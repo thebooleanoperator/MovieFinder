@@ -15,16 +15,16 @@ namespace MovieFinder.Repository.Repo
             _context = context; 
         }
 
-        public IEnumerable<LikedMovies> GetAllByUserId(int userId, int? page, int? count)
+        public IEnumerable<LikedMovies> GetAllByUserId(int userId, int? skip, int? count)
         {
-            if (page == null || count == null)
+            if (skip == null || count == null)
             {
                 return DbSet.Where(lm => lm.UserId == userId);
             }
 
             var orderedLikedMovies = DbSet.OrderByDescending(lm => lm.DateCreated);
 
-            return orderedLikedMovies.Skip((int)page * (int)count).Take((int)count);
+            return orderedLikedMovies.Skip((int)skip).Take((int)count);
         }
     }
 }

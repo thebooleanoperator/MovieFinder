@@ -1,10 +1,10 @@
 <mat-toolbar-row id="toolbar">
     <mat-toolbar-row class="main-toolbar">
-        <div>
+        <div class="nav-container">
             <mat-button-toggle-group>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
                     (click)="goToDashboard()" [disabled]="navInProcess">
-                    Search
+                    Home
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
                     (click)="goToFavorites()" [disabled]="navInProcess">
@@ -12,11 +12,15 @@
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
                     (click)="goToRecommended()" [disabled]="navInProcess">
-                    Staff Pics
+                    Discover
                 </button>
             </mat-button-toggle-group>
         </div>
-        <div>
+        <div class="title-container">
+            <h1 class="page-title" *ngIf="isFavorites">Favorites</h1>
+            <h1 class="page-title" *ngIf="isStaffPicks">Staff Picks</h1>
+        </div>
+        <div class="settings-container">
             <mat-icon class="settings" (click)="openSettings()">settings</mat-icon>
         </div>
     </mat-toolbar-row>
