@@ -4,6 +4,8 @@
         <mat-form-field class="input-box">
             <mat-label>Search Movies...</mat-label>
             <input  
+            #imdbIdSearch
+            type="text"
             matInput 
             [(ngModel)]="search"  
             (keydown.backspace)="clearSearchResults()"

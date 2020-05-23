@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { Subscription } from 'rxjs';
 
 @Component({
     templateUrl: './favorites.component.html',
@@ -32,6 +33,7 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
         this._route.data.subscribe((data) => {
             this.favorites = data.favorites;
             this.favoriteMovies = data.favoriteMovies;
+            // If the favorites returned from resolver are less than count, we know next does not exist.
             this.nextExists = this.favoriteMovies.length < this.count ? false : true;
         });
     }
@@ -52,23 +54,25 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
      * Function used to get next page of movie favorites results from server.
      * Called by infite scroll component.
      */
-    getNextFavorites(page:number, count:number): Promise<void> {
+    getNextFavorites(page:number, count:number): Subscription {
         if (this.nextExists) {
             this._toolBarService.isLoading = true;
-            return this._moviesService.getFavorites(page, count).toPromise()
-                .then((favoriteMoviesDtos) => {
-                    if (favoriteMoviesDtos) {
-                        this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos); 
-                        this.page += 1;
-                        this.nextExists = favoriteMoviesDtos.length < this.count ? false : true;
-                    }
-                })
-                .catch((error) => {
-                    if (error.status != 401) {
-                        alert("Unable to load favorites.");
-                    }
-                })
-                .finally(() => this._toolBarService.isLoading = false);
+            return this._moviesService.getFavorites(page, count)
+                .subscribe (
+                    (favoriteMoviesDtos) => {
+                        if (favoriteMoviesDtos) {
+                            this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos); 
+                            this.page += 1;
+                            this.nextExists = favoriteMoviesDtos.length < this.count ? false : true;
+                        }
+                    },
+                    (error) => {
+                        if (error.status != 401) {
+                            alert("Unable to load favorites.");
+                        }
+                    },
+                    () =>  this._toolBarService.isLoading = false
+                );
         }
     }
 
@@ -79,8 +83,8 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
     loadUntilScroll(): void {
         setTimeout(() => {
             if (this.shouldLoadNextPage()) {
-                this.getNextFavorites(this.page, this.count)
-                    .finally(() => this.loadUntilScroll());
+                this.getNextFavorites(this.page, this.count);
+                this.loadUntilScroll();
             }
         }, 500); 
     }

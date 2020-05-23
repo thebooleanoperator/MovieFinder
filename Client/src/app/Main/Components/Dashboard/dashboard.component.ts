@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
@@ -16,7 +16,7 @@ import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operato
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
     constructor(
         private _route: ActivatedRoute,
         private _dialogWatcher: DialogWatcherService,
@@ -81,48 +81,51 @@ export class DashboardComponent implements OnInit {
         })
     }
 
+    @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
+
     /**
      * Uses SwitchMap to to send fromEvent search observable into imdbIds search.
      * Then subscribe and set appropraite variables.
      * ToDo: Look to improve this.
      */
-    $searchForImdbIds = 
-        fromEvent<any>(document, 'keyup') 
-            .pipe (
-                map((event) => event.target.value),
-                debounceTime(1000),
-                distinctUntilChanged(),
-                switchMap(userSearch => {
-                    var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
-                    // If null, a user has deleted all search chars, and we need to hide loading.
-                    if (!userSearch) {
-                        this.toolBarService.isLoading = false;
-                    }
-                    return imdbIdsObservable
-                })
-            )
-            .subscribe(
-                (data: MovieDto[]) => {
-                    this.noSearchResults = data ? false : true;
-                    this.movies = data;
-                    if (!this.noSearchResults) {
-                        this.setTotalPages(this.movies .length, this.moviesPerPage);
-                        this.setDisplayedMovies(this.movies , this.moviesPerPage)
-                    }
+    ngAfterViewInit() {
+        fromEvent<any>(this.imdbIdSearch.nativeElement, 'keyup') 
+        .pipe (
+            map((res) => res.target.value),
+            debounceTime(1000),
+            distinctUntilChanged(),
+            switchMap(userSearch => {
+                var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
+                // If null, a user has deleted all search chars, and we need to hide loading.
+                if (!userSearch) {
                     this.toolBarService.isLoading = false;
-                },
-                (error) => {
-                    // Handle unauthroized errors with http interceptor.
-                    if (error.status != 401) {
-                        this.noSearchResults = true;
-                        this.movies = null;
-                        this.displayedMovies = null;
-                        this.totalPages = null;
-                        this.toolBarService.isLoading  = false;
-                    }
                 }
-            );
-    
+                return imdbIdsObservable
+            })
+        )
+        .subscribe(
+            (data: MovieDto[]) => {
+                this.noSearchResults = data ? false : true;
+                this.movies = data;
+                if (!this.noSearchResults) {
+                    this.setTotalPages(this.movies .length, this.moviesPerPage);
+                    this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                }
+                this.toolBarService.isLoading = false;
+            },
+            (error) => {
+                // Handle unauthroized errors with http interceptor.
+                if (error.status != 401) {
+                    this.noSearchResults = true;
+                    this.movies = null;
+                    this.displayedMovies = null;
+                    this.totalPages = null;
+                    this.toolBarService.isLoading  = false;
+                }
+            }
+        );
+    }
+
     /**
      * Only used to search for imdbIds when a user clicks on magnifying glass OR
      * user selects year to filter search.
