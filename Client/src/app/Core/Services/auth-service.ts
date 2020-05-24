@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthDto } from '../../Data/auth.dto';
+import { AuthDto } from '../../Data/Interfaces/auth.dto';
 import { Router } from '@angular/router';
-import { UserDto } from '../../Data/user.dto';
+import { UserDto } from '../../Data/Interfaces/user.dto';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {   

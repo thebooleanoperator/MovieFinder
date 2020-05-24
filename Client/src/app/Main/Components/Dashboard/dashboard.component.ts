@@ -1,13 +1,13 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { MovieDto } from 'src/app/Data/movie.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
-import { ImdbIdDto } from 'src/app/Data/imdbId.dto';
+import { ImdbIdDto } from 'src/app/Data/Interfaces/imdbId.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { ActivatedRoute } from '@angular/router';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -73,15 +73,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * True if a catch block in a promise has been entered. 
      * Don't want to show multiple alerts to user for 1 request.
      */
-    errorFound: boolean = false;
-
-    ngOnInit() {
-        this._route.data.subscribe((data) => {
-            this.favorites = data.favorites;
-        })
-    }
+    error: string;
 
     @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
+
+    /**
+     * Subscribe to resolver and handle error if one occurs.
+     */
+    ngOnInit() {
+        this._route.data.subscribe(
+            (data) => {
+                var favoritesResolverError = data.resolvedFavorites.error;
+                if (!favoritesResolverError) {
+                    this.favorites = data.resolvedFavorites.favorites;
+                }
+                else {
+                    if (favoritesResolverError.status != 401) {
+                        this.error = favoritesResolverError;
+                    }
+                }
+            }
+        )
+    }
 
     /**
      * Uses SwitchMap to to send fromEvent search observable into imdbIds search.
@@ -89,41 +102,43 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * ToDo: Look to improve this.
      */
     ngAfterViewInit() {
-        fromEvent<any>(this.imdbIdSearch.nativeElement, 'keyup') 
-        .pipe (
-            map((res) => res.target.value),
-            debounceTime(1000),
-            distinctUntilChanged(),
-            switchMap(userSearch => {
-                var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
-                // If null, a user has deleted all search chars, and we need to hide loading.
-                if (!userSearch) {
+        if (!this.error) {
+            fromEvent<any>(this.imdbIdSearch.nativeElement, 'keyup') 
+            .pipe (
+                map((res) => res.target.value),
+                debounceTime(1000),
+                distinctUntilChanged(),
+                switchMap(userSearch => {
+                    var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
+                    // If null, a user has deleted all search chars, and we need to hide loading.
+                    if (!userSearch) {
+                        this.toolBarService.isLoading = false;
+                    }
+                    return imdbIdsObservable
+                })
+            )
+            .subscribe(
+                (data: MovieDto[]) => {
+                    this.noSearchResults = data ? false : true;
+                    this.movies = data;
+                    if (!this.noSearchResults) {
+                        this.setTotalPages(this.movies .length, this.moviesPerPage);
+                        this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                    }
                     this.toolBarService.isLoading = false;
+                },
+                (error) => {
+                    // Handle unauthroized errors with http interceptor.
+                    if (error.status != 401) {
+                        this.noSearchResults = true;
+                        this.movies = null;
+                        this.displayedMovies = null;
+                        this.totalPages = null;
+                        this.toolBarService.isLoading  = false;
+                    }
                 }
-                return imdbIdsObservable
-            })
-        )
-        .subscribe(
-            (data: MovieDto[]) => {
-                this.noSearchResults = data ? false : true;
-                this.movies = data;
-                if (!this.noSearchResults) {
-                    this.setTotalPages(this.movies .length, this.moviesPerPage);
-                    this.setDisplayedMovies(this.movies , this.moviesPerPage)
-                }
-                this.toolBarService.isLoading = false;
-            },
-            (error) => {
-                // Handle unauthroized errors with http interceptor.
-                if (error.status != 401) {
-                    this.noSearchResults = true;
-                    this.movies = null;
-                    this.displayedMovies = null;
-                    this.totalPages = null;
-                    this.toolBarService.isLoading  = false;
-                }
-            }
-        );
+            );
+        }
     }
 
     /**

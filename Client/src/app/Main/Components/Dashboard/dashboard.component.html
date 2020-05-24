@@ -1,4 +1,4 @@
-<div id="search" >
+<div id="search"*ngIf="!error" >
     <h2 class="search-title" color="primary">Movie Presto</h2>
     <div class="search-container">
         <mat-form-field class="input-box">
@@ -47,6 +47,10 @@
     <div *ngIf="noSearchResults" class="empty-search">
         No movies found from search
     </div>
+</div>
+<div *ngIf="error">
+    An error has occured, failed to load the page. Our team is aware and working on it.
+    <p>Error Message: {{error.message}}</p>
 </div>
 
 

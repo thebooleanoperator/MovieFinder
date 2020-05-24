@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
-import { MovieDto } from 'src/app/Data/movie.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { ActivatedRoute } from '@angular/router';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -24,33 +24,43 @@ export class FavoritesComponent implements OnInit {
     
     favoriteMovies: MovieDto[]; 
     favorites: FavortiesDto[];
-    skip: number = 20;
+    skip: number = 30;
     count: number = 10;
     nextExists: boolean;
     posterError: boolean = false;
     routerSubscription: Subscription; 
+    error: any[] = [];
 
     ngOnInit() {
         this.routerSubscription = this._route.data
             .subscribe(
                 (data) => {
-                    this.favorites = data.favorites;
-                    this.favoriteMovies = data.favoriteMovies;
-                    // If the favorites returned from resolver are less than count, or favorites is null, we know next does not exist.
-                    if (this.favoriteMovies) {
-                        this.nextExists = this.favoriteMovies.length < this.count ? false : true;
+                    var favoritesResolverError = data.resolvedFavorites.error;
+                    var favoriteMoviesResolverError = data.resolvedFavoriteMovies.error;
+                    if (!favoritesResolverError && ! favoriteMoviesResolverError) {
+                        this.favorites = data.resolvedFavorites.favorites;
+                        this.favoriteMovies = data.resolvedFavoriteMovies.favoriteMovies;
+                        // If the favorites returned from resolver are less than count, or favorites is null, we know next does not exist.
+                        if (this.favoriteMovies) {
+                            this.nextExists = this.favoriteMovies.length < this.count ? false : true;
+                        }
+                        else {
+                            this.nextExists = false;
+                        }
                     }
                     else {
-                        this.nextExists = false;
+                        this.error.push(favoritesResolverError);
+                        this.error.push(favoriteMoviesResolverError);
                     }
-                   
                 },
-                (error) => {
-                    if (error.status != 401) {
-                        alert("Failed to load favorites page.");
-                    }
-                }
             );
+    }
+
+    isError(error: any[]) {
+        if (!error) {
+            return false;
+        }
+        return error.length > 0 ? true : false;
     }
 
     /**

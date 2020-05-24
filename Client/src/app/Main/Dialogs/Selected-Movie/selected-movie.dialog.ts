@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MovieDto } from 'src/app/Data/movie.dto';
-import { MovieDialogDto } from 'src/app/Data/movieDialog.dto';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
+import { MovieDialogDto } from 'src/app/Data/Interfaces/movieDialog.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 
 @Component ({

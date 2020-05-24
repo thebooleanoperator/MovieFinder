@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { MovieDto } from 'src/app/Data/movie.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { ActivatedRoute } from '@angular/router';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 
 @Component ({
     templateUrl: './recommendations.component.html',
@@ -16,19 +16,37 @@ export class RecommendationsComponent implements OnInit  {
     favoriteMovies: FavortiesDto[];
     isFavorite: boolean; 
     movieIndex: number;
+    error: any[] = [];
 
     //Methods    
     ngOnInit () {
         this._route.data
-            .subscribe((data) => {
-                this.movies = data.movies;
-                this.favoriteMovies = data.favoriteMovies;
-                // Randomly go through the list of movies.
-                // ToDo: randomize on server.
-                this.movieIndex = Math.floor(Math.random() * this.movies.length);
-                this.selectedMovie = this.movies[this.movieIndex];
-                this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
-            });
+            .subscribe(
+                (data) => {
+                    var favoriteMoviesResolverError = data.resolvedFavoriteMovies.error;
+                    var moviesResolverError = data.resolvedMovies.error;
+                    if (!favoriteMoviesResolverError && ! moviesResolverError) {
+                        this.movies = data.resolvedMovies.movies;
+                        this.favoriteMovies = data.resolvedFavoriteMovies.favoriteMovies;
+                        // Randomly go through the list of movies.
+                        // ToDo: randomize on server.
+                        this.movieIndex = Math.floor(Math.random() * this.movies.length);
+                        this.selectedMovie = this.movies[this.movieIndex];
+                        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
+                    }
+                    else {
+                        this.error.push(favoriteMoviesResolverError);
+                        this.error.push(moviesResolverError);
+                    }
+                }
+            );
+    }
+
+    isError(error: any[]) {
+        if (!error) {
+            return false;
+        }
+        return error.length > 0 ? true : false;
     }
 
     /**

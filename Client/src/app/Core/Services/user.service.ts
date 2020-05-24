@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { UserDto } from '../../Data/user.dto'; 
+import { UserDto } from '../../Data/Interfaces/user.dto'; 
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})

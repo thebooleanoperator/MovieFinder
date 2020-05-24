@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, throwError } from 'rxjs';
-import { ImdbIdDto } from '../../Data/imdbId.dto';
-import { MovieDto } from 'src/app/Data/movie.dto';
+import { ImdbIdDto } from '../../Data/Interfaces/imdbId.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { map, concatMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs'
 

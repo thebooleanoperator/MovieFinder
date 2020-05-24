@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MovieDto } from 'src/app/Data/movie.dto';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 

@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { FavortiesDto } from 'src/app/Data/favorites.dto';
+import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { Injectable } from '@angular/core';
 
 @Injectable({providedIn: 'root'})
