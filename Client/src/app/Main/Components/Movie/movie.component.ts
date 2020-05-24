@@ -30,31 +30,41 @@ export class MovieComponent {
     addToFavorites(movie: MovieDto): void {
         var favorite: FavortiesDto = new FavortiesDto(movie, this._authService.user);
         this._toolBarService.isLoading = true;
-        this._favoritesService.saveFavorite(favorite).toPromise()
-            .then((favoritesDto: FavortiesDto) => {
-                this.favorites
-                    ? this.favorites.push(favoritesDto)
-                    : this.favorites = [favoritesDto];
-                // Emit to parent that favoriteMovies has been changed.
-                this.favoriteAdded.emit(this.favorites); 
-            })
-            .catch(() => alert("Failed to add movie to favorites."))
-            .finally(() => this._toolBarService.isLoading = false)
+        this._favoritesService.saveFavorite(favorite)
+            .subscribe(
+                (data) => {
+                    this.favorites ? this.favorites.push(data) : this.favorites = [data];
+                    // Emit to parent that favoriteMovies has been changed.
+                    this.favoriteAdded.emit(this.favorites); 
+                },
+                (error) => {
+                    if (error.status != 401) {
+                        alert("Failed to add movie to favorites.");
+                    }
+                },
+                () => this._toolBarService.isLoading = false
+            )
     }
 
     removeFromFavorites(movie: MovieDto) {
         var favoriteToDelete = this.getFavoriteByMovieId(movie.movieId);
         this._toolBarService.isLoading = true;
-        this._favoritesService.deleteFavorite(favoriteToDelete.likedId).toPromise()
-            .then(() => {
-                this.favorites = this.favorites.filter((favorite) => {
-                    return favorite.movieId != favoriteToDelete.movieId;
-                });
-                // Emit to parent that favoriteMovies has been changed.
-                this.favoriteAdded.emit(this.favorites); 
-            })
-            .catch(() => alert("Could not remove from favorites."))
-            .finally(() => this._toolBarService.isLoading = false);
+        this._favoritesService.deleteFavorite(favoriteToDelete.likedId)
+            .subscribe(
+                () => {
+                    this.favorites = this.favorites.filter((favorite) => {
+                        return favorite.movieId != favoriteToDelete.movieId;
+                    });
+                    // Emit to parent that favoriteMovies has been changed.
+                    this.favoriteAdded.emit(this.favorites); 
+                },
+                (error) => {
+                    if (error.status != 401) {
+                        alert("Could not remove from favorites.");
+                    }
+                },
+                () => this._toolBarService.isLoading = false
+            );
     }
 
     getFavoriteByMovieId(movieId: number): FavortiesDto {

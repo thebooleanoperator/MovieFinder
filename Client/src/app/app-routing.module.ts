@@ -13,7 +13,7 @@ const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},
     {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {resolvedFavorites: FavoritesResolver}},
     {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService], resolve: {resolvedFavoriteMovies: FavoriteMoviesResolver, resolvedFavorites: FavoritesResolver}},
-    {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { resolvedMovies: MoviesResolver, resolvedFavoriteMovies: FavoritesResolver}},
+    {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { resolvedMovies: MoviesResolver, resolvedFavorites: FavoritesResolver}},
 
     {path: '**', redirectTo:'dashboard'}
 ];

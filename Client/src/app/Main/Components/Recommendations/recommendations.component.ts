@@ -13,7 +13,7 @@ export class RecommendationsComponent implements OnInit  {
     //Data 
     selectedMovie: MovieDto;
     movies: MovieDto[];
-    favoriteMovies: FavortiesDto[];
+    favorites: FavortiesDto[];
     isFavorite: boolean; 
     movieIndex: number;
     error: any[] = [];
@@ -23,25 +23,29 @@ export class RecommendationsComponent implements OnInit  {
         this._route.data
             .subscribe(
                 (data) => {
-                    var favoriteMoviesResolverError = data.resolvedFavoriteMovies.error;
+                    var favoritesResolverError = data.resolvedFavorites.error;
                     var moviesResolverError = data.resolvedMovies.error;
-                    if (!favoriteMoviesResolverError && ! moviesResolverError) {
+                    if (!favoritesResolverError && ! moviesResolverError) {
                         this.movies = data.resolvedMovies.movies;
-                        this.favoriteMovies = data.resolvedFavoriteMovies.favoriteMovies;
+                        this.favorites = data.resolvedFavorites.favorites;
                         // Randomly go through the list of movies.
                         // ToDo: randomize on server.
                         this.movieIndex = Math.floor(Math.random() * this.movies.length);
                         this.selectedMovie = this.movies[this.movieIndex];
-                        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
+                        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
                     }
                     else {
-                        this.error.push(favoriteMoviesResolverError);
+                        this.error.push(favoritesResolverError);
                         this.error.push(moviesResolverError);
                     }
                 }
             );
     }
 
+    /**
+     * Toggles error message in template if errors took place while resolving data.
+     * @param error 
+     */
     isError(error: any[]) {
         if (!error) {
             return false;
@@ -54,8 +58,8 @@ export class RecommendationsComponent implements OnInit  {
      * @param favorites 
      */
     onFavoriteAdded(favorites: FavortiesDto[]) {
-        this.favoriteMovies = favorites;
-        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
+        this.favorites = favorites;
+        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
     }
 
     /**
@@ -79,7 +83,7 @@ export class RecommendationsComponent implements OnInit  {
             this.movieIndex += index
         }
         this.selectedMovie = this.movies[this.movieIndex];
-        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favoriteMovies);
+        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
     }
 
     /**
