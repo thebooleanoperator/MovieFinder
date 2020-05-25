@@ -4,16 +4,10 @@
     justify-content: flex-start;
     align-items: center;
 
-    .search-title {
-        font-size: 50px;
-        color: rgba(83, 47, 47, 0.87);
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        margin-top: 50px;
-    }
-
     .search-container {
         display: flex;
         flex-direction: row;
+        margin-top: 50px;
 
         .input-box {
             display: flex;
