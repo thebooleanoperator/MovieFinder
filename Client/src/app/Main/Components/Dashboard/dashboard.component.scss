@@ -176,18 +176,31 @@
     z-index: 100;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1000px) {
     #search {
-        .search-title {
-            margin: 10px;
-            font-size: 35px;
-        }
         .search-container {           
             .input-box {               
                 ::ng-deep .mat-form-field-wrapper  {
-                    height: 30px;
+                    width: 400px;
+                }
+            }
+        }
+        .search-results {
+            table {
+                width: 450px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #search {
+        .search-container {           
+            .input-box {               
+                ::ng-deep .mat-form-field-wrapper  {
                     width: 275px;
-    
+                    height: 30px;
+
                     ::ng-deep .mat-form-field-infix {
 
                         ::ng-deep .mat-input-element {
@@ -254,7 +267,7 @@
             table {
                 width: 300px;
                 .mat-row {
-                    height: 60px;
+                    height: 50px;
                     .mat-cell {
                         font-size: 16px;
                     }
@@ -263,4 +276,6 @@
         }
     }
 }
+
+
 
