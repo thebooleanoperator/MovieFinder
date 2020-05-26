@@ -114,6 +114,7 @@
                 justify-content: flex-start; 
                 align-items: center; 
                 padding: 0px 5px;
+                margin-top: 20px;
                 img {
                     margin: 5px;
                 }
@@ -122,27 +123,21 @@
     }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1000px) {
     ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
         display: flex;
         justify-content: center;
-        width: 350px !important;
-        max-width: unset !important;
+        width: 500px !important;
         
         ::ng-deep .mat-dialog-container {
-            width: 350px;
+            width: 500px !important;
         }
     }
-
     #movies {
         .movie-card {
             display: flex;
             justify-content: center;
-            width: 350px;   
-
-            .movie-poster {
-                display: none;
-            }
+            width: 500px;   
 
             .info-container {
                 width: 100% !important;
@@ -166,6 +161,31 @@
                 .plot {
                     font-size: 13px;
                 }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
+        display: flex;
+        justify-content: center;
+        width: 350px !important;
+        
+        ::ng-deep .mat-dialog-container {
+            width: 350px !important;
+        }
+    }
+
+    #movies {
+        .movie-card {
+            display: flex;
+            justify-content: center;
+            width: 350px;   
+
+            .movie-poster {
+                display: none;
             }
         }
     }
