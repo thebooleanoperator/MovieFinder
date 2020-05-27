@@ -7,7 +7,7 @@
             type="text"
             matInput 
             [(ngModel)]="search"  
-            (keydown.backspace)="clearSearchResults()"
+            (keydown)="clearSearchResults()"
             [disabled]="gettingMovie"
             autocomplete="off">
             <mat-icon class="search-icon" (click)="searchMovies(search, year)">search</mat-icon>

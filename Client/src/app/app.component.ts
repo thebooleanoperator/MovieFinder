@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart, NavigationError, NavigationCancel } from '@angular/router';
 import { AuthService } from './Core/Services/auth-service';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { ToolBarService } from './Core/Services/tool-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +10,11 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-    constructor(private authService: AuthService, private router: Router)
-    {
-        // Returns a NavigationEnd observable, so we can check the url on route change end.
-        this.navEnd = router.events.pipe(
-            filter(event => event instanceof NavigationEnd)
-        ) as Observable<NavigationEnd>
-    }
+    constructor(private authService: AuthService, private _router: Router, private _toolBarService: ToolBarService){}
 
     //Data
     navEnd: Observable<NavigationEnd>;
+    navStart: Observable<NavigationStart>;
     
     //Methods
     isLoggedOn(): boolean {
@@ -27,12 +22,19 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     
     ngOnInit() {
-        // Log the user out, and remove session when a user navigates to outside pages.
-        this.navEnd.subscribe((event) => {
-            if (event.url == "/welcome") {
-                this.authService.logout(false);
+        this._router.events.subscribe(
+            (event) => {
+                if (event instanceof NavigationStart) {
+                    this._toolBarService.isLoading = true;
+                }
+                if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+                    if (event.url == "/welcome") {
+                        this.authService.logout(false);
+                    }
+                    this._toolBarService.isLoading = false;
+                }
             }
-        })
+        )
     }
 
     ngOnDestroy() {
