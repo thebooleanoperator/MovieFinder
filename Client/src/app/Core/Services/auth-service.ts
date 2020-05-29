@@ -52,7 +52,7 @@ export class AuthService {
     }
 
     logout(reRoute=true) {
-        sessionStorage.clear();
+        localStorage.clear();
         reRoute ? this.router.navigate(['/welcome']): null;
     }
 
@@ -71,18 +71,18 @@ export class AuthService {
     }
 
     get token(): string {
-        return sessionStorage.getItem('token')
+        return localStorage.getItem('token')
     }
 
     set token(token : string) {
-        sessionStorage.setItem('token', token);
+        localStorage.setItem('token', token);
     } 
 
     get user(): UserDto {
-        return JSON.parse(sessionStorage.getItem('user'));
+        return JSON.parse(localStorage.getItem('user'));
     }
 
     set user(user: UserDto) {
-        sessionStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('user', JSON.stringify(user))
     }
 }

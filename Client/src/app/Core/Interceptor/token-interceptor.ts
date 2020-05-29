@@ -13,24 +13,14 @@ export class TokenInterceptor implements HttpInterceptor {
 
     private _refreshSubject: Subject<any> = new Subject<any>();
 
-    updateHeader(request) {
-        request = request.clone({
-            withCredentials: true, // Needed to allow access to send cookies.
-            setHeaders: {
-                Authorization: `Bearer ${this.authService.token}`
+    private tokenExpired(): Subject<any> {
+        this._refreshSubject.subscribe({
+            complete: () => {
+                this._refreshSubject = new Subject<any>();
             }
         });
-        return request;
-    }
-
-    private tokenExpired() {
-        this._refreshSubject.subscribe({
-          complete: () => {
-            this._refreshSubject = new Subject<any>();
-          }
-        });
         if (this._refreshSubject.observers.length === 1) {
-          this.authService.refreshToken().subscribe(this._refreshSubject);
+            this.authService.refreshToken().subscribe(this._refreshSubject);
         }
         return this._refreshSubject;
       }
@@ -57,5 +47,15 @@ export class TokenInterceptor implements HttpInterceptor {
                 })
             )
         }
+    }
+
+    updateHeader(request) {
+        request = request.clone({
+            withCredentials: true, // Needed to allow access to send cookies.
+            setHeaders: {
+                Authorization: `Bearer ${this.authService.token}`
+            }
+        });
+        return request;
     }
 }
