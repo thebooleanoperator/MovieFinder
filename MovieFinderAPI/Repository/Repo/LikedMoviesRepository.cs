@@ -17,12 +17,13 @@ namespace MovieFinder.Repository.Repo
 
         public IEnumerable<LikedMovies> GetAllByUserId(int userId, int? skip, int? count)
         {
+            var usersLikedMovies = DbSet.Where(lm => lm.UserId == userId); 
             if (skip == null || count == null)
             {
-                return DbSet.Where(lm => lm.UserId == userId);
+                return usersLikedMovies;
             }
 
-            var orderedLikedMovies = DbSet.OrderByDescending(lm => lm.DateCreated);
+            var orderedLikedMovies = usersLikedMovies.OrderByDescending(lm => lm.DateCreated);
 
             return orderedLikedMovies.Skip((int)skip).Take((int)count);
         }
