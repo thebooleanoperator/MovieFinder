@@ -1,118 +1,116 @@
 #toolbar {
-    .main-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: rgba(192, 52, 76, 0.856);
-    
-        .nav-container {
-            padding-left: 15px;
-            .tool-button {
-                height: 55px;
-                width: 90px;
-                margin: 10px 2px;
-                padding: 0px;
-                background-color: rgba(189, 115, 115, 0.87);
-                color: white;
-            }
-        
-            
-            .tool-button:hover {
-                cursor: pointer;
-                background-color: rgba(83, 47, 47, 0.87);
-            }
-        
-            .selected-tool-button {
-                height: 55px;
-                width: 90px;
-                margin: 10px 2px;
-                padding: 0px;
-                background-color: rgba(83, 47, 47, 0.87);
-                color: white;
-            }
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(192, 52, 76, 0.856);
+    position: fixed;
+    width: 100%;
+    top: 0px;
 
-        .title-container {
-            margin-right: 12%;            
-            .page-title {
-                color: white;
-                font-size: 40px;
-                margin: 8px 0px;
-                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            }
+    .nav-container {
+        padding-left: 15px;
+        .tool-button {
+            height: 55px;
+            width: 90px;
+            margin: 10px 2px;
+            padding: 0px;
+            background-color: rgba(189, 115, 115, 0.87);
+            color: white;
         }
+    
         
-        .settings-container {
-            padding-right: 15px;
-            .settings {
-                color: rgba(243, 184, 184, 0.87);
-                margin: 10px;
-                font-size: 35px;
-                cursor: pointer;
-            }
+        .tool-button:hover {
+            cursor: pointer;
+            background-color: rgba(83, 47, 47, 0.87);
         }
-        
-        .settings:hover {
-            color: rgba(83, 47, 47, 0.87) !important;
+    
+        .selected-tool-button {
+            height: 55px;
+            width: 90px;
+            margin: 10px 2px;
+            padding: 0px;
+            background-color: rgba(83, 47, 47, 0.87);
+            color: white;
         }
     }
+
+    .title-container {
+        margin-right: 12%;            
+        .page-title {
+            color: white;
+            font-size: 40px;
+            margin: 8px 0px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    }
+    
+    .settings-container {
+        padding-right: 15px;
+        .settings {
+            color: rgba(243, 184, 184, 0.87);
+            margin: 10px;
+            font-size: 35px;
+            cursor: pointer;
+        }
+    }
+    
+    .settings:hover {
+        color: rgba(83, 47, 47, 0.87) !important;
+    }
 }
+
 @media screen and (max-width: 1000px) {
     #toolbar {
-        .main-toolbar {
-            .nav-container {
-                padding-left: 5px;
-                .tool-button {
-                    width: 75px;
-                    height: 45px;
-                    margin: 10px 2px;
-                }
+        .nav-container {
+            padding-left: 5px;
+            .tool-button {
+                width: 75px;
+                height: 45px;
+                margin: 10px 2px;
+            }
 
-                .selected-tool-button {
-                    width: 75px;
-                    height: 45px;
-                    margin: 10px 2px;
-                }
-                    
+            .selected-tool-button {
+                width: 75px;
+                height: 45px;
+                margin: 10px 2px;
             }
-            .title-container {
-                .page-title {
-                    font-size: 35px;
-                }
+                
+        }
+        .title-container {
+            .page-title {
+                font-size: 35px;
             }
-            .settings-container {
-                padding-right: 5px;
-            }
+        }
+        .settings-container {
+            padding-right: 5px;
         }
     }
 }
 
 @media screen and (max-width: 600px) {
     #toolbar {
-        .main-toolbar {
-            padding-left: 0px;
-            .nav-container {
-                .tool-button {
-                    width: 50px;
-                    height: 35px;
-                }
+        padding-left: 0px;
+        .nav-container {
+            .tool-button {
+                width: 50px;
+                height: 35px;
+            }
 
-                .selected-tool-button {
-                    width: 50px;
-                    height: 35px;
-                }
-                    
+            .selected-tool-button {
+                width: 50px;
+                height: 35px;
             }
-            .title-container {
-                margin-right: 0%;
-                .page-title {
-                    font-size: 20px;
-                }
+                
+        }
+        .title-container {
+            margin-right: 0%;
+            .page-title {
+                font-size: 20px;
             }
-            .settings-container {
-                .settings {
-                    font-size: 25px;
-                }
+        }
+        .settings-container {
+            .settings {
+                font-size: 25px;
             }
         }
     }
