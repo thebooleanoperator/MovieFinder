@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../Core/Services/auth-service';
 import { FormControl, Validators } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { Router } from '@angular/router';
+import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
 
 @Component({
     selector: 'login',
@@ -10,7 +12,7 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 })
 
 export class LoginComponent {
-    constructor(private authService: AuthService, private _toolBarService: ToolBarService){}
+    constructor(private authService: AuthService, private _toolBarService: ToolBarService, private _router: Router){}
     //Data
     email: FormControl = new FormControl('', [Validators.required, Validators.email]); 
     password: FormControl = new FormControl('', [Validators.required]); 
@@ -20,10 +22,19 @@ export class LoginComponent {
     verifyUserAndLogin(email, password) {
         this._toolBarService.isLoading = true;
         this.authService.login(email, password)
-            .catch((error) => {
-                alert(error.error);
-            })
-            .finally(() => this._toolBarService.isLoading = false);
+            .subscribe(
+                (authDto: AuthDto) => {
+                    this.authService.token = authDto.token;
+                    this.authService.user = authDto.userDto;
+                    this.authService.setRefreshToken(authDto.refreshToken);
+                    this._router.navigate(['/dashboard']);
+                },
+                (error) => {
+                    alert(error.error);
+                    this._toolBarService.isLoading = false;
+                },
+                () => this._toolBarService.isLoading = false
+            )
     }
     
     getEmailErrorMessage() {

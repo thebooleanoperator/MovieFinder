@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { FormControl, Validators } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -9,7 +11,7 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-    constructor(private authService: AuthService, private _toolBarService: ToolBarService){}
+    constructor(private _authService: AuthService, private _toolBarService: ToolBarService, private _router: Router){}
     //Data
     firstName: FormControl = new FormControl('', [Validators.required]);
     lastName: FormControl = new FormControl('', [Validators.required]);
@@ -20,11 +22,14 @@ export class RegisterComponent {
     //Methods
     registerUser(firstName, lastName, email, password) {
         this._toolBarService.isLoading = true;
-        this.authService.register(firstName, lastName, email, password)
-            .catch((error) => {
-                alert(error.error);
-            })
-            .finally(() => this._toolBarService.isLoading = false);
+        this._authService.register(firstName, lastName, email, password)
+            .subscribe(
+                (authDto: AuthDto) => {
+                    this._authService.token = authDto.token;
+                    this._authService.user = authDto.userDto;
+                    this._router.navigate(['/dashboard']); 
+                }
+            );
     }
 
     getEmailErrorMessage() {

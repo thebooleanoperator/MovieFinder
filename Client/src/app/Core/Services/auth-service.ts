@@ -4,6 +4,7 @@ import { AuthDto } from '../../Data/Interfaces/auth.dto';
 import { Router } from '@angular/router';
 import { UserDto } from '../../Data/Interfaces/user.dto';
 import { map } from 'rxjs/internal/operators/map';
+import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {   
@@ -13,31 +14,15 @@ export class AuthService {
     failedRequestCache: Array<HttpRequest<any>>; 
 
     // Methods
-    register(firstName: string, lastName: string, email: string, password: string): Promise<void> {
-        return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password}).toPromise()
-            .then(
-                (response : AuthDto) => {
-                    this.token = response.token;
-                    this.user = response.userDto;
-                    this.router.navigate(['/dashboard']); 
-                }
-            )
+    register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+        return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password});
     }
 
-    login(email: string, password: string): Promise<void> {
-        return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password}).toPromise()
-            .then(
-                (response : AuthDto) => {
-                    this.token = response.token;
-                    this.user = response.userDto;
-                    this.setRefreshToken(response.refreshToken);
-                    this.router.navigate(['/dashboard']); 
-                }
-            )
+    login(email: string, password: string): Observable<any> {
+        return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password});
     }
 
-    
-    refreshToken() {
+    refreshToken(): Observable<any> {
         var jwtToken = this.token; 
         return this.http.post('http://localhost:5001/Accounts/RefreshToken', {'Token': jwtToken})
             .pipe(
@@ -66,7 +51,7 @@ export class AuthService {
         return true;
     }
 
-    private setRefreshToken(token: string) {
+    setRefreshToken(token: string) {
         document.cookie = `refreshToken=${token}; path=/;`;
     }
 
