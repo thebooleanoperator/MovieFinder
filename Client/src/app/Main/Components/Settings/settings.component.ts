@@ -15,5 +15,4 @@ export class SettingsComponent {
         this._bottomSheetRef.dismiss();
         event.preventDefault();
     }
-    
 }

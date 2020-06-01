@@ -36,7 +36,11 @@ namespace MovieFinder.Repository
         {
             var likedMovieIds = likedMovies.Select(lm => lm.MovieId).ToList();
 
-            return DbSet.Where(m => likedMovieIds.Contains(m.MovieId));
+            var movies = DbSet.Where(m => likedMovieIds.Contains(m.MovieId));
+
+            var orderedMovies = movies.OrderBy(m => likedMovieIds.IndexOf(m.MovieId));
+
+            return orderedMovies;
         }
     }
 }

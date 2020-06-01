@@ -283,7 +283,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private openDialog(movie, favoriteMovies) {
         var isFavorite = this.getIsFavorite(movie, favoriteMovies);
         this.dialog.open(SelectedMovieDialog, {
-            width: '450px',
             data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
         });
 

@@ -1,7 +1,7 @@
 import { HttpInterceptor, HttpEvent, HttpErrorResponse } from "@angular/common/http";
 import { AuthService } from '../Services/auth-service';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { switchMap, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core';
@@ -34,7 +34,7 @@ export class TokenInterceptor implements HttpInterceptor {
         }
         else {
             return next.handle(request).pipe(
-                catchError((error, caught) => {
+                catchError((error) => {
                     if (error instanceof HttpErrorResponse) {
                         if (error.status == 401) {
                             return this.tokenExpired().pipe(
@@ -44,7 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
                               );
                         }
                     }
-                    return caught;
+                    return throwError(error);
                 })
             )
         }

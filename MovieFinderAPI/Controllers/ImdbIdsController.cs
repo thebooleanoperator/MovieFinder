@@ -23,7 +23,7 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Gets a list of ImdbIds by title.
+        /// Gets a list of ImdbIds by title by search and year.
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
@@ -36,6 +36,8 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
+            title = title.Trim();
+
             var existingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year).ToList();
             var closelyMatchingImdbIds = _unitOfWork.ImdbIds.GetByTitle(title, year, false);
             var closelyMatchRapidDtos = RapidImdbDto.ConvertFromImdbIds(closelyMatchingImdbIds); 
@@ -45,7 +47,7 @@ namespace MovieFinder.Controllers
             {
                 return Ok(closelyMatchRapidDtos.OrderByDescending(i => i.Year));
             }
-
+            // Inital api request to get imdbIds.
             var rapidDtos = await _imdbIdsService.GetImdbIdsByTitle(title, year);
 
             // If there were no imdbIds found on inital search, search none rate limited imdb api for movies.
@@ -53,36 +55,25 @@ namespace MovieFinder.Controllers
             if (rapidDtos == null || rapidDtos.Count() ==0)
             {
                 rapidDtos = new List<RapidImdbDto>();
-                // Use movieService to call backup API. This will return only the ImdbId and Title, no Years. 
+                // 2nd api request to get ImdbIds using backup API. This will return only the ImdbId and Title, no Years. 
                 var partialRapidDtos = await _imdbIdsService.GetOnlyIdByTitle(title);
                 foreach (var partialRapidDto in partialRapidDtos)
                 {
                     var exisitngImdbId = _unitOfWork.ImdbIds.Get(partialRapidDto.ImdbId); 
-                    if (exisitngImdbId != null)
+                    if (exisitngImdbId != null && (year == null || exisitngImdbId.Year == year))
                     {
-                        var rapidDtoFromExistingImdbId = new RapidImdbDto(exisitngImdbId); 
+                        var rapidDtoFromExistingImdbId = new RapidImdbDto(exisitngImdbId);
 
-                        if (rapidDtoFromExistingImdbId.Year == year)
-                        {
-                            rapidDtos.Add(rapidDtoFromExistingImdbId);
-                        }
+                        rapidDtos.Add(rapidDtoFromExistingImdbId);
                     }
-                    else
+                    if (exisitngImdbId == null)
                     {
-                        // In order to get the Year, we need to use the rate limited imdb api.
+                        // 3rd api request using primary API to get the complete ImdbId, a use the rate limited imdb api.
                         var rapidDto = await _imdbIdsService.GetImdbIdById(partialRapidDto.Id);
                         // imdbId will be null when parsing fails or the API requests limit is reached.
-                        if (rapidDto == null)
+                        if (rapidDto != null && (year == null || rapidDto.Year == year))
                         {
-                            partialRapidDto.ImdbId = partialRapidDto.Id;
-                            rapidDtos.Add(partialRapidDto);
-                        }
-                        else
-                        {
-                            if (rapidDto.Year == year)
-                            {
-                                rapidDtos.Add(rapidDto);
-                            }
+                            rapidDtos.Add(rapidDto);
                         }
                     }
                 }
@@ -102,9 +93,9 @@ namespace MovieFinder.Controllers
             foreach (var rapidDto in rapidDtos)
             {
                 var exisitingId = _unitOfWork.ImdbIds.Get(rapidDto.ImdbId);
-                if (exisitingId == null && string.IsNullOrEmpty(rapidDto.Id))
+                if (exisitingId == null)
                 {
-                    // Add and save everytime to avoid adding duplicate pk into db.
+                    // Add and save everytime to avoid adding duplicate pk into db when rapidDtos contains duplicates.
                     var imdbId = new ImdbIds(rapidDto); 
                     _unitOfWork.ImdbIds.Add(imdbId);
                     _unitOfWork.SaveChanges();

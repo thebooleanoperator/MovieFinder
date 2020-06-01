@@ -7,7 +7,7 @@
     .search-container {
         display: flex;
         flex-direction: row;
-        margin-top: 150px;
+        margin-top: 90px;
 
         .input-box {
             display: flex;
@@ -15,7 +15,7 @@
             
             ::ng-deep .mat-form-field-wrapper  {
                 height: 40px;
-                width: 550px;
+                width: 650px;
                 background-color: rgba(252, 214, 132, 0.87);
                 border: 2px solid black;
 
@@ -178,7 +178,8 @@
 
 @media screen and (max-width: 1000px) {
     #search {
-        .search-container {           
+        .search-container { 
+            margin-top: 81px;          
             .input-box {               
                 ::ng-deep .mat-form-field-wrapper  {
                     width: 400px;
@@ -195,7 +196,8 @@
 
 @media screen and (max-width: 600px) {
     #search {
-        .search-container {           
+        .search-container {   
+            margin-top: 81px;          
             .input-box {               
                 ::ng-deep .mat-form-field-wrapper  {
                     width: 275px;

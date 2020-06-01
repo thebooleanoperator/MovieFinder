@@ -84,6 +84,34 @@ namespace MovieFinder.Services
 
             return AuthenticationResult(user); 
         }
+        
+        public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(updatePasswordDto.Email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (String.IsNullOrEmpty(updatePasswordDto.NewPassword))
+            {
+                return false;
+            }
+
+            var newPassword = _userManager.PasswordHasher.HashPassword(user, updatePasswordDto.NewPassword);
+
+            user.PasswordHash = newPassword;
+
+            var passwordUpdated = await _userManager.UpdateAsync(user);
+
+            if (!passwordUpdated.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         public async Task<AuthenticationDto> RefreshTokenAsync(string jwtToken, string refreshToken)
         {
@@ -129,7 +157,6 @@ namespace MovieFinder.Services
             var user = await _userManager.FindByIdAsync(validatedToken.FindFirst(claim => claim.Type == "Id").Value);
             return AuthenticationResult(user);
         }
-
 
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {

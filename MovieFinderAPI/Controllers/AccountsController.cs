@@ -63,19 +63,52 @@ namespace MovieFinder.Controllers
             return Ok(authenticationResponse);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="refreshRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
         {
             var refreshToken = _cookies["refreshToken"];
-            var authenticationResponse = await _identityService.RefreshTokenAsync(refreshRequest.Token, refreshToken);
+            var authenticationDto = await _identityService.RefreshTokenAsync(refreshRequest.Token, refreshToken);
 
-            if (!String.IsNullOrEmpty(authenticationResponse.Error))
+            if (!String.IsNullOrEmpty(authenticationDto.Error))
             {
-                return BadRequest(authenticationResponse.Error);
+                return BadRequest(authenticationDto.Error);
             }
 
-            return Ok(authenticationResponse);
+            return Ok(authenticationDto);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatePasswordDto"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto updatePasswordDto)
+        {
+            var isUpdated = await _identityService.UpdatePassword(updatePasswordDto);
+
+            if (!isUpdated)
+            {
+                return BadRequest("Failed to update password");
+            }
+
+            var refreshToken = _cookies["refreshToken"];
+
+            var authenticationDto = await _identityService.RefreshTokenAsync(updatePasswordDto.Token, refreshToken);
+
+            if (!String.IsNullOrEmpty(authenticationDto.Error))
+            {
+                return BadRequest(authenticationDto.Error);
+            }
+
+            return Ok(authenticationDto);
         }
     }
 }
