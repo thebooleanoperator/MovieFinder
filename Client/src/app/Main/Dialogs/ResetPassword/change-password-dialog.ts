@@ -34,6 +34,7 @@ export class ChangePasswordDialog {
     changePasswordForm: FormGroup; 
     isUpdating: boolean;
     matcher = new FormErrorStateMatcher();
+    hidePw: boolean = true;
     showInputs: boolean = true;
     showSuccess: boolean = false;
 
