@@ -1,61 +1,58 @@
 #toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(192, 52, 76, 0.856);
-    position: fixed;
-    width: 100%;
-    top: 0px;
-
-    .nav-container {
-        padding-left: 15px;
-        .tool-button {
-            height: 55px;
-            width: 90px;
-            margin: 10px 2px;
-            padding: 0px;
-            background-color: rgba(189, 115, 115, 0.87);
-            color: white;
-        }
+    mat-toolbar-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0px;
     
+        .nav-container {
+            padding-left: 15px;
+            .tool-button {
+                height: 55px;
+                width: 90px;
+                margin: 10px 2px;
+                padding: 0px;
+            }
+
+            .tool-button:hover {
+                cursor: pointer;
+                background-color: rgb(31, 5, 78);
+            }
         
-        .tool-button:hover {
-            cursor: pointer;
-            background-color: rgba(83, 47, 47, 0.87);
+            .selected-tool-button {
+                height: 55px;
+                width: 90px;
+                margin: 10px 2px;
+                padding: 0px;
+                background-color: rgb(31, 5, 78);
+            }
         }
     
-        .selected-tool-button {
-            height: 55px;
-            width: 90px;
-            margin: 10px 2px;
-            padding: 0px;
-            background-color: rgba(83, 47, 47, 0.87);
-            color: white;
+        .title-container {
+            margin-right: 12%;            
+            .page-title {
+                color: white;
+                font-size: 40px;
+                margin: 8px 0px;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
         }
-    }
-
-    .title-container {
-        margin-right: 12%;            
-        .page-title {
-            color: white;
-            font-size: 40px;
-            margin: 8px 0px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        
+        .settings-container {
+            padding-right: 15px;
+            .settings {
+                color: rgba(243, 184, 184, 0.87);
+                margin: 10px;
+                font-size: 35px;
+                cursor: pointer;
+            }
         }
-    }
-    
-    .settings-container {
-        padding-right: 15px;
-        .settings {
-            color: rgba(243, 184, 184, 0.87);
-            margin: 10px;
-            font-size: 35px;
-            cursor: pointer;
+        
+        .settings:hover {
+            color: rgba(83, 47, 47, 0.87) !important;
         }
-    }
-    
-    .settings:hover {
-        color: rgba(83, 47, 47, 0.87) !important;
     }
 }
 

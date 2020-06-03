@@ -26,6 +26,7 @@ import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
 import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
+import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-password-dialog';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,10 @@ import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
     DashboardComponent,
     RecommendationsComponent,
     MovieComponent,
-    SelectedMovieDialog,
     SettingsComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    SelectedMovieDialog,
+    ChangePasswordDialog
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
   ],
   entryComponents: [
       SelectedMovieDialog,
+      ChangePasswordDialog,
       SettingsComponent
   ],
   providers: [

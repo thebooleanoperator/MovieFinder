@@ -92,6 +92,16 @@ namespace MovieFinder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto updatePasswordDto)
         {
+            if (updatePasswordDto.NewPassword != updatePasswordDto.ConfirmPassword)
+            {
+                return BadRequest("Confirm passowrd must match new passowrd.");
+            }
+
+            if (updatePasswordDto.NewPassword.Length < 7)
+            {
+                return BadRequest("Password must be at least 7 characters.");
+            }
+
             var isUpdated = await _identityService.UpdatePassword(updatePasswordDto);
 
             if (!isUpdated)

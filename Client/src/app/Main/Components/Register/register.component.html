@@ -9,7 +9,7 @@
         <h5 class="message-2">It's Quick, Easy and Free!</h5>
         <div class="register">
             <mat-card class="register-card">
-                <mat-form-field  appearance="fill">
+                <mat-form-field appearance="fill">
                     <mat-label>First Name</mat-label>
                     <input matInput [formControl]="firstName" required autocomplete="off">
                     <mat-error *ngIf="firstName.invalid">{{getNameErrorMessage('firstName')}}</mat-error>

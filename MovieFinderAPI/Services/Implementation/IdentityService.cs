@@ -94,6 +94,13 @@ namespace MovieFinder.Services
                 return false;
             }
 
+            var verifedPassword = await _userManager.CheckPasswordAsync(user, updatePasswordDto.OldPassword);
+
+            if (!verifedPassword)
+            {
+                return false;
+            }
+
             if (String.IsNullOrEmpty(updatePasswordDto.NewPassword))
             {
                 return false;

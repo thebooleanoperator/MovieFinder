@@ -53,7 +53,13 @@ namespace MovieFinder
 
             services.AddScoped<IImdbIdsService, ImdbIdsService>();
 
-            services.AddIdentity<Users, IdentityRole>()
+            services.AddIdentity<Users, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<MovieFinderContext>()
                 .AddDefaultTokenProviders();
 

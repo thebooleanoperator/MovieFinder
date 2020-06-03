@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserDto } from '../../Data/Interfaces/user.dto';
 import { map } from 'rxjs/internal/operators/map';
 import { Observable } from 'rxjs';
+import { ChangePassword } from 'src/app/Data/Interfaces/change-password.dto';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {   
@@ -33,6 +34,18 @@ export class AuthService {
                         return response;
                     }
                 )
+            )
+    }
+
+    updatePassword(changePassword: ChangePassword): Observable<any> {
+        return this.http.put('http://localhost:5001/Accounts/UpdatePassword', changePassword)
+            .pipe(
+                map((response: AuthDto) => {
+                    this.token = response.token;
+                    this.user = response.userDto;
+                    this.setRefreshToken(response.refreshToken);
+                    return response;
+                })
             )
     }
 

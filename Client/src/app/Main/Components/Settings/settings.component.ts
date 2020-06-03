@@ -1,6 +1,8 @@
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/Core/Services/auth-service';
+import { ChangePasswordDialog } from '../../Dialogs/ResetPassword/change-password-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'settings',
@@ -8,11 +10,23 @@ import { AuthService } from 'src/app/Core/Services/auth-service';
     styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-    constructor(private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>, private _authService: AuthService) {}
+    constructor(
+        private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>, 
+        private _authService: AuthService,
+        private dialog: MatDialog) {}
     
     logout() {
         this._authService.logout();
         this._bottomSheetRef.dismiss();
         event.preventDefault();
+    }
+
+    /**
+     * Opens the angular material dialogRef and passes the resetPassword to the dialog.
+     */
+    openResetPasswordDialog() {
+        this.dialog.open(ChangePasswordDialog, {
+            id: 'resetPwDialog'
+        });
     }
 }

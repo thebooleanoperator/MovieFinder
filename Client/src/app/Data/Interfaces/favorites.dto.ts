@@ -1,4 +1,3 @@
-import { MovieDto } from './movie.dto';
 import { UserDto } from './user.dto';
 
 export class FavortiesDto {
