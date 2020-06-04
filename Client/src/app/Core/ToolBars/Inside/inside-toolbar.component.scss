@@ -1,16 +1,16 @@
 #toolbar {
+    position: fixed;
+    top: 0px;
     mat-toolbar-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: fixed;
         width: 100%;
-        top: 0px;
     
         .nav-container {
             padding-left: 15px;
             .tool-button {
-                height: 55px;
+                height: 50px;
                 width: 90px;
                 margin: 10px 2px;
                 padding: 0px;
@@ -21,11 +21,10 @@
             }
         
             .selected-tool-button {
-                height: 55px;
+                height: 50px;
                 width: 90px;
                 margin: 10px 2px;
                 padding: 0px;
-                background-color: darkgrey;
             }
         }
     
@@ -45,56 +44,50 @@
                 margin: 10px;
                 font-size: 35px;
                 cursor: pointer;
-                color: darkgrey;
+                color: #9da5bd;
             }
         }
     }
-}
-
-.progress-bar {
-    margin-top: 78px !important;
 }
 
 @media screen and (max-width: 1000px) {
     #toolbar {
-        .nav-container {
-            padding-left: 5px;
-            .tool-button {
-                width: 75px;
-                height: 45px;
-                margin: 10px 2px;
+        mat-toolbar-row {
+            .nav-container {
+                padding-left: 5px;
+                .tool-button {
+                    width: 75px;
+                    height: 45px;
+                    margin: 10px 2px;
+                }
+    
+                .selected-tool-button {
+                    width: 75px;
+                    height: 45px;
+                    margin: 10px 2px;
+                }
+                    
             }
-
-            .selected-tool-button {
-                width: 75px;
-                height: 45px;
-                margin: 10px 2px;
+            .title-container {
+                .page-title {
+                    font-size: 35px;
+                }
             }
-                
-        }
-        .title-container {
-            .page-title {
-                font-size: 35px;
+            .settings-container {
+                padding-right: 5px;
             }
         }
-        .settings-container {
-            padding-right: 5px;
-        }
-    }
-    .progress-bar {
-        margin-top: 69px !important;
     }
 }
 
 @media screen and (max-width: 600px) {
     #toolbar {
-        padding-left: 0px;
-        .title-container {
-            display: none;
+        mat-toolbar-row {
+            padding-left: 0px;
+            .title-container {
+                display: none;
+            }
         }
-    }
-    .progress-bar {
-        margin-top: 65px !important;
     }
 }
 

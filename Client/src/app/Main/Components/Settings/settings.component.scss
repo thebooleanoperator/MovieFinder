@@ -6,19 +6,15 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        background-color: rgba(192, 52, 76, 0.856);
+        background-color: #3f51b5;
 
         .settings-button {
-            background-color: rgba(189, 115, 115, 0.87);
+            background-color: #ff4081;
             width: 150px;
             .settings-label {
                 color: white;
                 cursor: pointer;
             }
-        }
-
-        .settings-button:hover {
-            background-color: rgba(83, 47, 47, 0.87);
         }
     }
 }

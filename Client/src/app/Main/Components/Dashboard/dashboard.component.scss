@@ -16,7 +16,7 @@
             ::ng-deep .mat-form-field-wrapper  {
                 height: 40px;
                 width: 650px;
-                background-color: rgba(252, 214, 132, 0.87);
+                background-color: #9da5bd;
                 border: 2px solid black;
 
                 ::ng-deep .mat-form-field-infix {
@@ -30,8 +30,8 @@
                     ::ng-deep .mat-input-element {
                         height: 60px;
                         font-size: 25px;
-                        caret-color: rgba(83, 47, 47, 0.87);
-                        color: rgba(83, 47, 47, 0.87);
+                        caret-color: #040c24;
+                        color: #040c24;;
                         padding-left: 5px;
                     }
                     ::ng-deep .mat-form-field-label-wrapper {
@@ -39,7 +39,7 @@
                         ::ng-deep .mat-form-field-label {
                             top: 1.18125em;
                             font-size: 25px;
-                            color: rgba(83, 47, 47, 0.87);
+                            color: #040c24;
                             padding-left: 5px;
                         }
                     }
@@ -54,7 +54,7 @@
                 height: auto;
                 width: auto;
                 font-size: 60px;
-                color: rgba(83, 47, 47, 0.87);
+                color: #040c24;
             }
     
             .search-icon:hover {
@@ -79,7 +79,7 @@
                         border: 2ps solid black;
                         box-shadow: none;
                         font-size: 15px;
-                        background-color: rgba(218, 216, 213, 0.87);
+                        background-color: #040c24;
         
                         ::ng-deep .mat-select-trigger {
                             height: 60px;
@@ -89,12 +89,15 @@
                                 vertical-align: middle;
         
                                 ::ng-deep .mat-select-value-text {
-                                    color: rgba(83, 47, 47, 0.87) !important;
+                                    color: white !important;
                                 }
                             }
             
                             ::ng-deep .mat-select-arrow-wrapper {
                                 padding-right: 5px;
+                                ::ng-deep .mat-select-arrow {
+                                    color: white;
+                                }
                             }
                         }
                     }
@@ -103,7 +106,7 @@
                         ::ng-deep .mat-form-field-label {
                             font-size: 25px;
                             padding-left: 5px;
-                            color: rgba(83, 47, 47, 0.87) !important;
+                            color: white !important;
                             top: 1.18125em;
                         }
                     }
@@ -166,9 +169,9 @@
 }
 
 ::ng-deep .mat-select-panel {
-    background-color: rgba(218, 216, 213);
+    background-color: #9da5bd;
     ::ng-deep .mat-option {
-        color: rgba(83, 47, 47, 0.87);
+        color: #040c24;
     }
 }
 
