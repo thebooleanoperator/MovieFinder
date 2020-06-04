@@ -124,18 +124,18 @@
         padding: 10px;
         table {
             width: 600px;
-            background-color: rgba(252, 214, 132, 0.87);
+            background-color: #9da5bd;
             .mat-header-row {
                 .mat-header-cell {
                     font-size: 20px;
-                    color: rgba(83, 47, 47, 0.87);
+                    color: #040c24;
                     font-weight: 900;
                 }
             }
             .mat-row {
                 height: 60px;
                 .mat-cell {
-                    color: rgba(83, 47, 47, 0.87);
+                    color: #040c24;
                     font-size: 20px;
                     font-weight: 500;
                 }
@@ -148,14 +148,15 @@
                 }
             }
             .mat-row:hover {
-                background-color: rgba(189, 115, 115, 0.87);
+                background-color: #ff4081;
                 cursor: pointer;
             }
         }
         .mat-paginator {
-            background-color: rgba(218, 216, 213, 0.87);
+            background-color: #040c24;
             ::ng-deep .mat-paginator-range-actions {
                 font-size: 20px;
+                color: white;
             }
         }
     }
