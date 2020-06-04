@@ -3,52 +3,59 @@
     flex-direction: column;
     align-items: center;
     margin-right: 300px;
-    .message-1 {
-        color: rgba(83, 47, 47, 0.87);
-        font-size: 30px;
-        margin: 20px 10px 10px 10px;
-    }
-
-    .message-2 {
-        color: rgba(83, 47, 47, 0.87);
-        font-size: 20px;
-        margin: 5px;
-    }
-
-    .register {
+    .register-container {
+        margin-top: 20px;
+        background-color: #3f51b5;
+        border: 2px solid #040c24;
         display: flex;
         justify-content: center;
-        .register-card {
-            margin: 10px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 400px;
-            height: 400px;
-            background-color: rgba(199, 103, 103, 0.336);
-            border: 2px solid rgba(199, 103, 103, 0.87);
+        align-items: center;
+        flex-direction: column;
+        width: 350px;
+        .message-1 {
+            color: white;
+            font-size: 30px;
+            margin: 20px 10px 10px 10px;
+            text-align: center;
+        }
+        .message-2 {
+            color: white;
+            font-size: 20px;
+            margin: 5px;
+            text-align: center;
+        }
+        mat-card {
+            background-color: white;
+            width: 300px;
+            form {
+                display: flex;
+                justify-content: center;
+                margin: 10px 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
     
-            mat-form-field {
-                width: 230px;
-            }
-    
-            .register-button {
-                margin: 30px;
-                padding: 10px;
-            }
-    
-            .register-button:hover {
-                background-color: limegreen;
-                cursor: pointer;
+                mat-form-field {
+                    width: 230px;
+                }
+        
+                .register-button {
+                    margin: 30px;
+                    padding: 10px;
+                }
+        
+                .register-button:hover {
+                    cursor: pointer;
+                }
             }
         }
     }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1450px) {
     #register {
-        margin-right: 0px;
+        margin-right: 20px;
     }
 }
 

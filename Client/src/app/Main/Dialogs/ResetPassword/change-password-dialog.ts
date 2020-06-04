@@ -45,12 +45,6 @@ export class ChangePasswordDialog {
         return newPassword === confirmPassword ? null : {mismatch: true};
     }
 
-    checkPasswordLength(changePasswordGroup: FormGroup) {
-        var newPassword = changePasswordGroup.controls.newPassword.value;
-
-        return newPassword.length >= 7 ? null : {minLength: true}
-    }
-
     /**
      * 
      * @param changePasswordGroup

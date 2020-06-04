@@ -21,20 +21,19 @@
                 align-items: center;
                 padding: 6px 8px;
                 margin: 15px;
-                border: 5px solid rgba(199, 103, 103, 0.87);
+                border: 5px solid #040c24;
                 height: 40px;
                 width: 40px;
                 font-weight: bolder;
-                background-color: rgba(199, 103, 103, 0.336);
-                color: rgba(87, 13, 13, 0.87);
+                background-color: #9da5bd;
             }
             .description {
                 display: flex;
                 align-items: center;
                 flex-direction: column;
-                background-color: rgba(199, 103, 103, 0.336);
-                border: 2px solid rgba(199, 103, 103, 0.87);
-                color: rgb(67, 66, 68);
+                background-color: #9da5bd;
+                border: 2px solid #040c24;
+                color: #040c24;
                 border-radius: 4%;
                 width: 50%;
                 padding: 20px;
