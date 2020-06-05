@@ -52,31 +52,43 @@
     }
 }
 
-@media screen and (max-width: 1450px) {
+@media screen and (max-width: 600px) {
     #register {
-        margin-right: 20px;
-    }
-}
-
-@media screen and (max-width: 570px) {
-    #register {
-        .message-1 {    
-            font-size: 20px;
-        }
-
-        .message-2 {
-            font-size: 15px;
+        .register-container {
+            width: 275px;
+            .message-1 {
+                color: white;
+                font-size: 20px;
+                margin: 8px;
+            }
+            .message-2 {
+                color: white;
+                font-size: 15px;
+                margin: 5px;
+                text-align: center;
+            }
+            mat-card {
+                width: 225px;
+                form {
+                    display: flex;
+                    justify-content: center;
+                    margin: 10px 50px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+        
+                    mat-form-field {
+                        width: 175px;
+                    }
             
-        }
-
-        .register {
-            .register-card {
-                width: 250px;
-
-                mat-form-field {
-                    width: 200px;
-                    ::ng-deep .mat-form-field-flex {
-                        height: 50px;
+                    .register-button {
+                        margin: 30px;
+                        padding: 10px;
+                    }
+            
+                    .register-button:hover {
+                        cursor: pointer;
                     }
                 }
             }
