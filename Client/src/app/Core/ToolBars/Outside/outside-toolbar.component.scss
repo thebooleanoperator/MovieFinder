@@ -1,9 +1,3 @@
-h1 {
-    text-align: center;
-    color: white;
-    margin: 10px;
-}
-
 .toolbar-container {
     width: 100%;
     .welcome-toolbar {
@@ -12,7 +6,13 @@ h1 {
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        background-color: rgba(192, 52, 76, 0.856);
+        background-color: #3f51b5;
+        h1 {
+            text-align: center;
+            color: white;
+            margin: 10px;
+            font-size: 30px;
+        }
         .welcome-button {
             padding: 5px;
             margin: 10px;
