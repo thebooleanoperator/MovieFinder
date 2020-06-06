@@ -1,48 +1,65 @@
-.login {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-right: 300px;
-    mat-form-field {
-        width: 170px;
-        padding: 5px;
-        mat-label {
-            color: black;
-        }
-        ::ng-deep .mat-form-field-wrapper {
-            ::ng-deep .mat-form-field-underline {
-                ::ng-deep .mat-form-field-ripple {
-                    background-color: black;
-                }
-            }
-
-            ::ng-deep .mat-form-field-subscript-wrapper {
-                mat-error {
-                    color: black;
-                }
-            }
-        }
-
-    }
-
-    .login-button {
-        font-size: 20px;
-        padding: 15px;   
-    }
-}
-
-@media screen and (max-width: 1300px) {
-    .login {
-        margin-right: 0px;
-    }
-}
-
-@media screen and (max-width: 570px) {
-    .login {
+#login {
+    form {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        margin-right: 100px;
         mat-form-field {
-            width: 100px;
+            padding: 0px 10px;
+            mat-label {
+                color: white;
+            }
+            input {
+                color: white;
+            }
+            button {
+                mat-icon {
+                    color: white;
+                }
+            }
+            ::ng-deep .mat-form-field-wrapper {
+                ::ng-deep .mat-form-field-underline {
+                    color: white;
+                    ::ng-deep .mat-form-field-ripple {
+                        background-color: white;
+                    }
+                }
+    
+                ::ng-deep .mat-form-field-subscript-wrapper {
+                    mat-error {
+                        color: white;
+                    }
+                }
+            }
+    
         }
+        .login-button {
+            font-size: 16px;
+            padding: 15px;  
+            margin-left: 5px; 
+        }
+    }
+
+}
+
+@media screen and (max-width: 750px) {
+    #login {
+        form {
+            margin-right: 0px;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #login {
+       form {
+            .login-inputs {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+       }
     }
 }
 

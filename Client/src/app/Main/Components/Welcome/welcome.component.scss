@@ -5,12 +5,15 @@
         flex-direction: row;
         align-items: flex-start;
         justify-content: space-around;
+        .title-sm {
+           display: none;
+        }
         .description-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 50px 10px;
-            h3 {
+            .title-lg {
                 margin: 5px;
                 font-size: 50px;
                 color: #ff4081;
@@ -33,15 +36,23 @@
     }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1350px) {
     #welcome {
         margin-left: 0px;
         .welcome-container {
             flex-direction: column-reverse;
             justify-content: center;
             align-items: center;
+            .title-sm {
+                display: block;
+                margin: 5px;
+                font-size: 50px;
+                color: #ff4081;
+                font-weight: bold;
+                text-align: center;
+            }
             .description-container {
-                h3 {
+                .title-lg {
                     display: none;
                 }
             }

@@ -4,23 +4,34 @@
   <meta charset="utf-8">
 </head>
 <body>
-    <div class="login">
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput [formControl]="email" autocomplete="off">
-            <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Password</mat-label>
-            <input [type]="hide ? 'password' : 'text'" matInput [formControl]="password" autocomplete="off">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    <div id="login">
+        <form [formGroup]="loginForm"> 
+            <div class="login-inputs">
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="userEmail" autocomplete="off">
+                    <mat-error *ngIf="loginForm.hasError('required', 'userEmail')">
+                        Email is required.
+                    </mat-error>
+                    <mat-error *ngIf="loginForm.hasError('email', 'userEmail')">
+                        Email is must be valid.
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field >
+                    <mat-label>Password</mat-label>
+                    <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="loginForm.hasError('required', 'password')">
+                        Password is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <button class="login-button" mat-raised-button mat-button (click)="verifyUserAndLogin(loginForm)" [disabled]="loginForm.invalid" color="accent">
+                Login
             </button>
-            <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
-        </mat-form-field>
-        <button class="login-button" mat-button (click)="verifyUserAndLogin(email.value, password.value)" [disabled]="password.invalid || email.invalid">
-            Login
-        </button>
+        </form>
     </div>
 </body>
 </html>

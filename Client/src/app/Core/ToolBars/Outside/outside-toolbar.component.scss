@@ -1,6 +1,7 @@
 .toolbar-container {
     width: 100%;
-    .welcome-toolbar {
+    mat-toolbar-row {
+        height: 80px !important;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -13,25 +14,24 @@
             margin: 10px;
             font-size: 30px;
         }
-        .welcome-button {
-            padding: 5px;
-            margin: 10px;
-            width: 100px;
-            .welcome-link {
-                color: white;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .toolbar-container {
+        mat-toolbar-row {
+            justify-content: center;
+            h1 {
+                display: none;
             }
         }
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
     .toolbar-container {
-        .welcome-toolbar {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            height: 150px;
+        mat-toolbar-row {
+            height: 175px !important;
         }
     }
 }

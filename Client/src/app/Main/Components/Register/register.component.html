@@ -30,7 +30,7 @@
                         <mat-error *ngIf="registerForm.hasError('required', 'userEmail')">
                             Email is required.
                         </mat-error>
-                        <mat-error *ngIf="registerForm.controls.userEmail.hasError('email')">
+                        <mat-error *ngIf="registerForm.hasError('email', 'userEmail')">
                             Must be a valid email.
                         </mat-error>
                     </mat-form-field>
@@ -43,7 +43,7 @@
                         <mat-error *ngIf="registerForm.hasError('required', 'password')">
                             Password is required.
                         </mat-error>
-                        <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">
+                        <mat-error *ngIf="registerForm.hasError('minlength', 'password')">
                             Must be at least 7 characters.
                         </mat-error>
                     </mat-form-field>

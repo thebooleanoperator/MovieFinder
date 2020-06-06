@@ -15,7 +15,8 @@ export class RegisterComponent {
         private _authService: AuthService, 
         private _toolBarService: ToolBarService, 
         private _router: Router,
-        private _formBuilder: FormBuilder){
+        private _formBuilder: FormBuilder)
+        {
             this.registerForm = this._formBuilder.group
             (
                 {
