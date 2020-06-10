@@ -193,6 +193,21 @@ namespace MovieFinder
 
                     entity.Property(m => m.UserId);
                 });
+
+            modelBuilder
+                 .Entity<UserSearchHistory>(entity =>
+                 {
+                     entity.HasKey(m => m.UserSearchHistoryId);
+
+                     entity.Property(m => m.UserSearchHistoryId);
+
+                     entity.Property(m => m.MovieId);
+
+                     entity.Property(m => m.UserId);
+
+                     entity.Property(m => m.DateCreated)
+                        .HasDefaultValueSql("GetUtcDate()");
+                 });
         }
     }
 }

@@ -16,6 +16,7 @@ namespace MovieFinder.Repository
         public IStreamingDataRepository StreamingData { get; set; }
         public IRateLimitsRepository RateLimits { get; set; }
         public IRefreshTokenRepository RefreshToken { get; set; }
+        public IUserSearchHistoryRepository UserSearchHistory { get; set; }
 
         private readonly DbContext _context;
 
@@ -32,6 +33,7 @@ namespace MovieFinder.Repository
             StreamingData = new StreamingDataRepository(_context);
             RateLimits = new RateLimitsRepository(_context);
             RefreshToken = new RefreshTokenRepository(_context);
+            UserSearchHistory = new UserSearchHistoryRepository(_context);
         }
 
         public int SaveChanges()
