@@ -7,6 +7,7 @@
         margin-right: 100px;
         mat-form-field {
             padding: 0px 10px;
+            width: 225px !important;
             mat-label {
                 color: white;
             }
@@ -47,6 +48,9 @@
     #login {
         form {
             margin-right: 0px;
+            mat-form-field {
+                width: 150px;
+            }
         }
     }
 }

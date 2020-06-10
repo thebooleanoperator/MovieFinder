@@ -50,6 +50,11 @@
     }
 }
 
+.progress-bar {
+    position: fixed;
+    top: 64px;
+}
+
 @media screen and (max-width: 1000px) {
     #toolbar {
         mat-toolbar-row {
@@ -88,6 +93,9 @@
                 display: none;
             }
         }
+    }
+    .progress-bar {
+        top: 56px;
     }
 }
 
