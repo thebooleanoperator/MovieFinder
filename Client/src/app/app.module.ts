@@ -20,6 +20,7 @@ import { MovieComponent } from './Main/Components/Movie/movie.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
 import { FavoritesComponent } from './Main/Components/Favorites/favorites.component';
+import { SearchHistoryComponent } from './Main/Components/SearchHistory/search-history.component';
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
@@ -27,6 +28,7 @@ import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolve
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
 import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-password-dialog';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-passwo
     MovieComponent,
     SettingsComponent,
     FavoritesComponent,
+    SearchHistoryComponent,
     SelectedMovieDialog,
     ChangePasswordDialog
   ],
@@ -57,7 +60,8 @@ import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-passwo
   entryComponents: [
       SelectedMovieDialog,
       ChangePasswordDialog,
-      SettingsComponent
+      SettingsComponent,
+      SearchHistoryComponent
   ],
   providers: [
       {

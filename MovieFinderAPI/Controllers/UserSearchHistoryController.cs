@@ -21,10 +21,27 @@ namespace MovieFinder.Controllers
             _unitOfWork = new UnitOfWork(movieFinderContext);
         }
 
+        /// <summary>
+        /// Creates a new UserSearchHistory entity.
+        /// </summary>
+        /// <param name="userSearchHistoryDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public IActionResult Create([FromBody] UserSearchHistoryDto userSearchHistoryDto)
         {
+            if (userSearchHistoryDto == null)
+            {
+                return BadRequest("User search dto is required.");
+            }
+
+            var user = _unitOfWork.Users.Get(userSearchHistoryDto.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
             var userSearchHistory = new UserSearchHistory(userSearchHistoryDto);
 
             _unitOfWork.UserSearchHistory.Add(userSearchHistory);
@@ -33,7 +50,12 @@ namespace MovieFinder.Controllers
             return Ok(userSearchHistory);
         }
 
+        /// <summary>
+        /// Gets the ten most recent UserSearchHistorys, orderd by date created.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             var userSearches = _unitOfWork.UserSearchHistory.GetAll(_sessionVars.UserId).ToList();

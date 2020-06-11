@@ -12,8 +12,8 @@ import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.servi
 })
 export class SelectedMovieDialog {
     constructor(
-        public dialogRef: MatDialogRef<SelectedMovieDialog>, 
         @Inject(MAT_DIALOG_DATA) public data: MovieDialogDto,
+        public dialogRef: MatDialogRef<SelectedMovieDialog>, 
         private _dialogWatcher: DialogWatcherService) {
             // Before closing modal update observable in dialogwatcher.
             this.dialogRef.beforeClosed().subscribe(() => {
