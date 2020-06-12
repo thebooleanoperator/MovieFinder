@@ -8,12 +8,22 @@ import { FavoritesComponent } from './Main/Components/Favorites/favorites.compon
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
 import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
+import { SearchHistoryResolver } from './Core/Resolvers/search-history.resolver';
 
 const routes: Routes = [
     {path: 'welcome', component: WelcomeComponent},
-    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {resolvedFavorites: FavoritesResolver}},
-    {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService], resolve: {resolvedFavoriteMovies: FavoriteMoviesResolver, resolvedFavorites: FavoritesResolver}},
-    {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { resolvedMovies: MoviesResolver, resolvedFavorites: FavoritesResolver}},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {
+        resolvedFavorites: FavoritesResolver, 
+        resolvedSearchHistory: SearchHistoryResolver
+    }},
+    {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService], resolve: {
+        resolvedFavoriteMovies: FavoriteMoviesResolver, 
+        resolvedFavorites: FavoritesResolver
+    }},
+    {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { 
+        resolvedMovies: MoviesResolver, 
+        resolvedFavorites: FavoritesResolver
+    }},
 
     {path: '**', redirectTo:'dashboard'}
 ];

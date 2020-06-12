@@ -1,4 +1,4 @@
-<div id="search"*ngIf="!error" >
+<div id="search" *ngIf="!isError(error)">
     <div class="search-container">
         <mat-form-field class="input-box">
             <mat-label>Search Movies...</mat-label>
@@ -46,9 +46,12 @@
     <div *ngIf="noSearchResults" class="empty-search">
         No movies found from search
     </div>
-    <search-history></search-history>
+    <search-history
+        [favorites]="favorites"
+        [searchedMovies]="searchedMovies">
+    </search-history>
 </div>
-<div *ngIf="error">
+<div *ngIf="isError(error)">
     An error has occured, failed to load the page. Our team is aware and working on it.
     <p>Error Message: {{error.message}}</p>
 </div>

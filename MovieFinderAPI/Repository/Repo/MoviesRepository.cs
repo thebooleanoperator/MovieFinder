@@ -29,13 +29,11 @@ namespace MovieFinder.Repository
             return DbSet.Where(m => m.IsRec == true);
         }
 
-        public IEnumerable<Movies> GetMoviesFromFavorites(IEnumerable<LikedMovies> likedMovies)
+        public IEnumerable<Movies> Get(List<int> movieIds)
         {
-            var likedMovieIds = likedMovies.Select(lm => lm.MovieId).ToList();
+            var movies = DbSet.Where(m => movieIds.Contains(m.MovieId));
 
-            var movies = DbSet.Where(m => likedMovieIds.Contains(m.MovieId));
-
-            var orderedMovies = movies.OrderBy(m => likedMovieIds.IndexOf(m.MovieId));
+            var orderedMovies = movies.OrderBy(m => movieIds.IndexOf(m.MovieId));
 
             return orderedMovies;
         }

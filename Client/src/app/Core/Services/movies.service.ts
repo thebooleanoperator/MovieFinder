@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ImdbIdDto } from '../../Data/Interfaces/imdbId.dto';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
-import { map, concatMap, catchError } from 'rxjs/operators';
+import { map, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs'
 
 @Injectable({providedIn:'root'})
@@ -24,6 +24,10 @@ export class MoviesService {
 
     public createMovieFromImdbId(imdbIdDto: ImdbIdDto): Observable<any> {
         return this.http.post('http://localhost:5001/Movies', imdbIdDto);
+    }
+
+    public getMovieSearchHistory(): Observable<any> {
+        return this.http.get('http://localhost:5001/Movies/SearchHistory');
     }
 
     public $getOrCreateMovie(imdbId: string, imdbIdDto:ImdbIdDto): Observable<any> {

@@ -1,14 +1,20 @@
 <div id="searchHistory">
-    <div class="back-arrow">
-        <button mat-button>
-            <mat-icon>arrow_back_ios</mat-icon>
-        </button>  
+    <div class="history-container" *ngIf="searchedMovies">
+        <div class="back-arrow">
+            <button mat-button>
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>  
+        </div>
+        <img *ngFor="let movie of searchedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
+            (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
+        <div class="forward-arrow">
+            <button mat-button>
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </button>  
+        </div>
     </div>
-    <img *ngFor="let movie of searchedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
-        (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
-    <div class="forward-arrow">
-        <button mat-button>
-            <mat-icon>arrow_forward_ios</mat-icon>
-        </button>  
+    <div class="empty-container" *ngIf="!searchedMovies">
+        <p>There is no search history</p>
     </div>
 </div>
+

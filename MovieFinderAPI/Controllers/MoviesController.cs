@@ -138,7 +138,9 @@ namespace MovieFinder.Controllers
         {
             var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, skip, count);
 
-            var favoriteMovies = _unitOfWork.Movies.GetMoviesFromFavorites(likedMovies).ToList();
+            var movieIds = likedMovies.Select(x => x.MovieId).ToList();
+
+            var favoriteMovies = _unitOfWork.Movies.Get(movieIds).ToList();
 
             if (favoriteMovies == null || favoriteMovies.Count == 0)
             {
@@ -148,6 +150,30 @@ namespace MovieFinder.Controllers
             var completeMovieDtos = await _moviesService.GetCompleteMovie(favoriteMovies);
 
             return Ok(completeMovieDtos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("SearchHistory")]
+        [Authorize]
+        public async Task<IActionResult> GetSearchHistory()
+        {
+            var userSearchHistory = _unitOfWork.UserSearchHistory.GetAll(_sessionVars.UserId).ToList();
+
+            if (userSearchHistory == null || userSearchHistory.Count() == 0)
+            {
+                return NoContent();
+            }
+
+            var movieIds = userSearchHistory.Select(x => x.MovieId).ToList();
+
+            var moviesSearchHistory = _unitOfWork.Movies.Get(movieIds); 
+
+            var completeMovieDtos = await _moviesService.GetCompleteMovie(moviesSearchHistory);
+
+            return Ok(completeMovieDtos); 
         }
 
         /// <summary>

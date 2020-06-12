@@ -8,6 +8,6 @@ namespace MovieFinder.Repository.Interface
         Movies GetByImdbId(string imdbId);
         IEnumerable<Movies> GetAllByTitle(string title);
         IEnumerable<Movies> GetAllRecommended();
-        IEnumerable<Movies> GetMoviesFromFavorites(IEnumerable<LikedMovies> likedMovies);
+        IEnumerable<Movies> Get(List<int> movieIds);
     }
 }

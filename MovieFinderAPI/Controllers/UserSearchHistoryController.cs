@@ -5,7 +5,6 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
-using System.Linq;
 
 namespace MovieFinder.Controllers
 {
@@ -48,24 +47,6 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
 
             return Ok(userSearchHistory);
-        }
-
-        /// <summary>
-        /// Gets the ten most recent UserSearchHistorys, orderd by date created.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Authorize]
-        public IActionResult GetAll()
-        {
-            var userSearches = _unitOfWork.UserSearchHistory.GetAll(_sessionVars.UserId).ToList();
-
-            if (userSearches == null || userSearches.Count() == 0)
-            {
-                return NoContent();
-            }
-
-            return Ok(userSearches);
         }
     }
 }

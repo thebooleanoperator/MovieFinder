@@ -42,6 +42,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     displayedMovies: MovieDto[];
     /**
+     * 
+     */
+    searchedMovies: MovieDto[];
+    /**
      * The movie a user has selected from the search results. 
      */
     selectedMovie: MovieDto;
@@ -73,7 +77,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * True if a catch block in a promise has been entered. 
      * Don't want to show multiple alerts to user for 1 request.
      */
-    error: string;
+    error: string[] = [];
 
     @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
 
@@ -84,12 +88,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this._route.data.subscribe(
             (data) => {
                 var favoritesResolverError = data.resolvedFavorites.error;
-                if (!favoritesResolverError) {
+                var searchHistorResolverError = data.resolvedSearchHistory.error; 
+                if (!favoritesResolverError && !searchHistorResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
+                    this.searchedMovies = data.resolvedSearchHistory.searchHistory;
                 }
                 else {
                     if (favoritesResolverError.status != 401) {
-                        this.error = favoritesResolverError;
+                        this.error.push(favoritesResolverError);
+                        this.error.push(searchHistorResolverError);
                     }
                 }
             }
@@ -275,6 +282,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     this.toolBarService.isLoading = false;
                 }
             )
+    }
+
+    /**
+     * Toggles error message in template if errors took place while resolving data.
+     * @param error 
+     */
+    isError(error: any[]) {
+        if (!error) {
+            return false;
+        }
+        return error.length > 0 ? true : false;
     }
 
     /**
