@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { Injectable } from '@angular/core';
+import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 
 @Injectable({providedIn: 'root'})
 /**

@@ -10,7 +10,10 @@ import { ToolBarService } from './Core/Services/tool-bar.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-    constructor(private authService: AuthService, private _router: Router, private _toolBarService: ToolBarService){}
+    constructor(
+        private _router: Router, 
+        private authService: AuthService, 
+        private _toolBarService: ToolBarService){}
 
     //Data
     navEnd: Observable<NavigationEnd>;

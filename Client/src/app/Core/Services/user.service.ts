@@ -5,7 +5,7 @@ import { UserDto } from '../../Data/Interfaces/user.dto';
 export class UserService {
     constructor(){}
 
-    public getUser() : Storage {
+    public getUser() : UserDto {
         return JSON.parse(localStorage.getItem('user'));
     }
 }

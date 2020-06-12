@@ -11,6 +11,9 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
+import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
+import { UserService } from 'src/app/Core/Services/user.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -22,6 +25,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         private _dialogWatcher: DialogWatcherService,
         private moviesService: MoviesService, 
         private imdbIdsService: ImdbIdsService, 
+        private _searchHistoryService: SearchHistoryService,
+        private _userService: UserService,
         private toolBarService: ToolBarService, 
         private dialog: MatDialog){}
 
@@ -74,6 +79,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     totalPages: number;
     /**
+     * 
+     */
+    searchTableDisplayed: boolean = false;
+    /**
      * True if a catch block in a promise has been entered. 
      * Don't want to show multiple alerts to user for 1 request.
      */
@@ -91,7 +100,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 var searchHistorResolverError = data.resolvedSearchHistory.error; 
                 if (!favoritesResolverError && !searchHistorResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
-                    this.searchedMovies = data.resolvedSearchHistory.searchHistory;
+                    this.searchedMovies = data.resolvedSearchHistory.searchHistory
+                        ? data.resolvedSearchHistory.searchHistory 
+                        : [];
                 }
                 else {
                     if (favoritesResolverError.status != 401) {
@@ -109,7 +120,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * ToDo: Look to improve this.
      */
     ngAfterViewInit() {
-        if (!this.error) {
+        if (!this.isError(this.error)) {
             fromEvent<any>(this.imdbIdSearch.nativeElement, 'keyup') 
             .pipe (
                 map((res) => res.target.value),
@@ -120,6 +131,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     // If null, a user has deleted all search chars, and we need to hide loading.
                     if (!userSearch) {
                         this.toolBarService.isLoading = false;
+                        this.searchTableDisplayed = false;
                     }
                     return imdbIdsObservable
                 })
@@ -130,7 +142,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     this.movies = data;
                     if (!this.noSearchResults) {
                         this.setTotalPages(this.movies .length, this.moviesPerPage);
-                        this.setDisplayedMovies(this.movies , this.moviesPerPage)
+                        this.setDisplayedMovies(this.movies , this.moviesPerPage);
+                        this.searchTableDisplayed = true;
                     }
                     this.toolBarService.isLoading = false;
                 },
@@ -268,6 +281,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     this.selectedMovie = data; 
                     if (this.selectedMovie) {
                         this.openDialog(this.selectedMovie, this.favorites);
+                        var searchHistory = new SearchHistoryDto(this.selectedMovie, this._userService.getUser());
+                        this._searchHistoryService.create(searchHistory)
+                            .subscribe(
+                                (data: SearchHistoryDto) => {
+                                    // Protect against race conditions.
+                                    if (data.movieId == this.selectedMovie.movieId) {
+                                        this.searchedMovies.unshift(this.selectedMovie)
+                                    }  
+                                },
+                                ((error) => {
+                                    if (error.status !== 401) {
+                                        alert("Failed to add movie to search history.");
+                                    }
+                                })
+                            )
+                        this.searchedMovies.unshift(this.selectedMovie);
                     }
                 },
                 (error) => {

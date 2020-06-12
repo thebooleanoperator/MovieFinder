@@ -18,11 +18,12 @@ export class SearchHistoryComponent {
 
     @Input() favorites: FavortiesDto[];
     @Input() searchedMovies: MovieDto[];
+    @Input() searchTableDisplayed: boolean;
 
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    openDialog(movie, favorites) {
+    openMovieDialog(movie, favorites) {
         var isFavorite = this.getIsFavorite(movie, favorites);
         this._dialog.open(SelectedMovieDialog, {
             data: {movie: movie, favoriteMovies: favorites, isFavorite: isFavorite}
@@ -46,5 +47,13 @@ export class SearchHistoryComponent {
         return favorites.some((favorite) => {
             return favorite.movieId == movie.movieId;
         })
+    }
+
+    historyExists(searchedMovies) {
+        if (!searchedMovies) {
+            return false;
+        }
+
+        return searchedMovies.length > 0; 
     }
 }

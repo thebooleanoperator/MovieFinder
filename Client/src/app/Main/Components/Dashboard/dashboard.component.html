@@ -3,13 +3,13 @@
         <mat-form-field class="input-box">
             <mat-label>Search Movies...</mat-label>
             <input  
-            #imdbIdSearch
-            type="text"
-            matInput 
-            [(ngModel)]="search"  
-            (keydown)="clearSearchResults()"
-            [disabled]="gettingMovie"
-            autocomplete="off">
+                #imdbIdSearch
+                type="text"
+                matInput 
+                [(ngModel)]="search"  
+                (keydown)="clearSearchResults()"
+                [disabled]="gettingMovie"
+                autocomplete="off">
             <mat-icon class="search-icon" (click)="searchMovies(search, year)">search</mat-icon>
         </mat-form-field>
         <mat-form-field class="year-box">
@@ -48,7 +48,8 @@
     </div>
     <search-history
         [favorites]="favorites"
-        [searchedMovies]="searchedMovies">
+        [searchedMovies]="searchedMovies"
+        [searchTableDisplayed]="searchTableDisplayed">
     </search-history>
 </div>
 <div *ngIf="isError(error)">
