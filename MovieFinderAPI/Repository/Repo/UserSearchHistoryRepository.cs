@@ -13,9 +13,11 @@ namespace MovieFinder.Repository.Repo
 
         }
 
-        public IEnumerable<UserSearchHistory> GetAll(int userId)
+        public IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? historyLength = null)
         {
-            return DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).Take(10);
+            return historyLength == null
+                ? DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated)
+                : DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).Take((int)historyLength);
         }
     }
 }

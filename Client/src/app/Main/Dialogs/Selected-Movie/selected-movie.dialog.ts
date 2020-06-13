@@ -17,7 +17,7 @@ export class SelectedMovieDialog {
         private _dialogWatcher: DialogWatcherService) {
             // Before closing modal update observable in dialogwatcher.
             this.dialogRef.beforeClosed().subscribe(() => {
-                this._dialogWatcher.closedByClickOutside(this.favoriteMovies);
+                this._dialogWatcher.closedByClickOutside(this.favoriteMovies, this.movie);
             });
         }
     

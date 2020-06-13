@@ -10,6 +10,6 @@ namespace MovieFinder.Repository.Interface
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IEnumerable<UserSearchHistory> GetAll(int userId);
+        IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? historyLength = null);
     }
 }

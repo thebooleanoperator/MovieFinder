@@ -281,22 +281,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     this.selectedMovie = data; 
                     if (this.selectedMovie) {
                         this.openDialog(this.selectedMovie, this.favorites);
-                        var searchHistory = new SearchHistoryDto(this.selectedMovie, this._userService.getUser());
-                        this._searchHistoryService.create(searchHistory)
-                            .subscribe(
-                                (data: SearchHistoryDto) => {
-                                    // Protect against race conditions.
-                                    if (data.movieId == this.selectedMovie.movieId) {
-                                        this.searchedMovies.unshift(this.selectedMovie)
-                                    }  
-                                },
-                                ((error) => {
-                                    if (error.status !== 401) {
-                                        alert("Failed to add movie to search history.");
-                                    }
-                                })
-                            )
-                        this.searchedMovies.unshift(this.selectedMovie);
                     }
                 },
                 (error) => {
@@ -333,8 +317,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
         });
 
-        this._dialogWatcher.$closeEvent.subscribe((favorites) => {
-            this.favorites = favorites;
-        })
+        this._dialogWatcher.closeEventFavorites$.subscribe(
+            (favorites) => this.favorites = favorites
+        );
+
+        this._dialogWatcher.closeEventMovie$.subscribe( 
+            (movie) => {
+                var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
+                this._searchHistoryService.create(searchHistory)
+                    .subscribe(
+                        () => this.searchedMovies.unshift(movie),
+                        ((error) => {
+                            if (error.status !== 401) {
+                                alert("Failed to add movie to search history.");
+                            }
+                        })
+                    )
+            }
+        )
     }
 }

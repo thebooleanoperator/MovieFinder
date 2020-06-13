@@ -9,8 +9,11 @@ import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
  * This is used so data can be sent to parent componenet when user clicks outside to close modal.
  */
 export class DialogWatcherService {
-    $closeEvent = new Subject<FavortiesDto[]>();
-    closedByClickOutside(favroites: FavortiesDto[]) {
-        this.$closeEvent.next(favroites);
+    closeEventFavorites$ = new Subject<FavortiesDto[]>();
+    closeEventMovie$ = new Subject<MovieDto>(); 
+
+    closedByClickOutside(favroites: FavortiesDto[], selectedMovie: MovieDto) {
+        this.closeEventFavorites$.next(favroites);
+        this.closeEventMovie$.next(selectedMovie); 
     }
 }

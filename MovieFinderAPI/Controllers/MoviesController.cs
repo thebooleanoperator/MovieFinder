@@ -158,9 +158,9 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpGet("SearchHistory")]
         [Authorize]
-        public async Task<IActionResult> GetSearchHistory()
+        public async Task<IActionResult> GetSearchHistory([FromQuery] int? historyLength)
         {
-            var userSearchHistory = _unitOfWork.UserSearchHistory.GetAll(_sessionVars.UserId).ToList();
+            var userSearchHistory = _unitOfWork.UserSearchHistory.GetAllByUserId(_sessionVars.UserId, historyLength).ToList();
 
             if (userSearchHistory == null || userSearchHistory.Count() == 0)
             {

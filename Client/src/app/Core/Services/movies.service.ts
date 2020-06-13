@@ -26,8 +26,8 @@ export class MoviesService {
         return this.http.post('http://localhost:5001/Movies', imdbIdDto);
     }
 
-    public getMovieSearchHistory(): Observable<any> {
-        return this.http.get('http://localhost:5001/Movies/SearchHistory');
+    public getMovieSearchHistory(historyLength: number =null): Observable<any> {
+        return this.http.get(`http://localhost:5001/Movies/SearchHistory?historyLength=${historyLength}`);
     }
 
     public $getOrCreateMovie(imdbId: string, imdbIdDto:ImdbIdDto): Observable<any> {

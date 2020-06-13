@@ -29,9 +29,9 @@ export class SearchHistoryComponent {
             data: {movie: movie, favoriteMovies: favorites, isFavorite: isFavorite}
         });
 
-        this._dialogWatcher.$closeEvent.subscribe((favorites) => {
-            this.favorites = favorites;
-        })
+        this._dialogWatcher.closeEventFavorites$.subscribe(
+            (favorites) => this.favorites = favorites
+        );
     }
 
     /**

@@ -41,6 +41,8 @@ namespace MovieFinder.Controllers
                 return BadRequest("User not found.");
             }
 
+
+
             var userSearchHistory = new UserSearchHistory(userSearchHistoryDto);
 
             _unitOfWork.UserSearchHistory.Add(userSearchHistory);
