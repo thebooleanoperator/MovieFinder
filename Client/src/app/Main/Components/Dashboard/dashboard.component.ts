@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/Interfaces/imdbId.dto';
@@ -9,8 +9,8 @@ import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
-import { fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'rxjs/operators';
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
@@ -19,7 +19,7 @@ import { UserService } from 'src/app/Core/Services/user.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private _route: ActivatedRoute,
         private _dialogWatcher: DialogWatcherService,
@@ -83,6 +83,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      */
     searchTableDisplayed: boolean = false;
     /**
+     * 
+     */
+    routerSubscription: Subscription;
+    /**
+     *
+     */
+    dialogFavoritesSubscription: Subscription; 
+    /**
+     * 
+     */
+    dialogMovieSubscription: Subscription;
+    /**
      * True if a catch block in a promise has been entered. 
      * Don't want to show multiple alerts to user for 1 request.
      */
@@ -94,7 +106,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
      * Subscribe to resolver and handle error if one occurs.
      */
     ngOnInit() {
-        this._route.data.subscribe(
+        this.routerSubscription = this._route.data.subscribe(
             (data) => {
                 var favoritesResolverError = data.resolvedFavorites.error;
                 var searchHistorResolverError = data.resolvedSearchHistory.error; 
@@ -110,6 +122,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                         this.error.push(searchHistorResolverError);
                     }
                 }
+            }
+        )
+        
+        this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
+            (favorites) => this.favorites = favorites
+        );
+
+        this.dialogMovieSubscription = this._dialogWatcher.closeEventMovie$.subscribe( 
+            (movie) => {
+                var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
+                this._searchHistoryService.create(searchHistory)
+                    .pipe(
+                        concatMap(() => this.moviesService.getMovieSearchHistory(10))
+                    )
+                    .subscribe(
+                        (searchedMovies: MovieDto[]) => this.searchedMovies = searchedMovies,
+                        ((error) => {
+                            if (error.status !== 401) {
+                                alert("Search history failed to update"); 
+                            }
+                        })
+                    )
             }
         )
     }
@@ -159,6 +193,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 }
             );
         }
+    }
+
+    /**
+     * All subject subscriptions need to be unsubscribed from. 
+     */
+    ngOnDestroy() {
+        this.routerSubscription.unsubscribe();
+        this.dialogFavoritesSubscription.unsubscribe();
+        this.dialogMovieSubscription.unsubscribe();
     }
 
     /**
@@ -316,26 +359,5 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.dialog.open(SelectedMovieDialog, {
             data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
         });
-
-        this._dialogWatcher.closeEventFavorites$.subscribe(
-            (favorites) => this.favorites = favorites
-        );
-
-        this._dialogWatcher.closeEventMovie$.subscribe( 
-            (movie) => {
-                var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
-                this._searchHistoryService.create(searchHistory)
-                    .subscribe(
-                        () => {
-                            this.searchedMovies.unshift(movie)
-                        },
-                        ((error) => {
-                            if (error.status !== 401) {
-                                alert("Failed to add movie to search history.");
-                            }
-                        })
-                    )
-            }
-        )
     }
 }

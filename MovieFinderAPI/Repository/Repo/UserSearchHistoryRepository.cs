@@ -21,7 +21,6 @@ namespace MovieFinder.Repository.Repo
                 return allSearchedMovieIds;
             }
 
-            
             var searchedMovieIds = new List<int>();
             var resultsAdded = 0; 
             foreach(var movieId in allSearchedMovieIds)

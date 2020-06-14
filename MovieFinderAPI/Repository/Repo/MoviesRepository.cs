@@ -31,11 +31,14 @@ namespace MovieFinder.Repository
 
         public IEnumerable<Movies> Get(List<int> movieIds)
         {
-            var movies = DbSet.Where(m => movieIds.Contains(m.MovieId));
+            var movies = new List<Movies>(); 
+            foreach (var movieId in movieIds)
+            {
+                var movie = DbSet.Where(x => x.MovieId == movieId).First();
+                movies.Add(movie);
+            }
 
-            var orderedMovies = movies.OrderBy(m => movieIds.IndexOf(m.MovieId));
-
-            return orderedMovies;
+            return movies; 
         }
     }
 }

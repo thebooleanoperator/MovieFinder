@@ -29,6 +29,7 @@ export class FavoritesComponent implements OnInit {
     nextExists: boolean;
     posterError: boolean = false;
     routerSubscription: Subscription; 
+    dialogFavoritesSubscription: Subscription;
     error: any[] = [];
 
     ngOnInit() {
@@ -54,6 +55,21 @@ export class FavoritesComponent implements OnInit {
                     }
                 },
             );
+
+        this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
+            (favorites) => {
+                this.favorites = favorites;
+                this.setFavoriteMovies(this.favorites, this.favoriteMovies);
+            }
+        );
+    }
+
+    /**
+     * All subject subscriptions need to be unsubscribed from. 
+     */
+    ngOnDestroy() {
+        this.routerSubscription.unsubscribe();
+        this.dialogFavoritesSubscription.unsubscribe();
     }
 
     isError(error: any[]) {
@@ -121,13 +137,6 @@ export class FavoritesComponent implements OnInit {
             width: '450px',
             data: {movie: movie, favoriteMovies: favorite, isFavorite: true}
         });
-
-        this._dialogWatcher.closeEventFavorites$.subscribe(
-            (favorites) => {
-                this.favorites = favorites;
-                this.setFavoriteMovies(this.favorites, this.favoriteMovies);
-            }
-        );
     }
 
     /**
