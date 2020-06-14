@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';

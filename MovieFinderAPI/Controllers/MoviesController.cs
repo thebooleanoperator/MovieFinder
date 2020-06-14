@@ -160,14 +160,12 @@ namespace MovieFinder.Controllers
         [Authorize]
         public async Task<IActionResult> GetSearchHistory([FromQuery] int? historyLength)
         {
-            var userSearchHistory = _unitOfWork.UserSearchHistory.GetAllByUserId(_sessionVars.UserId, historyLength).ToList();
+            var movieIds = _unitOfWork.UserSearchHistory.GetMovieIdsByUserId(_sessionVars.UserId, historyLength).ToList();
 
-            if (userSearchHistory == null || userSearchHistory.Count() == 0)
+            if (movieIds == null || movieIds.Count() == 0)
             {
                 return NoContent();
             }
-
-            var movieIds = userSearchHistory.Select(x => x.MovieId).ToList();
 
             var moviesSearchHistory = _unitOfWork.Movies.Get(movieIds); 
 

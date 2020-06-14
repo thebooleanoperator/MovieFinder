@@ -326,7 +326,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                 var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
                 this._searchHistoryService.create(searchHistory)
                     .subscribe(
-                        () => this.searchedMovies.unshift(movie),
+                        () => {
+                            this.searchedMovies.unshift(movie)
+                        },
                         ((error) => {
                             if (error.status !== 401) {
                                 alert("Failed to add movie to search history.");
