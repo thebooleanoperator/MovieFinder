@@ -357,7 +357,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private openDialog(movie, favoriteMovies) {
         var isFavorite = this.getIsFavorite(movie, favoriteMovies);
         this.dialog.open(SelectedMovieDialog, {
-            data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite}
+            data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: true}
         });
     }
 }

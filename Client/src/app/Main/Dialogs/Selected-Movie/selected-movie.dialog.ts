@@ -17,15 +17,16 @@ export class SelectedMovieDialog {
         private _dialogWatcher: DialogWatcherService) {
             // Before closing modal update observable in dialogwatcher.
             this.dialogRef.beforeClosed().subscribe(() => {
-                this._dialogWatcher.closedByClickOutside(this.favoriteMovies, this.movie);
+                this._dialogWatcher.closedByClickOutside(this.favoriteMovies, this.movie, this.updateSearchHistory);
             });
         }
     
     // Data
-    showMovie: boolean = false;
     movie: MovieDto = this.data.movie;
     favoriteMovies: FavortiesDto[] = this.data.favoriteMovies;
     isFavorite: boolean = this.data.isFavorite;
+    updateSearchHistory: boolean = this.data.updateSearchHistory;
+    showMovie: boolean = false;
 
     /**
      * Event listner that gets called whenever child component updates favoriteMovies.

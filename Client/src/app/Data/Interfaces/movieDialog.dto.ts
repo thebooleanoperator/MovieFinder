@@ -5,4 +5,5 @@ export class MovieDialogDto {
     movie: MovieDto;
     favoriteMovies: FavortiesDto[];
     isFavorite: boolean;
+    updateSearchHistory: boolean;
 }

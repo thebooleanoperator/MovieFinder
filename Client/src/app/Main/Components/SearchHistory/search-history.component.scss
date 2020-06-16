@@ -1,3 +1,23 @@
 #searchHistory {
-    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+    h4 {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #040c24;
+    }
+    .history-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            height: 300px;
+            width: 200px;
+            padding: 5px;
+            cursor: pointer;
+        }
+    }
 }

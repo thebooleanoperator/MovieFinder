@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./favorites.component.scss']
 })
 
-export class FavoritesComponent implements OnInit {
+export class FavoritesComponent implements OnInit, OnDestroy {
     constructor(
         private _moviesService: MoviesService, 
         private _toolBarService: ToolBarService, 
@@ -135,7 +135,7 @@ export class FavoritesComponent implements OnInit {
     openMovieDialog(movie: MovieDto, favorite: FavortiesDto[]) {
         this._dialog.open(SelectedMovieDialog, {
             width: '450px',
-            data: {movie: movie, favoriteMovies: favorite, isFavorite: true}
+            data: {movie: movie, favoriteMovies: favorite, isFavorite: true, updateSearchHistory: false}
         });
     }
 

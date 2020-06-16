@@ -12,8 +12,10 @@ export class DialogWatcherService {
     closeEventFavorites$ = new Subject<FavortiesDto[]>();
     closeEventMovie$ = new Subject<MovieDto>(); 
 
-    closedByClickOutside(favroites: FavortiesDto[], selectedMovie: MovieDto) {
+    closedByClickOutside(favroites: FavortiesDto[], selectedMovie: MovieDto, updateSearchHistory: boolean) {
         this.closeEventFavorites$.next(favroites);
-        this.closeEventMovie$.next(selectedMovie); 
+        if (updateSearchHistory) {
+            this.closeEventMovie$.next(selectedMovie); 
+        }
     }
 }
