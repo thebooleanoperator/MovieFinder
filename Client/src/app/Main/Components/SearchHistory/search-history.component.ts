@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, HostListener, OnInit } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
@@ -20,19 +20,60 @@ export class SearchHistoryComponent implements OnChanges {
     @Input() searchedMovies: MovieDto[];
     @Input() searchTableDisplayed: boolean;
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if (event.target.innerWidth <= 1000 && this.onWideScreen) {
+            this.displayedMovies = [this.searchedMovies[this.startingIndex]];
+            this.onWideScreen = false;
+        }
+        else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
+            this.adjustIndexes(this.searchedMovies);
+            this.displayedMovies = this.searchedMovies.slice(this.startingIndex, this.endingIndex+1);
+            this.onWideScreen = true;
+        }
+    }
+
     displayedMovies: MovieDto[]; 
     startingIndex: number = 0;
     endingIndex: number = 2;
-
+    onWideScreen: boolean; 
+    
     /**
      * 
      */
     ngOnChanges() {
         if (this.searchedMovies) {
-            this.displayedMovies = this.searchedMovies.slice(this.startingIndex, this.endingIndex+1);
+            this.displayedMovies = window.innerWidth > 1000 
+                ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
+                : [this.searchedMovies[0]];
+            this.onWideScreen = window.innerWidth > 1000 ? true : false;
             // Reassign ending index in case there are not three searched movies.
             this.endingIndex = this.displayedMovies.length - 1; 
         }   
+    }
+
+    adjustIndexes(searchedMovies: MovieDto[]) {
+        var totalHistory = searchedMovies.length;
+        if (this.startingIndex + 2 < totalHistory) {
+            this.endingIndex = this.startingIndex + 2; 
+        }
+        else {
+            var calibratingIndexes = true; 
+            while (calibratingIndexes) {
+                if (this.startingIndex - 1 >= 0) {
+                    this.startingIndex -= 1; 
+                    if (this.startingIndex + 2 < totalHistory) {
+                        this.endingIndex = this.startingIndex + 2;
+                        calibratingIndexes = false;
+                    }
+                }
+                else {
+                    this.startingIndex = 0;
+                    this.endingIndex = totalHistory - 1;
+                    calibratingIndexes = false;
+                }
+            }
+        }
     }
 
     /**
@@ -49,23 +90,25 @@ export class SearchHistoryComponent implements OnChanges {
         );
     }
 
-    navigateSearchedMovies(increment: number): void {
-        this.adjustIndexes(increment);
+    navigateSearchedMovies(increment: number, onWideScreen: boolean): void {
+        this.incrementIndexes(increment);
 
-        this.displayedMovies = this.searchedMovies.slice(this.startingIndex, this.endingIndex+1);
+        this.displayedMovies = onWideScreen 
+            ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
+            : [this.searchedMovies[this.startingIndex]];
     }
 
-    adjustIndexes(increment: number): void {
+    incrementIndexes(increment: number): void {
         this.startingIndex += increment;
         this.endingIndex += increment;
     }
 
-    nextExists(): boolean {
-        return this.endingIndex + 1 < this.searchedMovies.length;
+    nextExists(searchedMovies: MovieDto[], startingIndex: number, endingIndex: number, onWideScreen: boolean): boolean {
+        return onWideScreen ? endingIndex + 1 < searchedMovies.length : startingIndex + 1 < searchedMovies.length;
     }
 
-    previousExists(): boolean {
-        return this.endingIndex > 2; 
+    previousExists(startingIndex: number, endingIndex: number, onWideScreen: boolean): boolean {
+        return onWideScreen ? endingIndex > 2 : startingIndex > 0; 
     }
 
     /**

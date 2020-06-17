@@ -3,11 +3,11 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 150px;
 
     .search-container {
         display: flex;
         flex-direction: row;
-        margin-top: 90px;
 
         .input-box {
             display: flex;
@@ -180,8 +180,8 @@
 
 @media screen and (max-width: 1000px) {
     #search {
-        .search-container { 
-            margin-top: 81px;          
+        margin-top: 141px;
+        .search-container {       
             .input-box {               
                 ::ng-deep .mat-form-field-wrapper  {
                     width: 400px;
@@ -198,8 +198,7 @@
 
 @media screen and (max-width: 600px) {
     #search {
-        .search-container {   
-            margin-top: 81px;          
+        .search-container {        
             .input-box {               
                 ::ng-deep .mat-form-field-wrapper  {
                     width: 275px;

@@ -11,7 +11,7 @@ export class SearchHistoryResolver implements Resolve<ResolvedSearchHistory> {
     constructor(private _moviesService: MoviesService) {}
 
     resolve(): Observable<ResolvedSearchHistory> {
-        return this._moviesService.getMovieSearchHistory(10)
+        return this._moviesService.getMovieSearchHistory(20)
             .pipe(
                 map((movieSearchHistory: MovieDto[]) => new ResolvedSearchHistory(movieSearchHistory)),
                 catchError((error: any) => of(new ResolvedSearchHistory(null, error)))

@@ -20,4 +20,19 @@
             cursor: pointer;
         }
     }
+    .empty-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h4 {
+            color: #3f51b5;
+            font-size: 30px;
+            margin-top: 10px;
+            padding: 5px;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+
 }
