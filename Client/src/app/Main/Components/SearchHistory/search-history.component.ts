@@ -36,17 +36,17 @@ export class SearchHistoryComponent implements OnChanges {
     displayedMovies: MovieDto[]; 
     startingIndex: number = 0;
     endingIndex: number = 2;
-    onWideScreen: boolean; 
+    onWideScreen: boolean = window.innerWidth > 1000; 
     
     /**
      * 
      */
     ngOnChanges() {
         if (this.searchedMovies) {
-            this.displayedMovies = window.innerWidth > 1000 
+            this.onWideScreen ? this.adjustIndexes(this.searchedMovies) : null;
+            this.displayedMovies = this.onWideScreen
                 ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
                 : [this.searchedMovies[0]];
-            this.onWideScreen = window.innerWidth > 1000 ? true : false;
             // Reassign ending index in case there are not three searched movies.
             this.endingIndex = this.displayedMovies.length - 1; 
         }   
@@ -91,8 +91,8 @@ export class SearchHistoryComponent implements OnChanges {
     }
 
     navigateSearchedMovies(increment: number, onWideScreen: boolean): void {
-        this.incrementIndexes(increment);
-
+        onWideScreen ? this.incrementIndexes(increment) : this.startingIndex += increment;
+        
         this.displayedMovies = onWideScreen 
             ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
             : [this.searchedMovies[this.startingIndex]];
