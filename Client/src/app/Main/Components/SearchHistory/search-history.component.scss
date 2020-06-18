@@ -2,23 +2,33 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 100px;
-    h4 {
-        font-size: 40px;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        margin-bottom: 15px;
-        color: #040c24;
-    }
-    .history-container {
+    mat-card {
         display: flex;
-        justify-content: center;
         align-items: center;
-
-        img {
-            height: 300px;
-            width: 200px;
-            padding: 5px;
-            cursor: pointer;
+        flex-direction: column;
+        margin-top: 175px; 
+        padding: 30px;
+        background-color: #3f51b5;
+        .history-title {
+            font-size: 40px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin-bottom: 15px;
+            color: white;
+        }
+        .history-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .back-arrow, .forward-arrow {
+                color: white;
+            }
+            img {
+                height: 300px;
+                width: 200px;
+                margin: 5px;
+                cursor: pointer;
+                border: 3px solid white;
+            }
         }
     }
     .empty-container {
@@ -26,24 +36,34 @@
         flex-direction: row;
         align-items: center;
         h4 {
-            color: #3f51b5;
+            color: white;
             font-size: 30px;
-            margin-top: 10px;
             padding: 5px;
+            margin: 0px;
+        }
+        mat-icon {
+            color: white !important;
         }
     }
 }
 
 @media screen and (max-width: 600px) {
     #searchHistory {
-        margin-top: 50px;
-        h4 {
-            font-size: 25px;
+        mat-card {
+            margin-top: 75px;
+            .history-title {
+                font-size: 25px;
+            }
+            .history-container {
+                img {
+                    height: 250px;
+                    width: 150px;
+                }
+            }
         }
-        .history-container {
-            img {
-                height: 250px;
-                width: 150px;
+        .empty-container {
+            h4 {
+                font-size: 20px;
             }
         }
     }

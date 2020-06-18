@@ -1,22 +1,24 @@
 <div id="searchHistory" *ngIf="!searchTableDisplayed">
-    <h4>Recent Searches</h4>
-    <div class="history-container" *ngIf="historyExists(searchedMovies)">
-        <div class="back-arrow">
-            <button mat-button (click)="navigateSearchedMovies(-1, onWideScreen)" 
-            [disabled]="!previousExists(startingIndex, endingIndex, onWideScreen)">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </button>  
+    <mat-card color="primary">
+        <h4 class="history-title" *ngIf="historyExists(searchedMovies)">Recent Searches</h4>
+        <div class="history-container" *ngIf="historyExists(searchedMovies)">
+            <div class="back-arrow">
+                <button mat-button (click)="navigateSearchedMovies(-1, onWideScreen)" 
+                [disabled]="!previousExists(startingIndex, endingIndex, onWideScreen)">
+                    <mat-icon>arrow_back_ios</mat-icon>
+                </button>  
+            </div>
+            <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
+                (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
+            <div class="forward-arrow">
+                <button mat-button (click)="navigateSearchedMovies(1, onWideScreen)" 
+                [disabled]="!nextExists(searchedMovies, startingIndex, endingIndex, onWideScreen)">
+                    <mat-icon>arrow_forward_ios</mat-icon>
+                </button>  
+            </div>
         </div>
-        <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
-            (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
-        <div class="forward-arrow">
-            <button mat-button (click)="navigateSearchedMovies(1, onWideScreen)" 
-            [disabled]="!nextExists(searchedMovies, startingIndex, endingIndex, onWideScreen)">
-                <mat-icon>arrow_forward_ios</mat-icon>
-            </button>  
+        <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
+            <h4>Your search history is empty</h4><mat-icon>mood_bad</mat-icon>
         </div>
-    </div>
-    <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
-        <h4>Your search history is empty</h4><mat-icon>mood_bad</mat-icon>
-    </div>
+    </mat-card>
 </div>
