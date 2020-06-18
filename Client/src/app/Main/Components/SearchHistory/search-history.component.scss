@@ -5,6 +5,7 @@
     margin-top: 100px;
     h4 {
         font-size: 40px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         margin-bottom: 15px;
         color: #040c24;
     }
@@ -33,6 +34,17 @@
     }
 }
 
-@media screen and (max-width: 1000px) {
-
+@media screen and (max-width: 600px) {
+    #searchHistory {
+        margin-top: 50px;
+        h4 {
+            font-size: 25px;
+        }
+        .history-container {
+            img {
+                height: 250px;
+                width: 150px;
+            }
+        }
+    }
 }
