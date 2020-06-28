@@ -1,7 +1,7 @@
 <div id="searchHistory" *ngIf="!searchTableDisplayed">
-    <mat-card color="primary">
-        <h4 class="history-title" *ngIf="historyExists(searchedMovies)">Recent Searches</h4>
-        <div class="history-container" *ngIf="historyExists(searchedMovies)">
+    <h4 class="history-title" *ngIf="historyExists(searchedMovies)">Recent Searches</h4>
+    <mat-card color="primary" class="search-card" *ngIf="historyExists(searchedMovies)">
+        <div class="history-container">
             <div class="back-arrow">
                 <button mat-button (click)="navigateSearchedMovies(-1, onWideScreen)" 
                 [disabled]="!previousExists(startingIndex, endingIndex, onWideScreen)">
@@ -17,6 +17,8 @@
                 </button>  
             </div>
         </div>
+    </mat-card>
+    <mat-card color="primary" class="empty-card" *ngIf="!historyExists(searchedMovies)">
         <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
             <h4>Your search history is empty</h4><mat-icon>mood_bad</mat-icon>
         </div>
