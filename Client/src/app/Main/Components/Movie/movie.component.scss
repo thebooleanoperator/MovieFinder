@@ -26,7 +26,29 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                padding: 5px;   
+                padding: 5px; 
+                
+                .favorites-container {
+                    padding-right: 15px;
+                    .thumb {
+                        font-size: 30px;
+                        color: lightgreen;
+                        cursor: pointer;
+                        margin-left: 5px;
+                    }
+                    .thumb:hover {
+                        color: green;
+                    }
+                    .not-interested {
+                        font-size: 30px;
+                        color: red;
+                        cursor: pointer;
+                        margin-left: 5px;
+                    }
+                    .not-interested:hover {
+                        color: darkred;
+                    }
+                }
                 
                 .title {
                     margin: 5px;
@@ -59,26 +81,7 @@
                 .empty-rating {
                     height: 52px;
                 }
-                .favorites-container {
-                    .thumb {
-                        font-size: 30px;
-                        color: lightgreen;
-                        cursor: pointer;
-                        margin-left: 5px;
-                    }
-                    .thumb:hover {
-                        color: green;
-                    }
-                    .not-interested {
-                        font-size: 30px;
-                        color: red;
-                        cursor: pointer;
-                        margin-left: 5px;
-                    }
-                    .not-interested:hover {
-                        color: darkred;
-                    }
-                }
+                
             }
 
             .data-container {
