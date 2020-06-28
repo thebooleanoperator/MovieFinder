@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     this._toolBarService.isLoading = true;
                 }
                 if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+                    // Log user out when navigate to outside page.
                     if (event.url == "/welcome") {
                         this.authService.logout(false);
                     }
@@ -41,6 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.authService.logout(false);
+        
     }
 }

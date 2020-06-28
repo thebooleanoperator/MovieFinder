@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, fromEvent } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToolBarService } from './tool-bar.service';
 

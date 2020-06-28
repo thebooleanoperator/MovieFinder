@@ -4,17 +4,17 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        height: 400px;
-        width: 800px;
+        height: 500px;
+        width: 900px;
         padding: 0px;
         background-color: #040c24;
         .movie-poster {
-            height: 400px;
+            height: 500px;
             width: 40%;
         }
 
         .info-container {
-            height: 400px;
+            height: 500px;
             width: 60%;
             color: white;
             display: flex;
@@ -137,9 +137,13 @@
             display: flex;
             justify-content: center;
             width: 500px;   
-
+            height: 450px;
+            .movie-poster {
+                height: 450px;
+            }
             .info-container {
                 width: 100% !important;
+                height: 450px;
 
                 .title-container {
                     .title {
@@ -182,9 +186,12 @@
             display: flex;
             justify-content: center;
             width: 350px;   
-
+            height: 400px;
             .movie-poster {
                 display: none;
+            }
+            .info-container {
+                height: 400px;
             }
         }
     }

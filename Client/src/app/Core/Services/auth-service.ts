@@ -55,10 +55,7 @@ export class AuthService {
     }
 
     isLoggedIn() : boolean {
-        var currentUser = this.user;
-        var currentToken = this.token;
-
-        if (currentToken == null || currentUser == null) {
+        if (this.user == null || this.token == null) {
             return false
         }
         return true;

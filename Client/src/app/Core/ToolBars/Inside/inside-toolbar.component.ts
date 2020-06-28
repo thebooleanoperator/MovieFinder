@@ -25,11 +25,11 @@ export class InsideToolbarComponent implements OnInit{
     favoritesUrl: string = "/favorites"; 
     staffPickUrl: string = "/movies";
     navInProcess: boolean;
-    isSearch: boolean;
+    isSearch: boolean = true;
     isFavorites: boolean;
     isStaffPicks: boolean; 
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.resolveEnd.subscribe((event) => {
             switch(event.url) {
                 case this.searchUrl:
