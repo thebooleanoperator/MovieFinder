@@ -25,7 +25,7 @@ namespace MovieFinder.Controllers
         [HttpGet("{userId}")]
         public IActionResult GetByUserId(int userId)
         {
-            if (userId == null)
+            if (userId <= 0)
             {
                 return BadRequest();
             }

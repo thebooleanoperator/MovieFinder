@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-    [Route("[controller]/{action}")]
+    [Route("[controller]/[action]")]
     public class AccountsController : Controller
     {
         private IIdentityService _identityService;

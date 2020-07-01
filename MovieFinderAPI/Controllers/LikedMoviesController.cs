@@ -11,7 +11,7 @@ using System.Linq;
 namespace MovieFinder.Controllers
 {
     [Authorize]
-    [Route("{controller}")]
+    [Route("[controller]")]
     public class LikedMoviesController : Controller 
     {
         private UnitOfWork _unitOfWork;

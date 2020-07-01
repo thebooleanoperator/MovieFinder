@@ -32,7 +32,7 @@ namespace MovieFinder.DtoModels
                 throw new ArgumentException("Last name cannot be null");
             }
 
-            if (user.UserId < 0 || user.UserId == null)
+            if (user.UserId < 0)
             {
                 throw new ArgumentException("User Id cannot be null or less than zero.");
             }
