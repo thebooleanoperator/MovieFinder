@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace MovieFinder.Utils
+namespace MovieFinder.Settings
 {
-    public static class MovieSettings
+    public static class MoviePrestoSettings
     {
         public static IConfiguration Configuration; 
     }

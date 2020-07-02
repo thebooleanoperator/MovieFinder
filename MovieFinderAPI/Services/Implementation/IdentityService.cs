@@ -17,18 +17,15 @@ namespace MovieFinder.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<Users> _userManager;
-        private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly UnitOfWork _unitOfWork; 
 
         public IdentityService(
             UserManager<Users> userManager, 
-            JwtSettings jwtSettings, 
             TokenValidationParameters tokenValidationParameters, 
             MovieFinderContext movieFinderContext)
         {
             _userManager = userManager;
-            _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
             _unitOfWork = new UnitOfWork(movieFinderContext);
         }
@@ -174,7 +171,7 @@ namespace MovieFinder.Services
                 var tokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MoviePrestoSettings.Configuration["JwtSecret"])),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     RequireExpirationTime = false,
@@ -204,7 +201,7 @@ namespace MovieFinder.Services
         private AuthenticationDto AuthenticationResult(Users newUser)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret));
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MoviePrestoSettings.Configuration["JwtSecret"]));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -215,7 +212,7 @@ namespace MovieFinder.Services
                     new Claim("Id", newUser.Id.ToString()),
                     new Claim("UserId", newUser.UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
+                Expires = DateTime.UtcNow.Add(TimeSpan.Parse(MoviePrestoSettings.Configuration["TokenLifetime"])),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             };
 
@@ -225,7 +222,7 @@ namespace MovieFinder.Services
             {
                 Token = Guid.NewGuid().ToString(),
                 JwtId = token.Id,
-                ExpirationDate = DateTime.UtcNow.AddMonths(_jwtSettings.RefreshLifetime),
+                ExpirationDate = DateTime.UtcNow.AddMonths(int.Parse(MoviePrestoSettings.Configuration["RefreshLifetime"])),
                 IsUsed = false,
                 UserId = newUser.UserId
             };

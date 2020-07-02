@@ -70,16 +70,12 @@ namespace MovieFinder
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~.@"; 
             });
 
-            MovieSettings.Configuration = Configuration;
-
-            var jwtSettings = new JwtSettings();
-            Configuration.Bind("JwtSettings", jwtSettings);
-            services.AddSingleton(jwtSettings);
+            MoviePrestoSettings.Configuration = Configuration;
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtSecret"])),
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 RequireExpirationTime = false,
