@@ -341,3 +341,6 @@ healthchecksdb
 
 # Appsettings
 appsettings.json
+
+#AwsLambdaTools
+aws-lambda-tools-defaults.json
