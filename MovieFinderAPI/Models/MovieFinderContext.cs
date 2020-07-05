@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
-using System;
 
 namespace MovieFinder
 {
@@ -81,9 +80,6 @@ namespace MovieFinder
                     entity.Property(m => m.UserId);
 
                     entity.Property(m => m.MovieId);
-
-                    entity.Property(m => m.DateCreated)
-                            .HasDefaultValueSql("GetUtcDate()"); 
                 });
 
             modelBuilder
@@ -96,7 +92,6 @@ namespace MovieFinder
                     entity.Property(m => m.MovieTitle);
 
                     entity.Property(m => m.Year);
-
                 });
 
             modelBuilder
@@ -157,8 +152,7 @@ namespace MovieFinder
 
                     entity.Property(m => m.GooglePlay);
 
-                    entity.Property(m => m.LastUpdated)
-                        .HasDefaultValueSql("getdate()");
+                    entity.Property(m => m.LastUpdated);
                 });
 
             modelBuilder
@@ -182,9 +176,6 @@ namespace MovieFinder
 
                     entity.Property(m => m.JwtId);
 
-                    entity.Property(m => m.DateCreated)
-                        .HasDefaultValueSql("GetUtcDate()");
-
                     entity.Property(m => m.ExpirationDate);
 
                     entity.Property(m => m.IsUsed);
@@ -204,9 +195,6 @@ namespace MovieFinder
                      entity.Property(m => m.MovieId);
 
                      entity.Property(m => m.UserId);
-
-                     entity.Property(m => m.DateCreated)
-                        .HasDefaultValueSql("GetUtcDate()");
                  });
         }
     }

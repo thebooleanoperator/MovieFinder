@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieFinder;
 
@@ -15,9 +14,8 @@ namespace MovieFinder.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -37,8 +35,7 @@ namespace MovieFinder.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -46,8 +43,7 @@ namespace MovieFinder.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -66,8 +62,7 @@ namespace MovieFinder.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -132,8 +127,7 @@ namespace MovieFinder.Migrations
             modelBuilder.Entity("MovieFinder.Models.Genres", b =>
                 {
                     b.Property<int>("GenreId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Action");
 
@@ -174,12 +168,9 @@ namespace MovieFinder.Migrations
             modelBuilder.Entity("MovieFinder.Models.LikedMovies", b =>
                 {
                     b.Property<int>("LikedId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<int>("MovieId");
 
@@ -190,26 +181,10 @@ namespace MovieFinder.Migrations
                     b.ToTable("LikedMovies");
                 });
 
-            modelBuilder.Entity("MovieFinder.Models.MovieTitles", b =>
-                {
-                    b.Property<int>("MovieTitleId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MovieTitle");
-
-                    b.Property<int>("Year");
-
-                    b.HasKey("MovieTitleId");
-
-                    b.ToTable("MovieTitles");
-                });
-
             modelBuilder.Entity("MovieFinder.Models.Movies", b =>
                 {
                     b.Property<int>("MovieId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Director");
 
@@ -236,6 +211,20 @@ namespace MovieFinder.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("MovieFinder.Models.MovieTitles", b =>
+                {
+                    b.Property<int>("MovieTitleId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MovieTitle");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("MovieTitleId");
+
+                    b.ToTable("MovieTitles");
+                });
+
             modelBuilder.Entity("MovieFinder.Models.RateLimits", b =>
                 {
                     b.Property<int>("RateLimitId");
@@ -251,9 +240,7 @@ namespace MovieFinder.Migrations
                 {
                     b.Property<string>("Token");
 
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("ExpirationDate");
 
@@ -273,8 +260,7 @@ namespace MovieFinder.Migrations
             modelBuilder.Entity("MovieFinder.Models.StreamingData", b =>
                 {
                     b.Property<int>("StreamingDataId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AmazonPrime");
 
@@ -288,9 +274,7 @@ namespace MovieFinder.Migrations
 
                     b.Property<bool>("ITunes");
 
-                    b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("LastUpdated");
 
                     b.Property<int>("MovieId");
 
@@ -299,25 +283,6 @@ namespace MovieFinder.Migrations
                     b.HasKey("StreamingDataId");
 
                     b.ToTable("StreamingData");
-                });
-
-            modelBuilder.Entity("MovieFinder.Models.UserSearchHistory", b =>
-                {
-                    b.Property<int>("UserSearchHistoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GetUtcDate()");
-
-                    b.Property<int>("MovieId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("UserSearchHistoryId");
-
-                    b.ToTable("UserSearchHistory");
                 });
 
             modelBuilder.Entity("MovieFinder.Models.Users", b =>
@@ -360,8 +325,7 @@ namespace MovieFinder.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -375,10 +339,25 @@ namespace MovieFinder.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MovieFinder.Models.UserSearchHistory", b =>
+                {
+                    b.Property<int>("UserSearchHistoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<int>("MovieId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("UserSearchHistoryId");
+
+                    b.ToTable("UserSearchHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

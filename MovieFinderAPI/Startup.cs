@@ -37,11 +37,9 @@ namespace MovieFinder
 
             services.ConfigureIISIntegration();
 
-            services.ConfigureSqlServerContext(Configuration); 
+            services.ConfigureDatabase(Configuration); 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddDbContext<MovieFinderContext>(opts => opts.UseSqlServer(Configuration["TestStreamSpotterConnectionString"]));
 
             services.AddTransient<IIdentityService, IdentityService>();
 

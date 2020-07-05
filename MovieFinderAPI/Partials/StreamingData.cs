@@ -20,7 +20,8 @@ namespace MovieFinder.Models
             DisneyPlus = OnApp(rapidStreamingData, "disney");
             AmazonPrime = OnApp(rapidStreamingData, "prime");
             ITunes = OnApp(rapidStreamingData, "itunes");
-            GooglePlay = OnApp(rapidStreamingData, "google"); 
+            GooglePlay = OnApp(rapidStreamingData, "google");
+            LastUpdated = DateTime.Now;
         }
 
         public void Patch(RapidStreamingDto rapidStreamingData)

@@ -1,10 +1,16 @@
 ﻿using MovieFinder.DtoModels;
+using MovieFinder.Repository.BaseEntity;
 using System;
 
 namespace MovieFinder.Models
 {
-    public partial class LikedMovies
+    public partial class LikedMovies : BaseEntity
     {
+        public LikedMovies()
+        {
+
+        }
+
         public LikedMovies(LikedMoviesDto likedMoviesDto)
         {
             if(likedMoviesDto.MovieId <= 0)

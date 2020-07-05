@@ -1,9 +1,10 @@
 ﻿using MovieFinder.DtoModels;
+using MovieFinder.Repository.BaseEntity;
 using System;
 
 namespace MovieFinder.Models
 {
-    public partial class UserSearchHistory
+    public partial class UserSearchHistory : BaseEntity
     {
         public UserSearchHistory()
         {

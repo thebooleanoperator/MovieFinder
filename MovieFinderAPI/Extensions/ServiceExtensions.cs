@@ -27,10 +27,9 @@ namespace MovieFinder.Extensions
             });
         }
 
-        public static void ConfigureSqlServerContext(this IServiceCollection services, IConfiguration config)
+        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config["TestStreamSpotterConnectionString"];
-            services.AddDbContext<MovieFinderContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<MovieFinderContext>(options => options.UseMySql(config["MoviePrestoConnectionString"]));
         }
     }
 }
