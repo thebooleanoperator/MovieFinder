@@ -10,7 +10,7 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
     templateUrl: './search-history.component.html',
     styleUrls: ['./search-history.component.scss']
 })
-export class SearchHistoryComponent implements OnChanges {
+export class SearchHistoryComponent implements OnInit, OnChanges {
     constructor(
         private _dialog: MatDialog,
         private _dialogWatcher: DialogWatcherService
@@ -23,57 +23,61 @@ export class SearchHistoryComponent implements OnChanges {
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         if (event.target.innerWidth <= 1000 && this.onWideScreen) {
-            this.displayedMovies = [this.searchedMovies[this.startingIndex]];
             this.onWideScreen = false;
+            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
         }
         else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
-            this.adjustIndexes(this.searchedMovies);
-            this.displayedMovies = this.searchedMovies.slice(this.startingIndex, this.endingIndex+1);
             this.onWideScreen = true;
+            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
         }
     }
 
     displayedMovies: MovieDto[]; 
-    startingIndex: number = 0;
-    endingIndex: number = 2;
+    searchIndex: number = 0;
     onWideScreen: boolean = window.innerWidth > 1000; 
-    
-    /**
-     * 
-     */
+
+
+    ngOnInit() {
+        if (this.searchedMovies.length > 0) {
+            this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen); 
+        }
+    }
+
     ngOnChanges() {
-        if (this.searchedMovies) {
-            this.onWideScreen ? this.adjustIndexes(this.searchedMovies) : null;
-            this.displayedMovies = this.onWideScreen
-                ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
-                : [this.searchedMovies[0]];
-            // Reassign ending index in case there are not three searched movies.
-            this.endingIndex = this.displayedMovies.length - 1; 
+        if (this.searchedMovies.length > 0) {
+            this.searchIndex = 0; 
+            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
         }   
     }
 
-    adjustIndexes(searchedMovies: MovieDto[]) {
-        var totalHistory = searchedMovies.length;
-        if (this.startingIndex + 2 < totalHistory) {
-            this.endingIndex = this.startingIndex + 2; 
+    moveSearchIndex(increment: number, searchedMovies: MovieDto[], onWideScreen: boolean) {
+        this.searchIndex = this.setSearchIndex(increment, searchedMovies);
+        this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, searchedMovies, onWideScreen); 
+    }
+
+    setSearchIndex(increment: number, searchedMovies) {
+        var idx = this.searchIndex += increment;
+        if (idx < 0) {
+            return searchedMovies.length - 1;
         }
-        else {
-            var calibratingIndexes = true; 
-            while (calibratingIndexes) {
-                if (this.startingIndex - 1 >= 0) {
-                    this.startingIndex -= 1; 
-                    if (this.startingIndex + 2 < totalHistory) {
-                        this.endingIndex = this.startingIndex + 2;
-                        calibratingIndexes = false;
-                    }
-                }
-                else {
-                    this.startingIndex = 0;
-                    this.endingIndex = totalHistory - 1;
-                    calibratingIndexes = false;
-                }
-            }
+        if (idx >= searchedMovies.length) {
+            return 0;
         }
+        return idx;
+    }
+
+    createDisplayedSearchHistory(searchIdx: number, searchedMovies: MovieDto[], onWideScreen: boolean) : MovieDto[] {
+        if (!onWideScreen) {
+            return [searchedMovies[searchIdx]];
+        }
+        var idx1 = searchIdx + 1 < searchedMovies.length ? searchIdx + 1 : 0;
+        var idx2 = idx1 + 1 < searchedMovies.length ? idx1 + 1 : 0; 
+
+        return [searchedMovies[searchIdx], searchedMovies[idx1], searchedMovies[idx2]];
+    }
+
+    disableMoveSearchIndex(searchedMovies: MovieDto[]) {
+        return searchedMovies.length <= 1;
     }
 
     /**
@@ -88,27 +92,6 @@ export class SearchHistoryComponent implements OnChanges {
         this._dialogWatcher.closeEventFavorites$.subscribe(
             (favorites) => this.favorites = favorites
         );
-    }
-
-    navigateSearchedMovies(increment: number, onWideScreen: boolean): void {
-        onWideScreen ? this.incrementIndexes(increment) : this.startingIndex += increment;
-        
-        this.displayedMovies = onWideScreen 
-            ? this.searchedMovies.slice(this.startingIndex, this.endingIndex+1)
-            : [this.searchedMovies[this.startingIndex]];
-    }
-
-    incrementIndexes(increment: number): void {
-        this.startingIndex += increment;
-        this.endingIndex += increment;
-    }
-
-    nextExists(searchedMovies: MovieDto[], startingIndex: number, endingIndex: number, onWideScreen: boolean): boolean {
-        return onWideScreen ? endingIndex + 1 < searchedMovies.length : startingIndex + 1 < searchedMovies.length;
-    }
-
-    previousExists(startingIndex: number, endingIndex: number, onWideScreen: boolean): boolean {
-        return onWideScreen ? endingIndex > 2 : startingIndex > 0; 
     }
 
     /**
@@ -132,5 +115,9 @@ export class SearchHistoryComponent implements OnChanges {
         }
 
         return searchedMovies.length > 0; 
+    }
+
+    useDefaultPoster(event) {
+        event.srcElement.src = "/assets/images/default-poster.png";
     }
 }

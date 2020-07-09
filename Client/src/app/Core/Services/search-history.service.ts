@@ -8,6 +8,6 @@ export class SearchHistoryService {
     constructor(private http: HttpClient){}
 
     public create(searchHistory): Observable<any> {
-        return this.http.post(`http://localhost:5001/UserSearchHistory`, searchHistory);
+        return this.http.post(`/UserSearchHistory`, searchHistory);
     }      
 }

@@ -16,16 +16,16 @@ export class AuthService {
 
     // Methods
     register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
-        return this.http.post('http://localhost:5001/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password});
+        return this.http.post('/Accounts/Register', {"firstName": firstName, "lastName": lastName, "Email": email, "Password": password});
     }
 
     login(email: string, password: string): Observable<any> {
-        return this.http.post('http://localhost:5001/Accounts/Login', {"Email": email, "Password": password});
+        return this.http.post('/Accounts/Login', {"Email": email, "Password": password});
     }
 
     refreshToken(): Observable<any> {
         var jwtToken = this.token; 
-        return this.http.post('http://localhost:5001/Accounts/RefreshToken', {'Token': jwtToken})
+        return this.http.post('/Accounts/RefreshToken', {'Token': jwtToken})
             .pipe(
                 map((response: AuthDto) => {
                         this.token = response.token;
@@ -38,7 +38,7 @@ export class AuthService {
     }
 
     updatePassword(changePassword: ChangePassword): Observable<any> {
-        return this.http.put('http://localhost:5001/Accounts/UpdatePassword', changePassword)
+        return this.http.put('/Accounts/UpdatePassword', changePassword)
             .pipe(
                 map((response: AuthDto) => {
                     this.token = response.token;

@@ -59,7 +59,11 @@ namespace MovieFinder.Services
 
         public async Task<AuthenticationDto> LoginAsync(LoginDto loginDto)
         {
+            Console.WriteLine("**** In Login Async");
+
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
+
+            Console.WriteLine("**** User found: " + user);
 
             if (user == null)
             {
@@ -69,7 +73,9 @@ namespace MovieFinder.Services
                 };
             }
 
-            var verifedPassword = await _userManager.CheckPasswordAsync(user, loginDto.Password); 
+            var verifedPassword = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            Console.WriteLine("**** PW verified: " + verifedPassword);
 
             if (!verifedPassword)
             {
@@ -200,6 +206,10 @@ namespace MovieFinder.Services
 
         private AuthenticationDto AuthenticationResult(Users newUser)
         {
+            Console.WriteLine("**** User logging in: " + newUser);
+
+            Console.WriteLine("**** jwt secret: " + MoviePrestoSettings.Configuration["JwtSecret"]);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MoviePrestoSettings.Configuration["JwtSecret"]));
             var tokenDescriptor = new SecurityTokenDescriptor

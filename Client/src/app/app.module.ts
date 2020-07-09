@@ -29,6 +29,7 @@ import { SearchHistoryResolver } from './Core/Resolvers/search-history.resolver'
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
 import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-password-dialog';
+import { AppUtilities } from './Core/Utilities/app-utilities';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-passwo
     AngularMaterialModule,
     AngularLibrariesModule,
     AppRoutingModule,
-    RouterModule,
+    RouterModule
   ],
   entryComponents: [
       SelectedMovieDialog,
@@ -72,7 +73,8 @@ import { ChangePasswordDialog } from './Main/Dialogs/ResetPassword/change-passwo
       MoviesResolver,
       FavoritesResolver,
       FavoriteMoviesResolver,
-      SearchHistoryResolver
+      SearchHistoryResolver,
+      AppUtilities
     ],
   bootstrap: [AppComponent]
 })

@@ -14,7 +14,7 @@ export class ImdbIdsService {
     public getImdbIdsByTitle(title: string, year:number = null): Observable<any> {
         if (title) {
             this._toolBarService.isLoading = true;
-            return this.http.get(`http://localhost:5001/ImdbIds/?title=${title}&year=${year}`);
+            return this.http.get(`/ImdbIds/?title=${title}&year=${year}`);
         }
         return of();
     }      

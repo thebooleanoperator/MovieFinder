@@ -10,14 +10,14 @@ export class FavoritesService {
     constructor(private http: HttpClient){}
 
     saveFavorite(favoritesDto: FavortiesDto): Observable<any> {
-        return this.http.post(`http://localhost:5001/LikedMovies`, favoritesDto);
+        return this.http.post(`/LikedMovies`, favoritesDto);
     }
 
     getFavoriteMovies(): Observable<any> {
-        return this.http.get(`http://localhost:5001/LikedMovies`);
+        return this.http.get(`/LikedMovies`);
     }
 
     deleteFavorite(favoriteId: number): Observable<any> {
-        return this.http.delete(`http://localhost:5001/LikedMovies/${favoriteId}`);
+        return this.http.delete(`/LikedMovies/${favoriteId}`);
     }
 }

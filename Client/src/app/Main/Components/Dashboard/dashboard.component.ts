@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
                 this._searchHistoryService.create(searchHistory)
                     .pipe(
-                        concatMap(() => this.moviesService.getMovieSearchHistory(10))
+                        concatMap(() => this.moviesService.getMovieSearchHistory(20))
                     )
                     .subscribe(
                         (searchedMovies: MovieDto[]) => this.searchedMovies = searchedMovies,

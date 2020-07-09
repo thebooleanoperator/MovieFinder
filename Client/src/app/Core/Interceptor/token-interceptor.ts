@@ -2,13 +2,13 @@ import { HttpInterceptor, HttpEvent, HttpErrorResponse } from "@angular/common/h
 import { AuthService } from '../Services/auth-service';
 import { HttpRequest, HttpHandler } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
-import { Router } from '@angular/router';
 import { switchMap, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core';
+import { AppUtilities } from '../Utilities/app-utilities';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    constructor(public authService: AuthService, private router: Router){}
+    constructor(public authService: AuthService, private _appUtils: AppUtilities){}
     refreshingToken: boolean;
 
     private _refreshSubject: Subject<any> = new Subject<any>();
@@ -51,7 +51,9 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     updateHeader(request) {
+        var url = this._appUtils.BaseUrl == "http://localhost:4200" ? "http://localhost:5001" : "https://pk57k8k0k3.execute-api.us-east-2.amazonaws.com/Prod";
         request = request.clone({
+            url: url + request.url, 
             withCredentials: true, // Needed to allow access to send cookies.
             setHeaders: {
                 Authorization: `Bearer ${this.authService.token}`
