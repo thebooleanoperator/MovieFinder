@@ -31,6 +31,7 @@ export class RegisterComponent {
     //Data
     registerForm: FormGroup;
     hide: boolean = true;
+    isLoading: boolean;
 
     //Methods
     registerUser(registerForm: FormGroup) {
@@ -39,6 +40,7 @@ export class RegisterComponent {
         var email = registerForm.controls.userEmail.value;
         var password = registerForm.controls.password.value;
         this._toolBarService.isLoading = true;
+        this.isLoading = true;
         this._authService.register(firstName, lastName, email, password)
             .subscribe(
                 (authDto: AuthDto) => {

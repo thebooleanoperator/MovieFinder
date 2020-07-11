@@ -47,7 +47,7 @@
                             Must be at least 7 characters.
                         </mat-error>
                     </mat-form-field>
-                    <button mat-raised-button (click)="registerUser(registerForm)" *ngIf="!isLoading" [disabled]="registerForm.invalid" color="accent">
+                    <button mat-raised-button (click)="registerUser(registerForm)" [disabled]="registerForm.invalid || isLoading" color="accent">
                         Sign Up
                     </button>
                 </form>

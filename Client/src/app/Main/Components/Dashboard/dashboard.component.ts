@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, Output } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ImdbIdDto } from 'src/app/Data/Interfaces/imdbId.dto';
@@ -14,6 +14,8 @@ import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'r
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
+import { PageEvent } from '@angular/material/paginator';
+import { EventEmitter } from 'protractor';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -34,6 +36,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      * Holds an array of all movies returned from search results.
      */
     movies: MovieDto[];
+    /**
+     * The string being entered into the search bar. Gets sent to server to find movie.
+     */
+    search: string;
     /**
      * Used to filter search by year.
      */
@@ -95,6 +101,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     dialogMovieSubscription: Subscription;
     /**
+     * Holds the callback to correctly page the movie results.
+     */
+    pageEvent: any = 1; 
+    /**
      * True if a catch block in a promise has been entered. 
      * Don't want to show multiple alerts to user for 1 request.
      */
@@ -125,6 +135,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         )
         
+        ///////////////////////////// Subscribe to events ///////////////////////////////////
         this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
             (favorites) => this.favorites = favorites
         );
@@ -146,6 +157,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     )
             }
         )
+        /////////////////////////////////////////////////////////////////////////////////////
     }
 
     /**

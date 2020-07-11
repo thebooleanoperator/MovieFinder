@@ -1,6 +1,6 @@
 <div id="searchHistory" *ngIf="!searchTableDisplayed">
     <mat-card color="primary" class="search-card" *ngIf="historyExists(searchedMovies)">
-        <span class="history-title" *ngIf="historyExists(searchedMovies)">Recent Searches</span>
+        <span class="history-title" *ngIf="historyExists(searchedMovies)">Recent Movies</span>
         <div class="history-container">
             <div class="back-arrow">
                 <button mat-button (click)="moveSearchIndex(-1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
