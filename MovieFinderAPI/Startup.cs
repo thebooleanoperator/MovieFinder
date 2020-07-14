@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +12,6 @@ using MovieFinder.Services;
 using MovieFinder.Services.Implementation;
 using MovieFinder.Services.Interface;
 using MovieFinder.Settings;
-using MovieFinder.Utils;
 using System;
 using System.Text;
 
@@ -114,7 +112,7 @@ namespace MovieFinder
             app.UseCors(builder =>
             {
                 builder
-                .WithOrigins("http://localhost:4200")
+                .WithOrigins(Configuration["CORSOrigins"])
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
