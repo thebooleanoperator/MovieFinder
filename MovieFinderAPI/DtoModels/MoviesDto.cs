@@ -54,7 +54,7 @@ namespace MovieFinder.DtoModels
             Poster = movie.Poster;
             IsRec = movie.IsRec;
             Genres = genres;
-            StreamingData = streamingData;
+            StreamingData = streamingData ?? throw new ArgumentException($"{streamingData} must be greater than zero.");
         }
     }
 }

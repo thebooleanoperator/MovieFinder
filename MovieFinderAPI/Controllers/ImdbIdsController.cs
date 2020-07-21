@@ -4,6 +4,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,6 +48,7 @@ namespace MovieFinder.Controllers
             {
                 return Ok(closelyMatchRapidDtos.OrderByDescending(i => i.Year));
             }
+            
             // Inital api request to get imdbIds.
             var rapidDtos = await _imdbIdsService.GetImdbIdsByTitle(title, year);
 
@@ -101,9 +103,8 @@ namespace MovieFinder.Controllers
                     _unitOfWork.SaveChanges();
                 }
             }
-
             // Add the close matches to give users all possible movies.
-            var allRapidDtos = RapidImdbDto.CombineWithNoDuplicates(rapidDtos, closelyMatchRapidDtos.ToList()); 
+            var allRapidDtos = RapidImdbDto.CombineWithNoDuplicates(rapidDtos, closelyMatchRapidDtos.ToList());
 
             return Ok(allRapidDtos.OrderByDescending(i => i.Year));
         }

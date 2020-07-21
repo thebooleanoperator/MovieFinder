@@ -26,11 +26,6 @@ namespace MovieFinder.Models
 
         public void Patch(RapidStreamingDto rapidStreamingData)
         {
-            if (rapidStreamingData == null)
-            {
-                throw new ArgumentException($"{nameof(rapidStreamingData)} is required.");
-            }
-
             Netflix = OnApp(rapidStreamingData, "netflix");
             HBO = OnApp(rapidStreamingData, "hbo");
             Hulu = OnApp(rapidStreamingData, "hulu");
@@ -43,6 +38,7 @@ namespace MovieFinder.Models
 
         public bool OnApp(RapidStreamingDto rapidStreamingData, string appName)
         {
+            // If StreamingData is null, movie is not streaming anywhere.
             if (rapidStreamingData == null) { return false; }
             foreach(var location in rapidStreamingData.Locations)
             {

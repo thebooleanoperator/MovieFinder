@@ -30,7 +30,9 @@ namespace MovieFinder.Services.Implementation
             }
 
             var request = RapidRequestSender.GetImdbIdsWithImdbAPI(title, year);
+
             var client = _clientFactory.CreateClient();
+
             var response = await client.SendAsync(request);
 
             // THIS IS A RATE LIMITED API. LIMIT TO 1000 REQUESTS PER DAY. 

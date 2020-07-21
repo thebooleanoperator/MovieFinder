@@ -6,7 +6,7 @@ namespace MovieFinder.Utils
 {
     public class RapidRequestSender
     {
-        private static string imdbRapidApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/";
+        private static string imdbRapidApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com";
         private static string utellyRapidApiUrl = "https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/idlookup";
         private static string idRapidUrl = "https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search";
 

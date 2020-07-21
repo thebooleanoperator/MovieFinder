@@ -43,7 +43,10 @@ namespace MovieFinder.Services.Implementation
 
             var parsedResponse = await HttpValidator.ValidateAndParseStreamingDataResponse(response);
 
-            if (parsedResponse == null) { return null; }
+            if (parsedResponse == null || !parsedResponse.HasValues)
+            {
+                return null;
+            }
 
             try
             {
