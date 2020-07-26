@@ -21,9 +21,9 @@ export class InsideToolbarComponent implements OnInit{
     }
     
     resolveEnd: Observable<ResolveEnd>;
-    searchUrl: string = "/dashboard";
-    favoritesUrl: string = "/favorites"; 
-    staffPickUrl: string = "/movies";
+    searchUrl: string = "/content/dashboard";
+    favoritesUrl: string = "/content/favorites"; 
+    staffPickUrl: string = "/content/movies";
     navInProcess: boolean;
     isSearch: boolean = true;
     isFavorites: boolean;

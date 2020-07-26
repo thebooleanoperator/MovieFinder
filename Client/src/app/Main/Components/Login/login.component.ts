@@ -42,7 +42,7 @@ export class LoginComponent {
                     this.authService.token = authDto.token;
                     this.authService.user = authDto.userDto;
                     this.authService.setRefreshToken(authDto.refreshToken);
-                    this._router.navigate(['/dashboard'])
+                    this._router.navigate(['/content/dashboard'])
                         .finally(() => this._toolBarService.isLoading = false);
                 },
                 (error) => {
