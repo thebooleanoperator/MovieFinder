@@ -119,7 +119,7 @@ namespace MovieFinder.Utils
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["source_id"] = imdbId;
             query["source"] = "imdb";
-            query["country"] = "US";
+            query["country"] = "us";
             uriBuilder.Query = query.ToString();
             longurl = uriBuilder.ToString();
             var request = new HttpRequestMessage(HttpMethod.Get, longurl);
