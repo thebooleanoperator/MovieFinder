@@ -14,19 +14,34 @@ import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 const routes: Routes = [
     {path: 'welcome',  component: WelcomeComponent}, 
     {path: 'content',   component: ContentComponent, canActivate: [AuthGuardService],
-     children: [
-        {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: {
-            resolvedFavorites: FavoritesResolver, 
-            resolvedSearchHistory: SearchHistoryResolver
-        }},
-        {path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuardService], resolve: {
-            resolvedFavoriteMovies: FavoriteMoviesResolver, 
-            resolvedFavorites: FavoritesResolver
-        }},
-        {path: 'movies', component: RecommendationsComponent, canActivate: [AuthGuardService], resolve: { 
-            resolvedMovies: MoviesResolver, 
-            resolvedFavorites: FavoritesResolver
-        }},
+        children: [
+            {
+                path: 'dashboard', 
+                component: DashboardComponent, 
+                canActivate: [AuthGuardService], 
+                resolve: {
+                    resolvedFavorites: FavoritesResolver, 
+                    resolvedSearchHistory: SearchHistoryResolver
+                }
+            },
+            {
+                path: 'favorites', 
+                component: FavoritesComponent, 
+                canActivate: [AuthGuardService], 
+                resolve: {
+                    resolvedFavoriteMovies: FavoriteMoviesResolver, 
+                    resolvedFavorites: FavoritesResolver
+                }
+            },
+            {
+                path: 'movies', 
+                component: RecommendationsComponent, 
+                canActivate: [AuthGuardService], 
+                resolve: { 
+                    resolvedMovies: MoviesResolver, 
+                    resolvedFavorites: FavoritesResolver
+                }
+            },
      ]},
     {path: '**', redirectTo:'content'}
 ];

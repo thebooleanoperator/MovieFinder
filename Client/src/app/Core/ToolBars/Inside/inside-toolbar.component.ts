@@ -24,25 +24,23 @@ export class InsideToolbarComponent implements OnInit{
     searchUrl: string = "/content/dashboard";
     favoritesUrl: string = "/content/favorites"; 
     staffPickUrl: string = "/content/movies";
-    navInProcess: boolean;
-    isSearch: boolean = true;
+    isSearch: boolean;
     isFavorites: boolean;
     isStaffPicks: boolean; 
 
     ngOnInit() {
-        this.resolveEnd.subscribe((event) => {
-            switch(event.url) {
-                case this.searchUrl:
-                    this.setSelectedNavButton(true, false, false); 
-                    break;
-                case this.favoritesUrl:
-                    this.setSelectedNavButton(false, true, false); 
-                    break;
-                case this.staffPickUrl:
-                    this.setSelectedNavButton(false, false, true);
-                    break;
-            }
-        })
+        // Used to set navigation variables on refresh when navigation functions arent hit.
+        switch(this._router.url) {
+            case this.searchUrl:
+                this.setSelectedNavButton(true, false, false); 
+                break;
+            case this.favoritesUrl:
+                this.setSelectedNavButton(false, true, false); 
+                break;
+            case this.staffPickUrl:
+                this.setSelectedNavButton(false, false, true);
+                break;
+        }
     }
 
     /**
@@ -63,30 +61,30 @@ export class InsideToolbarComponent implements OnInit{
      * Navigates to dashboard. 
      */
     goToDashboard(): void {
-        this.navInProcess = true;
+        this._toolBarService.isLoading = true;
         this._router.navigateByUrl(this.searchUrl)
             .then(() => this.setSelectedNavButton(true, false, false))
-            .finally(() => this.navInProcess = false);
+            .finally(() => this._toolBarService.isLoading = false);
     }
 
     /**
      * Navigates to favorites.
      */
     goToFavorites(): void {
-        this.navInProcess = true;
+        this._toolBarService.isLoading = true;
         this._router.navigateByUrl(this.favoritesUrl)
             .then(() => this.setSelectedNavButton(false, true, false))
-            .finally(() => this.navInProcess = false);
+            .finally(() => this._toolBarService.isLoading = false);
     }
 
     /**
      * Navigates to recommended.
      */
     goToRecommended(): void {
-        this.navInProcess = true;
+        this._toolBarService.isLoading = true;
         this._router.navigateByUrl(this.staffPickUrl)
             .then(() => this.setSelectedNavButton(false, false, true))
-            .finally(() => this.navInProcess = false);
+            .finally(() => this._toolBarService.isLoading = false);
     }
 
     /**
