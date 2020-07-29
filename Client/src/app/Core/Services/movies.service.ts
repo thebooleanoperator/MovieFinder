@@ -9,6 +9,10 @@ import { of } from 'rxjs'
 @Injectable({providedIn:'root'})
 export class MoviesService {   
     constructor(private http: HttpClient){};
+
+    public get(movieId: number): Observable<any> {
+        return this.http.get(`/Movies/${movieId}`);
+    }
     
     public getRecommended(): Observable<any> {
         return this.http.get('/Movies/Recommended');
@@ -19,15 +23,11 @@ export class MoviesService {
     }
 
     public getMovieByImdbId(imdbId: string): Observable<any> {
-        return this.http.get(`/Movies/${imdbId}`);
+        return this.http.get(`/Movies/ImdbId/${imdbId}`);
     }
 
     public createMovieFromImdbId(imdbIdDto: ImdbIdDto): Observable<any> {
         return this.http.post('/Movies', imdbIdDto);
-    }
-
-    public getMovieSearchHistory(historyLength: number =null): Observable<any> {
-        return this.http.get(`/Movies/SearchHistory?historyLength=${historyLength}`);
     }
 
     public $getOrCreateMovie(imdbId: string, imdbIdDto:ImdbIdDto): Observable<any> {

@@ -4,6 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
+import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
+import { MoviesService } from 'src/app/Core/Services/movies.service';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
     selector: 'search-history',
@@ -13,11 +16,13 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 export class SearchHistoryComponent implements OnInit, OnChanges {
     constructor(
         private _dialog: MatDialog,
-        private _dialogWatcher: DialogWatcherService
+        private _dialogWatcher: DialogWatcherService,
+        private _moviesService: MoviesService,
+        private _toolBarService: ToolBarService
     ){}
 
     @Input() favorites: FavortiesDto[];
-    @Input() searchedMovies: MovieDto[];
+    @Input() searchedMovies: SearchHistoryDto[];
     @Input() searchTableDisplayed: boolean;
 
     @HostListener('window:resize', ['$event'])
@@ -32,7 +37,7 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         }
     }
 
-    displayedMovies: MovieDto[]; 
+    displayedMovies: SearchHistoryDto[]; 
     searchIndex: number = 0;
     onWideScreen: boolean = window.innerWidth > 1000; 
 
@@ -49,7 +54,7 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         }   
     }
 
-    moveSearchIndex(increment: number, searchedMovies: MovieDto[], onWideScreen: boolean) {
+    moveSearchIndex(increment: number, searchedMovies: SearchHistoryDto[], onWideScreen: boolean) {
         this.searchIndex = this.setSearchIndex(increment, searchedMovies);
         this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, searchedMovies, onWideScreen); 
     }
@@ -65,7 +70,7 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         return idx;
     }
 
-    createDisplayedSearchHistory(searchIdx: number, searchedMovies: MovieDto[], onWideScreen: boolean) : MovieDto[] {
+    createDisplayedSearchHistory(searchIdx: number, searchedMovies: SearchHistoryDto[], onWideScreen: boolean) : SearchHistoryDto[] {
         if (!onWideScreen) {
             return [searchedMovies[searchIdx]];
         }
@@ -77,6 +82,27 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
 
     disableMoveSearchIndex(searchedMovies: MovieDto[]) {
         return searchedMovies.length <= 1;
+    }
+
+    getMovieAndOpenDialog(moveId: number, favorites: FavortiesDto[]): void {
+        this._toolBarService.isLoading = true
+        this._moviesService.get(moveId)
+            .subscribe(
+                ((movieDto: MovieDto) =>{
+                    if (movieDto) {
+                        this.openMovieDialog(movieDto, favorites);
+                    }
+                    else {
+                        alert("Could not find movie.");
+                    }
+                }),
+                ((error) => {
+                    if (error.status !== 401) {
+                        alert("Failed to get movie")
+                    }
+                }),
+                (() => this._toolBarService.isLoading = false)
+            )
     }
 
     /**
@@ -119,4 +145,6 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     useDefaultPoster(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
     }
+
+    
 }

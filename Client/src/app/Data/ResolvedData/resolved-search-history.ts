@@ -1,5 +1,5 @@
-import { MovieDto } from '../Interfaces/movie.dto';
+import { SearchHistoryDto } from '../Interfaces/search-history.dto';
 
 export class ResolvedSearchHistory {
-    constructor(public searchHistory: MovieDto[], public error: any = null){}
+    constructor(public searchHistory: SearchHistoryDto[], public error: any = null){}
 }

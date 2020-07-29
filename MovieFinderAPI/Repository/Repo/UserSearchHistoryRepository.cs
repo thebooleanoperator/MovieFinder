@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository.Interface;
 using System.Collections.Generic;

@@ -10,4 +10,8 @@ export class SearchHistoryService {
     public create(searchHistory): Observable<any> {
         return this.http.post(`/UserSearchHistory`, searchHistory);
     }      
+
+    public getAll(historyLength: number=null): Observable<any> {
+        return this.http.get(`/UserSearchHistory?historyLength=${historyLength}`);
+    }
 }

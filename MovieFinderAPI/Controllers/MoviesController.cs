@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-    
+
     [Route("[controller]")]
     public class MoviesController : Controller
     {
         private UnitOfWork _unitOfWork;
         private IMoviesService _moviesService;
         private IStreamingDataService _streamingDataService;
-        private Session _sessionVars; 
+        private Session _sessionVars;
 
-        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService, 
+        public MoviesController(MovieFinderContext movieFinderContext, IMoviesService moviesService,
             IStreamingDataService streamingDataService, IHttpContextAccessor httpContext)
         {
             _unitOfWork = new UnitOfWork(movieFinderContext);
@@ -48,7 +48,7 @@ namespace MovieFinder.Controllers
             // Don't create a movie that exists in db.
             if (existingMovie != null)
             {
-                return NoContent(); 
+                return NoContent();
             }
 
             var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
@@ -75,9 +75,30 @@ namespace MovieFinder.Controllers
 
             _unitOfWork.SaveChanges();
 
-            var completeMovieDto = await _moviesService.GetCompleteMovie(movie); 
+            var completeMovieDto = await _moviesService.GetCompleteMovie(movie);
 
             return Ok(completeMovieDto);
+        }
+
+        /// <summary>
+        /// Get a movie by movieId.
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <returns></returns>
+        [HttpGet("{movieId}")]
+        [Authorize]
+        public async Task<ActionResult> Get(int movieId)
+        {
+            var movie = _unitOfWork.Movies.Get(movieId);
+            // If the movie does not exist return No Content. 
+            if (movie == null)
+            {
+                return NoContent();
+            }
+
+            var completeMoviesDto = await _moviesService.GetCompleteMovie(movie);
+
+            return Ok(completeMoviesDto);
         }
 
         /// <summary>
@@ -85,7 +106,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("ImdbId/{id}")]
         [Authorize]
         public async Task<IActionResult> GetByImdbId(string id)
         {

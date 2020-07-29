@@ -8,7 +8,7 @@
                 </button>  
             </div>
             <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
-                (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie, favorites)"> 
+                (error)="useDefaultPoster($event)" (click)="getMovieAndOpenDialog(movie.movieId, favorites)"> 
             <div class="forward-arrow">
                 <button mat-button (click)="moveSearchIndex(1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
                     <mat-icon>arrow_forward_ios</mat-icon>

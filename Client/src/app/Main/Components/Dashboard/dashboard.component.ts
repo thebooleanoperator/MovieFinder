@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * 
      */
-    searchedMovies: MovieDto[];
+    searchedMovies: SearchHistoryDto[];
     /**
      * The movie a user has selected from the search results. 
      */
@@ -120,8 +120,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             (data) => {
                 var favoritesResolverError = data.resolvedFavorites.error;
                 var searchHistorResolverError = data.resolvedSearchHistory.error; 
-                if (!favoritesResolverError && !searchHistorResolverError) {
+                if (!favoritesResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
+                }
+                if (!searchHistorResolverError) {
                     this.searchedMovies = data.resolvedSearchHistory.searchHistory
                         ? data.resolvedSearchHistory.searchHistory 
                         : [];
@@ -136,19 +138,22 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         )
         
         ///////////////////////////// Subscribe to events ///////////////////////////////////
+
+        // Favoties Subscription
         this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
             (favorites) => this.favorites = favorites
         );
 
+        // SearchHistory subscription
         this.dialogMovieSubscription = this._dialogWatcher.closeEventMovie$.subscribe( 
             (movie) => {
                 var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
                 this._searchHistoryService.create(searchHistory)
                     .pipe(
-                        concatMap(() => this.moviesService.getMovieSearchHistory(20))
+                        concatMap(() => this._searchHistoryService.getAll(20))
                     )
                     .subscribe(
-                        (searchedMovies: MovieDto[]) => this.searchedMovies = searchedMovies,
+                        (searchedMovies: SearchHistoryDto[]) => this.searchedMovies = searchedMovies,
                         ((error) => {
                             if (error.status !== 401) {
                                 alert("Search history failed to update"); 

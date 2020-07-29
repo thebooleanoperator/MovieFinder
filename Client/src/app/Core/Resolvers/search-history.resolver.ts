@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
-import { MoviesService } from '../Services/movies.service';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ResolvedSearchHistory } from 'src/app/Data/ResolvedData/resolved-search-history';
+import { SearchHistoryService } from '../Services/search-history.service';
+import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 
 @Injectable()
 export class SearchHistoryResolver implements Resolve<ResolvedSearchHistory> {
-    constructor(private _moviesService: MoviesService) {}
+    constructor(private _searchHistoryService: SearchHistoryService) {}
 
     resolve(): Observable<ResolvedSearchHistory> {
-        return this._moviesService.getMovieSearchHistory(20)
+        return this._searchHistoryService.getAll(20)
             .pipe(
-                map((movieSearchHistory: MovieDto[]) => new ResolvedSearchHistory(movieSearchHistory)),
+                map((userSearchHistory: SearchHistoryDto[]) => new ResolvedSearchHistory(userSearchHistory)),
                 catchError((error: any) => of(new ResolvedSearchHistory(null, error)))
             );
     }
