@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository.Interface;
 using System.Collections.Generic;
@@ -12,31 +13,12 @@ namespace MovieFinder.Repository.Repo
         {
 
         }
-        // ToDo: Improve
-        public IEnumerable<int> GetMovieIdsByUserId(int userId, int? historyLength = null)
+
+        public IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? historyLength = null)
         {
-            var allSearchedMovieIds = DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).Select(x => x.MovieId);
-            if (historyLength == null)
-            {
-                return allSearchedMovieIds;
-            }
-
-            var searchedMovieIds = new List<int>();
-            var resultsAdded = 0; 
-            foreach(var movieId in allSearchedMovieIds)
-            {
-                if (!searchedMovieIds.Contains(movieId))
-                {
-                    searchedMovieIds.Add(movieId);
-                    resultsAdded += 1;
-                }
-                if (resultsAdded == historyLength)
-                {
-                    break;
-                }
-            }
-
-            return searchedMovieIds;
+            return historyLength == null 
+                ? DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).AsEnumerable()
+                : DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).Take((int)historyLength).AsEnumerable();
         }
     }
 }

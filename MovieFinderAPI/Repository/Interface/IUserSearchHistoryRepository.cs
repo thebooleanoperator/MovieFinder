@@ -1,4 +1,5 @@
-﻿using MovieFinder.Models;
+﻿using MovieFinder.DtoModels;
+using MovieFinder.Models;
 using System.Collections.Generic;
 
 namespace MovieFinder.Repository.Interface
@@ -10,6 +11,6 @@ namespace MovieFinder.Repository.Interface
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        IEnumerable<int> GetMovieIdsByUserId(int userId, int? historyLength = null);
+        IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? historyLength = null);
     }
 }

@@ -5,6 +5,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Utils;
+using System.Linq;
 
 namespace MovieFinder.Controllers
 {
@@ -47,6 +48,25 @@ namespace MovieFinder.Controllers
             _unitOfWork.SaveChanges();
 
             return Ok(userSearchHistory);
+        }
+
+        /// <summary>
+        /// Gets all of the userSearchHistorys that belong to a userId. Can filter by using query param historyLength.
+        /// </summary>
+        /// <param name="historyLength"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetAll([FromQuery] int? historyLength)
+        {
+            var userSearchHistorys = _unitOfWork.UserSearchHistory.GetAllByUserId(_sessionVars.UserId, historyLength).ToList(); 
+
+            if (userSearchHistorys == null || userSearchHistorys.Count() == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(userSearchHistorys);
         }
     }
 }

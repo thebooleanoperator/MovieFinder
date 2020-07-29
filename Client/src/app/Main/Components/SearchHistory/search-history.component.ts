@@ -36,7 +36,6 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     searchIndex: number = 0;
     onWideScreen: boolean = window.innerWidth > 1000; 
 
-
     ngOnInit() {
         if (this.searchedMovies.length > 0) {
             this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen); 

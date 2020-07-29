@@ -28,8 +28,20 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{nameof(userSearchHistoryDto.UserId)} must be greater than 0.");
             }
 
+            if (String.IsNullOrEmpty(userSearchHistoryDto.Title))
+            {
+                throw new ArgumentException($"{nameof(userSearchHistoryDto.Title)} is required.");
+            }
+
+            if (String.IsNullOrEmpty(userSearchHistoryDto.Poster))
+            {
+                throw new ArgumentException($"{nameof(userSearchHistoryDto.Poster)} is required.");
+            }
+
             MovieId = userSearchHistoryDto.MovieId;
             UserId = userSearchHistoryDto.UserId;
+            Title = userSearchHistoryDto.Title;
+            Poster = userSearchHistoryDto.Poster;
         }
     }
 }

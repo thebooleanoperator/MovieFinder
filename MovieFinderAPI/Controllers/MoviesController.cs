@@ -153,28 +153,6 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("SearchHistory")]
-        [Authorize]
-        public async Task<IActionResult> GetSearchHistory([FromQuery] int? historyLength)
-        {
-            var movieIds = _unitOfWork.UserSearchHistory.GetMovieIdsByUserId(_sessionVars.UserId, historyLength).ToList();
-
-            if (movieIds == null || movieIds.Count() == 0)
-            {
-                return NoContent();
-            }
-
-            var moviesSearchHistory = _unitOfWork.Movies.Get(movieIds); 
-
-            var completeMovieDtos = await _moviesService.GetCompleteMovie(moviesSearchHistory);
-
-            return Ok(completeMovieDtos); 
-        }
-
-        /// <summary>
         /// Endpoint used to update Movies recommendation bit.
         /// </summary>
         /// <param name="moviesDto"></param>
