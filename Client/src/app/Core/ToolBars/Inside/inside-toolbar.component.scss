@@ -14,6 +14,8 @@
                 width: 90px;
                 margin: 10px 2px;
                 padding: 0px;
+                background-color: #424242;
+                color: white;
             }
 
             .tool-button:hover {
@@ -25,7 +27,8 @@
                 width: 90px;
                 margin: 10px 2px;
                 padding: 0px;
-                background-color: rgba(236, 59, 97, 0.507);
+                color: white;
+                background-color: rgba(129, 122, 123, 0.507);
             }
         }
     
@@ -45,7 +48,7 @@
                 margin: 10px;
                 font-size: 35px;
                 cursor: pointer;
-                color: #9da5bd;
+                color: #424242;
             }
         }
     }

@@ -9,7 +9,7 @@
         align-items: center;
         flex-direction: column;
         padding: 30px;
-        background-color: #040c24;
+        background-color: rgba(41, 39, 40, 0.884);
 
         .history-title {
             font-size: 30px;
@@ -37,7 +37,7 @@
     .empty-card {
         padding: 30px;
         margin-top: 200px;
-        background-color: #9da5bd;
+        background-color: rgba(41, 39, 40, 0.884);
         .empty-container {
             display: flex;
             flex-direction: row;

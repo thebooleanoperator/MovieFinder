@@ -78,7 +78,7 @@
                     .year-input {
                         box-shadow: none;
                         font-size: 15px;
-                        background-color: #9da5bd;
+                        background-color: #424242;
         
                         ::ng-deep .mat-select-trigger {
                             height: 60px;
@@ -88,14 +88,14 @@
                                 vertical-align: middle;
         
                                 ::ng-deep .mat-select-value-text {
-                                    color: #040c24 !important;
+                                    color: white!important;
                                 }
                             }
             
                             ::ng-deep .mat-select-arrow-wrapper {
                                 padding-right: 5px;
                                 ::ng-deep .mat-select-arrow {
-                                    color: #040c24;
+                                    color: white
                                 }
                             }
                         }
@@ -105,7 +105,7 @@
                         ::ng-deep .mat-form-field-label {
                             font-size: 25px;
                             padding-left: 5px;
-                            color: #040c24 !important;
+                            color: white !important;
                             top: 1.18125em;
                         }
                     }
@@ -121,12 +121,14 @@
         padding: 10px;
         table {
             width: 600px;
-            background-color: #b2b9e1;
+            background-color: rgba(184, 175, 177, 0.219);
             .mat-header-row {
                 .mat-header-cell {
                     font-size: 20px;
                     color: #040c24;
                     font-weight: 900;
+                    color: white;
+                    background-color: black;
                 }
             }
             .mat-row {
@@ -134,7 +136,7 @@
                 .mat-cell {
                     color: #040c24;
                     font-size: 20px;
-                    font-weight: 500;
+                    font-weight: 600;
                 }
                 .mat-column-Title {
                     width: 375px;
@@ -145,7 +147,7 @@
                 }
             }
             .mat-row:hover {
-                background-color: #ff4081;
+                background-color: #c2185b;
                 cursor: pointer;
             }
         }

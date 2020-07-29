@@ -3,15 +3,15 @@
         <div class="nav-container">
             <mat-button-toggle-group>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
-                    (click)="goToDashboard()" [disabled]="getIsLoading()" mat-button color="accent">
+                    (click)="goToDashboard()" [disabled]="getIsLoading()" mat-button>
                     Search
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
-                    (click)="goToFavorites()" [disabled]="getIsLoading()" mat-button color="accent">
+                    (click)="goToFavorites()" [disabled]="getIsLoading()" mat-button>
                     Favorites
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
-                    (click)="goToRecommended()" [disabled]="getIsLoading()" mat-button color="accent">
+                    (click)="goToRecommended()" [disabled]="getIsLoading()" mat-button>
                     Discover
                 </button>
             </mat-button-toggle-group>
