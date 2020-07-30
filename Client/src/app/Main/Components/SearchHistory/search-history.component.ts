@@ -48,15 +48,31 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
+        this.setDisplayedMovies(this.searchedMovies, this.onWideScreen, this.searchIndex);
+        // We need to set the search index back to 0 if there is a search history.
         if (this.searchedMovies.length > 0) {
-            this.searchIndex = 0; 
-            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
-        }   
+            this.searchIndex = 0;
+        }
     }
 
     moveSearchIndex(increment: number, searchedMovies: SearchHistoryDto[], onWideScreen: boolean) {
         this.searchIndex = this.setSearchIndex(increment, searchedMovies);
-        this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, searchedMovies, onWideScreen); 
+        this.setDisplayedMovies(searchedMovies, onWideScreen, this.searchIndex);
+    }
+
+    setDisplayedMovies(searchHistory: SearchHistoryDto[], onWideScreen: boolean, searchIndex: number) {
+        switch (searchHistory.length) {
+            case 0:
+                break;
+            case 1: 
+                this.displayedMovies = searchHistory;
+                break;
+            case 2:
+                this.displayedMovies = searchHistory;
+                break;
+            default:
+                this.displayedMovies = this.createDisplayedSearchHistory(searchIndex, searchHistory, onWideScreen);
+        } 
     }
 
     setSearchIndex(increment: number, searchedMovies) {
@@ -80,7 +96,7 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         return [searchedMovies[searchIdx], searchedMovies[idx1], searchedMovies[idx2]];
     }
 
-    disableMoveSearchIndex(searchedMovies: MovieDto[]) {
+    disableMoveSearchIndex(searchedMovies: SearchHistoryDto[]) {
         return searchedMovies.length <= 1;
     }
 

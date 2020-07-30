@@ -46,7 +46,8 @@ export class RegisterComponent {
                 (authDto: AuthDto) => {
                     this._authService.token = authDto.token;
                     this._authService.user = authDto.userDto;
-                    this._router.navigate(['/dashboard']); 
+                    this._router.navigate(['/content/dashboard'])
+                        .finally(() => this._toolBarService.isLoading = false); 
                 }
             );
     }

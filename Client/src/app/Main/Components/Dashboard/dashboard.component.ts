@@ -339,6 +339,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe(
                 (data) => {
                     this.selectedMovie = data; 
+                    // Don't open the dialog without a returned movie.
                     if (this.selectedMovie) {
                         this.openDialog(this.selectedMovie, this.favorites);
                     }
