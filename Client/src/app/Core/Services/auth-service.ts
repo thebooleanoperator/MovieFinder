@@ -23,6 +23,10 @@ export class AuthService {
         return this.http.post('/Accounts/Login', {"Email": email, "Password": password});
     }
 
+    guestLogin(): Observable<any> {
+        return this.http.post('/Accounts/GuestLogin', {}); 
+    }
+
     refreshToken(): Observable<any> {
         var jwtToken = this.token; 
         return this.http.post('/Accounts/RefreshToken', {'Token': jwtToken})

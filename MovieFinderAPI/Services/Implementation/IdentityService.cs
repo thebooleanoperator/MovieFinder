@@ -87,6 +87,20 @@ namespace MovieFinder.Services
 
             return AuthenticationResult(user); 
         }
+
+        public AuthenticationDto GuestLogin()
+        {
+            var guestUser = new Users()
+            {
+                UserId = 0,
+                FirstName = "Guest",
+                LastName = "Account",
+                Email = "GuestAccount@guest.com",
+                Id = Guid.NewGuid().ToString()
+            };
+
+            return AuthenticationResult(guestUser);
+        }
         
         public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto)
         {

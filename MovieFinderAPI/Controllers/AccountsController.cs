@@ -55,6 +55,26 @@ namespace MovieFinder.Controllers
 
             var authenticationResponse = await _identityService.LoginAsync(loginDto); 
 
+            // If error is not null, return the error to client. 
+            if (!String.IsNullOrEmpty(authenticationResponse.Error))
+            {
+                return BadRequest(authenticationResponse.Error);
+            }
+
+            return Ok(authenticationResponse);
+        }
+
+        /// <summary>
+        /// Logs in a user with a guest account. 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult GuestLogin()
+        {
+            var authenticationResponse = _identityService.GuestLogin();
+
+            // If error is not null, return the error to client.
             if (!String.IsNullOrEmpty(authenticationResponse.Error))
             {
                 return BadRequest(authenticationResponse.Error);

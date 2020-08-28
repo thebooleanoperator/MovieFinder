@@ -32,6 +32,11 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
         {
+            if (_session.UserId <= 0)
+            {
+                return BadRequest("Must be logged in with valid account.");
+            }
+
             var usersLikedMovies = _unitOfWork.LikedMovies.GetAllByUserId(likedMoviesDto.UserId, null, null).ToList();
 
             if (usersLikedMovies.Any(lm => lm.MovieId == likedMoviesDto.MovieId))
@@ -62,6 +67,11 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult GetAll()
         {
+            if (_session.UserId <= 0)
+            {
+                return BadRequest("Must be logged in with valid account."); 
+            }
+
             var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId, null, null).ToList();
 
             if (likedMovies == null || likedMovies.Count() == 0)

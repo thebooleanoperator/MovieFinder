@@ -34,7 +34,7 @@ export class RegisterComponent {
     isLoading: boolean;
 
     //Methods
-    registerUser(registerForm: FormGroup) {
+    registerUser(registerForm: FormGroup): void {
         var firstName = registerForm.controls.firstName.value;
         var lastName = registerForm.controls.lastName.value;
         var email = registerForm.controls.userEmail.value;
@@ -50,5 +50,20 @@ export class RegisterComponent {
                         .finally(() => this._toolBarService.isLoading = false); 
                 }
             );
+    }
+
+    guestLogin(): void {
+        this._authService.guestLogin()
+            .subscribe(
+                (authDto: AuthDto) => {
+                    this._authService.token = authDto.token;
+                    this._authService.user = authDto.userDto;
+                    this._router.navigate(['/content/dashboard'])
+                        .finally(() => this._toolBarService.isLoading = false); 
+                },
+                () => {
+                    alert('Failed to login as guest');
+                }
+            )
     }
 }
