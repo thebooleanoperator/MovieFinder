@@ -5,16 +5,18 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ResolvedFavorites } from 'src/app/Data/ResolvedData/resolved-favorites';
+import { UserService } from '../Services/user.service';
 
 @Injectable()
 export class FavoritesResolver implements Resolve<ResolvedFavorites> {
-    constructor(private _favoritesService: FavoritesService) {}
-
+    constructor(private _favoritesService: FavoritesService, private _userService: UserService) {}
     resolve(): Observable<ResolvedFavorites> {
-    return this._favoritesService.getFavoriteMovies()
-        .pipe (
-            map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
-            catchError((error: any) => of(new ResolvedFavorites(null, error)))
-        )
+        if(!this._userService.isGuest()) {
+            return this._favoritesService.getFavoriteMovies()
+            .pipe (
+                map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
+                catchError((error: any) => of(new ResolvedFavorites(null, error)))
+            )
+        }
     }
 }

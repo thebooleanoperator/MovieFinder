@@ -21,19 +21,22 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         private _toolBarService: ToolBarService
     ){}
 
+    @Input() isGuest: boolean;
     @Input() favorites: FavortiesDto[];
     @Input() searchedMovies: SearchHistoryDto[];
     @Input() searchTableDisplayed: boolean;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        if (event.target.innerWidth <= 1000 && this.onWideScreen) {
-            this.onWideScreen = false;
-            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
-        }
-        else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
-            this.onWideScreen = true;
-            this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
+        if (!this.isGuest) {
+            if (event.target.innerWidth <= 1000 && this.onWideScreen) {
+                this.onWideScreen = false;
+                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
+            }
+            else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
+                this.onWideScreen = true;
+                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
+            }
         }
     }
 
@@ -42,16 +45,18 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     onWideScreen: boolean = window.innerWidth > 1000; 
 
     ngOnInit() {
-        if (this.searchedMovies.length > 0) {
+        if (!this.isGuest && this.searchedMovies.length > 0) {
             this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen); 
         }
     }
 
     ngOnChanges() {
-        this.setDisplayedMovies(this.searchedMovies, this.onWideScreen, this.searchIndex);
-        // We need to set the search index back to 0 if there is a search history.
-        if (this.searchedMovies.length > 0) {
-            this.searchIndex = 0;
+        if (!this.isGuest) {
+            this.setDisplayedMovies(this.searchedMovies, this.onWideScreen, this.searchIndex);
+            // We need to set the search index back to 0 if there is a search history.
+            if (this.searchedMovies.length > 0) {
+                this.searchIndex = 0;
+            }
         }
     }
 
@@ -160,7 +165,5 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
 
     useDefaultPoster(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
-    }
-
-    
+    }    
 }

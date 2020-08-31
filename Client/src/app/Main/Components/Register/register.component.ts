@@ -48,6 +48,9 @@ export class RegisterComponent {
                     this._authService.user = authDto.userDto;
                     this._router.navigate(['/content/dashboard'])
                         .finally(() => this._toolBarService.isLoading = false); 
+                },
+                () => {
+                    alert("Login failed");
                 }
             );
     }

@@ -1,24 +1,34 @@
 <div id="searchHistory" *ngIf="!searchTableDisplayed">
-    <mat-card color="primary" class="search-card" *ngIf="historyExists(searchedMovies)">
-        <span class="history-title" *ngIf="historyExists(searchedMovies)">Recent Movies</span>
-        <div class="history-container">
-            <div class="back-arrow">
-                <button mat-button (click)="moveSearchIndex(-1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
-                    <mat-icon>arrow_back_ios</mat-icon>
-                </button>  
+    <div *ngIf="!isGuest">
+        <mat-card color="primary" class="search-card" *ngIf="historyExists(searchedMovies)">
+            <span class="history-title" *ngIf="historyExists(searchedMovies)">Recent Movies</span>
+            <div class="history-container">
+                <div class="back-arrow">
+                    <button mat-button (click)="moveSearchIndex(-1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
+                        <mat-icon>arrow_back_ios</mat-icon>
+                    </button>  
+                </div>
+                <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
+                    (error)="useDefaultPoster($event)" (click)="getMovieAndOpenDialog(movie.movieId, favorites)"> 
+                <div class="forward-arrow">
+                    <button mat-button (click)="moveSearchIndex(1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
+                        <mat-icon>arrow_forward_ios</mat-icon>
+                    </button>  
+                </div>
             </div>
-            <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
-                (error)="useDefaultPoster($event)" (click)="getMovieAndOpenDialog(movie.movieId, favorites)"> 
-            <div class="forward-arrow">
-                <button mat-button (click)="moveSearchIndex(1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
-                    <mat-icon>arrow_forward_ios</mat-icon>
-                </button>  
+        </mat-card>
+        <mat-card color="primary" class="empty-card" *ngIf="!historyExists(searchedMovies)">
+            <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
+                <h4>Your search history is empty</h4><mat-icon>mood_bad</mat-icon>
             </div>
-        </div>
-    </mat-card>
-    <mat-card color="primary" class="empty-card" *ngIf="!historyExists(searchedMovies)">
-        <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
-            <h4>Your search history is empty</h4><mat-icon>mood_bad</mat-icon>
-        </div>
-    </mat-card>
+        </mat-card>
+    </div>
+    <div *ngIf="isGuest">
+        <mat-card color="primary" class="empty-card" *ngIf="isGuest">
+            <div class="empty-container">
+                <h4>Must have a registered account to track search history.</h4><mat-icon>mood_bad</mat-icon>
+            </div>
+        </mat-card>
+    </div>
 </div>
+

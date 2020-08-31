@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this._router.events.subscribe(
             (event) => {
                 if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-                    // Log user out when navigate to outside page.
+                    // Clears local storage when navigate to outside page.
                     if (event.url == "/welcome") {
                         this.authService.logout(false);
                     }
