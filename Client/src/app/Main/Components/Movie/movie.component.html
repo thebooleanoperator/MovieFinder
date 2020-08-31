@@ -4,7 +4,7 @@
         <div class="info-container">
             <div class="title-container">
                 <h2 class="title">{{movie.title}}</h2>
-                <div class="favorites-container">
+                <div class="favorites-container" *ngIf="!isGuest">
                     <mat-icon class="thumb" *ngIf="!isFavorite" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
                         thumb_up
                     </mat-icon>

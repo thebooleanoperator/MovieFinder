@@ -41,13 +41,29 @@
                 }
         
                 .register-button {
-                    margin: 30px;
                     padding: 10px;
+                    color: #424242;
+                    font-size: 20px;
                 }
         
                 .register-button:hover {
                     cursor: pointer;
                 }
+            }
+        }
+        .guest-login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .guest-button {
+                padding: 10px;
+                color: #424242;
+                font-size: 20px;
+            }
+            mat-icon {
+                margin-left: 10px;
+                font-size: 30px;
+                cursor: pointer;
             }
         }
     }

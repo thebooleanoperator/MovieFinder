@@ -7,7 +7,7 @@
                     Search
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
-                    (click)="goToFavorites()" [disabled]="getIsLoading()" mat-button>
+                    (click)="goToFavorites()" [disabled]="getIsLoading()" mat-button *ngIf="!isGuest">
                     Favorites
                 </button>
                 <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 

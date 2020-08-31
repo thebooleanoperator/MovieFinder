@@ -17,6 +17,7 @@ export class MovieComponent {
         private _toolBarService: ToolBarService){}
 
     // Inputs
+    @Input() isGuest: boolean;
     @Input() movie: MovieDto; 
     @Input() favorites: FavortiesDto[];
     @Input() isFavorite: boolean;
@@ -41,6 +42,7 @@ export class MovieComponent {
                     if (error.status != 401) {
                         alert("Failed to add movie to favorites.");
                     }
+                    this._toolBarService.isLoading = false;
                 },
                 () => this._toolBarService.isLoading = false
             )

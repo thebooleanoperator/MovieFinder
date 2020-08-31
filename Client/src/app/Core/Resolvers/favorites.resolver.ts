@@ -10,8 +10,12 @@ import { UserService } from '../Services/user.service';
 @Injectable()
 export class FavoritesResolver implements Resolve<ResolvedFavorites> {
     constructor(private _favoritesService: FavoritesService, private _userService: UserService) {}
+    
     resolve(): Observable<ResolvedFavorites> {
-        if(!this._userService.isGuest()) {
+        if (this._userService.isGuest()) {
+            return of(new ResolvedFavorites(null, null));
+        }
+        else {
             return this._favoritesService.getFavoriteMovies()
             .pipe (
                 map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),

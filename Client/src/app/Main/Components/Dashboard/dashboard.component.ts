@@ -120,16 +120,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      * Subscribe to resolver and handle error if one occurs.
      */
     ngOnInit() {
-        if (!this.isGuest) {
-            this.setRouterSubscription();
-            this.setDialogSubscriptions();
-        } 
-    }
-
-    /**
-     * Sets the serachHistory and favorites data from Resovlers. Handles errors if resolvers fail.
-     */
-    setRouterSubscription(): void {
+        // Router subscription
         this.routerSubscription = this._route.data.subscribe(
             (data) => {
                 var favoritesResolverError = data.resolvedFavorites.error;
@@ -150,12 +141,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             }
         )
-    }
 
-    /**
-     * Sest subscriptions for the dialog watcher on close subject.
-     */
-    setDialogSubscriptions(): void {
         // Favoties Subscription
         this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
             (favorites) => this.favorites = favorites
@@ -232,17 +218,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      * All subject subscriptions need to be unsubscribed from. 
      */
     ngOnDestroy() {
-        // Subscriptions only created for non guest users.
-        if (!this.isGuest && this._authService.isLoggedIn()) {
-            try {
-                this.routerSubscription.unsubscribe();
-                this.dialogFavoritesSubscription.unsubscribe();
-                this.dialogMovieSubscription.unsubscribe();
-            }
-            catch(error) {
-                console.log('Error: ' + error);
-            } 
+        try {
+            this.routerSubscription.unsubscribe();
+            this.dialogFavoritesSubscription.unsubscribe();
+            this.dialogMovieSubscription.unsubscribe();
         }
+        catch(error) {
+            console.log('Error: ' + error);
+        } 
     }
 
     /**

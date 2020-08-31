@@ -12,7 +12,10 @@ export class FavoriteMoviesResolver implements Resolve<ResolvedFavoriteMovies> {
     constructor(private _moviesService: MoviesService, private _userService: UserService) {}
 
     resolve(): Observable<ResolvedFavoriteMovies> {
-        if(!this._userService.isGuest()) {
+        if(this._userService.isGuest()) {
+           return of(new ResolvedFavoriteMovies(null, null)); 
+        }
+        else {
             return this._moviesService.getFavorites(0, 30)
             .pipe(
                 map((favoriteMovies: MovieDto[]) => new ResolvedFavoriteMovies(favoriteMovies)),

@@ -12,7 +12,10 @@ export class SearchHistoryResolver implements Resolve<ResolvedSearchHistory> {
     constructor(private _searchHistoryService: SearchHistoryService, private _userService: UserService) {}
 
     resolve(): Observable<ResolvedSearchHistory> {
-        if (!this._userService.isGuest()) {
+        if (this._userService.isGuest()) {
+           return of(new ResolvedSearchHistory(null, null));
+        }
+        else {
             return this._searchHistoryService.getAll(20)
             .pipe(
                 map((userSearchHistory: SearchHistoryDto[]) => new ResolvedSearchHistory(userSearchHistory)),

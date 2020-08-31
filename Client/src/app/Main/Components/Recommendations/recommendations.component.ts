@@ -2,13 +2,14 @@ import { Component, OnInit, Input } from "@angular/core";
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
+import { UserService } from 'src/app/Core/Services/user.service';
 
 @Component ({
     templateUrl: './recommendations.component.html',
     styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit  {
-    constructor(private _route: ActivatedRoute){}
+    constructor(private _route: ActivatedRoute, private _userService: UserService){}
 
     //Data 
     selectedMovie: MovieDto;
@@ -16,10 +17,12 @@ export class RecommendationsComponent implements OnInit  {
     favorites: FavortiesDto[];
     isFavorite: boolean; 
     movieIndex: number;
+    isGuest: boolean = this._userService.isGuest();
     error: any[] = [];
 
     //Methods    
     ngOnInit () {
+        // Router subscription
         this._route.data
             .subscribe(
                 (data) => {

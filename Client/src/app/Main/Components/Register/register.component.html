@@ -47,13 +47,16 @@
                             Must be at least 7 characters.
                         </mat-error>
                     </mat-form-field>
-                    <button mat-raised-button (click)="registerUser(registerForm)" [disabled]="registerForm.invalid || isLoading" color="accent">
+                    <button class="register-button" mat-raised-button (click)="registerUser(registerForm)" [disabled]="registerForm.invalid || isLoading" color="accent">
                         Sign Up
                     </button>
                 </form>
             </mat-card>
-            <p>Don't Want to Register?</p>
-            <button mat-raised-button color="accent" (click)="guestLogin()">Continue as Guest</button>
+            <h5 class="message-1">Or</h5>
+            <div class="guest-login">
+                <button class="guest-button" mat-raised-button color="accent" (click)="guestLogin()">Continue as Guest</button>
+                <mat-icon>help</mat-icon>
+            </div>
         </mat-card>
     </div>
 </body>

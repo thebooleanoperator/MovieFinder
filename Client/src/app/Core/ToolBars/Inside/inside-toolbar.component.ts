@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/internal/operators/filter';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SettingsComponent } from 'src/app/Main/Components/Settings/settings.component';
+import { AuthService } from '../../Services/auth-service';
+import { UserService } from '../../Services/user.service';
 
 @Component({
   selector: 'inside-toolbar',
@@ -12,7 +14,11 @@ import { SettingsComponent } from 'src/app/Main/Components/Settings/settings.com
   styleUrls: ['./inside-toolbar.component.scss']
 })
 export class InsideToolbarComponent implements OnInit{
-    constructor(private _toolBarService: ToolBarService, protected _router: Router, private _settingsSheet: MatBottomSheet)
+    constructor(
+        private _toolBarService: ToolBarService, 
+        protected _router: Router, 
+        private _settingsSheet: MatBottomSheet,
+        private _userService: UserService)
     {
         // Returns a NavigationEnd observable, so we can check the url on route change end.
         this.resolveEnd = _router.events.pipe(
@@ -27,6 +33,7 @@ export class InsideToolbarComponent implements OnInit{
     isSearch: boolean;
     isFavorites: boolean;
     isStaffPicks: boolean; 
+    isGuest: boolean = this._userService.isGuest();
 
     ngOnInit() {
         // Used to set navigation variables on refresh when navigation functions arent hit.
