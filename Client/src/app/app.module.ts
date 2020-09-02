@@ -22,6 +22,7 @@ import { AppUtilities } from './Core/Utilities/app-utilities';
 import { WelcomeModule } from './Main/Modules/Welcome/welcome.module';
 import { AngularFormsModule } from './Shared/angular-forms.module';
 import { ContentModule } from './Main/Modules/Content/content.module';
+import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ContentModule } from './Main/Modules/Content/content.module';
   entryComponents: [
       SelectedMovieDialog,
       ChangePasswordDialog,
+      GuestHelpDialog,
       SettingsComponent,
       SearchHistoryComponent
   ],

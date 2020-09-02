@@ -52,10 +52,10 @@
                     </button>
                 </form>
             </mat-card>
-            <h5 class="message-1">Or</h5>
+            <h4 class="message-3">Or</h4>
             <div class="guest-login">
                 <button class="guest-button" mat-raised-button color="accent" (click)="guestLogin()">Continue as Guest</button>
-                <mat-icon>help</mat-icon>
+                <mat-icon (click)="openGuestHelpDialog()">help</mat-icon>
             </div>
         </mat-card>
     </div>

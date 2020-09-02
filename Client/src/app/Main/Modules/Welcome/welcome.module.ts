@@ -8,13 +8,15 @@ import { AngularMaterialModule } from 'src/app/Shared/angular-material.module';
 import { AngularLibrariesModule } from 'src/app/Shared/angular-libraries.module';
 import { AngularFormsModule } from 'src/app/Shared/angular-forms.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { GuestHelpDialog } from '../../Dialogs/Guest-Help/guest-help-dialog';
 
 @NgModule ({
     declarations: [
         OutsideToolbarComponent,
         WelcomeComponent,
         RegisterComponent,
-        LoginComponent
+        LoginComponent,
+        GuestHelpDialog
     ],
     imports: [
         BrowserModule,
@@ -27,7 +29,8 @@ import { BrowserModule } from '@angular/platform-browser';
         OutsideToolbarComponent,
         WelcomeComponent,
         RegisterComponent,
-        LoginComponent
+        LoginComponent,
+        GuestHelpDialog
     ]
 })
 

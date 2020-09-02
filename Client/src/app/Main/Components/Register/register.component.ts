@@ -4,6 +4,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
 import { Router } from '@angular/router';
+import { GuestHelpDialog } from '../../Dialogs/Guest-Help/guest-help-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'register',
@@ -15,7 +17,8 @@ export class RegisterComponent {
         private _authService: AuthService, 
         private _toolBarService: ToolBarService, 
         private _router: Router,
-        private _formBuilder: FormBuilder)
+        private _formBuilder: FormBuilder,
+        private _dialog: MatDialog)
         {
             this.registerForm = this._formBuilder.group
             (
@@ -56,6 +59,7 @@ export class RegisterComponent {
     }
 
     guestLogin(): void {
+        this._toolBarService.isLoading = true;
         this._authService.guestLogin()
             .subscribe(
                 (authDto: AuthDto) => {
@@ -68,5 +72,12 @@ export class RegisterComponent {
                     alert('Failed to login as guest');
                 }
             )
+    }
+
+    /**
+     * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
+     */
+    openGuestHelpDialog() {
+        this._dialog.open(GuestHelpDialog, {});
     }
 }

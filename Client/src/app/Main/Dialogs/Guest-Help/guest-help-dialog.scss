@@ -1,0 +1,9 @@
+#guestHelp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .title {
+        text-decoration: underline;
+    }
+}
