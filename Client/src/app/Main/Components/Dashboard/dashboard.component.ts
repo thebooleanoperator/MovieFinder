@@ -348,7 +348,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.selectedMovie = data; 
                     // Don't open the dialog without a returned movie.
                     if (this.selectedMovie) {
-                        this.openDialog(this.selectedMovie, this.favorites);
+                        this.openDialog(this.selectedMovie, this.favorites, this.isGuest);
                     }
                 },
                 (error) => {
@@ -379,10 +379,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    private openDialog(movie, favoriteMovies) {
+    private openDialog(movie, favoriteMovies, isGuest) {
         var isFavorite = this.getIsFavorite(movie, favoriteMovies);
         this.dialog.open(SelectedMovieDialog, {
-            data: {movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: true}
+            data: {isGuest: isGuest, movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: true}
         });
     }
 }

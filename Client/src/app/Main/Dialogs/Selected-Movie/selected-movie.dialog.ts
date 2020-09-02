@@ -22,6 +22,7 @@ export class SelectedMovieDialog {
         }
     
     // Data
+    isGuest: boolean = this.data.isGuest; 
     movie: MovieDto = this.data.movie;
     favoriteMovies: FavortiesDto[] = this.data.favoriteMovies;
     isFavorite: boolean = this.data.isFavorite;
