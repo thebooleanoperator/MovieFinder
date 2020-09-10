@@ -19,6 +19,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatListModule} from '@angular/material/list';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTooltipModule,
     MatBottomSheetModule,
     MatListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTabsModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -63,7 +65,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTooltipModule,
     MatBottomSheetModule,
     MatListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: []

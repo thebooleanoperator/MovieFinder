@@ -4,19 +4,10 @@
     flex-direction: column;
 
     .search-card {
-        margin-top: 125px;
         display: flex;
         align-items: center;
         flex-direction: column;
         padding: 30px;
-        background-color: rgba(41, 39, 40, 0.884);
-
-        .history-title {
-            font-size: 30px;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            margin-bottom: 15px;
-            color: white;
-        }
  
         .history-container {
             display: flex;
@@ -34,23 +25,15 @@
             }
         }
     }
-    .empty-card {
-        padding: 30px;
-        margin-top: 200px;
-        background-color: rgba(41, 39, 40, 0.884);
-        .empty-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            h4 {
-                color: white;
-                font-size: 30px;
-                padding: 5px;
-                margin: 0px;
-            }
-            mat-icon {
-                color: white !important;
-            }
+    .empty-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h4 {
+            color: #040c24;
+            font-size: 30px;
+            padding: 5px;
+            margin: 0px;
         }
     }
 }

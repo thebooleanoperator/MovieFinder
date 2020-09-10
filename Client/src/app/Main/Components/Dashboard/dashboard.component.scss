@@ -7,128 +7,145 @@
 
     .search-container {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        align-items: center;
+        background-color: #b0bec5;
 
-        .input-box {
+        ::ng-deep .mat-tab-body-content {
+            display: flex;
+        }
+
+        .logo {
+            height: 75px;
+            width: 75px;
+            margin: 20px 10px 0px 0px;
+        }
+
+        .search-options {
             display: flex;
             justify-content: center;
-            
-            ::ng-deep .mat-form-field-wrapper  {
-                height: 40px;
-                width: 650px;
-                background-color: white;
-                border: 2px solid black;
+            align-items: center;
+            flex-direction: row;
+            margin-top: 20px;
 
-                ::ng-deep .mat-form-field-infix {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: row;
-                    border: none;
-                    padding: unset;
-
-                    ::ng-deep .mat-input-element {
-                        height: 60px;
-                        font-size: 25px;
-                        caret-color: #040c24;
-                        color: #040c24;
-                        padding-left: 5px;
-                    }
-                    ::ng-deep .mat-form-field-label-wrapper {
-                        top: -.94375em;
-                        ::ng-deep .mat-form-field-label {
-                            top: 1.18125em;
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    height: 40px;
+                    width: 550px;
+                    background-color: white;
+                    border: 2px solid black;
+    
+                    ::ng-deep .mat-form-field-infix {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: row;
+                        border: none;
+                        padding: unset;
+    
+                        ::ng-deep .mat-input-element {
+                            height: 60px;
                             font-size: 25px;
+                            caret-color: #040c24;
                             color: #040c24;
                             padding-left: 5px;
                         }
+                        ::ng-deep .mat-form-field-label-wrapper {
+                            top: -1.04375em;
+                            ::ng-deep .mat-form-field-label {
+                                top: 1.18125em;
+                                font-size: 25px;
+                                color: #040c24;
+                                padding-left: 5px;
+                            }
+                        }
+                    }
+    
+                    ::ng-deep .mat-form-field-underline {
+                        display: none;
                     }
                 }
-
-                ::ng-deep .mat-form-field-underline {
-                    display: none;
-                }
-            }
-
-            .search-icon {
-                height: auto;
-                width: auto;
-                font-size: 60px;
-                color: #040c24
-            }
     
-            .search-icon:hover {
-                cursor: pointer;
-            }
+                .search-icon {
+                    height: auto;
+                    width: auto;
+                    font-size: 60px;
+                    color: #040c24
+                }
+        
+                .search-icon:hover {
+                    cursor: pointer;
+                }
+            }    
+        
+            .year-box {
+                display: flex;
+                justify-content: center;
+       
+                ::ng-deep .mat-form-field-wrapper {
+                    padding: unset;
+    
+                    ::ng-deep .mat-form-field-infix {
+                        width: 100px;
+                        height: 60px;
+                        padding: unset;
+                        border: 2px solid black;
+    
+                        .year-input {
+                            box-shadow: none;
+                            font-size: 15px;
+                            background-color: white;
+            
+                            ::ng-deep .mat-select-trigger {
+                                height: 60px;
+                
+                                ::ng-deep .mat-select-value {
+                                    font-size: 25px;
+                                    vertical-align: middle;
+            
+                                    ::ng-deep .mat-select-value-text {
+                                        color: #424242!important;
+                                    }
+                                }
+                
+                                ::ng-deep .mat-select-arrow-wrapper {
+                                    padding-right: 5px;
+                                    ::ng-deep .mat-select-arrow {
+                                        color: #424242
+                                    }
+                                }
+                            }
+                        }
+                        ::ng-deep .mat-form-field-label-wrapper {
+                            top: -1.04375em;
+                            ::ng-deep .mat-form-field-label {
+                                font-size: 25px;
+                                padding-left: 5px;
+                                color: #424242 !important;
+                                top: 1.18125em;
+                            }
+                        }
+                    }
+    
+                    ::ng-deep .mat-form-field-underline {
+                        display: none;
+                    }
+                }
+            } 
         }
         
-        .year-box {
-            display: flex;
-            justify-content: center;
-   
-            ::ng-deep .mat-form-field-wrapper {
-                padding: unset;
-
-                ::ng-deep .mat-form-field-infix {
-                    width: 100px;
-                    height: 60px;
-                    padding: unset;
-                    border: 2px solid black;
-
-                    .year-input {
-                        box-shadow: none;
-                        font-size: 15px;
-                        background-color: #424242;
-        
-                        ::ng-deep .mat-select-trigger {
-                            height: 60px;
-            
-                            ::ng-deep .mat-select-value {
-                                font-size: 25px;
-                                vertical-align: middle;
-        
-                                ::ng-deep .mat-select-value-text {
-                                    color: white!important;
-                                }
-                            }
-            
-                            ::ng-deep .mat-select-arrow-wrapper {
-                                padding-right: 5px;
-                                ::ng-deep .mat-select-arrow {
-                                    color: white
-                                }
-                            }
-                        }
-                    }
-                    ::ng-deep .mat-form-field-label-wrapper {
-                        top: -.94375em;
-                        ::ng-deep .mat-form-field-label {
-                            font-size: 25px;
-                            padding-left: 5px;
-                            color: white !important;
-                            top: 1.18125em;
-                        }
-                    }
-                }
-
-                ::ng-deep .mat-form-field-underline {
-                    display: none;
-                }
-            }
-        } 
     }
     .search-results {
         padding: 10px;
         table {
             width: 600px;
-            background-color: rgba(184, 175, 177, 0.219);
+            background-color: #b0bec5;
             .mat-header-row {
                 .mat-header-cell {
                     font-size: 20px;
-                    color: #040c24;
                     font-weight: 900;
                     color: white;
-                    background-color: black;
+                    background-color: #c2185b;
                 }
             }
             .mat-row {
@@ -147,12 +164,12 @@
                 }
             }
             .mat-row:hover {
-                background-color: #c2185b;
+                background-color: rgba(129, 122, 123, 0.507);
                 cursor: pointer;
             }
         }
         .mat-paginator {
-            background-color: #040c24;
+            background-color: #c2185b;
             ::ng-deep .mat-paginator-range-actions {
                 font-size: 20px;
                 color: white;
@@ -169,9 +186,9 @@
 }
 
 ::ng-deep .mat-select-panel {
-    background-color: #9da5bd;
+    background-color: #424242;
     ::ng-deep .mat-option {
-        color: #040c24;
+        color: white;
     }
 }
 
@@ -182,12 +199,14 @@
 @media screen and (max-width: 1000px) {
     #search {
         margin-top: 141px;
-        .search-container {       
-            .input-box {               
-                ::ng-deep .mat-form-field-wrapper  {
-                    width: 400px;
+        .search-container {  
+            .search-options {
+                .input-box {               
+                    ::ng-deep .mat-form-field-wrapper  {
+                        width: 400px;
+                    }
                 }
-            }
+            }     
         }
         .search-results {
             table {
@@ -199,72 +218,75 @@
 
 @media screen and (max-width: 600px) {
     #search {
-        .search-container {        
-            .input-box {               
-                ::ng-deep .mat-form-field-wrapper  {
-                    width: 275px;
-                    height: 30px;
-
-                    ::ng-deep .mat-form-field-infix {
-
-                        ::ng-deep .mat-input-element {
-                            height: 30px;
-                            font-size: 20px !important;
-                            caret-color: rgba(83, 47, 47, 0.87);
-                            color: rgba(83, 47, 47, 0.87);
-                            padding-left: 5px;
-                        }
-                        ::ng-deep .mat-form-field-label-wrapper {
-                            top: -1.44375em !important;
-                            ::ng-deep .mat-form-field-label {
-                                top: 1.68125em !important;
-                                font-size: 20px !important;
-                            }
-                        }
-     
-                    }
-                }
-    
-                .search-icon {
-                    font-size: 50px;
-                }
+        .search-container {    
+            .logo {
+                display: none;
             }
-            .year-box {    
-                ::ng-deep .mat-form-field-wrapper {
-                    height: 50px;
-                    width: 75px;
-                    ::ng-deep .mat-form-field-infix {
-                        height: 50px;
-
-                        .year-input {            
-                            ::ng-deep .mat-select-trigger {
-                                height: 50px;
-                
-                                ::ng-deep .mat-select-value {
+            .search-options {
+                .input-box {               
+                    ::ng-deep .mat-form-field-wrapper  {
+                        width: 275px;
+                        height: 30px;
+    
+                        ::ng-deep .mat-form-field-infix {
+    
+                            ::ng-deep .mat-input-element {
+                                height: 30px;
+                                font-size: 20px !important;
+                                caret-color: rgba(83, 47, 47, 0.87);
+                                color: rgba(83, 47, 47, 0.87);
+                                padding-left: 5px;
+                            }
+                            ::ng-deep .mat-form-field-label-wrapper {
+                                top: -1.44375em !important;
+                                ::ng-deep .mat-form-field-label {
+                                    top: 1.68125em !important;
                                     font-size: 20px !important;
                                 }
-                
-                                ::ng-deep .mat-select-arrow-wrapper {
-                                    padding-right: 5px;
-                                }
-
-                                ::ng-deep .mat-select-arrow-wrapper {
-                                    padding-right: 1px;
+                            }
+         
+                        }
+                    }
+                    .search-icon {
+                        font-size: 50px;
+                    }
+                }
+                .year-box {    
+                    ::ng-deep .mat-form-field-wrapper {
+                        height: 50px;
+                        width: 75px;
+                        ::ng-deep .mat-form-field-infix {
+                            height: 50px;
+    
+                            .year-input {            
+                                ::ng-deep .mat-select-trigger {
+                                    height: 50px;
+                    
+                                    ::ng-deep .mat-select-value {
+                                        font-size: 20px !important;
+                                    }
+                    
+                                    ::ng-deep .mat-select-arrow-wrapper {
+                                        padding-right: 5px;
+                                    }
+    
+                                    ::ng-deep .mat-select-arrow-wrapper {
+                                        padding-right: 1px;
+                                    }
                                 }
                             }
-                        }
-                        ::ng-deep .mat-form-field-label-wrapper {
-                            top: -1.44375em !important;
-                            ::ng-deep .mat-form-field-label {
-                                font-size: 20px !important;
-                                top: 1.68125em !important;
-                                padding-left: 2px !important;
+                            ::ng-deep .mat-form-field-label-wrapper {
+                                top: -1.44375em !important;
+                                ::ng-deep .mat-form-field-label {
+                                    font-size: 20px !important;
+                                    top: 1.68125em !important;
+                                    padding-left: 2px !important;
+                                }
                             }
                         }
                     }
                 }
-            }
-            
+            }    
         }
         .search-results {
             padding-top: 5px;

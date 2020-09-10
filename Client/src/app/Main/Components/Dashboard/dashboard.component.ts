@@ -14,7 +14,7 @@ import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'r
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
-import { AuthService } from 'src/app/Core/Services/auth-service';
+import { clear } from 'console';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         private imdbIdsService: ImdbIdsService, 
         private _searchHistoryService: SearchHistoryService,
         private _userService: UserService,
-        private _authService: AuthService,
         private toolBarService: ToolBarService, 
         private dialog: MatDialog){}
 
@@ -381,8 +380,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     private openDialog(movie, favoriteMovies, isGuest) {
         var isFavorite = this.getIsFavorite(movie, favoriteMovies);
+        var existsInHistory = this.searchedMovies.some((searchMovie) => {
+            return searchMovie.movieId == movie.movieId
+        });
+        console.log(existsInHistory);
         this.dialog.open(SelectedMovieDialog, {
-            data: {isGuest: isGuest, movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: true}
+            data: {isGuest: isGuest, movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: !existsInHistory}
         });
     }
 }

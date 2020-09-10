@@ -24,7 +24,6 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     @Input() isGuest: boolean;
     @Input() favorites: FavortiesDto[];
     @Input() searchedMovies: SearchHistoryDto[];
-    @Input() searchTableDisplayed: boolean;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
