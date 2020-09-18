@@ -112,7 +112,7 @@ namespace MovieFinder
             app.UseCors(builder =>
             {
                 builder
-                .WithOrigins(Configuration["CORSOrigins"])
+                .WithOrigins("http://localhost:4200")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();

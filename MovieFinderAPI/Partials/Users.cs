@@ -10,73 +10,32 @@ namespace MovieFinder.Models
 
         }
 
-        public Users(CreateAccountDto createAccountDto)
+        public Users(RegisterDto registerDto)
         {
-            if (createAccountDto.FirstName == null)
+            if (registerDto.FirstName == null)
             {
                 throw new ArgumentException("First name must have characters");
             }
 
-            if (createAccountDto.LastName == null)
+            if (registerDto.LastName == null)
             {
                 throw new ArgumentException("Last name must have characters");
             }
 
-            if (createAccountDto.Email == null)
+            if (registerDto.Email == null)
             {
                 throw new ArgumentException("Email must have characters");
             }
 
-            if (createAccountDto.Password == null)
+            if (registerDto.Password == null)
             {
                 throw new ArgumentException("Password must have characters");
             }
 
-            FirstName = createAccountDto.FirstName;
-            LastName = createAccountDto.LastName;
-            Email = createAccountDto.Email;
-            UserName = createAccountDto.Email;
-        }
-
-        public static void VerifyCreateDto(CreateAccountDto createAccountDto)
-        {
-            if (createAccountDto == null)
-            {
-                throw new ArgumentException("CreateAccountDto must not be empty.");
-            }
-
-            if (createAccountDto.Email == null)
-            {
-                throw new ArgumentException("Email must not be empty.");
-            }
-
-            if (createAccountDto.FirstName == null)
-            {
-                throw new ArgumentException("First name must not be empty.");
-            }
-
-            if (createAccountDto.LastName == null)
-            {
-                throw new ArgumentException("Last name must not be empty.");
-            }
-        }
-
-        public static void VerifyLoginDto(LoginDto loginDto)
-        {
-            if (loginDto == null)
-            {
-                throw new ArgumentException("LoginDto must not be empty.");
-            }
-
-            if (loginDto.Email == null)
-            {
-                throw new ArgumentException("Email must not be empty.");
-            }
-
-            if (loginDto.Password == null)
-            {
-                throw new ArgumentException("Password must not be empty.");
-            }
+            FirstName = registerDto.FirstName;
+            LastName = registerDto.LastName;
+            Email = registerDto.Email;
+            UserName = registerDto.Email;
         }
     }
 }

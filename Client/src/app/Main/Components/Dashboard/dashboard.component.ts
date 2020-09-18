@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         private imdbIdsService: ImdbIdsService, 
         private _searchHistoryService: SearchHistoryService,
         private _userService: UserService,
-        private toolBarService: ToolBarService, 
+        public toolBarService: ToolBarService, 
         private dialog: MatDialog){}
 
     /**

@@ -30,31 +30,33 @@ namespace MovieFinder.Services
             _unitOfWork = new UnitOfWork(movieFinderContext);
         }
 
-        public async Task<AuthenticationDto> RegisterUserAsync(CreateAccountDto createAccountDto)
+        public async Task<RegisterDto> RegisterAsync(RegisterDto registerDto)
         {
-            var existingUser = await _userManager.FindByEmailAsync(createAccountDto.Email);
+            var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
 
             if (existingUser != null)
             {
-                return new AuthenticationDto
+                return new RegisterDto
                 {
+                    IsSuccess = false,
                     Error = "User with this email already exists"
                 };
             }
 
-            var newUser = new Users(createAccountDto);
+            var newUser = new Users(registerDto);
 
-            var createdUser = await _userManager.CreateAsync(newUser, createAccountDto.Password);
+            var createdUser = await _userManager.CreateAsync(newUser, registerDto.Password);
 
             if (!createdUser.Succeeded)
             {
-                return new AuthenticationDto
+                return new RegisterDto
                 {
+                    IsSuccess = false,
                     Error = string.Join("\n", createdUser.Errors.Select(e => e.Description))
                 };
             }
 
-            return AuthenticationResult(newUser);
+            return registerDto;
         }
 
         public async Task<AuthenticationDto> LoginAsync(LoginDto loginDto)
@@ -69,23 +71,30 @@ namespace MovieFinder.Services
             {
                 return new AuthenticationDto
                 {
+                    IsSuccess = false,
                     Error = "User login failed."
                 };
             }
 
             var verifedPassword = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            Console.WriteLine("**** PW verified: " + verifedPassword);
-
             if (!verifedPassword)
             {
                 return new AuthenticationDto
                 {
+                    IsSuccess = false,
                     Error = "User login failed."
                 };
             }
 
-            return AuthenticationResult(user); 
+            var jwtToken = CreateJwtToken(user);
+
+            return new AuthenticationDto
+            {
+                Token = jwtToken,
+                IsSuccess = true,
+                UserDto = new UsersDto(user)
+            };
         }
 
         public AuthenticationDto GuestLogin()
@@ -99,7 +108,13 @@ namespace MovieFinder.Services
                 Id = Guid.NewGuid().ToString()
             };
 
-            return AuthenticationResult(guestUser);
+            var jwtToken = CreateJwtToken(guestUser);
+
+            return new AuthenticationDto
+            {
+                Token = jwtToken,
+                UserDto = new UsersDto(guestUser)
+            };
         }
         
         public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto)
@@ -137,52 +152,96 @@ namespace MovieFinder.Services
             return true;
         }
 
-        public async Task<AuthenticationDto> RefreshTokenAsync(string jwtToken, string refreshToken)
+        public string CreateJwtToken(Users user)
         {
-            var validatedToken = GetPrincipalFromToken(jwtToken); 
+            Console.WriteLine("**** User logging in: " + user);
 
-            if (validatedToken == null)
+            Console.WriteLine("**** jwt secret: " + MoviePrestoSettings.Configuration["JwtSecret"]);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MoviePrestoSettings.Configuration["JwtSecret"]));
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                return new AuthenticationDto() { Error = "Invalid Token" }; 
-            }
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim("UserId", user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.Add(TimeSpan.Parse(MoviePrestoSettings.Configuration["TokenLifetime"])),
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
+            };
 
-            var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
-            var storedRefreshToken = _unitOfWork.RefreshToken.GetByToken(refreshToken);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            if (storedRefreshToken == null)
-            {
-                return new AuthenticationDto() { Error = "Refresh token does not exist." };
-            }
-
-            if (DateTime.UtcNow > storedRefreshToken.ExpirationDate)
-            {
-                return new AuthenticationDto() { Error = "Refresh token has expired." };
-            }
-
-            if (storedRefreshToken.Invalidated)
-            {
-                return new AuthenticationDto() { Error = "Refresh token has been invalidated." };
-            }
-
-            if (storedRefreshToken.IsUsed)
-            {
-                return new AuthenticationDto() { Error = "Refresh token has been used." };
-            }
-
-            if (storedRefreshToken.JwtId != jti)
-            {
-                return new AuthenticationDto() { Error = "JWT does not match refresh token." };
-            }
-
-            storedRefreshToken.IsUsed = true;
-            _unitOfWork.RefreshToken.Update(storedRefreshToken);
-            _unitOfWork.SaveChanges();
-
-            var user = await _userManager.FindByIdAsync(validatedToken.FindFirst(claim => claim.Type == "Id").Value);
-            return AuthenticationResult(user);
+            return tokenHandler.WriteToken(token);
         }
 
-        private ClaimsPrincipal GetPrincipalFromToken(string token)
+        public RefreshToken CreateRefreshToken(string jwtToken, int userId)
+        {
+            if (jwtToken == null)
+            {
+                throw new ArgumentException("JwtToken required to create RefreshToken.");
+            }
+
+            if (userId < 0)
+            {
+                throw new ArgumentException("UserId must be greater than zero.");
+            }
+
+            var refreshToken = new RefreshToken()
+            {
+                Token = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.UtcNow.AddMonths(int.Parse(MoviePrestoSettings.Configuration["RefreshLifetime"])),
+                UserId = userId
+            };
+
+            return refreshToken;
+        }
+
+        public bool RefreshTokenIsValid(string jwtToken, string refreshToken)
+        {
+            var isValid = TokenIsValid(jwtToken); 
+            var storedRefreshToken = _unitOfWork.RefreshToken.GetByToken(refreshToken);
+            try
+            {
+                if (!isValid)
+                {
+                    throw new Exception("Refresh token not valid");
+                }
+                if (storedRefreshToken == null)
+                {
+                    throw new Exception("Refresh token not found");
+                }
+
+                if (DateTime.UtcNow > storedRefreshToken.ExpirationDate)
+                {
+                    throw new Exception("Refresh token has expired");
+                }
+
+                if (storedRefreshToken.Invalidated)
+                {
+                    throw new Exception("Refresh token has been invalidated.");
+                }
+
+                return true;
+            }
+            
+            catch(Exception e)
+            {
+                Console.WriteLine("Error validating refresh token: " + e.ToString());
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validate jwtToken is a valid token.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private bool TokenIsValid(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -201,65 +260,26 @@ namespace MovieFinder.Services
                 var princpal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken); 
                 if (!IsJwtWithValidSecurityAlgorithim(validatedToken))
                 {
-                    return null;
+                    return false;
                 }
-                return princpal;
+                return true;
 
             }
             catch
             {
-                return null;
+                return false;
             }
         }
 
+        /// <summary>
+        /// Helper function that validates Jwt token was created with valid security algorithim.
+        /// </summary>
+        /// <param name="validatedToken"></param>
+        /// <returns></returns>
         private bool IsJwtWithValidSecurityAlgorithim(SecurityToken validatedToken)
         {
             return (validatedToken is JwtSecurityToken jwtSecurityToken &&
                 jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        private AuthenticationDto AuthenticationResult(Users newUser)
-        {
-            Console.WriteLine("**** User logging in: " + newUser);
-
-            Console.WriteLine("**** jwt secret: " + MoviePrestoSettings.Configuration["JwtSecret"]);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MoviePrestoSettings.Configuration["JwtSecret"]));
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
-                    new Claim("Id", newUser.Id.ToString()),
-                    new Claim("UserId", newUser.UserId.ToString())
-                }),
-                Expires = DateTime.UtcNow.Add(TimeSpan.Parse(MoviePrestoSettings.Configuration["TokenLifetime"])),
-                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            var refreshToken = new RefreshToken()
-            {
-                Token = Guid.NewGuid().ToString(),
-                JwtId = token.Id,
-                ExpirationDate = DateTime.UtcNow.AddMonths(int.Parse(MoviePrestoSettings.Configuration["RefreshLifetime"])),
-                IsUsed = false,
-                UserId = newUser.UserId
-            };
-
-            _unitOfWork.RefreshToken.Add(refreshToken);
-            _unitOfWork.SaveChanges();
-
-            return new AuthenticationDto
-            {
-                Token = tokenHandler.WriteToken(token),
-                RefreshToken = refreshToken.Token,
-                UserDto = new UsersDto(newUser)
-            };
         }
     }
 }

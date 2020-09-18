@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
-using MovieFinder.Models;
+using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
+using MovieFinder.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -13,33 +14,39 @@ namespace MovieFinder.Controllers
     public class AccountsController : Controller
     {
         private IIdentityService _identityService;
-        private IRequestCookieCollection _cookies; 
+        private IRequestCookieCollection _cookies;
+        private UnitOfWork _unitOfWork;
+        private Session _sesionVars; 
 
-        public AccountsController(IIdentityService identityService, IHttpContextAccessor httpContext)
+        public AccountsController(IIdentityService identityService, IHttpContextAccessor httpContext, MovieFinderContext movieFinderContext)
         {
             _identityService = identityService;
             _cookies = httpContext.HttpContext.Request.Cookies;
+            _unitOfWork = new UnitOfWork(movieFinderContext);
+
+            if(httpContext.HttpContext.User != null)
+            {
+                _sesionVars = new Session(httpContext.HttpContext.User);
+            }
         }
 
         /// <summary>
-        /// Registers a user account and returns JWT token on success.
+        /// Registers a user account.
         /// </summary>
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] CreateAccountDto createAccountDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            Users.VerifyCreateDto(createAccountDto);
+            var register = await _identityService.RegisterAsync(registerDto);
 
-            var authenticationResponse = await _identityService.RegisterUserAsync(createAccountDto);
-
-            if (!String.IsNullOrEmpty(authenticationResponse.Error))
+            if (!register.IsSuccess)
             {
-                return BadRequest(authenticationResponse.Error);
+                return BadRequest(register.Error);
             }
 
-            return Ok(authenticationResponse); 
+            return Ok(); 
         }
 
         /// <summary>
@@ -51,17 +58,26 @@ namespace MovieFinder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
         {
-            Users.VerifyLoginDto(loginDto);
-
-            var authenticationResponse = await _identityService.LoginAsync(loginDto); 
+            var authenticationDto = await _identityService.LoginAsync(loginDto); 
 
             // If error is not null, return the error to client. 
-            if (!String.IsNullOrEmpty(authenticationResponse.Error))
+            if (!authenticationDto.IsSuccess)
             {
-                return BadRequest(authenticationResponse.Error);
+                return BadRequest(authenticationDto.Error);
             }
 
-            return Ok(authenticationResponse);
+            // Create refresh token and add to http only cookie.
+            var refreshToken = _identityService.CreateRefreshToken(authenticationDto.Token, authenticationDto.UserDto.UserId);
+
+            _unitOfWork.RefreshToken.Add(refreshToken);
+            _unitOfWork.SaveChanges();
+
+            /*HttpContext.Response.Cookies.Append("Cookie", refreshToken.Token, new CookieOptions()
+            {
+                HttpOnly = true
+            });*/
+
+            return Ok(authenticationDto);
         }
 
         /// <summary>
@@ -90,15 +106,24 @@ namespace MovieFinder.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
+        public IActionResult RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
         {
             var refreshToken = _cookies["refreshToken"];
-            var authenticationDto = await _identityService.RefreshTokenAsync(refreshRequest.Token, refreshToken);
+            var refreshTokneIsValid = _identityService.RefreshTokenIsValid(refreshRequest.Token, refreshToken);
 
-            if (!String.IsNullOrEmpty(authenticationDto.Error))
+            if (!refreshTokneIsValid)
             {
-                return BadRequest(authenticationDto.Error);
+                return BadRequest("Refresh token is not valid");
             }
+
+            var user = _unitOfWork.Users.GetByUserId(_sesionVars.UserId);
+            var jwtToken = _identityService.CreateJwtToken(user);
+
+            var authenticationDto =  new AuthenticationDto
+            {
+                Token = jwtToken,
+                UserDto = new UsersDto(user)
+            };
 
             return Ok(authenticationDto);
         }
@@ -129,7 +154,7 @@ namespace MovieFinder.Controllers
                 return BadRequest("Failed to update password");
             }
 
-            var refreshToken = _cookies["refreshToken"];
+            /*var refreshToken = _cookies["refreshToken"];
 
             var authenticationDto = await _identityService.RefreshTokenAsync(updatePasswordDto.Token, refreshToken);
 
@@ -138,7 +163,9 @@ namespace MovieFinder.Controllers
                 return BadRequest(authenticationDto.Error);
             }
 
-            return Ok(authenticationDto);
+            return Ok(authenticationDto);*/
+
+            return Ok();
         }
     }
 }

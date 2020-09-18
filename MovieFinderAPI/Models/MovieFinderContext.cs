@@ -174,11 +174,7 @@ namespace MovieFinder
                     entity.Property(m => m.Token)
                         .ValueGeneratedNever();
 
-                    entity.Property(m => m.JwtId);
-
                     entity.Property(m => m.ExpirationDate);
-
-                    entity.Property(m => m.IsUsed);
 
                     entity.Property(m => m.Invalidated);
 
