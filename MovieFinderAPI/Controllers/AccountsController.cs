@@ -5,7 +5,7 @@ using MovieFinder.DtoModels;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
-using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
@@ -14,24 +14,23 @@ namespace MovieFinder.Controllers
     public class AccountsController : Controller
     {
         private IIdentityService _identityService;
-        private IRequestCookieCollection _cookies;
+        private ITokenService _tokenService;
         private UnitOfWork _unitOfWork;
         private Session _sesionVars; 
 
-        public AccountsController(IIdentityService identityService, IHttpContextAccessor httpContext, MovieFinderContext movieFinderContext)
+        public AccountsController(
+            IIdentityService identityService, 
+            ITokenService tokenService,
+            IHttpContextAccessor httpContext, 
+            MovieFinderContext movieFinderContext)
         {
             _identityService = identityService;
-            _cookies = httpContext.HttpContext.Request.Cookies;
+            _tokenService = tokenService;
             _unitOfWork = new UnitOfWork(movieFinderContext);
-
-            if(httpContext.HttpContext.User != null)
-            {
-                _sesionVars = new Session(httpContext.HttpContext.User);
-            }
         }
 
         /// <summary>
-        /// Registers a user account.
+        /// Registers a new user account.
         /// </summary>
         /// <param name="createAccountDto"></param>
         /// <returns></returns>
@@ -66,17 +65,15 @@ namespace MovieFinder.Controllers
                 return BadRequest(authenticationDto.Error);
             }
 
-            // Create refresh token and add to http only cookie.
-            var refreshToken = _identityService.CreateRefreshToken(authenticationDto.Token, authenticationDto.UserDto.UserId);
-
-            _unitOfWork.RefreshToken.Add(refreshToken);
-            _unitOfWork.SaveChanges();
-
-            /*HttpContext.Response.Cookies.Append("Cookie", refreshToken.Token, new CookieOptions()
+            var refreshToken = _unitOfWork.RefreshToken.GetByUserId(authenticationDto.UserDto.UserId);
+            // Create refresh token and add to http only cookie if one doesnt exist.
+            if (refreshToken == null)
             {
-                HttpOnly = true
-            });*/
-
+                refreshToken = _tokenService.CreateRefreshToken(authenticationDto.Token, authenticationDto.UserDto.UserId);
+                _unitOfWork.RefreshToken.Add(refreshToken);
+                _unitOfWork.SaveChanges();
+            }
+          
             return Ok(authenticationDto);
         }
 
@@ -88,15 +85,24 @@ namespace MovieFinder.Controllers
         [AllowAnonymous]
         public IActionResult GuestLogin()
         {
-            var authenticationResponse = _identityService.GuestLogin();
+            var authenticationDto = _identityService.GuestLogin();
 
             // If error is not null, return the error to client.
-            if (!String.IsNullOrEmpty(authenticationResponse.Error))
+            if (!authenticationDto.IsSuccess)
             {
-                return BadRequest(authenticationResponse.Error);
+                return BadRequest(authenticationDto.Error);
             }
 
-            return Ok(authenticationResponse);
+            var refreshToken = _unitOfWork.RefreshToken.GetByUserId(authenticationDto.UserDto.UserId);
+            // Create refresh token and add to http only cookie if one doesnt exist.
+            if (refreshToken == null)
+            {
+                refreshToken = _tokenService.CreateRefreshToken(authenticationDto.Token, authenticationDto.UserDto.UserId);
+                _unitOfWork.RefreshToken.Add(refreshToken);
+                _unitOfWork.SaveChanges();
+            }
+
+            return Ok(authenticationDto);
         }
 
         /// <summary>
@@ -104,20 +110,21 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="refreshRequest"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("{userId}")]
         [AllowAnonymous]
-        public IActionResult RefreshToken([FromBody] RefreshTokenRequestDto refreshRequest)
+        public IActionResult RefreshToken(int userId)
         {
-            var refreshToken = _cookies["refreshToken"];
-            var refreshTokneIsValid = _identityService.RefreshTokenIsValid(refreshRequest.Token, refreshToken);
+            // ToDo: get userId from session. Need to figure out how to only create session when user is logged in.
+            var refreshToken = _unitOfWork.RefreshToken.GetByUserId(userId);
+            var refreshTokneIsValid = _tokenService.RefreshTokenIsValid(refreshToken);
 
             if (!refreshTokneIsValid)
             {
                 return BadRequest("Refresh token is not valid");
             }
 
-            var user = _unitOfWork.Users.GetByUserId(_sesionVars.UserId);
-            var jwtToken = _identityService.CreateJwtToken(user);
+            var user = _unitOfWork.Users.GetByUserId(userId);
+            var jwtToken = _tokenService.CreateJwtToken(user);
 
             var authenticationDto =  new AuthenticationDto
             {

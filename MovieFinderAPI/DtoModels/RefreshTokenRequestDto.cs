@@ -2,6 +2,7 @@
 {
     public class RefreshTokenRequestDto
     {
-        public string Token { get; set; }
+        public string JwtToken { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -28,13 +28,11 @@ export class AuthService {
     }
 
     refreshToken(): Observable<any> {
-        var jwtToken = this.token; 
-        return this.http.post('/Accounts/RefreshToken', {'Token': jwtToken})
+        return this.http.post(`/Accounts/RefreshToken/${this.user.userId}`, {})
             .pipe(
                 map((response: AuthDto) => {
                         this.token = response.token;
                         this.user = response.userDto;
-                        this.setRefreshToken(response.refreshToken);
                         return response;
                     }
                 )
@@ -47,7 +45,6 @@ export class AuthService {
                 map((response: AuthDto) => {
                     this.token = response.token;
                     this.user = response.userDto;
-                    this.setRefreshToken(response.refreshToken);
                     return response;
                 })
             )
@@ -63,10 +60,6 @@ export class AuthService {
             return false
         }
         return true;
-    }
-
-    setRefreshToken(token: string) {
-        document.cookie = `refreshToken=${token}; path=/;`;
     }
 
     get token(): string {

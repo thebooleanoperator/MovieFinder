@@ -49,6 +49,8 @@ namespace MovieFinder
 
             services.AddScoped<IImdbIdsService, ImdbIdsService>();
 
+            services.AddScoped<ITokenService, TokenService>();
+
             services.AddIdentity<Users, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 7;
@@ -112,7 +114,7 @@ namespace MovieFinder
             app.UseCors(builder =>
             {
                 builder
-                .WithOrigins("http://localhost:4200")
+                .WithOrigins(Configuration["CORSOrigins"])
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();

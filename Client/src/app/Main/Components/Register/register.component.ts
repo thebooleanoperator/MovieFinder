@@ -46,14 +46,27 @@ export class RegisterComponent {
         this.isLoading = true;
         this._authService.register(firstName, lastName, email, password)
             .subscribe(
-                (authDto: AuthDto) => {
-                    this._authService.token = authDto.token;
-                    this._authService.user = authDto.userDto;
-                    this._router.navigate(['/content/dashboard'])
-                        .finally(() => this._toolBarService.isLoading = false); 
+                () => {
+                    this._authService.login(email, password)
+                        .subscribe(
+                            (authDto: AuthDto) => {
+                                this._authService.token = authDto.token;
+                                this._authService.user = authDto.userDto;
+                                this._router.navigate(['/content/dashboard']);
+                            },
+                            () => {
+                                alert("Login Failed");
+                            }
+                        )
                 },
                 () => {
-                    alert("Login failed");
+                    alert("Registeration Failed");
+                    this._toolBarService.isLoading = false;
+                    this.isLoading = false;
+                },
+                () => {
+                    this._toolBarService.isLoading = false;
+                    this.isLoading = false;
                 }
             );
     }

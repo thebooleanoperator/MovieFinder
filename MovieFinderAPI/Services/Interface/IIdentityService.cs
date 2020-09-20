@@ -15,8 +15,5 @@ namespace MovieFinder.Services.Interface
         Task<AuthenticationDto> LoginAsync(LoginDto loginDto);
         AuthenticationDto GuestLogin();
         Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto);
-        string CreateJwtToken(Users user);
-        RefreshToken CreateRefreshToken(string jwtToken, int userId);
-        bool RefreshTokenIsValid(string jwtToken, string refreshToken);
     }
 }

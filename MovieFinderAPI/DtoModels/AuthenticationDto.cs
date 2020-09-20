@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-
-namespace MovieFinder.DtoModels
+﻿namespace MovieFinder.DtoModels
 {
     public class AuthenticationDto
     {
