@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieFinder.DtoModels;
 using MovieFinder.Models;
 using MovieFinder.Repository;
-using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
 using System.Linq;
 
