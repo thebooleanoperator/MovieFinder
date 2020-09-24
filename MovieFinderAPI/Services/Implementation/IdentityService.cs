@@ -57,6 +57,7 @@ namespace MovieFinder.Services
                 };
             }
 
+            registerDto.IsSuccess = true;
             return registerDto;
         }
 
@@ -109,14 +110,7 @@ namespace MovieFinder.Services
 
         public AuthenticationDto GuestLogin()
         {
-            var guestUser = new Users()
-            {
-                UserId = 0,
-                FirstName = "Guest",
-                LastName = "Account",
-                Email = "GuestAccount@guest.com",
-                Id = Guid.NewGuid().ToString()
-            };
+            var guestUser = CreateGuest();
 
             var jwtToken = _tokenService.CreateJwtToken(guestUser);
 
@@ -134,6 +128,19 @@ namespace MovieFinder.Services
                 Token = jwtToken,
                 IsSuccess = true,
                 UserDto = new UsersDto(guestUser)
+            };
+        }
+
+        // ToDo: look into creating guest row in AspNetUsers.
+        public Users CreateGuest()
+        {
+            return new Users()
+            {
+                UserId = 0,
+                FirstName = "Guest",
+                LastName = "Account",
+                Email = "GuestAccount@guest.com",
+                Id = Guid.NewGuid().ToString()
             };
         }
         

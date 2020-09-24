@@ -14,6 +14,7 @@ namespace MovieFinder.Services.Interface
         Task<RegisterDto> RegisterAsync(RegisterDto registerDto);
         Task<AuthenticationDto> LoginAsync(LoginDto loginDto);
         AuthenticationDto GuestLogin();
+        Users CreateGuest();
         Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto);
     }
 }

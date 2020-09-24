@@ -122,8 +122,12 @@ namespace MovieFinder.Controllers
             {
                 return BadRequest("Refresh token is not valid");
             }
+            // Create a new guest account to create token
+            // ToDo: Store guest account in AspNetUsers.
+            var user = userId == 0 
+                ? _identityService.CreateGuest()
+                : _unitOfWork.Users.GetByUserId(userId);
 
-            var user = _unitOfWork.Users.GetByUserId(userId);
             var jwtToken = _tokenService.CreateJwtToken(user);
 
             var authenticationDto =  new AuthenticationDto
