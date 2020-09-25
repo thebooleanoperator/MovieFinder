@@ -40,6 +40,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     recommendedMovies: MovieDto[];
     /**
+     * 
+     */
+    favoriteMovies: MovieDto[];
+    /**
      * The string being entered into the search bar. Gets sent to server to find movie.
      */
     search: string;
@@ -129,6 +133,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 var favoritesResolverError = data.resolvedFavorites.error;
                 var searchHistorResolverError = data.resolvedSearchHistory.error; 
                 var recommendedMoviesResolverError = data.resolvedMovies.error;
+                var favoriteMoviesResolverError = data.resolvedFavoriteMovies.error;
                 if (!favoritesResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
                 }
@@ -140,10 +145,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (!recommendedMoviesResolverError) {
                     this.recommendedMovies = data.resolvedMovies.movies;
                 }
+                if (!favoriteMoviesResolverError) {
+                    this.favoriteMovies = data.resolvedFavoriteMovies.favoriteMovies;
+                }
                 else {
                     if (favoritesResolverError.status != 401) {
                         this.error.push(favoritesResolverError);
                         this.error.push(searchHistorResolverError);
+                        this.error.push(recommendedMoviesResolverError);
+                        this.error.push(favoriteMoviesResolverError);
                     }
                 }
             }

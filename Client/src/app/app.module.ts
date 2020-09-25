@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
-import { SearchHistoryComponent } from './Main/Components/SearchHistory/search-history.component';
+import { MovieCarouselComponent } from './Main/Components/SearchHistory/movie-carousel.component';
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
@@ -23,6 +23,7 @@ import { WelcomeModule } from './Main/Modules/Welcome/welcome.module';
 import { AngularFormsModule } from './Shared/angular-forms.module';
 import { ContentModule } from './Main/Modules/Content/content.module';
 import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
+import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
       ChangePasswordDialog,
       GuestHelpDialog,
       SettingsComponent,
-      SearchHistoryComponent
+      MovieCarouselComponent,
+      RecommendationsComponent
   ],
   providers: [
       {

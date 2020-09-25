@@ -1,22 +1,22 @@
 <div id="searchHistory">
     <div *ngIf="!isGuest">
-        <div class="search-card" *ngIf="historyExists(searchedMovies)">
+        <div class="search-card" *ngIf="historyExists(movies)">
             <div class="history-container">
                 <div class="back-arrow">
-                    <button mat-button (click)="moveSearchIndex(-1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
+                    <button mat-button (click)="moveSearchIndex(-1, movies, onWideScreen)" *ngIf="!disableMoveSearchIndex(movies)">
                         <mat-icon>arrow_back_ios</mat-icon>
                     </button>  
                 </div>
                 <img *ngFor="let movie of displayedMovies" [src]="movie.poster" matTooltip="{{movie.title}}" 
                     (error)="useDefaultPoster($event)" (click)="getMovieAndOpenDialog(movie.movieId, favorites)"> 
                 <div class="forward-arrow">
-                    <button mat-button (click)="moveSearchIndex(1, searchedMovies, onWideScreen)" *ngIf="!disableMoveSearchIndex(searchedMovies)">
+                    <button mat-button (click)="moveSearchIndex(1, movies, onWideScreen)" *ngIf="!disableMoveSearchIndex(movies)">
                         <mat-icon>arrow_forward_ios</mat-icon>
                     </button>  
                 </div>
             </div>
         </div>
-        <div class="empty-container" *ngIf="!historyExists(searchedMovies)">
+        <div class="empty-container" *ngIf="!historyExists(movies)">
             <h4>Your search history is empty</h4>
         </div>
     </div>
@@ -26,4 +26,3 @@
         </div>
     </div>
 </div>
-

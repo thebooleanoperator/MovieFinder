@@ -9,32 +9,34 @@ import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
-    selector: 'search-history',
-    templateUrl: './search-history.component.html',
-    styleUrls: ['./search-history.component.scss']
+    selector: 'movie-carousel',
+    templateUrl: './movie-carousel.component.html',
+    styleUrls: ['./movie-carousel.component.scss']
 })
-export class SearchHistoryComponent implements OnInit, OnChanges {
+export class MovieCarouselComponent implements OnInit, OnChanges {
     constructor(
         private _dialog: MatDialog,
         private _dialogWatcher: DialogWatcherService,
         private _moviesService: MoviesService,
-        private _toolBarService: ToolBarService
-    ){}
+        private _toolBarService: ToolBarService)
+    {
+
+    }
 
     @Input() isGuest: boolean;
     @Input() favorites: FavortiesDto[];
-    @Input() searchedMovies: SearchHistoryDto[];
+    @Input() movies: SearchHistoryDto[];
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         if (!this.isGuest) {
             if (event.target.innerWidth <= 1000 && this.onWideScreen) {
                 this.onWideScreen = false;
-                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
+                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen);
             }
             else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
                 this.onWideScreen = true;
-                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen);
+                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen);
             }
         }
     }
@@ -44,24 +46,24 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
     onWideScreen: boolean = window.innerWidth > 1000; 
 
     ngOnInit() {
-        if (!this.isGuest && this.searchedMovies.length > 0) {
-            this.createDisplayedSearchHistory(this.searchIndex, this.searchedMovies, this.onWideScreen); 
+        if (!this.isGuest && this.movies.length > 0) {
+            this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen); 
         }
     }
 
     ngOnChanges() {
         if (!this.isGuest) {
-            this.setDisplayedMovies(this.searchedMovies, this.onWideScreen, this.searchIndex);
+            this.setDisplayedMovies(this.movies, this.onWideScreen, this.searchIndex);
             // We need to set the search index back to 0 if there is a search history.
-            if (this.searchedMovies.length > 0) {
+            if (this.movies.length > 0) {
                 this.searchIndex = 0;
             }
         }
     }
 
-    moveSearchIndex(increment: number, searchedMovies: SearchHistoryDto[], onWideScreen: boolean) {
-        this.searchIndex = this.setSearchIndex(increment, searchedMovies);
-        this.setDisplayedMovies(searchedMovies, onWideScreen, this.searchIndex);
+    moveSearchIndex(increment: number, movies: SearchHistoryDto[], onWideScreen: boolean) {
+        this.searchIndex = this.setSearchIndex(increment, movies);
+        this.setDisplayedMovies(movies, onWideScreen, this.searchIndex);
     }
 
     setDisplayedMovies(searchHistory: SearchHistoryDto[], onWideScreen: boolean, searchIndex: number) {
@@ -79,29 +81,29 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         } 
     }
 
-    setSearchIndex(increment: number, searchedMovies) {
+    setSearchIndex(increment: number, movies) {
         var idx = this.searchIndex += increment;
         if (idx < 0) {
-            return searchedMovies.length - 1;
+            return movies.length - 1;
         }
-        if (idx >= searchedMovies.length) {
+        if (idx >= movies.length) {
             return 0;
         }
         return idx;
     }
 
-    createDisplayedSearchHistory(searchIdx: number, searchedMovies: SearchHistoryDto[], onWideScreen: boolean) : SearchHistoryDto[] {
+    createDisplayedSearchHistory(searchIdx: number, movies: SearchHistoryDto[], onWideScreen: boolean) : SearchHistoryDto[] {
         if (!onWideScreen) {
-            return [searchedMovies[searchIdx]];
+            return [movies[searchIdx]];
         }
-        var idx1 = searchIdx + 1 < searchedMovies.length ? searchIdx + 1 : 0;
-        var idx2 = idx1 + 1 < searchedMovies.length ? idx1 + 1 : 0; 
+        var idx1 = searchIdx + 1 < movies.length ? searchIdx + 1 : 0;
+        var idx2 = idx1 + 1 < movies.length ? idx1 + 1 : 0; 
 
-        return [searchedMovies[searchIdx], searchedMovies[idx1], searchedMovies[idx2]];
+        return [movies[searchIdx], movies[idx1], movies[idx2]];
     }
 
-    disableMoveSearchIndex(searchedMovies: SearchHistoryDto[]) {
-        return searchedMovies.length <= 1;
+    disableMoveSearchIndex(movies: SearchHistoryDto[]) {
+        return movies.length <= 1;
     }
 
     getMovieAndOpenDialog(moveId: number, favorites: FavortiesDto[]): void {
@@ -154,12 +156,12 @@ export class SearchHistoryComponent implements OnInit, OnChanges {
         })
     }
 
-    historyExists(searchedMovies) {
-        if (!searchedMovies) {
+    historyExists(movies) {
+        if (!movies) {
             return false;
         }
 
-        return searchedMovies.length > 0; 
+        return movies.length > 0; 
     }
 
     useDefaultPoster(event) {
