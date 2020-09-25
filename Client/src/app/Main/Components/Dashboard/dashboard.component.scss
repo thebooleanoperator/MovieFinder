@@ -9,16 +9,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #b0bec5;
 
         ::ng-deep .mat-tab-body-content {
             display: flex;
-        }
-
-        .logo {
-            height: 75px;
-            width: 75px;
-            margin: 20px 10px 0px 0px;
         }
 
         .search-options {

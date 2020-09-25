@@ -14,7 +14,6 @@ import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'r
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
-import { clear } from 'console';
 
 @Component({
   templateUrl: './dashboard.component.html',

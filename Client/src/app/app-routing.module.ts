@@ -7,7 +7,6 @@ import { DashboardComponent } from './Main/Components/Dashboard/dashboard.compon
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
 import { SearchHistoryResolver } from './Core/Resolvers/search-history.resolver';
 import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
-import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 
 const routes: Routes = [
@@ -24,16 +23,7 @@ const routes: Routes = [
                     resolvedSearchHistory: SearchHistoryResolver,
                     resolvedMovies: MoviesResolver
                 }
-            },
-            {
-                path: 'movies', 
-                component: RecommendationsComponent, 
-                canActivate: [AuthGuardService], 
-                resolve: { 
-                    resolvedMovies: MoviesResolver, 
-                    resolvedFavorites: FavoritesResolver
-                }
-            },
+            }
      ]},
     {path: '**', redirectTo:'welcome'}
 ];

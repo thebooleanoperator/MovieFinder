@@ -23,7 +23,7 @@
         </div>
     </div>
     <mat-card class="tab-container">
-        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="clearSearchResults()">
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="clearSearchResults()" color="accent">
             <mat-tab label="Recent" [disabled]="toolBarService.isLoading">
                 <movie-carousel
                     [isGuest]="isGuest"
