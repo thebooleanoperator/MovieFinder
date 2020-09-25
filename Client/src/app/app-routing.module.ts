@@ -21,7 +21,8 @@ const routes: Routes = [
                 canActivate: [AuthGuardService], 
                 resolve: {
                     resolvedFavorites: FavoritesResolver, 
-                    resolvedSearchHistory: SearchHistoryResolver
+                    resolvedSearchHistory: SearchHistoryResolver,
+                    resolvedMovies: MoviesResolver
                 }
             },
             {

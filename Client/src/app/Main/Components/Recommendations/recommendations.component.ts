@@ -2,47 +2,35 @@ import { Component, OnInit, Input } from "@angular/core";
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { UserService } from 'src/app/Core/Services/user.service';
 
 @Component ({
+    selector: 'recommended',
     templateUrl: './recommendations.component.html',
     styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit  {
-    constructor(private _route: ActivatedRoute, private _userService: UserService){}
+    constructor(private _route: ActivatedRoute)
+    {
+            
+    }
 
-    //Data 
+    // Inputs 
+    @Input() recommendedMovies: MovieDto[];
+    @Input() favorites: FavortiesDto[];
+    @Input() isGuest: boolean;
+    
+    // Data
     selectedMovie: MovieDto;
-    movies: MovieDto[];
-    favorites: FavortiesDto[];
     isFavorite: boolean; 
     movieIndex: number;
-    isGuest: boolean = this._userService.isGuest();
-    error: any[] = [];
 
     //Methods    
     ngOnInit () {
-        // Router subscription
-        this._route.data
-            .subscribe(
-                (data) => {
-                    var favoritesResolverError = data.resolvedFavorites.error;
-                    var moviesResolverError = data.resolvedMovies.error;
-                    if (!favoritesResolverError && ! moviesResolverError) {
-                        this.movies = data.resolvedMovies.movies;
-                        this.favorites = data.resolvedFavorites.favorites;
-                        // Randomly go through the list of movies.
-                        // ToDo: randomize on server.
-                        this.movieIndex = Math.floor(Math.random() * this.movies.length);
-                        this.selectedMovie = this.movies[this.movieIndex];
-                        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
-                    }
-                    else {
-                        this.error.push(favoritesResolverError);
-                        this.error.push(moviesResolverError);
-                    }
-                }
-            );
+        // Randomly go through the list of recommendedMovies.
+        // ToDo: randomize on server.
+        this.movieIndex = Math.floor(Math.random() * this.recommendedMovies.length);
+        this.selectedMovie = this.recommendedMovies[this.movieIndex];
+        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
     }
 
     /**
@@ -57,7 +45,7 @@ export class RecommendationsComponent implements OnInit  {
     }
 
     /**
-     * Event listner that gets called whenever child component updates favoriteMovies.
+     * Event listner that gets called whenever child component updates favoriterecommendedMovies.
      * @param favorites 
      */
     onFavoriteAdded(favorites: FavortiesDto[]) {
@@ -73,19 +61,19 @@ export class RecommendationsComponent implements OnInit  {
     }
 
     /**
-     * Changes the movie selected from movies array and passes to child movie selector to display.
+     * Changes the movie selected from recommendedMovies array and passes to child movie selector to display.
      */
     changeMovie(index) {
         if (this.isLast(this.movieIndex) && index == 1) {
             this.movieIndex = 0; 
         }
         else if (this.isFirst(this.movieIndex) && index == -1) {
-            this.movieIndex = this.movies.length - 1
+            this.movieIndex = this.recommendedMovies.length - 1
         }
         else {
             this.movieIndex += index
         }
-        this.selectedMovie = this.movies[this.movieIndex];
+        this.selectedMovie = this.recommendedMovies[this.movieIndex];
         this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
     }
 
@@ -112,10 +100,10 @@ export class RecommendationsComponent implements OnInit  {
     }
 
     /**
-     * Keeps changeMovie from going over movies array length.
+     * Keeps changeMovie from going over recommendedMovies array length.
      * @param index 
      */
     isLast(index): boolean {
-        return index == this.movies.length - 1; 
+        return index == this.recommendedMovies.length - 1; 
     }
 }
