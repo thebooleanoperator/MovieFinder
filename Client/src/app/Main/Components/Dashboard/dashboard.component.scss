@@ -1,185 +1,20 @@
-#search {
+#dashboard {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 150px;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 64px;
 
-    .search-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        ::ng-deep .mat-tab-body-content {
-            display: flex;
-        }
-
-        .search-options {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            margin-top: 20px;
-
-            .input-box {
-                ::ng-deep .mat-form-field-wrapper  {
-                    height: 40px;
-                    width: 550px;
-                    background-color: white;
-                    border: 2px solid black;
-    
-                    ::ng-deep .mat-form-field-infix {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-direction: row;
-                        border: none;
-                        padding: unset;
-    
-                        ::ng-deep .mat-input-element {
-                            height: 60px;
-                            font-size: 25px;
-                            caret-color: #040c24;
-                            color: #040c24;
-                            padding-left: 5px;
-                        }
-                        ::ng-deep .mat-form-field-label-wrapper {
-                            top: -1.04375em;
-                            ::ng-deep .mat-form-field-label {
-                                top: 1.18125em;
-                                font-size: 25px;
-                                color: #040c24;
-                                padding-left: 5px;
-                            }
-                        }
-                    }
-    
-                    ::ng-deep .mat-form-field-underline {
-                        display: none;
-                    }
-                }
-    
-                .search-icon {
-                    height: auto;
-                    width: auto;
-                    font-size: 60px;
-                    color: #040c24
-                }
-        
-                .search-icon:hover {
-                    cursor: pointer;
-                }
-            }    
-        
-            .year-box {
-                display: flex;
-                justify-content: center;
-       
-                ::ng-deep .mat-form-field-wrapper {
-                    padding: unset;
-    
-                    ::ng-deep .mat-form-field-infix {
-                        width: 100px;
-                        height: 60px;
-                        padding: unset;
-                        border: 2px solid black;
-    
-                        .year-input {
-                            box-shadow: none;
-                            font-size: 15px;
-                            background-color: white;
-            
-                            ::ng-deep .mat-select-trigger {
-                                height: 60px;
-                
-                                ::ng-deep .mat-select-value {
-                                    font-size: 25px;
-                                    vertical-align: middle;
-            
-                                    ::ng-deep .mat-select-value-text {
-                                        color: #424242!important;
-                                    }
-                                }
-                
-                                ::ng-deep .mat-select-arrow-wrapper {
-                                    padding-right: 5px;
-                                    ::ng-deep .mat-select-arrow {
-                                        color: #424242
-                                    }
-                                }
-                            }
-                        }
-                        ::ng-deep .mat-form-field-label-wrapper {
-                            top: -1.04375em;
-                            ::ng-deep .mat-form-field-label {
-                                font-size: 25px;
-                                padding-left: 5px;
-                                color: #424242 !important;
-                                top: 1.18125em;
-                            }
-                        }
-                    }
-    
-                    ::ng-deep .mat-form-field-underline {
-                        display: none;
-                    }
-                }
-            } 
-        }
-        
+    .tab-container {
+        height: 275px;
+        width: 75%;
     }
-    .search-results {
-        padding: 10px;
-        table {
-            width: 600px;
-            background-color: #b0bec5;
-            .mat-header-row {
-                .mat-header-cell {
-                    font-size: 20px;
-                    font-weight: 900;
-                    color: white;
-                    background-color: #c2185b;
-                }
-            }
-            .mat-row {
-                height: 60px;
-                .mat-cell {
-                    color: #040c24;
-                    font-size: 20px;
-                    font-weight: 600;
-                }
-                .mat-column-Title {
-                    width: 375px;
-                }
-                .mat-column-Year {
-                    width: 50px;
-                    padding: 5px;
-                }
-            }
-            .mat-row:hover {
-                background-color: rgba(129, 122, 123, 0.507);
-                cursor: pointer;
-            }
-        }
-        .mat-paginator {
-            background-color: #c2185b;
-            ::ng-deep .mat-paginator-range-actions {
-                font-size: 20px;
-                color: white;
-            }
-        }
-    }
-
-    .empty-search {
-        font-size: 25px;
-        font-weight: bold;
-        padding: 20px;
-        color: #040c24;
+    .recommended-container {
+        padding-top: 50px;
     }
 }
 
 ::ng-deep .mat-select-panel {
-    background-color: #424242;
+    background-color: #242020;
     ::ng-deep .mat-option {
         color: white;
     }

@@ -1,8 +1,13 @@
 #movie-finder {
     display: flex;
     justify-content: center;
-    margin-top: 200px;
+    flex-direction: column;
     overflow: hidden;
+    .title {
+        text-align: center;
+        padding-top: 0px;
+        margin-top: 0px;
+    }
     .recs-container {
         display: flex;
         flex-direction: row;
@@ -19,7 +24,6 @@
 
 @media screen and (max-width: 600px) {
     #movie-finder {
-        margin-top: 150px;
         flex-direction: column;
         .recs-container {
             .inline-movie-arrow {

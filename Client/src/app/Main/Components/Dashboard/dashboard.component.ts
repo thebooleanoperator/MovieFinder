@@ -267,34 +267,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /**
-     * Gets an array of numbers representing the years from 1900 to present.
-     */
-    getYears(): number[] {
-        var years = [];
-        var currentYear = new Date().getFullYear();
-        for (var i = currentYear; i > 1900; i--){
-            years.push(i);
-        }
-        return years;
-    }
-
-    /**
      * Gets the year. Checks if greater than 0.
      * @param year 
      */
     getYear(year: number): number {
         return year > 0 ? year : null;
-    }
-
-    /**
-     * Toggles the movies list and the No Movies Found response in view.
-     * @param movies 
-     */
-    moviesExist(movies: MovieDto[], search: string) : boolean {
-        if (!search) {
-            return false;
-        }
-        return movies && movies.length > 0; 
     }
 
     /**
