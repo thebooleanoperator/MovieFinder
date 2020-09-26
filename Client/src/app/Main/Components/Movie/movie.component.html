@@ -2,16 +2,16 @@
     <mat-card class="movie-card"> 
         <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
         <div class="info-container">
+            <div class="favorites-container" *ngIf="!isGuest">
+                <mat-icon class="thumb" *ngIf="!isFavorite" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
+                    thumb_up
+                </mat-icon>
+                <mat-icon class="not-interested" *ngIf="isFavorite" matTooltip="Remove From Favorites" (click)="removeFromFavorites(movie)">
+                    not_interested
+                </mat-icon>
+            </div>
             <div class="title-container">
                 <h2 class="title">{{movie.title}}</h2>
-                <div class="favorites-container" *ngIf="!isGuest">
-                    <mat-icon class="thumb" *ngIf="!isFavorite" matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
-                        thumb_up
-                    </mat-icon>
-                    <mat-icon class="not-interested" *ngIf="isFavorite" matTooltip="Remove From Favorites" (click)="removeFromFavorites(movie)">
-                        not_interested
-                    </mat-icon>
-                </div>
             </div>
             <div class="rating-container">
                 <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
