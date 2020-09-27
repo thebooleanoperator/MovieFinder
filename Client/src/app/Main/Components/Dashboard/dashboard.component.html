@@ -1,19 +1,19 @@
 <div id="dashboard" *ngIf="!isError(error)">
     <mat-card class="tab-container">
-        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="clearSearchResults()" color="accent">
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="clearSearchResults()" color="primary">
             <mat-tab label="Recent" [disabled]="toolBarService.isLoading">
-                <movie-carousel
+                <infinity-scroll
                     [isGuest]="isGuest"
                     [favorites]="favorites"
                     [movies]="searchedMovies">
-                </movie-carousel>
+                </infinity-scroll>
             </mat-tab>
             <mat-tab label="Favorites" [disabled]="toolBarService.isLoading">
-                <movie-carousel
+                <infinity-scroll
                     [isGuest]="isGuest"
                     [favorites]="favorites"
                     [movies]="favoriteMovies">
-                </movie-carousel>
+                </infinity-scroll>
             </mat-tab>
         </mat-tab-group>        
     </mat-card>

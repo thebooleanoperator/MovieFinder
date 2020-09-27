@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
-import { MovieCarouselComponent } from './Main/Components/SearchHistory/movie-carousel.component';
+import { InfinityScrollComponent } from './Main/Components/Infinity-Scroll/infinity-scroll.component';
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
@@ -44,7 +44,7 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
       ChangePasswordDialog,
       GuestHelpDialog,
       SettingsComponent,
-      MovieCarouselComponent,
+      InfinityScrollComponent,
       RecommendationsComponent
   ],
   providers: [

@@ -9,11 +9,11 @@ import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component({
-    selector: 'movie-carousel',
-    templateUrl: './movie-carousel.component.html',
-    styleUrls: ['./movie-carousel.component.scss']
+    selector: 'infinity-scroll',
+    templateUrl: './infinity-scroll.component.html',
+    styleUrls: ['./infinity-scroll.component.scss']
 })
-export class MovieCarouselComponent implements OnInit, OnChanges {
+export class InfinityScrollComponent implements OnInit, OnChanges {
     constructor(
         private _dialog: MatDialog,
         private _dialogWatcher: DialogWatcherService,

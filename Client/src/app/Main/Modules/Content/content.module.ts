@@ -3,7 +3,6 @@ import { DashboardComponent } from '../../Components/Dashboard/dashboard.compone
 import { RecommendationsComponent } from '../../Components/Recommendations/recommendations.component';
 import { MovieComponent } from '../../Components/Movie/movie.component';
 import { SettingsComponent } from '../../Components/Settings/settings.component';
-import { MovieCarouselComponent } from '../../Components/SearchHistory/movie-carousel.component';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { ChangePasswordDialog } from '../../Dialogs/ResetPassword/change-password-dialog';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,6 +13,7 @@ import { AngularLibrariesModule } from 'src/app/Shared/angular-libraries.module'
 import { ContentComponent } from '../../Components/Content/content.component';
 import { RouterModule } from '@angular/router';
 import { InsideToolbarComponent } from 'src/app/Core/ToolBars/Inside/inside-toolbar.component';
+import { InfinityScrollComponent } from '../../Components/Infinity-Scroll/infinity-scroll.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +22,7 @@ import { InsideToolbarComponent } from 'src/app/Core/ToolBars/Inside/inside-tool
         RecommendationsComponent,
         MovieComponent,
         SettingsComponent,
-        MovieCarouselComponent,
+        InfinityScrollComponent,
         SelectedMovieDialog,
         ChangePasswordDialog,
         ContentComponent
@@ -41,7 +41,7 @@ import { InsideToolbarComponent } from 'src/app/Core/ToolBars/Inside/inside-tool
         RecommendationsComponent,
         MovieComponent,
         SettingsComponent,
-        MovieCarouselComponent,
+        InfinityScrollComponent,
         SelectedMovieDialog,
         ChangePasswordDialog,
         ContentComponent
