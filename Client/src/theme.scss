@@ -21,3 +21,6 @@ $presto-light-theme: mat-light-theme($presto-primary, $presto-accent, $presto-wa
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($presto-light-theme);
+
+// Globabl colors:
+$accent: #80cbc4;

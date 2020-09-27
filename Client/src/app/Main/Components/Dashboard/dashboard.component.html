@@ -17,17 +17,13 @@
             </mat-tab>
         </mat-tab-group>        
     </mat-card>
-    <div class="recommended-container">
-        <recommended
-            [isGuest]="isGuest"
-            [recommendedMovies]="recommendedMovies"
-            [favorites]="favorites">
-        </recommended>
-    </div>
-    
+    <recommended
+        [isGuest]="isGuest"
+        [recommendedMovies]="recommendedMovies"
+        [favorites]="favorites">
+    </recommended>
 </div>
 <div *ngIf="isError(error)">
     An error has occured, failed to load the page. Our team is aware and working on it.
     <p>Error Message: {{error}}</p>
 </div>
-
