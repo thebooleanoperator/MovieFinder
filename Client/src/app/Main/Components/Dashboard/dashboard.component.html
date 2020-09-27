@@ -5,14 +5,17 @@
                 <infinity-scroll
                     [isGuest]="isGuest"
                     [favorites]="favorites"
-                    [movies]="searchedMovies">
+                    [movies]="searchedMovies"
+                    [typeScrolled]="'searchHistory'">
                 </infinity-scroll>
             </mat-tab>
             <mat-tab label="Favorites" [disabled]="toolBarService.isLoading">
                 <infinity-scroll
                     [isGuest]="isGuest"
                     [favorites]="favorites"
-                    [movies]="favoriteMovies">
+                    [movies]="favoriteMovies"
+                    [typeScrolled]="'favorites'"
+                    (getNextMovies)="onGetNextMovies($event)">
                 </infinity-scroll>
             </mat-tab>
         </mat-tab-group>        

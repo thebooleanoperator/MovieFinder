@@ -244,6 +244,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         } 
     }
 
+    onGetNextMovies(emitData: any) {
+        console.log(emitData);
+    }
+
     /**
      * Only used to search for imdbIds when a user clicks on magnifying glass OR
      * user selects year to filter search.

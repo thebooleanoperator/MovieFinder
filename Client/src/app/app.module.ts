@@ -37,7 +37,7 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
     AngularLibrariesModule,
     WelcomeModule,
     ContentModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   entryComponents: [
       SelectedMovieDialog,
@@ -62,5 +62,3 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-

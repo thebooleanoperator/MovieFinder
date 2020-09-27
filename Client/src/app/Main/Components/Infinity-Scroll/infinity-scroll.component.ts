@@ -1,170 +1,137 @@
-import { Component, Input, OnChanges, HostListener, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
-import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { Subscription } from 'rxjs';
+import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 
 @Component({
     selector: 'infinity-scroll',
     templateUrl: './infinity-scroll.component.html',
     styleUrls: ['./infinity-scroll.component.scss']
 })
-export class InfinityScrollComponent implements OnInit, OnChanges {
+export class InfinityScrollComponent implements OnInit {
     constructor(
+        private _toolBarService: ToolBarService, 
         private _dialog: MatDialog,
-        private _dialogWatcher: DialogWatcherService,
-        private _moviesService: MoviesService,
-        private _toolBarService: ToolBarService)
+        private _dialogWatcher: DialogWatcherService)
     {
 
     }
 
+    // Inputs
     @Input() isGuest: boolean;
+    @Input() movies: MovieDto[]; 
     @Input() favorites: FavortiesDto[];
-    @Input() movies: SearchHistoryDto[];
+    @Input() typeScrolled: string; 
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if (!this.isGuest) {
-            if (event.target.innerWidth <= 1000 && this.onWideScreen) {
-                this.onWideScreen = false;
-                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen);
-            }
-            else if (event.target.innerWidth > 1000 && !this.onWideScreen) {
-                this.onWideScreen = true;
-                this.displayedMovies = this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen);
-            }
-        }
-    }
+    // Outputs
+    @Output() getNextMovies: EventEmitter<InfitiyScrollDto> = new EventEmitter<InfitiyScrollDto>(); 
 
-    displayedMovies: SearchHistoryDto[]; 
-    searchIndex: number = 0;
-    onWideScreen: boolean = window.innerWidth > 1000; 
+    // Data
+    skip: number = 30;
+    count: number = 10;
+    nextExists: boolean;
+    posterError: boolean = false;
+    dialogFavoritesSubscription: Subscription;
+    error: any[] = [];
 
+    // Methods
     ngOnInit() {
-        if (!this.isGuest && this.movies.length > 0) {
-            this.createDisplayedSearchHistory(this.searchIndex, this.movies, this.onWideScreen); 
+         // If the favorites returned from resolver are less than count, or favorites is null, we know next does not exist.
+         if (this.movies) {
+            this.nextExists = this.movies.length < this.count ? false : true;
         }
-    }
+        else {
+            this.nextExists = false;
+        }
 
-    ngOnChanges() {
-        if (!this.isGuest) {
-            this.setDisplayedMovies(this.movies, this.onWideScreen, this.searchIndex);
-            // We need to set the search index back to 0 if there is a search history.
-            if (this.movies.length > 0) {
-                this.searchIndex = 0;
+        this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
+            (favorites) => {
+                this.favorites = favorites;
+                this.setmovies(this.favorites, this.movies);
             }
+        );
+    }
+
+    /**
+     * All subject subscriptions need to be unsubscribed from. 
+     */
+    ngOnDestroy() {
+        this.dialogFavoritesSubscription.unsubscribe();
+    }
+
+    /**
+     * Binds to error loading movie poster. Loads default-poster when error triggered.
+     */
+    useDefaultPoster(event): void {
+        event.srcElement.src = "/assets/images/default-poster.png";
+        this.posterError = true;
+    }
+
+    /**
+     * Function used to get next page of movie favorites results from server.
+     * Called by infite scroll component.
+     */
+    getNext(skip:number, count:number) {
+        if (this.nextExists) {
+             let emitData: any = {
+                skip: skip,
+                count: count,
+                movieType: this.typeScrolled
+            };
+            this.getNextMovies.emit(emitData); 
         }
     }
 
-    moveSearchIndex(increment: number, movies: SearchHistoryDto[], onWideScreen: boolean) {
-        this.searchIndex = this.setSearchIndex(increment, movies);
-        this.setDisplayedMovies(movies, onWideScreen, this.searchIndex);
-    }
-
-    setDisplayedMovies(searchHistory: SearchHistoryDto[], onWideScreen: boolean, searchIndex: number) {
-        switch (searchHistory.length) {
-            case 0:
-                break;
-            case 1: 
-                this.displayedMovies = searchHistory;
-                break;
-            case 2:
-                this.displayedMovies = searchHistory;
-                break;
-            default:
-                this.displayedMovies = this.createDisplayedSearchHistory(searchIndex, searchHistory, onWideScreen);
-        } 
-    }
-
-    setSearchIndex(increment: number, movies) {
-        var idx = this.searchIndex += increment;
-        if (idx < 0) {
-            return movies.length - 1;
+    /**
+     * Returns if the next page needs to be loaded to trigger scroll bar.
+     */
+    shouldLoadNextPage(): boolean {
+        if (window.innerWidth > document.body.clientWidth) {
+            return false;
         }
-        if (idx >= movies.length) {
-            return 0;
+        if (!this.nextExists) {
+            return false;
         }
-        return idx;
-    }
-
-    createDisplayedSearchHistory(searchIdx: number, movies: SearchHistoryDto[], onWideScreen: boolean) : SearchHistoryDto[] {
-        if (!onWideScreen) {
-            return [movies[searchIdx]];
+        if (document.body.clientWidth <= 676) {
+            return false;
         }
-        var idx1 = searchIdx + 1 < movies.length ? searchIdx + 1 : 0;
-        var idx2 = idx1 + 1 < movies.length ? idx1 + 1 : 0; 
-
-        return [movies[searchIdx], movies[idx1], movies[idx2]];
-    }
-
-    disableMoveSearchIndex(movies: SearchHistoryDto[]) {
-        return movies.length <= 1;
-    }
-
-    getMovieAndOpenDialog(moveId: number, favorites: FavortiesDto[]): void {
-        this._toolBarService.isLoading = true
-        this._moviesService.get(moveId)
-            .subscribe(
-                ((movieDto: MovieDto) =>{
-                    if (movieDto) {
-                        this.openMovieDialog(movieDto, favorites);
-                    }
-                    else {
-                        alert("Could not find movie.");
-                    }
-                }),
-                ((error) => {
-                    if (error.status !== 401) {
-                        alert("Failed to get movie")
-                    }
-                }),
-                (() => this._toolBarService.isLoading = false)
-            )
+        return true;
     }
 
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    openMovieDialog(movie, favorites) {
-        var isFavorite = this.getIsFavorite(movie, favorites);
+    openMovieDialog(movie: MovieDto, favorite: FavortiesDto[]) {
         this._dialog.open(SelectedMovieDialog, {
-            data: {movie: movie, favoriteMovies: favorites, isFavorite: isFavorite, updateSearchHistory: false}
+            width: '450px',
+            data: {movie: movie, movies: favorite, isFavorite: true, updateSearchHistory: false}
         });
-
-        this._dialogWatcher.closeEventFavorites$.subscribe(
-            (favorites) => this.favorites = favorites
-        );
     }
 
     /**
-     * 
-     * @param movie 
+     * When the select movie dialog closes, the movie needs to be removed from favorites if a user
+     * clicked to remove.
      * @param favorites 
+     * @param movies 
      */
-    getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
-        if (!favorites) {
-            return false;
-        }
-
-        return favorites.some((favorite) => {
-            return favorite.movieId == movie.movieId;
-        })
+    setmovies(favorites: FavortiesDto[], movies: MovieDto[]) {
+        var favoriteIds = favorites.map((favorite) => favorite.movieId);
+        this.movies = movies.filter((favMovie) => {
+            if (favoriteIds.includes(favMovie.movieId)) {
+                return favMovie;
+            }
+        });
     }
 
-    historyExists(movies) {
-        if (!movies) {
+    isError(error: any[]) {
+        if (!error) {
             return false;
         }
-
-        return movies.length > 0; 
+        return error.length > 0 ? true : false;
     }
-
-    useDefaultPoster(event) {
-        event.srcElement.src = "/assets/images/default-poster.png";
-    }    
 }
