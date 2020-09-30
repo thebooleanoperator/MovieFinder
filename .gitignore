@@ -345,3 +345,6 @@ appsettings.Development.json
 
 #AwsLambdaTools
 aws-lambda-tools-defaults.json
+
+#desinger-png
+DesignIdea.PNG
