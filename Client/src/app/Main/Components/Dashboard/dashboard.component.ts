@@ -14,6 +14,8 @@ import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'r
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
+import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
+import { TooltipComponent } from '@angular/material/tooltip';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -23,11 +25,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private _route: ActivatedRoute,
         private _dialogWatcher: DialogWatcherService,
-        private moviesService: MoviesService, 
+        private _moviesService: MoviesService, 
         private imdbIdsService: ImdbIdsService, 
         private _searchHistoryService: SearchHistoryService,
+        private _toolBarService: ToolBarService,
         private _userService: UserService,
-        public toolBarService: ToolBarService, 
         private dialog: MatDialog){}
 
     /**
@@ -199,7 +201,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                     var imdbIdsObservable = this.imdbIdsService.getImdbIdsByTitle(userSearch, this.year);
                     // If null, a user has deleted all search chars, and we need to hide loading.
                     if (!userSearch) {
-                        this.toolBarService.isLoading = false;
+                        this._toolBarService.isLoading = false;
                         this.searchTableDisplayed = false;
                     }
                     return imdbIdsObservable
@@ -214,7 +216,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.setDisplayedMovies(this.movies , this.moviesPerPage);
                         this.searchTableDisplayed = true;
                     }
-                    this.toolBarService.isLoading = false;
+                    this._toolBarService.isLoading = false;
                 },
                 (error) => {
                     // Handle unauthroized errors with http interceptor.
@@ -223,7 +225,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.movies = null;
                         this.displayedMovies = null;
                         this.totalPages = null;
-                        this.toolBarService.isLoading  = false;
+                        this._toolBarService.isLoading  = false;
                     }
                 }
             );
@@ -244,8 +246,36 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         } 
     }
 
-    onGetNextMovies(emitData: any) {
-        console.log(emitData);
+    /**
+     * Listens for output from InfinityScrollComponent to page history or favorites.
+     * @param infinityScrollDto 
+     */
+    onGetNextMovies(infinityScrollDto: InfitiyScrollDto): Subscription {
+        switch(infinityScrollDto.typeScrolled) {
+            case "favorites":
+                return this.getNextFavorites(infinityScrollDto.skip, infinityScrollDto.count);
+        }
+    }   
+
+    /**
+     * 
+     * @param skip 
+     * @param count 
+     */
+    getNextFavorites(skip: number, count: number): Subscription {
+        this._toolBarService.isLoading = false;
+            return this._moviesService.getFavorites(skip, count)
+                .subscribe (
+                    (favoriteMoviesDtos) => {
+                        this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos);
+                        this._toolBarService.isLoading = false
+                    },
+                    (error) => {
+                        alert("Unable to load favorites.");
+                        console.log(error);
+                    },
+                    () => this._toolBarService.isLoading = false
+                );
     }
 
     /**
@@ -256,7 +286,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     searchMovies(search: string, year: number) {
         if (search) {
-            this.toolBarService.isLoading  = true;
+            this._toolBarService.isLoading  = true;
             this.imdbIdsService.getImdbIdsByTitle(search, year) 
                 .subscribe((data: MovieDto[]) => {
                     this.noSearchResults = data ? false : true;
@@ -265,7 +295,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.setTotalPages(this.movies .length, this.moviesPerPage);
                         this.setDisplayedMovies(this.movies , this.moviesPerPage)
                     }
-                    this.toolBarService.isLoading = false;
+                    this._toolBarService.isLoading = false;
                 })
         }
     }
@@ -338,8 +368,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     getOrCreateMovie(imdbIdDto: ImdbIdDto) {
         this.gettingMovie = true;
-        this.toolBarService.isLoading = true;
-        this.moviesService.$getOrCreateMovie(imdbIdDto.imdbId, imdbIdDto)
+        this._toolBarService.isLoading = true;
+        this._moviesService.$getOrCreateMovie(imdbIdDto.imdbId, imdbIdDto)
             .subscribe(
                 (data) => {
                     this.selectedMovie = data; 
@@ -353,11 +383,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         alert("Failed to load movie. Try again later.")
                     }
                     this.gettingMovie = false;
-                    this.toolBarService.isLoading = false;
+                    this._toolBarService.isLoading = false;
                 },
                 () => {
                     this.gettingMovie = false;
-                    this.toolBarService.isLoading = false;
+                    this._toolBarService.isLoading = false;
                 }
             )
     }

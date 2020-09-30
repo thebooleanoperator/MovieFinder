@@ -16,7 +16,7 @@ export class FavoriteMoviesResolver implements Resolve<ResolvedFavoriteMovies> {
            return of(new ResolvedFavoriteMovies(null, null)); 
         }
         else {
-            return this._moviesService.getFavorites(0, 30)
+            return this._moviesService.getFavorites(0, 10)
             .pipe(
                 map((favoriteMovies: MovieDto[]) => new ResolvedFavoriteMovies(favoriteMovies)),
                 catchError((error: any) => of(new ResolvedFavoriteMovies(null, error)))

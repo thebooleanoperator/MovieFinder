@@ -32,16 +32,16 @@ export class InfinityScrollComponent implements OnInit {
     @Output() getNextMovies: EventEmitter<InfitiyScrollDto> = new EventEmitter<InfitiyScrollDto>(); 
 
     // Data
-    skip: number = 30;
     count: number = 10;
-    nextExists: boolean;
     posterError: boolean = false;
+    nextExists: boolean;
+    skip: number;
     dialogFavoritesSubscription: Subscription;
     error: any[] = [];
 
     // Methods
     ngOnInit() {
-         // If the favorites returned from resolver are less than count, or favorites is null, we know next does not exist.
+         // If the movies returned from resolver are less than count, we know next does not exist.
          if (this.movies) {
             this.nextExists = this.movies.length < this.count ? false : true;
         }
@@ -76,14 +76,14 @@ export class InfinityScrollComponent implements OnInit {
      * Function used to get next page of movie favorites results from server.
      * Called by infite scroll component.
      */
-    getNext(skip:number, count:number) {
+    getNext(movies: MovieDto[], count:number) {
         if (this.nextExists) {
-             let emitData: any = {
-                skip: skip,
+             let infinityScroll: InfitiyScrollDto = {
+                skip: movies.length,
                 count: count,
-                movieType: this.typeScrolled
+                typeScrolled: this.typeScrolled
             };
-            this.getNextMovies.emit(emitData); 
+            this.getNextMovies.emit(infinityScroll);
         }
     }
 

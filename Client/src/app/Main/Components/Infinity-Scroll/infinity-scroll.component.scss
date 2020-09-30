@@ -1,40 +1,22 @@
-#searchHistory {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    .search-card {
+#favorites {
+    height: 99vh;
+    overflow-y: hidden;
+    .posters {
         display: flex;
         align-items: center;
-        flex-direction: column;
-        padding: 5px;
- 
-        .history-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .back-arrow, .forward-arrow {
-                color: white;
-            }
-            img {
-                height: 200px;
-                width: 125px;
-                margin: 5px;
-                cursor: pointer;
-                border: 3px solid white;
-            }
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: 85%;
+        overflow-y: scroll;
+        img {
+            height: 300px;
+            width: 225px;
+            padding: 5px;
         }
     }
-    .empty-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        h4 {
-            color: #040c24;
-            font-size: 30px;
-            padding: 5px;
-            margin: 0px;
-        }
+    .empty-message {
+        
     }
 }
 
