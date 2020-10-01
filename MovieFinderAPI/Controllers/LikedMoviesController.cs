@@ -62,16 +62,16 @@ namespace MovieFinder.Controllers
         /// Gets all of a users likedMovies by userId.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{skip?}/{count?}")]
         [Authorize]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int? skip, int? count)
         {
             if (_session.UserId <= 0)
             {
                 return BadRequest("Must be logged in with valid account."); 
             }
 
-            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId, null, null).ToList();
+            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId, skip, count).ToList();
 
             if (likedMovies == null || likedMovies.Count() == 0)
             {

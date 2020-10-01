@@ -80,6 +80,10 @@ namespace MovieFinder
                     entity.Property(m => m.UserId);
 
                     entity.Property(m => m.MovieId);
+
+                    entity.Property(m => m.Title);
+
+                    entity.Property(m => m.Poster);
                 });
 
             modelBuilder
