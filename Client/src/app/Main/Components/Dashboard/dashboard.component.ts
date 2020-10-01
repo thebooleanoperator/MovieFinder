@@ -263,12 +263,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param count 
      */
     getNextFavorites(skip: number, count: number): Subscription {
-        this._toolBarService.isLoading = false;
+        this._toolBarService.isLoading = true;
             return this._moviesService.getFavorites(skip, count)
                 .subscribe (
                     (favoriteMoviesDtos) => {
-                        this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos);
-                        this._toolBarService.isLoading = false
+                        if (favoriteMoviesDtos) {
+                            this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos);
+                        }
                     },
                     (error) => {
                         alert("Unable to load favorites.");

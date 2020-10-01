@@ -157,9 +157,8 @@ namespace MovieFinder.Controllers
         [Authorize]
         public async Task<IActionResult> GetFavorites([FromQuery] int? skip = null, int? count = null)
         {
-            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, skip, count);
-
-            var movieIds = likedMovies.Select(x => x.MovieId).ToList();
+            var movieIds = _unitOfWork.LikedMovies
+                .GetAllByUserId(_sessionVars.UserId, skip, count).Select(x => x.MovieId).ToList();
 
             var favoriteMovies = _unitOfWork.Movies.Get(movieIds).ToList();
 
@@ -169,6 +168,30 @@ namespace MovieFinder.Controllers
             }
 
             var completeMovieDtos = await _moviesService.GetCompleteMovie(favoriteMovies);
+
+            return Ok(completeMovieDtos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skip"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [HttpGet("UserSearchHistory/{skip?}/{count?}")]
+        public async Task<IActionResult> GetSearchHistory([FromQuery] int? skip, int? count)
+        {
+            var movieIds = _unitOfWork.UserSearchHistory
+                .GetAllByUserId(_sessionVars.UserId, skip, count).Select(x => x.MovieId).ToList();
+
+            var searchHistoryMovies = _unitOfWork.Movies.Get(movieIds).ToList();
+
+            if (searchHistoryMovies == null || searchHistoryMovies.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var completeMovieDtos = await _moviesService.GetCompleteMovie(searchHistoryMovies);
 
             return Ok(completeMovieDtos);
         }

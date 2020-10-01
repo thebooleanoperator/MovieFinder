@@ -29,16 +29,9 @@ namespace MovieFinder.Repository
             return DbSet.Where(m => m.IsRec == true);
         }
 
-        public IEnumerable<Movies> Get(List<int> movieIds)
+        public IEnumerable<Movies> Get(IEnumerable<int> movieIds)
         {
-            var movies = new List<Movies>(); 
-            foreach (var movieId in movieIds)
-            {
-                var movie = DbSet.Where(x => x.MovieId == movieId).First();
-                movies.Add(movie);
-            }
-
-            return movies; 
+            return DbSet.Where(x => movieIds.Contains(x.MovieId));
         }
     }
 }

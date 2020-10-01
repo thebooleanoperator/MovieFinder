@@ -11,13 +11,17 @@ namespace MovieFinder.Repository.Repo
         public UserSearchHistoryRepository(DbContext context): base(context)
         {
 
-        }
-
-        public IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? historyLength = null)
+        } 
+        
+        public IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? skip = null, int? historyLength = null)
         {
-            return historyLength == null 
-                ? DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).AsEnumerable()
-                : DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated).Take((int)historyLength).AsEnumerable();
+            if (skip == null || historyLength == null)
+            {
+                return DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated);
+            }
+
+            return DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated)
+                .Take((int)historyLength).Skip((int)skip);
         }
     }
 }

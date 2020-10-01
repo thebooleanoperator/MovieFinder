@@ -20,7 +20,11 @@ namespace MovieFinder.Services.Implementation
         private IStreamingDataService _streamingDataService; 
         private UnitOfWork _unitOfWork; 
 
-        public MoviesService(IHttpClientFactory clientFactory, IRateLimitsService rateLimitsService, IStreamingDataService streamingDataService, MovieFinderContext movieFinderContext)
+        public MoviesService(
+            IHttpClientFactory clientFactory, 
+            IRateLimitsService rateLimitsService, 
+            IStreamingDataService streamingDataService, 
+            MovieFinderContext movieFinderContext)
         {
             _clientFactory = clientFactory;
             _rateLimitsService = rateLimitsService;

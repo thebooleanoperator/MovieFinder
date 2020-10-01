@@ -57,12 +57,12 @@ export class InfinityScrollComponent implements OnInit {
         );
     }
 
-    /**
+    /** 
      * All subject subscriptions need to be unsubscribed from. 
      */
     ngOnDestroy() {
         this.dialogFavoritesSubscription.unsubscribe();
-    }
+    } 
 
     /**
      * Binds to error loading movie poster. Loads default-poster when error triggered.
