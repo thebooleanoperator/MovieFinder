@@ -150,29 +150,6 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Gets all of a users liked movies.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Favorites/{skip?}/{count?}")]
-        [Authorize]
-        public async Task<IActionResult> GetFavorites([FromQuery] int? skip = null, int? count = null)
-        {
-            var movieIds = _unitOfWork.LikedMovies
-                .GetAllByUserId(_sessionVars.UserId, skip, count).Select(x => x.MovieId).ToList();
-
-            var favoriteMovies = _unitOfWork.Movies.Get(movieIds).ToList();
-
-            if (favoriteMovies == null || favoriteMovies.Count == 0)
-            {
-                return NoContent();
-            }
-
-            var completeMovieDtos = await _moviesService.GetCompleteMovie(favoriteMovies);
-
-            return Ok(completeMovieDtos);
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="skip"></param>

@@ -9,13 +9,17 @@ namespace MovieFinder.Repository.Repo
 {
     public class LikedMoviesRepository : MovieFinderRepository<LikedMovies>, ILikedMoviesRepository
     {
-        private DbContext _context; 
         public LikedMoviesRepository(DbContext context) : base(context)
         {
-            _context = context; 
+            
         }
 
-        public IEnumerable<LikedMovies> GetAllByUserId(int userId, int? skip = null, int? count = null)
+        public LikedMovies GetByMovieId(int movieId, int userId)
+        {
+            return DbSet.Where(lm => lm.MovieId == movieId && lm.UserId == userId).SingleOrDefault();
+        }
+
+        public IEnumerable<LikedMovies> GetAll(int userId, int? skip = null, int? count = null)
         {
             if (skip == null || count == null)
             {

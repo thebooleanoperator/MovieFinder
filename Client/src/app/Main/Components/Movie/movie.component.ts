@@ -19,11 +19,8 @@ export class MovieComponent {
     // Inputs
     @Input() isGuest: boolean;
     @Input() movie: MovieDto; 
-    @Input() favorites: FavortiesDto[];
+    @Input() favorite: FavortiesDto;
     @Input() isFavorite: boolean;
-
-    //Outputs
-    @Output() favoriteAdded: EventEmitter<FavortiesDto[]> = new EventEmitter<FavortiesDto[]>(); 
     
     posterError: boolean = false;
     alertUser: boolean = false;
@@ -33,10 +30,9 @@ export class MovieComponent {
         this._toolBarService.isLoading = true;
         this._favoritesService.saveFavorite(favorite)
             .subscribe(
-                (data) => {
-                    this.favorites ? this.favorites.push(data) : this.favorites = [data];
+                (favoriteDto: FavortiesDto) => {
                     // Emit to parent that favoriteMovies has been changed.
-                    this.favoriteAdded.emit(this.favorites); 
+                    this._favoritesService.favoriteAdded(favoriteDto); 
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -48,17 +44,13 @@ export class MovieComponent {
             )
     }
 
-    removeFromFavorites(movie: MovieDto) {
-        var favoriteToDelete = this.getFavoriteByMovieId(movie.movieId);
+    removeFromFavorites(favorite: FavortiesDto) {
         this._toolBarService.isLoading = true;
-        this._favoritesService.deleteFavorite(favoriteToDelete.likedId)
+        this._favoritesService.deleteFavorite(favorite.likedId)
             .subscribe(
                 () => {
-                    this.favorites = this.favorites.filter((favorite) => {
-                        return favorite.movieId != favoriteToDelete.movieId;
-                    });
                     // Emit to parent that favoriteMovies has been changed.
-                    this.favoriteAdded.emit(this.favorites); 
+                    this._favoritesService.favoriteRemoved(this.favorite); 
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -67,12 +59,6 @@ export class MovieComponent {
                 },
                 () => this._toolBarService.isLoading = false
             );
-    }
-
-    getFavoriteByMovieId(movieId: number): FavortiesDto {
-        return this.favorites.find((favorite) => {
-            return favorite.movieId == movieId;
-        });
     }
 
     getGenres(genres): string {

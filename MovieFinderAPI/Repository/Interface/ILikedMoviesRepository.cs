@@ -5,6 +5,7 @@ namespace MovieFinder.Repository.Interface
 {
     public interface ILikedMoviesRepository : IMovieFinderRepository<LikedMovies>
     {
-        IEnumerable<LikedMovies> GetAllByUserId(int userId, int? skip = null, int? count = null);
+        LikedMovies GetByMovieId(int movieId, int userId);
+        IEnumerable<LikedMovies> GetAll(int userId, int? skip = null, int? count = null);
     }
 }

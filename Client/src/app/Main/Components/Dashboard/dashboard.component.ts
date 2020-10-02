@@ -1,21 +1,17 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
-import { MoviesService } from 'src/app/Core/Services/movies.service';
-import { ImdbIdDto } from 'src/app/Data/Interfaces/imdbId.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
-import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
-import { MatDialog } from '@angular/material/dialog';
-import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
-import { fromEvent, Subscription } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, switchMap, concatMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
-import { TooltipComponent } from '@angular/material/tooltip';
+import { FavoritesService } from 'src/app/Core/Services/favorites.service';
+import { AuthService } from 'src/app/Core/Services/auth-service';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -25,12 +21,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     constructor(
         private _route: ActivatedRoute,
         private _dialogWatcher: DialogWatcherService,
-        private _moviesService: MoviesService, 
-        private imdbIdsService: ImdbIdsService, 
+        private _favoritesService: FavoritesService, 
         private _searchHistoryService: SearchHistoryService,
         private _toolBarService: ToolBarService,
         private _userService: UserService,
-        private dialog: MatDialog){}
+        private _authService: AuthService){}
 
     /**
      * Holds an array of all movies returned from search results.
@@ -41,25 +36,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
      */
     recommendedMovies: MovieDto[];
     /**
-     * 
-     */
-    favoriteMovies: MovieDto[];
-    /**
-     * The string being entered into the search bar. Gets sent to server to find movie.
-     */
-    search: string;
-    /**
-     * Used to filter search by year.
-     */
-    year: number;
-    /**
      * Holds all of a users favorited movies.
      */
     favorites: FavortiesDto[];
-    /**
-     * Holds the array of the movies being shown on current page. Used for client side paging.
-     */
-    displayedMovies: MovieDto[];
     /**
      * 
      */
@@ -69,29 +48,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
      */
     selectedMovie: MovieDto;
     /**
-     * Toggles the No Search Results found message in view.
-     */
-    noSearchResults: boolean = false;
-    /**
-     * Holds the timeout search function.
-     */
-    timeout: NodeJS.Timer;
-    /**
-     * Column titles for search results table.
-     */
-    displayedColumns : string[] = ['Title', 'Year'];
-    /**
      * Used to disable input search when a user is selecting a movie.
      */
     gettingMovie: boolean = false;
-    /**
-     * Used to set the number of movies displayed from search results.
-     */
-    moviesPerPage: number = 8;
-    /**
-     * Holds the total number of pages of search results returned by the server.
-     */
-    totalPages: number;
     /**
      * 
      */
@@ -134,7 +93,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 var favoritesResolverError = data.resolvedFavorites.error;
                 var searchHistorResolverError = data.resolvedSearchHistory.error; 
                 var recommendedMoviesResolverError = data.resolvedMovies.error;
-                var favoriteMoviesResolverError = data.resolvedFavoriteMovies.error;
                 if (!favoritesResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
                 }
@@ -146,16 +104,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 if (!recommendedMoviesResolverError) {
                     this.recommendedMovies = data.resolvedMovies.movies;
                 }
-                if (!favoriteMoviesResolverError) {
-                    this.favoriteMovies = data.resolvedFavoriteMovies.favoriteMovies;
-                }
                 else {
-                    if (favoritesResolverError.status != 401) {
-                        this.error.push(favoritesResolverError);
-                        this.error.push(searchHistorResolverError);
-                        this.error.push(recommendedMoviesResolverError);
-                        this.error.push(favoriteMoviesResolverError);
-                    }
+                    this.error.push(favoritesResolverError);
+                    this.error.push(searchHistorResolverError);
+                    this.error.push(recommendedMoviesResolverError);
                 }
             }
         )
@@ -181,6 +133,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
                             }
                         })
                     )
+            }
+        )
+
+        this._favoritesService.favoritesAdded$.subscribe(
+            (favoriteDto: FavortiesDto) => {
+                var test = favoriteDto;
+            }
+        )
+
+        this._favoritesService.favoritesRemoved$.subscribe(
+            (favoriteDto: FavortiesDto) => {
+                var test = favoriteDto;
             }
         )
     }
@@ -217,11 +181,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
      */
     getNextFavorites(skip: number, count: number): Subscription {
         this._toolBarService.isLoading = true;
-            return this._moviesService.getFavorites(skip, count)
+            return this._favoritesService.getAll(skip, count)
                 .subscribe (
-                    (favoriteMoviesDtos) => {
-                        if (favoriteMoviesDtos) {
-                            this.favoriteMovies = this.favoriteMovies.concat(favoriteMoviesDtos);
+                    (favoriteDtos) => {
+                        if (favoriteDtos) {
+                            this.favorites = this.favorites.concat(favoriteDtos);
                         }
                     },
                     (error) => {
@@ -232,39 +196,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 );
     }
 
-    onAddFavorites() {
-        
-    }
-
-    addToFavorites(movie: MovieDto): void {
+    onAddFavorites(movie: MovieDto) {
         var favorite: FavortiesDto = new FavortiesDto(movie, this._authService.user);
         this._toolBarService.isLoading = true;
         this._favoritesService.saveFavorite(favorite)
             .subscribe(
                 (data) => {
                     this.favorites ? this.favorites.push(data) : this.favorites = [data];
-                    // Emit to parent that favoriteMovies has been changed.
-                    this.favoriteAdded.emit(this.favorites); 
                 },
                 (error) => {
-                    if (error.status != 401) {
-                        alert("Failed to add movie to favorites.");
-                    }
+                    alert("Failed to add movie to favorites.");
                     this._toolBarService.isLoading = false;
                 },
                 () => this._toolBarService.isLoading = false
             )
-    }
-
-    /**
-     * Sets the total pages variable. Used for client side paging.
-     * @param totalMovies 
-     * @param moviesPerPage 
-     */
-    setTotalPages(totalMovies, moviesPerPage): void {
-        if (totalMovies > 0) {
-            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
-        }
     }
 
     /**
@@ -291,19 +236,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
             return false;
         }
         return error.length > 0 ? true : false;
-    }
-
-    /**
-     * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
-     */
-    private openDialog(movie, favoriteMovies, isGuest) {
-        var isFavorite = this.getIsFavorite(movie, favoriteMovies);
-        var existsInHistory = this.searchedMovies.some((searchMovie) => {
-            return searchMovie.movieId == movie.movieId
-        });
-        console.log(existsInHistory);
-        this.dialog.open(SelectedMovieDialog, {
-            data: {isGuest: isGuest, movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: !existsInHistory}
-        });
     }
 }

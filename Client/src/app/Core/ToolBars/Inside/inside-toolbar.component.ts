@@ -5,26 +5,64 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SettingsComponent } from 'src/app/Main/Components/Settings/settings.component';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { AfterViewInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'inside-toolbar',
   templateUrl: './inside-toolbar.component.html',
   styleUrls: ['./inside-toolbar.component.scss']
 })
-export class InsideToolbarComponent implements AfterViewInit {
+export class InsideToolbarComponent {
     constructor(
         private _toolBarService: ToolBarService, 
         protected _router: Router, 
-        private _settingsSheet: MatBottomSheet)
+        private _settingsSheet: MatBottomSheet,
+        private dialog: MatDialog)
     {
 
     }
+
+    // Data
+    /**
+     * The string being entered into the search bar. Gets sent to server to find movie.
+     */
+    search: string;
+    /**
+     * Used to filter search by year.
+     */
+    year: number;
+    /**
+     * Holds the array of the movies being shown on current page. Used for client side paging.
+     */
+    displayedMovies: MovieDto[];
+    /**
+     * Holds the total number of pages of search results returned by the server.
+     */
+    totalPages: number;
+    /**
+     * Used to set the number of movies displayed from search results.
+     */
+    moviesPerPage: number = 8;
+    /**
+     * Toggles the No Search Results found message in view.
+     */
+    noSearchResults: boolean = false;
+    /**
+     * Holds the timeout search function.
+     */
+    timeout: NodeJS.Timer;
+    /**
+     * Column titles for search results table.
+     */
+    displayedColumns : string[] = ['Title', 'Year'];
+
+    // Methods
 
     /**
      * Uses SwitchMap to to send fromEvent search observable into imdbIds search.
      * Then subscribe and set appropraite variables.
      * ToDo: Look to improve this.
-     */
+     
     ngAfterViewInit() {
         if (!this.isError(this.error)) {
             fromEvent<any>(this.imdbIdSearch.nativeElement, 'keyup') 
@@ -65,7 +103,7 @@ export class InsideToolbarComponent implements AfterViewInit {
                 }
             );
         }
-    }
+    }*/
     
     /**
      * Returns if the toolbar loading bar should show.
@@ -100,7 +138,7 @@ export class InsideToolbarComponent implements AfterViewInit {
 
     /**
      * Opens settings component. 
-     */
+     
     openSettings(): void {
         this._settingsSheet.open(SettingsComponent)
     }
@@ -110,7 +148,7 @@ export class InsideToolbarComponent implements AfterViewInit {
      * user selects year to filter search.
      * @param search 
      * @param year 
-     */
+     
     searchMovies(search: string, year: number) {
         if (search) {
             this._toolBarService.isLoading  = true;
@@ -127,9 +165,9 @@ export class InsideToolbarComponent implements AfterViewInit {
         }
     }
 
-        /**
+    /**
      * When a user clicks backspace, clear the search results. 
-     */
+     
     clearSearchResults(): void {
         this.movies = null;
         this.noSearchResults = false;
@@ -139,7 +177,7 @@ export class InsideToolbarComponent implements AfterViewInit {
     /**
      * Gets the year. Checks if greater than 0.
      * @param year 
-     */
+     
     getYear(year: number): number {
         return year > 0 ? year : null;
     }
@@ -149,7 +187,7 @@ export class InsideToolbarComponent implements AfterViewInit {
      * @param movies 
      * @param moviesPerPage 
      * @param page 
-     */
+     
     setDisplayedMovies(movies:MovieDto[], moviesPerPage:number, page:number=0): void {
         if (movies == null || movies.length <= 0) {
             this.displayedMovies = null; 
@@ -167,7 +205,7 @@ export class InsideToolbarComponent implements AfterViewInit {
      * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
      * and set selectedMovie.
      * @param imdbIdDto 
-     */
+     
     getOrCreateMovie(imdbIdDto: ImdbIdDto) {
         this.gettingMovie = true;
         this._toolBarService.isLoading = true;
@@ -193,4 +231,29 @@ export class InsideToolbarComponent implements AfterViewInit {
                 }
             )
     }
+
+    /**
+     * Sets the total pages variable. Used for client side paging.
+     * @param totalMovies 
+     * @param moviesPerPage 
+     
+    setTotalPages(totalMovies, moviesPerPage): void {
+        if (totalMovies > 0) {
+            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
+        }
+    }
+
+    /**
+     * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
+     
+    private openDialog(movie, favoriteMovies, isGuest) {
+        var isFavorite = this.getIsFavorite(movie, favoriteMovies);
+        var existsInHistory = this.searchedMovies.some((searchMovie) => {
+            return searchMovie.movieId == movie.movieId
+        });
+        console.log(existsInHistory);
+        this.dialog.open(SelectedMovieDialog, {
+            data: {isGuest: isGuest, movie: movie, favoriteMovies: favoriteMovies, isFavorite: isFavorite, updateSearchHistory: !existsInHistory}
+        });
+    }*/
 }

@@ -2,11 +2,11 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
-import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
-import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
+import { FavoritesService } from 'src/app/Core/Services/favorites.service';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { MoviesService } from 'src/app/Core/Services/movies.service';
 
 @Component({
     selector: 'infinity-scroll',
@@ -15,9 +15,10 @@ import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 })
 export class InfinityScrollComponent implements OnInit {
     constructor(
-        private _toolBarService: ToolBarService, 
         private _dialog: MatDialog,
-        private _dialogWatcher: DialogWatcherService)
+        private _favoritesService: FavoritesService,
+        private _moviesService: MoviesService,
+        private _toolBarService: ToolBarService)
     {
 
     }
@@ -25,7 +26,6 @@ export class InfinityScrollComponent implements OnInit {
     // Inputs
     @Input() isGuest: boolean;
     @Input() movies: MovieDto[]; 
-    @Input() favorites: FavortiesDto[];
     @Input() typeScrolled: string; 
 
     // Outputs
@@ -48,13 +48,6 @@ export class InfinityScrollComponent implements OnInit {
         else {
             this.nextExists = false;
         }
-
-        this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
-            (favorites) => {
-                this.favorites = favorites;
-                this.setmovies(this.favorites, this.movies);
-            }
-        );
     }
 
     /** 
@@ -106,11 +99,28 @@ export class InfinityScrollComponent implements OnInit {
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
-    openMovieDialog(movie: MovieDto, favorite: FavortiesDto[]) {
-        this._dialog.open(SelectedMovieDialog, {
-            width: '450px',
-            data: {movie: movie, movies: favorite, isFavorite: true, updateSearchHistory: false}
-        });
+    openMovieDialog(movieId: number) {
+        this._toolBarService.isLoading = true;
+
+        var favorite = this._favoritesService.getByMovieId(movieId);
+        var movie = this._moviesService.get(movieId);
+
+        forkJoin([favorite, movie])
+            .subscribe(
+                (results) => {
+                    var isFavorite = results[0] != null;
+                    this._dialog.open(SelectedMovieDialog, {
+                        width: '450px',
+                        data: {
+                            movie: results[1], 
+                            favorite: results[0], 
+                            isFavorite: isFavorite, 
+                            updateSearchHistory: false
+                        }
+                    });
+                },
+                (error) => alert(error)
+            )
     }
 
     /**
@@ -119,14 +129,14 @@ export class InfinityScrollComponent implements OnInit {
      * @param favorites 
      * @param movies 
      */
-    setmovies(favorites: FavortiesDto[], movies: MovieDto[]) {
+    /*setmovies(movies: MovieDto[]) {
         var favoriteIds = favorites.map((favorite) => favorite.movieId);
         this.movies = movies.filter((favMovie) => {
             if (favoriteIds.includes(favMovie.movieId)) {
                 return favMovie;
             }
         });
-    }
+    }*/
 
     isError(error: any[]) {
         if (!error) {

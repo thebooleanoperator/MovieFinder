@@ -13,7 +13,6 @@ import { InfinityScrollComponent } from './Main/Components/Infinity-Scroll/infin
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
-import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
 import { SearchHistoryResolver } from './Core/Resolvers/search-history.resolver';
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
@@ -55,7 +54,6 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
       },
       MoviesResolver,
       FavoritesResolver,
-      FavoriteMoviesResolver,
       SearchHistoryResolver,
       AppUtilities
     ],
