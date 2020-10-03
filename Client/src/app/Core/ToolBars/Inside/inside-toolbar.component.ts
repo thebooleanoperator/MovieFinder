@@ -55,6 +55,18 @@ export class InsideToolbarComponent {
      * Column titles for search results table.
      */
     displayedColumns : string[] = ['Title', 'Year'];
+    /**
+     * The movie a user has selected from the search results. 
+     */
+    selectedMovie: MovieDto;
+    /**
+     * Used to disable input search when a user is selecting a movie.
+     */
+    gettingMovie: boolean = false;
+    /**
+     * 
+     */
+    searchTableDisplayed: boolean = false;
 
     // Methods
 

@@ -112,8 +112,8 @@ export class InfinityScrollComponent implements OnInit {
                     this._dialog.open(SelectedMovieDialog, {
                         width: '450px',
                         data: {
-                            movie: results[1], 
                             favorite: results[0], 
+                            movie: results[1], 
                             isFavorite: isFavorite, 
                             updateSearchHistory: false
                         }

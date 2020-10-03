@@ -8,7 +8,7 @@
                     thumb_up
                 </mat-icon>
                 <mat-icon class="not-interested" *ngIf="isFavorite" 
-                    matTooltip="Remove From Favorites" (click)="removeFromFavorites(favorite)">
+                    matTooltip="Remove From Favorites" (click)="removeFromFavorites(movie.movieId)">
                     not_interested
                 </mat-icon>
             </div>

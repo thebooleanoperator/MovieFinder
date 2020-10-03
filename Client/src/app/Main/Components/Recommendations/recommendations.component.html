@@ -9,9 +9,7 @@
         <movie 
             [isGuest]="isGuest"
             [movie]="getCurrentMovie()" 
-            [favorite]="favorite"
-            [isFavorite]="isFavorite"
-            (favoriteAdded)="onFavoriteAdded($event)">
+            [isFavorite]="isFavorite">
         </movie>
         <div class="inline-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">

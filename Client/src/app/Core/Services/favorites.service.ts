@@ -9,18 +9,12 @@ export class FavoritesService {
     
     constructor(private http: HttpClient){}
 
-    private _favoritesAdded = new Subject();
-    favoritesAdded$ = this._favoritesAdded.asObservable();
+    private _favoritesUpdated = new Subject();
+    favoritesUpdated$ = this._favoritesUpdated.asObservable();
 
-    private _favoritesRemoved = new Subject();
-    favoritesRemoved$ = this._favoritesAdded.asObservable();
     // Event Emitters
-    favoriteAdded(favorite: FavortiesDto) {
-        this._favoritesAdded.next(favorite);
-    }
-
-    favoriteRemoved(favorite: FavortiesDto) {
-        this._favoritesRemoved.next(favorite);
+    favoritesUpdated() {
+        this._favoritesUpdated.next();
     }
 
     // Http Calls
@@ -36,7 +30,7 @@ export class FavoritesService {
         return this.http.get(`/LikedMovies?skip=${skip}&count=${count}`);
     }
 
-    deleteFavorite(favoriteId: number): Observable<any> {
-        return this.http.delete(`/LikedMovies/${favoriteId}`);
+    deleteFavorite(movieId: number): Observable<any> {
+        return this.http.delete(`/LikedMovies/${movieId}`);
     }
 }

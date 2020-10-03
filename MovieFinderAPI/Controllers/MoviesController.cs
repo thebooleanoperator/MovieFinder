@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-
     [Route("[controller]")]
     public class MoviesController : Controller
     {
@@ -130,7 +129,7 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// Gets the movies that have been reccomended by StreamSpotter staff.
+        /// Gets the movies that have been reccomended.
         /// </summary>
         /// <returns></returns>
         [HttpGet("Recommended")]

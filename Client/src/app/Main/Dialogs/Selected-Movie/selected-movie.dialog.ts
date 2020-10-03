@@ -5,6 +5,7 @@ import { MovieDialogDto } from 'src/app/Data/Interfaces/movieDialog.dto';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 
 @Component ({
     selector: "selected-movie-dialog",
@@ -15,8 +16,7 @@ export class SelectedMovieDialog implements OnInit {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: MovieDialogDto,
         public dialogRef: MatDialogRef<SelectedMovieDialog>, 
-        private _toolBarService: ToolBarService,
-        private _dialogWatcher: DialogWatcherService) {
+        private _toolBarService: ToolBarService) {
             // Before closing modal update observable in dialogwatcher.
             /*this.dialogRef.beforeClosed().subscribe(() => {
                 this._dialogWatcher.closedByClickOutside(this.favoriteMovies, this.movie, this.updateSearchHistory);
@@ -35,17 +35,6 @@ export class SelectedMovieDialog implements OnInit {
     updateSearchHistory: boolean = this.data.updateSearchHistory;
     showMovie: boolean = false;
 
-    /**
-     * Event listner that gets called whenever child component updates favoriteMovies.
-     * @param favorites 
-     */
-    onFavoriteAdded(favorites: FavortiesDto[]) {
-        this.isFavorite = true; 
-    }
-
-    onFavoriteRemoved() {
-        this.isFavorite = false;
-    }
 
     getIsFavorite(movie: MovieDto, favoriteMovies: FavortiesDto[]): boolean {
         if (!favoriteMovies) {

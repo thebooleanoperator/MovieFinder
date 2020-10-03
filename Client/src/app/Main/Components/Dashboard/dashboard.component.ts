@@ -25,7 +25,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private _searchHistoryService: SearchHistoryService,
         private _toolBarService: ToolBarService,
         private _userService: UserService,
-        private _authService: AuthService){}
+        private _authService: AuthService)
+        {
+
+        }
 
     /**
      * Holds an array of all movies returned from search results.
@@ -44,25 +47,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
      */
     searchedMovies: SearchHistoryDto[];
     /**
-     * The movie a user has selected from the search results. 
-     */
-    selectedMovie: MovieDto;
-    /**
-     * Used to disable input search when a user is selecting a movie.
-     */
-    gettingMovie: boolean = false;
-    /**
-     * 
-     */
-    searchTableDisplayed: boolean = false;
-    /**
      * 
      */
     routerSubscription: Subscription;
     /**
      *
      */
-    dialogFavoritesSubscription: Subscription; 
+    favoritesSubscription: Subscription; 
     /**
      * 
      */
@@ -113,9 +104,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         )
 
         // Favoties Subscription
-        this.dialogFavoritesSubscription = this._dialogWatcher.closeEventFavorites$.subscribe(
-            (favorites) => this.favorites = favorites
-        );
+        this.favoritesSubscription = this._favoritesService.favoritesUpdated$.subscribe(
+            () => {
+                
+                return this._favoritesService.getAll(0, 10)
+                    .subscribe(
+                        (favoritesDto: FavortiesDto[]) => this.favorites = favoritesDto,
+                        (error) => alert(error)
+                       
+                    )
+            }
+        )
 
         // SearchHistory subscription
         this.dialogMovieSubscription = this._dialogWatcher.closeEventMovie$.subscribe( 
@@ -135,18 +134,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     )
             }
         )
-
-        this._favoritesService.favoritesAdded$.subscribe(
-            (favoriteDto: FavortiesDto) => {
-                var test = favoriteDto;
-            }
-        )
-
-        this._favoritesService.favoritesRemoved$.subscribe(
-            (favoriteDto: FavortiesDto) => {
-                var test = favoriteDto;
-            }
-        )
     }
 
     /**
@@ -155,7 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         try {
             this.routerSubscription.unsubscribe();
-            this.dialogFavoritesSubscription.unsubscribe();
+            this.favoritesSubscription.unsubscribe();
             this.dialogMovieSubscription.unsubscribe();
         }
         catch(error) {

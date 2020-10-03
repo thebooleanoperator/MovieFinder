@@ -94,11 +94,11 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="likedMovieId"></param>
         /// <returns></returns>
-        [HttpDelete("{likedMovieId}")]
+        [HttpDelete("{movieId}")]
         [Authorize]
-        public IActionResult Delete(int likedMovieId)
+        public IActionResult DeleteByMovieId(int movieId)
         {
-            var likedMovie = _unitOfWork.LikedMovies.Get(likedMovieId);
+            var likedMovie = _unitOfWork.LikedMovies.GetByMovieId(movieId, _session.UserId);
             
             if (likedMovie == null)
             {

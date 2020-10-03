@@ -17,10 +17,10 @@ export class FavoritesResolver implements Resolve<ResolvedFavorites> {
         }
         else {
             return this._favoritesService.getAll(0, 10)
-            .pipe (
-                map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
-                catchError((error: any) => of(new ResolvedFavorites(null, error)))
-            )
+                .pipe (
+                    map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
+                    catchError((error: any) => of(new ResolvedFavorites(null, error)))
+                )
         }
     }
 }

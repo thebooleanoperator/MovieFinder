@@ -19,7 +19,6 @@ export class MovieComponent {
     // Inputs
     @Input() isGuest: boolean;
     @Input() movie: MovieDto; 
-    @Input() favorite: FavortiesDto;
     @Input() isFavorite: boolean;
     
     posterError: boolean = false;
@@ -31,8 +30,9 @@ export class MovieComponent {
         this._favoritesService.saveFavorite(favorite)
             .subscribe(
                 (favoriteDto: FavortiesDto) => {
+                    this.isFavorite = true; 
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoriteAdded(favoriteDto); 
+                    this._favoritesService.favoritesUpdated();
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -44,13 +44,14 @@ export class MovieComponent {
             )
     }
 
-    removeFromFavorites(favorite: FavortiesDto) {
+    removeFromFavorites(movieId: number) {
         this._toolBarService.isLoading = true;
-        this._favoritesService.deleteFavorite(favorite.likedId)
+        this._favoritesService.deleteFavorite(movieId)
             .subscribe(
                 () => {
+                    this.isFavorite = false; 
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoriteRemoved(this.favorite); 
+                    this._favoritesService.favoritesUpdated(); 
                 },
                 (error) => {
                     if (error.status != 401) {

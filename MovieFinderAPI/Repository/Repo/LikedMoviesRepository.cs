@@ -4,7 +4,6 @@ using MovieFinder.Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace MovieFinder.Repository.Repo
 {
     public class LikedMoviesRepository : MovieFinderRepository<LikedMovies>, ILikedMoviesRepository

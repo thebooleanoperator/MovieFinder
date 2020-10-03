@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
-import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
+import { FavoritesService } from 'src/app/Core/Services/favorites.service';
+import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 
 @Component ({
     selector: 'recommended',
@@ -9,14 +10,13 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
     styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit  {
-    constructor(private _route: ActivatedRoute)
+    constructor(private _favoritesService: FavoritesService, private _toolBarService: ToolBarService)
     {
             
     }
 
     // Inputs 
     @Input() recommendedMovies: MovieDto[];
-    @Input() favorites: FavortiesDto[];
     @Input() isGuest: boolean;
     
     // Data
@@ -30,27 +30,7 @@ export class RecommendationsComponent implements OnInit  {
         // ToDo: randomize on server.
         this.movieIndex = Math.floor(Math.random() * this.recommendedMovies.length);
         this.selectedMovie = this.recommendedMovies[this.movieIndex];
-        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
-    }
-
-    /**
-     * Toggles error message in template if errors took place while resolving data.
-     * @param error 
-     */
-    isError(error: any[]) {
-        if (!error) {
-            return false;
-        }
-        return error.length > 0 ? true : false;
-    }
-
-    /**
-     * Event listner that gets called whenever child component updates favoriterecommendedMovies.
-     * @param favorites 
-     */
-    onFavoriteAdded(favorites: FavortiesDto[]) {
-        this.favorites = favorites;
-        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
+        this.setIsFavorite(this.selectedMovie.movieId);
     }
 
     /**
@@ -74,7 +54,7 @@ export class RecommendationsComponent implements OnInit  {
             this.movieIndex += index
         }
         this.selectedMovie = this.recommendedMovies[this.movieIndex];
-        this.isFavorite = this.getIsFavorite(this.selectedMovie, this.favorites);
+        this.setIsFavorite(this.selectedMovie.movieId);
     }
 
     /**
@@ -82,13 +62,14 @@ export class RecommendationsComponent implements OnInit  {
      * @param movie 
      * @param favorites 
      */
-    getIsFavorite(movie: MovieDto, favorites: FavortiesDto[]): boolean {
-        if (!favorites) {
-            return false
-        }
-        return favorites.some((favorite) => {
-            return favorite.movieId == movie.movieId;
-        });
+    setIsFavorite(movieId: number): void {
+        this._toolBarService.isLoading = true;
+        this._favoritesService.getByMovieId(movieId)
+            .subscribe(
+                (favoriteDto: FavortiesDto) => this.isFavorite = favoriteDto != null,
+                (error) => alert(error),
+                () => this._toolBarService.isLoading = false
+            );
     }  
 
     /**
@@ -105,5 +86,16 @@ export class RecommendationsComponent implements OnInit  {
      */
     isLast(index): boolean {
         return index == this.recommendedMovies.length - 1; 
+    }
+
+    /**
+     * Toggles error message in template if errors took place while resolving data.
+     * @param error 
+     */
+    isError(error: any[]) {
+        if (!error) {
+            return false;
+        }
+        return error.length > 0 ? true : false;
     }
 }
