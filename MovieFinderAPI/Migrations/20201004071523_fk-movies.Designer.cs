@@ -9,7 +9,7 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20201004065626_fk-movies")]
+    [Migration("20201004071523_fk-movies")]
     partial class fkmovies
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,6 +151,9 @@ namespace MovieFinder.Migrations
 
                     b.HasKey("GenreId");
 
+                    b.HasIndex("MovieId")
+                        .IsUnique();
+
                     b.ToTable("Genres");
                 });
 
@@ -194,12 +197,6 @@ namespace MovieFinder.Migrations
 
                     b.Property<string>("Director");
 
-                    b.Property<int>("GenreId")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("0");
-
-                    b.Property<int?>("GenreId1");
-
                     b.Property<string>("ImdbId");
 
                     b.Property<decimal?>("ImdbRating");
@@ -214,19 +211,11 @@ namespace MovieFinder.Migrations
 
                     b.Property<int?>("RunTime");
 
-                    b.Property<int>("StreamingDataId")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("0");
-
                     b.Property<string>("Title");
 
                     b.Property<int>("Year");
 
                     b.HasKey("MovieId");
-
-                    b.HasIndex("GenreId1");
-
-                    b.HasIndex("StreamingDataId");
 
                     b.ToTable("Movies");
                 });
@@ -297,6 +286,9 @@ namespace MovieFinder.Migrations
                     b.Property<bool>("Netflix");
 
                     b.HasKey("StreamingDataId");
+
+                    b.HasIndex("MovieId")
+                        .IsUnique();
 
                     b.ToTable("StreamingData");
                 });
@@ -425,15 +417,19 @@ namespace MovieFinder.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MovieFinder.Models.Movies", b =>
+            modelBuilder.Entity("MovieFinder.Models.Genres", b =>
                 {
-                    b.HasOne("MovieFinder.Models.Genres", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId1");
+                    b.HasOne("MovieFinder.Models.Movies", "Movie")
+                        .WithOne("Genre")
+                        .HasForeignKey("MovieFinder.Models.Genres", "MovieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.HasOne("MovieFinder.Models.StreamingData", "StreamingData")
-                        .WithMany()
-                        .HasForeignKey("StreamingDataId")
+            modelBuilder.Entity("MovieFinder.Models.StreamingData", b =>
+                {
+                    b.HasOne("MovieFinder.Models.Movies", "Movie")
+                        .WithOne("StreamingData")
+                        .HasForeignKey("MovieFinder.Models.StreamingData", "MovieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

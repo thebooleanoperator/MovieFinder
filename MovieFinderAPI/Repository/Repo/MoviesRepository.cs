@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieFinder.Models;
 using MovieFinder.Repository.Interface;
-using MovieFinder.Repository.Repo;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +8,21 @@ namespace MovieFinder.Repository
 {
     public class MoviesRepository : MovieFinderRepository<Movies>, IMoviesRepository
     {
-        private DbContext _context; 
         public MoviesRepository(DbContext context) : base(context)
         {
-            _context = context;
+            
+        }
+
+        new public Movies Get(int movieId)
+        {
+            return DbSet.Where(x => x.MovieId == movieId)
+                    .Include(x => x.Genre)
+                    .Include(x => x.StreamingData).Single();
+        }
+
+        public IEnumerable<Movies> Get(IEnumerable<int> movieIds)
+        {
+            return DbSet.Where(x => movieIds.Contains(x.MovieId));
         }
 
         public Movies GetByImdbId(string imdbId)
@@ -28,14 +38,8 @@ namespace MovieFinder.Repository
 
         public IEnumerable<Movies> GetAllRecommended()
         {
-            return DbSet.Where(m => m.IsRec == true)
-                .Include(x => x.StreamingData)
-                .Include(x => x.Genre);
-        }
-
-        public IEnumerable<Movies> Get(IEnumerable<int> movieIds)
-        {
-            return DbSet.Where(x => movieIds.Contains(x.MovieId));
+            return DbSet.Where(m => m.IsRec == true);
+              
         }
     }
 }

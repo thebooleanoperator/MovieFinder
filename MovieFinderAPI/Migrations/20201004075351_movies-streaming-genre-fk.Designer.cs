@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieFinder;
 
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    partial class MovieFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20201004075351_movies-streaming-genre-fk")]
+    partial class moviesstreaminggenrefk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,10 +216,6 @@ namespace MovieFinder.Migrations
 
                     b.HasKey("MovieId");
 
-                    b.HasIndex("GenreId");
-
-                    b.HasIndex("StreamingDataId");
-
                     b.ToTable("Movies");
                 });
 
@@ -410,19 +408,6 @@ namespace MovieFinder.Migrations
                     b.HasOne("MovieFinder.Models.Users")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("MovieFinder.Models.Movies", b =>
-                {
-                    b.HasOne("MovieFinder.Models.Genres", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MovieFinder.Models.StreamingData", "StreamingData")
-                        .WithMany()
-                        .HasForeignKey("StreamingDataId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

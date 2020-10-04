@@ -54,7 +54,7 @@ namespace MovieFinder.Services.Implementation
             }
             catch
             {
-                return null; 
+                throw new Exception();
             }
         }
 

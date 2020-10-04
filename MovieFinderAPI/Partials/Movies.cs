@@ -17,11 +17,21 @@ namespace MovieFinder.Models
         /// <param name="imdbInfo"></param>
         /// <param name="imdbId"></param>
         /// <param name="netflixId"></param>
-        public Movies(RapidMovieDto rapidMovieInfo, ImdbIds imdbId)
+        public Movies(RapidMovieDto rapidMovieInfo, ImdbIds imdbId, Genres genre, StreamingData streamingData)
         {
             if(rapidMovieInfo == null)
             {
                 throw new ArgumentException($"{rapidMovieInfo} must not be null");
+            }
+
+            if (genre == null)
+            {
+                throw new ArgumentException($"{genre} must not be null");
+            }
+
+            if (streamingData == null)
+            {
+                throw new ArgumentException($"{streamingData} must not be null");
             }
 
             if (rapidMovieInfo.Director == null)
@@ -65,6 +75,8 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"{imdbId.Year} must be have characters");
             }
 
+            GenreId = genre.GenreId;
+            StreamingDataId = streamingData.StreamingDataId;
             Director = rapidMovieInfo.Director;
             Title = rapidMovieInfo.Title;
             RunTime = getMovieRunTime(rapidMovieInfo.RunTime);

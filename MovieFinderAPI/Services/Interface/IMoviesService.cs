@@ -14,19 +14,5 @@ namespace MovieFinder.Services.Interface
         /// <param name="imdbId"></param>
         /// <returns></returns>
         Task<RapidMovieDto> GetMovieInfo([FromBody] ImdbIds imdbId);
-
-        /// <summary>
-        /// Returns a moviesDto filled out with Synopsis, Genre, and Streaming Data info.
-        /// </summary>
-        /// <param name="movie"></param>
-        /// <returns></returns>
-        Task<MoviesDto> GetCompleteMovie(Movies movie);
-
-        /// <summary>
-        /// Overrides GetCompletedMovie to take an array of movies.
-        /// </summary>
-        /// <param name="moviesDto"></param>
-        /// <returns></returns>
-        Task<IEnumerable<MoviesDto>> GetCompleteMovie(IEnumerable<Movies> moviesDto);
     }
 }
