@@ -12,6 +12,7 @@ import { UserService } from 'src/app/Core/Services/user.service';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { AuthService } from 'src/app/Core/Services/auth-service';
+import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -105,14 +106,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // Favoties Subscription
         this.favoritesSubscription = this._favoritesService.favoritesUpdated$.subscribe(
-            () => {
-                
-                return this._favoritesService.getAll(0, 10)
-                    .subscribe(
-                        (favoritesDto: FavortiesDto[]) => this.favorites = favoritesDto,
-                        (error) => alert(error)
-                       
-                    )
+            (favoriteEvent: FavoritesEventDto) => {
+                var favoriteDto = new FavortiesDto(favoriteEvent, this._authService.user);
+                switch (favoriteEvent.action) {
+                    case 'add':
+                        this.favorites.unshift(favoriteDto);
+                        break; 
+                    case 'delete':
+                        this.favorites = this.favorites.filter((fav) => {
+                            return fav.likedId != favoriteDto.likedId;
+                        })
+                        break;
+                    default:
+                        break;
+                }
             }
         )
 

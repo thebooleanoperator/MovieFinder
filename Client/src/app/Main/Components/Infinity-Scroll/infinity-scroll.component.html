@@ -3,8 +3,8 @@
         *ngIf="movies"
         class="posters"
         infinite-scroll
-        [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="500"
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="300"
         [scrollWindow]="false"
         (scrolled)="getNext(movies, count)"> 
         <img *ngFor="let movie of movies" [src]="movie.poster" matTooltip="{{movie.title}}" 

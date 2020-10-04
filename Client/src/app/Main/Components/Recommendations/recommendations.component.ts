@@ -21,7 +21,6 @@ export class RecommendationsComponent implements OnInit  {
     
     // Data
     selectedMovie: MovieDto;
-    isFavorite: boolean; 
     movieIndex: number;
 
     //Methods    
@@ -30,7 +29,6 @@ export class RecommendationsComponent implements OnInit  {
         // ToDo: randomize on server.
         this.movieIndex = Math.floor(Math.random() * this.recommendedMovies.length);
         this.selectedMovie = this.recommendedMovies[this.movieIndex];
-        this.setIsFavorite(this.selectedMovie.movieId);
     }
 
     /**
@@ -54,7 +52,6 @@ export class RecommendationsComponent implements OnInit  {
             this.movieIndex += index
         }
         this.selectedMovie = this.recommendedMovies[this.movieIndex];
-        this.setIsFavorite(this.selectedMovie.movieId);
     }
 
     /**
@@ -62,11 +59,11 @@ export class RecommendationsComponent implements OnInit  {
      * @param movie 
      * @param favorites 
      */
-    setIsFavorite(movieId: number): void {
+    getIsFavorite(movieId: number): void {
         this._toolBarService.isLoading = true;
         this._favoritesService.getByMovieId(movieId)
             .subscribe(
-                (favoriteDto: FavortiesDto) => this.isFavorite = favoriteDto != null,
+                (favoriteDto: FavortiesDto) => favoriteDto != null,
                 (error) => alert(error),
                 () => this._toolBarService.isLoading = false
             );

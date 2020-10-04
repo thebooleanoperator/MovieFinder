@@ -4,6 +4,7 @@ import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
 
 @Component({
     selector: 'movie',
@@ -25,14 +26,15 @@ export class MovieComponent {
     alertUser: boolean = false;
 
     addToFavorites(movie: MovieDto): void {
-        var favorite: FavortiesDto = new FavortiesDto(movie, this._authService.user);
-        this._toolBarService.isLoading = true;
-        this._favoritesService.saveFavorite(favorite)
+        var favoriteToAdd: FavortiesDto = 
+            new FavortiesDto(movie, this._authService.user);
+        this._favoritesService.saveFavorite(favoriteToAdd)
             .subscribe(
                 (favoriteDto: FavortiesDto) => {
                     this.isFavorite = true; 
+                    var favoriteEvent = new FavoritesEventDto(favoriteDto, 'add');
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoritesUpdated();
+                    this._favoritesService.favoritesUpdated(favoriteEvent);
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -44,14 +46,17 @@ export class MovieComponent {
             )
     }
 
-    removeFromFavorites(movieId: number) {
+    removeFromFavorites(movie: MovieDto) {
         this._toolBarService.isLoading = true;
-        this._favoritesService.deleteFavorite(movieId)
+        var favoriteToDelete: FavortiesDto = 
+            new FavortiesDto(movie, this._authService.user);
+        this._favoritesService.deleteFavorite(movie.movieId)
             .subscribe(
                 () => {
                     this.isFavorite = false; 
+                    var favoriteEvent = new FavoritesEventDto(favoriteToDelete, 'delete');
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoritesUpdated(); 
+                    this._favoritesService.favoritesUpdated(favoriteEvent); 
                 },
                 (error) => {
                     if (error.status != 401) {

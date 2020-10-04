@@ -25,38 +25,38 @@ import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
 import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AngularFormsModule,
-    HttpClientModule,
-    AngularMaterialModule,
-    AngularLibrariesModule,
-    WelcomeModule,
-    ContentModule,
-    AppRoutingModule
-  ],
-  entryComponents: [
-      SelectedMovieDialog,
-      ChangePasswordDialog,
-      GuestHelpDialog,
-      SettingsComponent,
-      InfinityScrollComponent,
-      RecommendationsComponent
-  ],
-  providers: [
-      {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true
-      },
-      MoviesResolver,
-      FavoritesResolver,
-      SearchHistoryResolver,
-      AppUtilities
+    declarations: [
+        AppComponent
     ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        AngularFormsModule,
+        HttpClientModule,
+        AngularMaterialModule,
+        AngularLibrariesModule,
+        WelcomeModule,
+        ContentModule,
+        AppRoutingModule
+    ],
+    entryComponents: [
+        SelectedMovieDialog,
+        ChangePasswordDialog,
+        GuestHelpDialog,
+        SettingsComponent,
+        InfinityScrollComponent,
+        RecommendationsComponent
+    ],
+    providers: [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+    },
+    MoviesResolver,
+    FavoritesResolver,
+    SearchHistoryResolver,
+    AppUtilities
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

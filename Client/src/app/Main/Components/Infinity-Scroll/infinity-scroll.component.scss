@@ -1,6 +1,7 @@
 #favorites {
     height: 99vh;
-    overflow-y: hidden;
+    overflow: hidden;
+
     .posters {
         display: flex;
         align-items: center;
@@ -9,12 +10,21 @@
         flex-wrap: wrap;
         height: 85%;
         overflow-y: scroll;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        
         img {
             height: 300px;
             width: 225px;
             padding: 5px;
         }
     }
+
+    .posters::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+    }
+
     .empty-message {
         
     }

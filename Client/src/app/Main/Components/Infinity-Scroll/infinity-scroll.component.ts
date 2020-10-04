@@ -123,21 +123,6 @@ export class InfinityScrollComponent implements OnInit {
             )
     }
 
-    /**
-     * When the select movie dialog closes, the movie needs to be removed from favorites if a user
-     * clicked to remove.
-     * @param favorites 
-     * @param movies 
-     */
-    /*setmovies(movies: MovieDto[]) {
-        var favoriteIds = favorites.map((favorite) => favorite.movieId);
-        this.movies = movies.filter((favMovie) => {
-            if (favoriteIds.includes(favMovie.movieId)) {
-                return favMovie;
-            }
-        });
-    }*/
-
     isError(error: any[]) {
         if (!error) {
             return false;

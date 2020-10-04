@@ -13,5 +13,8 @@
         public string Poster { get; set; }
         public string Plot { get; set; }
         public bool IsRec { get; set; }
+
+        public virtual Genres Genre { get; set; }
+        public virtual StreamingData StreamingData { get; set; }
     }
 }

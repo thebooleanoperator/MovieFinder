@@ -25,7 +25,7 @@ namespace MovieFinder.Controllers
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _moviesService = moviesService;
             _streamingDataService = streamingDataService;
-            _sessionVars = new Session(httpContext.HttpContext.User);
+            //_sessionVars = new Session(httpContext.HttpContext.User);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Recommended")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetRecommended()
         {
             var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(); 
