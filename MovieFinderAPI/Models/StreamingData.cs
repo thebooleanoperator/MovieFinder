@@ -14,8 +14,6 @@ namespace MovieFinder.Models
         public bool ITunes { get; set; }
         public bool GooglePlay { get; set; }
         public DateTime LastUpdated { get; set; }
-
-        public virtual Movies Movie { get; set; }
     }
 }
 

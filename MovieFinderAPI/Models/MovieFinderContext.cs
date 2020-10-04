@@ -47,12 +47,17 @@ namespace MovieFinder
                 {
                     entity.HasKey(m => m.MovieId);
 
-                    entity.HasOne(m => m.Genre)
-                          ;
+                    entity.HasOne(m => m.Genre);
 
                     entity.HasOne(m => m.StreamingData);
 
                     entity.Property(m => m.MovieId);
+
+                    entity.Property(m => m.GenreId)
+                          .HasDefaultValueSql("0");
+
+                    entity.Property(m => m.StreamingDataId)
+                          .HasDefaultValueSql("0");
 
                     entity.Property(m => m.Year);
 

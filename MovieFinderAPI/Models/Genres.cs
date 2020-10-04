@@ -12,7 +12,5 @@
         public bool Crime { get; set; }
         public bool Thriller { get; set; }
         public bool Romance { get; set; }
-
-        public virtual Movies Movie { get; set; }
     }
 }
