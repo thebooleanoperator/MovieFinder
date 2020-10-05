@@ -64,7 +64,7 @@ namespace MovieFinder.Services.Implementation
             var lastUpdated = streamingData.LastUpdated;
             var needsUpdate = DateTime.Now.Subtract(lastUpdated).Days <= 7 ? false : true;
             // Only update if the there has been no update in last 7 days.
-            if (true)
+            if (needsUpdate)
             {
                 var updatedRapidStreamingDataDto = await GetStreamingData(imdbId);
 

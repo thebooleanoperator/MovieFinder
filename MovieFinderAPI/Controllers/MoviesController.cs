@@ -35,7 +35,7 @@ namespace MovieFinder.Controllers
         /// <param name="imdbIdDto"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Create([FromBody] MoviesDto moviesDto)
         {
             if (moviesDto == null)
@@ -116,11 +116,11 @@ namespace MovieFinder.Controllers
         /// <param name="movieId"></param>
         /// <returns></returns>
         [HttpGet("{movieId}")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult> Get(int movieId)
         {
             var movie = _unitOfWork.Movies.Get(movieId);
-            // If the movie does not exist return No Content. 
+             
             if (movie == null)
             {
                 return NoContent();
@@ -148,31 +148,33 @@ namespace MovieFinder.Controllers
             }
 
             var movie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
-            // If the movie does not exist return No Content. 
+            
             if (movie == null)
             {
                 return NoContent();
             }
 
-            return Ok(); 
+            movie.StreamingData = await _streamingDataService.GetUpdatedStreamingData(movie.StreamingData, movie.ImdbId);
+
+            return Ok(movie); 
         }
 
         /// <summary>
-        /// Gets the movies that have been reccomended.
+        /// Gets the movies that have been flipped to isRec.
         /// </summary>
         /// <returns></returns>
         [HttpGet("Recommended")]
         //[Authorize]
         public async Task<IActionResult> GetRecommended()
         {
-            var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(); 
+            var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(1); 
 
             if (recommendedMovies == null)
             {
                 return BadRequest("Failed to get recommended movies.");
             }
 
-            return Ok();
+            return Ok(recommendedMovies);
         }
 
         /// <summary>

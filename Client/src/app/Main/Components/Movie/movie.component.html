@@ -30,10 +30,10 @@
             <div class="data-container">
                 <div class="year">{{movie.year}}</div>
                 <div class="run-time">{{movie.runTime}} min</div>
-                <div class="genre">{{getGenres(movie.genres)}}</div>
+                <div class="genre">{{getGenres(movie.genre)}}</div>
             </div>     
             <div class="plot">{{movie.plot}}</div>
-            <div *ngIf="isStreaming(movie)" class="streaming-container">
+            <div *ngIf="isStreaming(movie.streamingData)" class="streaming-container">
                 <h3>Streaming On:</h3>
                 <img class="stream-pic" *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png" matTooltip="Netflix"/>
                 <img class="stream-pic" *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png" matTooltip="HBO"/>
@@ -43,7 +43,7 @@
                 <img class="stream-pic" *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png" matTooltip="ITunes"/>
                 <img class="stream-pic" *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"  matTooltip="Google Play"/>
             </div>
-            <div *ngIf="!isStreaming(movie)" class="streaming-container">
+            <div *ngIf="!isStreaming(movie.streamingData)" class="streaming-container">
                 <h3>Not Streaming</h3>
             </div>
         </div>

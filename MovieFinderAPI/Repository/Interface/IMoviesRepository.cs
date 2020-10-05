@@ -1,4 +1,5 @@
-﻿using MovieFinder.Models;
+﻿using MovieFinder.DtoModels;
+using MovieFinder.Models;
 using System.Collections.Generic;
 
 namespace MovieFinder.Repository.Interface
@@ -7,7 +8,7 @@ namespace MovieFinder.Repository.Interface
     {
         Movies GetByImdbId(string imdbId);
         IEnumerable<Movies> GetAllByTitle(string title);
-        IEnumerable<Movies> GetAllRecommended();
+        IEnumerable<RecommendedMoviesDto> GetAllRecommended(int userId);
         IEnumerable<Movies> Get(IEnumerable<int> movieIds);
     }
 }

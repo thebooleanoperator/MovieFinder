@@ -5,6 +5,7 @@ import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
+import { StreamingDataDto } from 'src/app/Data/Interfaces/streamingData.dto';
 
 @Component({
     selector: 'movie',
@@ -97,42 +98,33 @@ export class MovieComponent {
         }
         genreBuilder = genreBuilder.replace(/,\s*$/, "");
         return genreBuilder;
-    }
+}
 
     useDefault(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
     }
 
-    isStreaming(movie:MovieDto): boolean {
-        if (this.isBeingStreamed(movie)){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    isBeingStreamed(movie:MovieDto): boolean {
-        if (movie.streamingData.netflix) {
+    isStreaming(streamingData: StreamingDataDto): boolean {
+        if (streamingData.netflix) {
            return true;
         }
-        if (movie.streamingData.hbo) {
+        if (streamingData.hbo) {
             return true;
         }
-        if (movie.streamingData.hulu) {
+        if (streamingData.hulu) {
             return true;
         }
-        if (movie.streamingData.disneyPlus) {
+        if (streamingData.disneyPlus) {
             return true;
         }
-        if (movie.streamingData.amazonPrime) {
+        if (streamingData.amazonPrime) {
             return true;
         }
-        if (movie.streamingData.iTunes) {
+        if (streamingData.iTunes) {
             return true;
         }
-        if (movie.streamingData.googlePlay) {
+        if (streamingData.googlePlay) {
             return true;
         }
         return false;
