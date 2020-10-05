@@ -17,7 +17,7 @@ namespace MovieFinder.Repository
         {
             return DbSet.Where(x => x.MovieId == movieId)
                     .Include(x => x.Genre)
-                    .Include(x => x.StreamingData).Single();
+                    .Include(x => x.StreamingData).SingleOrDefault();
         }
 
         public IEnumerable<Movies> Get(IEnumerable<int> movieIds)

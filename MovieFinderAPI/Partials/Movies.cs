@@ -77,16 +77,16 @@ namespace MovieFinder.Models
 
             GenreId = genre.GenreId;
             StreamingDataId = streamingData.StreamingDataId;
+            Year = imdbId.Year;
             Director = rapidMovieInfo.Director;
             Title = rapidMovieInfo.Title;
-            RunTime = getMovieRunTime(rapidMovieInfo.RunTime);
-            ImdbId = rapidMovieInfo.ImdbId;
             ImdbRating = getImdbRating("Internet Movie Database", rapidMovieInfo.Ratings);
             RottenTomatoesRating = getRottenRating("Rotten Tomatoes", rapidMovieInfo.Ratings);
-            Year = imdbId.Year;
-            Poster = rapidMovieInfo.Poster;
+            ImdbId = rapidMovieInfo.ImdbId;
             Plot = rapidMovieInfo.Plot;
-            IsRec = rapidMovieInfo.IsRec;      
+            Poster = rapidMovieInfo.Poster;
+            IsRec = rapidMovieInfo.IsRec;
+            RunTime = getMovieRunTime(rapidMovieInfo.RunTime);
         }
 
         public void Patch(MoviesDto moviesDto)

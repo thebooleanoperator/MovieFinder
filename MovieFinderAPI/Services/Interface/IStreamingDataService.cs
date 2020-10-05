@@ -1,4 +1,5 @@
 ﻿using MovieFinder.DtoModels;
+using MovieFinder.Models;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Services.Interface
@@ -17,6 +18,6 @@ namespace MovieFinder.Services.Interface
         /// </summary>
         /// <param name="moviesDto"></param>
         /// <returns></returns>
-        Task UpdateStreamingData(MoviesDto moviesDto);
+        Task<StreamingData> GetUpdatedStreamingData(StreamingData streamingData, string imdbId);
     }
 }

@@ -35,7 +35,7 @@ namespace MovieFinder.Controllers
         /// <param name="imdbIdDto"></param>
         /// <returns></returns>
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] MoviesDto moviesDto)
         {
             if (moviesDto == null)
@@ -116,7 +116,7 @@ namespace MovieFinder.Controllers
         /// <param name="movieId"></param>
         /// <returns></returns>
         [HttpGet("{movieId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> Get(int movieId)
         {
             var movie = _unitOfWork.Movies.Get(movieId);
@@ -126,7 +126,9 @@ namespace MovieFinder.Controllers
                 return NoContent();
             }
 
-            return Ok();
+            movie.StreamingData = await _streamingDataService.GetUpdatedStreamingData(movie.StreamingData, movie.ImdbId);
+
+            return Ok(movie);
         }
 
         /// <summary>
