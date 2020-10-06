@@ -32,13 +32,6 @@ export class RecommendationsComponent implements OnInit  {
     }
 
     /**
-     * Gets the selected movie.
-     */
-    getCurrentMovie() {
-        return this.selectedMovie; 
-    }
-
-    /**
      * Changes the movie selected from recommendedMovies array and passes to child movie selector to display.
      */
     changeMovie(index) {

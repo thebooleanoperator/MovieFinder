@@ -8,8 +8,8 @@
         </div>
         <movie 
             [isGuest]="isGuest"
-            [movie]="getCurrentMovie()" 
-            [isFavorite]="false">
+            [movie]="selectedMovie" 
+            [isFavorite]="selectedMovie.isFavorite">
         </movie>
         <div class="inline-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">

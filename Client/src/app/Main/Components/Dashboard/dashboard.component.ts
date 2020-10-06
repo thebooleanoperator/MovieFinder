@@ -12,7 +12,6 @@ import { UserService } from 'src/app/Core/Services/user.service';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { AuthService } from 'src/app/Core/Services/auth-service';
-import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -106,16 +105,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // Favoties Subscription
         this.favoritesSubscription = this._favoritesService.favoritesUpdated$.subscribe(
-            (favoriteEvent: FavoritesEventDto) => {
-                var favoriteDto = new FavortiesDto(favoriteEvent, this._authService.user);
-                switch (favoriteEvent.action) {
+            (favoriteDto: FavortiesDto) => {
+                switch (favoriteDto.action) {
                     case 'add':
-                        this.favorites.unshift(favoriteDto);
+                        this.addFavoritesHandler(favoriteDto);
                         break; 
-                    case 'delete':
-                        this.favorites = this.favorites.filter((fav) => {
-                            return fav.likedId != favoriteDto.likedId;
-                        })
+                    case 'remove':
+                        this.removeFavoritesHandler(favoriteDto);
                         break;
                     default:
                         break;
@@ -155,6 +151,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
         catch(error) {
             console.log('Error: ' + error);
         } 
+    }
+
+    addFavoritesHandler(favoriteDto: FavortiesDto) {
+        // Add favorite to favorites array.
+        this.favorites.unshift(favoriteDto);
+        // Flip isFavorite to true in recommendedMovie.
+        this.recommendedMovies.map((rec) => {
+            if (rec.movieId == favoriteDto.movieId) {
+                rec.isFavorite = true;
+            }
+        });
+    }
+
+    removeFavoritesHandler(favoriteDto: FavortiesDto) {
+        // Remove favorite from favorites array.
+        this.favorites = this.favorites.filter((fav) => {
+            return fav.movieId != favoriteDto.movieId;
+        });
+        // Flip isFavorite to false in recommendedMovie.
+        this.recommendedMovies.map((rec) => {
+            if (rec.movieId == favoriteDto.movieId) {
+                rec.isFavorite = false;
+            }
+        });
     }
 
     /**

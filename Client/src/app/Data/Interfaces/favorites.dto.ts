@@ -6,11 +6,16 @@ export class FavortiesDto {
     userId: number;
     title: string;
     poster: string;
+    dateCreated: string;
+    action: string; 
 
-    constructor(favorite: any, user: UserDto) {
+    constructor(favorite: any, user: UserDto, action: string = null) {
         this.userId = user.userId;
         this.movieId = favorite.movieId;
         this.title = favorite.title;
         this.poster = favorite.poster;
+        this.likedId = favorite.likedId;
+        this.dateCreated = this.dateCreated;
+        this.action = action;
     }
 }

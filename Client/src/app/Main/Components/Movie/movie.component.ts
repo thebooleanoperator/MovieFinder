@@ -1,10 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
-import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
 import { StreamingDataDto } from 'src/app/Data/Interfaces/streamingData.dto';
 
 @Component({
@@ -32,10 +31,9 @@ export class MovieComponent {
         this._favoritesService.saveFavorite(favoriteToAdd)
             .subscribe(
                 (favoriteDto: FavortiesDto) => {
-                    this.isFavorite = true; 
-                    var favoriteEvent = new FavoritesEventDto(favoriteDto, 'add');
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoritesUpdated(favoriteEvent);
+                    favoriteDto.action = 'add';
+                    this._favoritesService.favoritesUpdated(favoriteDto);
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -54,10 +52,9 @@ export class MovieComponent {
         this._favoritesService.deleteFavorite(movie.movieId)
             .subscribe(
                 () => {
-                    this.isFavorite = false; 
-                    var favoriteEvent = new FavoritesEventDto(favoriteToDelete, 'delete');
                     // Emit to parent that favoriteMovies has been changed.
-                    this._favoritesService.favoritesUpdated(favoriteEvent); 
+                    favoriteToDelete.action = 'remove';
+                    this._favoritesService.favoritesUpdated(favoriteToDelete); 
                 },
                 (error) => {
                     if (error.status != 401) {

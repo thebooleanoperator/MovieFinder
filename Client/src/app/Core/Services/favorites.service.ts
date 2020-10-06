@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { FavoritesEventDto } from 'src/app/Data/Interfaces/favorites-event.dto';
 
 @Injectable({providedIn: 'root'})
 
@@ -14,8 +13,8 @@ export class FavoritesService {
     favoritesUpdated$ = this._favoritesUpdated.asObservable();
 
     // Event Emitters
-    favoritesUpdated(favoriteEvent: FavoritesEventDto) {
-        this._favoritesUpdated.next(favoriteEvent);
+    favoritesUpdated(favoriteDto: FavortiesDto) {
+        this._favoritesUpdated.next(favoriteDto);
     }
 
     // Http Calls
