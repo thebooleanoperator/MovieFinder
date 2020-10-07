@@ -1,3 +1,5 @@
+@import '../../../../theme.scss';
+
 #toolbar {
     position: fixed;
     top: 0px;
@@ -15,6 +17,7 @@
             .title {
                 margin-left: 20px;
                 font-size: 40px;
+                color: $ternary;
             }
             .logo {
                 height: 50px;
@@ -202,7 +205,7 @@
                 margin: 10px;
                 font-size: 35px;
                 cursor: pointer;
-                color: #424242;
+                color: $ternary;
             }
         }
     }

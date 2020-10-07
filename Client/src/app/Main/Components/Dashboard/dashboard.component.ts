@@ -155,7 +155,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     addFavoritesHandler(favoriteDto: FavortiesDto) {
         // Add favorite to favorites array.
-        this.favorites.unshift(favoriteDto);
+        this.favorites 
+            ? this.favorites.unshift(favoriteDto)
+            : this.favorites = [favoriteDto];
         // Flip isFavorite to true in recommendedMovie.
         this.recommendedMovies.map((rec) => {
             if (rec.movieId == favoriteDto.movieId) {

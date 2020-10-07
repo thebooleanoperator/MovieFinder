@@ -1,3 +1,5 @@
+@import '../../../../theme.scss';
+
 #favorites {
     height: 99vh;
     overflow: hidden;
@@ -26,7 +28,15 @@
     }
 
     .empty-message {
-        
+        text-align: center;
+        font-size: 40px;
+        color: $primary;
+        .thumb {
+            font-size: 40px;
+            color: lightgreen;
+            height: 40px;
+            width: 40px;
+        }
     }
 }
 

@@ -10,7 +10,7 @@
         <img *ngFor="let movie of movies" [src]="movie.poster" matTooltip="{{movie.title}}" 
         (error)="useDefaultPoster($event)" (click)="openMovieDialog(movie.movieId)"> 
     </div>
-    <div *ngIf="false" class="empty-message">
+    <div *ngIf="showEmptyFavorites(movies, typeScrolled)" class="empty-message">
         <p>To add favorites, click the <mat-icon class="thumb">thumb_up</mat-icon> on any movie</p>
     </div>
 </div>

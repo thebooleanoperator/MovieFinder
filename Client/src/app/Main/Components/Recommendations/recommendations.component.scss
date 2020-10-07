@@ -1,13 +1,16 @@
+@import '../../../../theme.scss';
+
 #movie-finder {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     overflow: hidden;
+    height: 99vh;
     .title {
         text-align: center;
         padding-top: 0px;
         margin-top: 0px;
         font-size: 50px;
+        color: $primary;
     }
     .recs-container {
         display: flex;

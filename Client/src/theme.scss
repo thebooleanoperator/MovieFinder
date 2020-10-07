@@ -7,8 +7,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$presto-primary: mat-palette($mat-blue-grey, 700);
-$presto-accent: mat-palette($mat-teal, 200);
+$presto-primary: mat-palette($mat-presto, 900);
+$presto-accent: mat-palette($mat-presto, 500);
 
 // The warn palette is optional (defaults to red).
 $presto-warn: mat-palette($mat-red);
@@ -23,4 +23,6 @@ $presto-light-theme: mat-light-theme($presto-primary, $presto-accent, $presto-wa
 @include angular-material-theme($presto-light-theme);
 
 // Globabl colors:
-$accent: #80cbc4;
+$primary: #293c4d;
+$accent: #b0c1d2;
+$ternary:#f2fdff;

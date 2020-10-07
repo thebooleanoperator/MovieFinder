@@ -10,6 +10,11 @@
         width: 75%;
         background-color: $accent;
     }
+
+    .recommended-container {
+        background-color: $ternary;
+        width: 100%;
+    }
 }
 
 ::ng-deep .mat-select-panel {
