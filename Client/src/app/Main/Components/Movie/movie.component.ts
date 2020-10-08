@@ -26,6 +26,7 @@ export class MovieComponent {
     alertUser: boolean = false;
 
     addToFavorites(movie: MovieDto): void {
+        this._toolBarService.isLoading = true;
         var favoriteToAdd: FavortiesDto = 
             new FavortiesDto(movie, this._authService.user);
         this._favoritesService.saveFavorite(favoriteToAdd)

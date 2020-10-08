@@ -14,6 +14,7 @@ import { ContentComponent } from '../../Components/Content/content.component';
 import { RouterModule } from '@angular/router';
 import { InsideToolbarComponent } from 'src/app/Core/ToolBars/Inside/inside-toolbar.component';
 import { InfinityScrollComponent } from '../../Components/Infinity-Scroll/infinity-scroll.component';
+import { SearchComponent } from '../../Components/Search/search.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { InfinityScrollComponent } from '../../Components/Infinity-Scroll/infini
         InfinityScrollComponent,
         SelectedMovieDialog,
         ChangePasswordDialog,
-        ContentComponent
+        ContentComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,
@@ -44,7 +46,8 @@ import { InfinityScrollComponent } from '../../Components/Infinity-Scroll/infini
         InfinityScrollComponent,
         SelectedMovieDialog,
         ChangePasswordDialog,
-        ContentComponent
+        ContentComponent,
+        SearchComponent
     ]
 })
 

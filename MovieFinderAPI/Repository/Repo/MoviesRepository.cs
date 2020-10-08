@@ -31,7 +31,10 @@ namespace MovieFinder.Repository
 
         public Movies GetByImdbId(string imdbId)
         {
-            return DbSet.Where(m => m.ImdbId == imdbId).SingleOrDefault();
+            return DbSet.Where(m => m.ImdbId == imdbId)
+                .Include(x => x.Genre)
+                .Include(x => x.StreamingData)
+                .SingleOrDefault();
         }
 
         public IEnumerable<Movies> GetAllByTitle(string title)

@@ -72,8 +72,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
      */
     isGuest: boolean = this._userService.isGuest();
 
-    @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
-
     /**
      * Subscribe to resolver and handle error if one occurs.
      */

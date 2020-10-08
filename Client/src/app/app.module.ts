@@ -23,6 +23,7 @@ import { AngularFormsModule } from './Shared/angular-forms.module';
 import { ContentModule } from './Main/Modules/Content/content.module';
 import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
 import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
+import { SearchComponent } from './Main/Components/Search/search.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import { RecommendationsComponent } from './Main/Components/Recommendations/reco
         GuestHelpDialog,
         SettingsComponent,
         InfinityScrollComponent,
-        RecommendationsComponent
+        RecommendationsComponent,
+        SearchComponent
     ],
     providers: [
     {

@@ -26,7 +26,7 @@ namespace MovieFinder.Controllers
             _unitOfWork = new UnitOfWork(movieFinderContext);
             _moviesService = moviesService;
             _streamingDataService = streamingDataService;
-            //_sessionVars = new Session(httpContext.HttpContext.User);
+            _sessionVars = new Session(httpContext.HttpContext.User);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace MovieFinder.Controllers
         /// <param name="imdbIdDto"></param>
         /// <returns></returns>
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] MoviesDto moviesDto)
         {
             if (moviesDto == null)

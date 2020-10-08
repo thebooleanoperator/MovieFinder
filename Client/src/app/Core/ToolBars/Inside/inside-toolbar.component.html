@@ -5,54 +5,7 @@
             <h2 class="title">Movie Presto</h2>
         </div>
         <!-- Search bar goes here -->
-        <div class="search-container">
-            <div class="search-options">
-                <mat-form-field class="input-box">
-                    <mat-label>Search Movies...</mat-label>
-                    <input  
-                        #imdbIdSearch
-                        type="text"
-                        matInput 
-                        [(ngModel)]="search"  
-                        (keydown)="clearSearchResults()"
-                        [disabled]="gettingMovie"
-                        autocomplete="off">
-                    <mat-icon class="search-icon" (click)="searchMovies(search, year)">search</mat-icon>
-                </mat-form-field>
-                <mat-form-field class="year-box">
-                    <mat-label>Year</mat-label>
-                    <mat-select [(value)]="year" class="year-input">
-                        <mat-option>None</mat-option>
-                        <mat-option value="{{yr}}" *ngFor="let yr of getYears()" (click)="searchMovies(search, year)">{{yr}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="search-results" *ngIf="moviesExist(movies, search)">
-            <table mat-table class="mat-elevation-z8" [dataSource]="displayedMovies">
-                <!-- Title Column -->
-                <ng-container class="item" matColumnDef="Title">
-                    <th mat-header-cell *matHeaderCellDef>Title</th>
-                    <td mat-cell *matCellDef="let movie"> {{movie.title}} </td>
-                </ng-container>
-                <!-- Year Column -->
-                <ng-container class="item" matColumnDef="Year">
-                    <th mat-header-cell *matHeaderCellDef>Year</th>
-                    <td mat-cell *matCellDef="let movie"> {{getYear(movie.year)}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getOrCreateMovie(row)"></tr>
-            </table>
-            <mat-paginator 
-                [pageSize]="moviesPerPage" 
-                [length]="movies.length" 
-                (page)="pageEvent = setDisplayedMovies(movies, moviesPerPage, $event.pageIndex)"
-                hidePageSize>
-            </mat-paginator>
-        </div>
-        <div *ngIf="noSearchResults" class="empty-search">
-            No movies found from search
-        </div>
+        <search></search>
         <div class="settings-container">
             <mat-icon class="settings" (click)="openSettings()">settings</mat-icon>
         </div>
