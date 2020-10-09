@@ -24,9 +24,19 @@
     </div>
 </div>
 <div class="search-container" *ngIf="moviesExist(imdbs, search)">
-    <div class="search-results" *ngFor="let imdb of imdbs" (click)="getOrCreateMovie(imdb)">
+    <div class="search-results" *ngFor="let imdb of displayedImdbs" (click)="getOrCreateMovie(imdb)">
         <span class="title">{{imdb.title}}</span> 
         <span class="year">{{imdb.year}}</span>
+    </div>
+    <div class="search-nav">
+        <mat-icon class="prev" (click)="getPrevDisplayed(imdbs, moviesPerPage)"
+            *ngIf="prevPageExists(currentPage)">
+            arrow_back_ios
+        </mat-icon>
+        <mat-icon class="next" (click)="getNextDisplayed(imdbs, moviesPerPage)" 
+            *ngIf="nextPageExists(currentPage, totalPages)">
+            arrow_forward_ios
+        </mat-icon>
     </div>
 </div>
 <div *ngIf="noSearchResults" class="empty-search">

@@ -47,7 +47,7 @@ export class SearchComponent implements AfterViewInit {
     /**
      * Holds the array of the movies being shown on current page. Used for client side paging.
      */
-    displayedMovies: ImdbIdDto[];
+    displayedImdbs: ImdbIdDto[];
     /**
      * Holds the total number of pages of search results returned by the server.
      */
@@ -57,6 +57,10 @@ export class SearchComponent implements AfterViewInit {
      */
     moviesPerPage: number = 8;
     /**
+     * 
+     */
+    currentPage: number = 0;
+    /**
      * Toggles the No Search Results found message in view.
      */
     noSearchResults: boolean = false;
@@ -64,10 +68,6 @@ export class SearchComponent implements AfterViewInit {
      * Holds the timeout search function.
      */
     timeout: NodeJS.Timer;
-    /**
-     * Column titles for search results table.
-     */
-    displayedColumns : string[] = ['Title', 'Year'];
     /**
      * The movie a user has selected from the search results. 
      */
@@ -112,7 +112,7 @@ export class SearchComponent implements AfterViewInit {
                 this.imdbs = data;
                 if (!this.noSearchResults) {
                     this.setTotalPages(this.imdbs.length, this.moviesPerPage);
-                    this.setDisplayedMovies(this.imdbs , this.moviesPerPage);
+                    this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage);
                     this.searchTableDisplayed = true;
                 }
                 this._toolBarService.isLoading = false;
@@ -120,23 +120,22 @@ export class SearchComponent implements AfterViewInit {
             (error) => {
                 this.noSearchResults = true;
                 this.imdbs = null;
-                this.displayedMovies = null;
+                this.displayedImdbs = null;
                 this.totalPages = null;
                 this._toolBarService.isLoading  = false;
             }
         );
-        
     }
 
     /**
      * Toggles the movies list and the No Movies Found response in view.
      * @param movies 
      */
-    moviesExist(movies: MovieDto[], search: string) : boolean {
+    moviesExist(idmbs: ImdbIdDto[], search: string) : boolean {
         if (!search) {
             return false;
         }
-        return movies && movies.length > 0; 
+        return idmbs && idmbs.length > 0; 
     }
 
     /**
@@ -153,14 +152,68 @@ export class SearchComponent implements AfterViewInit {
                     this.noSearchResults = data ? false : true;
                     this.imdbs = data;
                     if (!this.noSearchResults) {
-                        this.setTotalPages(this.imdbs .length, this.moviesPerPage);
-                        this.setDisplayedMovies(this.imdbs , this.moviesPerPage)
+                        this.setTotalPages(this.imdbs.length, this.moviesPerPage);
+                        this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage)
                     }
                     this._toolBarService.isLoading = false;
                 })
         }
     }
     
+    /**
+     * Sets the total pages variable. Used for client side paging.
+     * @param totalMovies 
+     * @param moviesPerPage 
+     */
+    setTotalPages(totalMovies, moviesPerPage): void {
+        if (totalMovies > 0) {
+            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
+        }
+    }
+    
+    /**
+     * Sets the displayed movies shown in the current page. Used for client side paging.
+     * @param movies 
+     * @param moviesPerPage 
+     * @param page 
+     */
+    setDisplayedMovies(movies:ImdbIdDto[], moviesPerPage:number, page:number): void {
+        if (movies == null || movies.length <= 0) {
+            this.displayedImdbs = null; 
+        }
+        else {
+            var startingIndex = page * moviesPerPage; 
+            var endingIndex = startingIndex + moviesPerPage;
+            movies.length > endingIndex 
+                ? this.displayedImdbs = movies.slice(startingIndex, endingIndex)
+                : this.displayedImdbs = movies.slice(startingIndex);   
+        }
+    }
+
+    /**
+     * 
+     */
+    getNextDisplayed(imdbs: ImdbIdDto[], moviesPerPage: number) {
+        this.currentPage += 1;
+        this.setDisplayedMovies(imdbs, moviesPerPage, this.currentPage);
+    }
+
+    /**
+     * 
+     */
+    getPrevDisplayed(imdbs: ImdbIdDto[], moviesPerPage: number) {
+        this.currentPage -= 1;
+        this.setDisplayedMovies(imdbs, moviesPerPage, this.currentPage);
+    }
+
+    nextPageExists(currentPage: number, totalPages: number) {
+        return currentPage < totalPages - 1;
+    }
+
+    prevPageExists(currentPage: number) {
+        return currentPage > 0;
+    }
+
     /**
      * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
      * and set selectedMovie.
@@ -190,36 +243,6 @@ export class SearchComponent implements AfterViewInit {
                     this._toolBarService.isLoading = false;
                 }
             )
-    }
-
-    /**
-     * Sets the total pages variable. Used for client side paging.
-     * @param totalMovies 
-     * @param moviesPerPage 
-     */
-    setTotalPages(totalMovies, moviesPerPage): void {
-        if (totalMovies > 0) {
-            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
-        }
-    }
-    
-    /**
-     * Sets the displayed movies shown in the current page. Used for client side paging.
-     * @param movies 
-     * @param moviesPerPage 
-     * @param page 
-     */
-    setDisplayedMovies(movies:ImdbIdDto[], moviesPerPage:number, page:number=0): void {
-        if (movies == null || movies.length <= 0) {
-            this.displayedMovies = null; 
-        }
-        else {
-            var startingIndex = page * moviesPerPage; 
-            var endingIndex = startingIndex + moviesPerPage;
-            movies.length > endingIndex 
-                ? this.displayedMovies = movies.slice(startingIndex, endingIndex)
-                : this.displayedMovies = movies.slice(startingIndex);   
-        }
     }
 
     /**

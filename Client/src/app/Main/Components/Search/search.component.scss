@@ -5,11 +5,9 @@
     flex-direction: column;
     align-items: center;
     margin-top: 5px;
-
     ::ng-deep .mat-tab-body-content {
         display: flex;
     }
-
     .search-options {
         display: flex;
         justify-content: center;
@@ -56,14 +54,12 @@
                     display: none;
                 }
             }
-
             .search-icon {
                 height: auto;
                 width: auto;
                 font-size: 50px;
                 color: $primary;
             }
-    
             .search-icon:hover {
                 cursor: pointer;
             }
@@ -77,7 +73,6 @@
                 background-color: $ternary;
                 border: 2px solid $accent;
                 border-radius: 25px;
-
                 ::ng-deep .mat-form-field-infix {
                     display: flex;
                     align-items: center;
@@ -85,13 +80,11 @@
                     flex-direction: row;
                     border: none;
                     padding: unset;
-                    
                     .year-input {
                         box-shadow: none;
                         font-size: 15px;
                         background-color: $ternary;
                         border-radius: 25px;
-        
                         ::ng-deep .mat-select-trigger {
                             height: 3.125em;
 
@@ -102,7 +95,6 @@
                                     color: $ternary!important;
                                 }
                             }
-            
                             ::ng-deep .mat-select-arrow-wrapper {
                                 padding-right: 5px;
                                 ::ng-deep .mat-select-arrow {
@@ -122,7 +114,6 @@
                         }
                     }
                 }
-
                 ::ng-deep .mat-form-field-underline {
                     display: none;
                 }
@@ -140,9 +131,12 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px black solid;
+        height: 50px;
         .title, .year {
             color: $primary;
-            padding: 5px;
+            padding: 0px 10px;
+            font-size: 20px;
+            font-weight: 500;
         }
         .title {
             width: 75%;
@@ -152,34 +146,15 @@
         cursor: pointer;
         background-color: $accent;
     }
-    table {
-        width: 663px;
-        background-color: #b0bec5;
-        .mat-header-row {
-            .mat-header-cell {
-                font-size: 20px;
-                font-weight: 900;
-                color: white;
-                background-color: #c2185b;
-            }
-        }
-        .mat-row {
-            height: 60px;
-            .mat-cell {
-                color: #040c24;
-                font-size: 20px;
-                font-weight: 600;
-            }
-            .mat-column-Title {
-                width: 375px;
-            }
-            .mat-column-Year {
-                width: 50px;
-                padding: 5px;
-            }
-        }
-        .mat-row:hover {
-            background-color: rgba(129, 122, 123, 0.507);
+    .search-nav {
+        background-color: $ternary;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border-bottom: 1px black solid;
+        height: 50px;
+        .prev, .next {
+            color: $primary;
             cursor: pointer;
         }
     }
