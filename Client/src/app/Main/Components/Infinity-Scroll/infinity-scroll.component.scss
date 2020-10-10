@@ -5,16 +5,12 @@
     overflow: hidden;
 
     .posters {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        flex-direction: row;
+        text-align: center;
         flex-wrap: wrap;
-        height: 85%;
         overflow-y: scroll;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none;  /* Internet Explorer 10+ */
-        
+        height: 85%;
         img {
             height: 300px;
             width: 225px;

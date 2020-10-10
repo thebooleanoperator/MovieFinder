@@ -1,13 +1,14 @@
-import { style } from '@angular/animations';
+import { HostListener, OnInit } from '@angular/core';
 import { AfterViewInit, Component, ViewChild, ElementRef } from "@angular/core";
 import { MatBottomSheet, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { ImdbIdsService } from 'src/app/Core/Services/imdbIds.service';
 import { MoviesService } from 'src/app/Core/Services/movies.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { AppUtilities } from 'src/app/Core/Utilities/app-utilities';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { ImdbIdDto } from 'src/app/Data/Interfaces/imdbId.dto';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
@@ -18,7 +19,7 @@ import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements AfterViewInit {
+export class SearchComponent implements OnInit, AfterViewInit {
     constructor(
         private _toolBarService: ToolBarService, 
         protected _router: Router, 
@@ -26,6 +27,7 @@ export class SearchComponent implements AfterViewInit {
         private _imdbIdsService: ImdbIdsService,
         private _moviesService: MoviesService,
         private _favoritesService: FavoritesService,
+        private _appUtils: AppUtilities,
         private _dialog: MatDialog)
     {
         
@@ -65,10 +67,6 @@ export class SearchComponent implements AfterViewInit {
      */
     noSearchResults: boolean = false;
     /**
-     * Holds the timeout search function.
-     */
-    timeout: NodeJS.Timer;
-    /**
      * The movie a user has selected from the search results. 
      */
     selectedMovie: MovieDto;
@@ -80,11 +78,25 @@ export class SearchComponent implements AfterViewInit {
      * 
      */
     searchTableDisplayed: boolean = false;
+    /**
+     * 
+     */
+    clickSubscription: Subscription;
 
-    
+    @ViewChild('searchComponent', null) searchComponent: ElementRef;
     @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
-    
+    @HostListener('click', ['$event.target'])
+    onClick() {
+        this.searchTableDisplayed = true;
+    }
+         
     // Methods
+    ngOnInit() {
+        this.clickSubscription = this._appUtils.clickEvent$.subscribe(
+            () => this.searchTableDisplayed = false
+        )
+    }   
+
     /**
      * Uses SwitchMap to to send fromEvent search observable into imdbIds search.
      * Then subscribe and set appropraite variables.
@@ -177,17 +189,21 @@ export class SearchComponent implements AfterViewInit {
      * @param moviesPerPage 
      * @param page 
      */
-    setDisplayedMovies(movies:ImdbIdDto[], moviesPerPage:number, page:number): void {
-        if (movies == null || movies.length <= 0) {
+    setDisplayedMovies(imdbs:ImdbIdDto[], moviesPerPage:number, page:number): void {
+        if (imdbs == null || imdbs.length <= 0) {
             this.displayedImdbs = null; 
         }
         else {
             var startingIndex = page * moviesPerPage; 
             var endingIndex = startingIndex + moviesPerPage;
-            movies.length > endingIndex 
-                ? this.displayedImdbs = movies.slice(startingIndex, endingIndex)
-                : this.displayedImdbs = movies.slice(startingIndex);   
+            imdbs.length > endingIndex 
+                ? this.displayedImdbs = imdbs.slice(startingIndex, endingIndex)
+                : this.displayedImdbs = imdbs.slice(startingIndex);   
         }
+    }
+
+    multiplePagesExist(totalPages: number) {
+        return totalPages > 1;
     }
 
     /**
@@ -206,10 +222,19 @@ export class SearchComponent implements AfterViewInit {
         this.setDisplayedMovies(imdbs, moviesPerPage, this.currentPage);
     }
 
+    /**
+     * 
+     * @param currentPage 
+     * @param totalPages 
+     */
     nextPageExists(currentPage: number, totalPages: number) {
         return currentPage < totalPages - 1;
     }
 
+    /**
+     * 
+     * @param currentPage 
+     */
     prevPageExists(currentPage: number) {
         return currentPage > 0;
     }
@@ -259,6 +284,7 @@ export class SearchComponent implements AfterViewInit {
     clearSearchResults(): void {
         this.imdbs = null;
         this.noSearchResults = false;
+        this.currentPage = 0;
     }
 
     /**

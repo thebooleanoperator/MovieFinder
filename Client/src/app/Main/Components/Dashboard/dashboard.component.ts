@@ -12,6 +12,8 @@ import { UserService } from 'src/app/Core/Services/user.service';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { AuthService } from 'src/app/Core/Services/auth-service';
+import { HostListener } from '@angular/core';
+import { AppUtilities } from 'src/app/Core/Utilities/app-utilities';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -25,7 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private _searchHistoryService: SearchHistoryService,
         private _toolBarService: ToolBarService,
         private _userService: UserService,
-        private _authService: AuthService)
+        private _authService: AuthService,
+        private _appUtils: AppUtilities)
         {
 
         }
@@ -71,6 +74,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
      * 
      */
     isGuest: boolean = this._userService.isGuest();
+
+    @HostListener('click', ['$event.target'])
+    onClick(event: Event) {
+        this._appUtils.clickEvent(event);
+    }
 
     /**
      * Subscribe to resolver and handle error if one occurs.

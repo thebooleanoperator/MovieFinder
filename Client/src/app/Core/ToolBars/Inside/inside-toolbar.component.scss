@@ -40,6 +40,7 @@
     position: fixed;
     top: 64px;
     background-color: $accent;
+    z-index: 100;
 }
 
 @media screen and (max-width: 1000px) {
