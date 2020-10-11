@@ -10,9 +10,11 @@
         width: 900px;
         padding: 0px;
         background-color: $primary;
+        border-radius: 20px;
         .movie-poster {
             height: 700px;
             width: 50%;
+            border-radius: 20px;
         }
 
         .info-container {

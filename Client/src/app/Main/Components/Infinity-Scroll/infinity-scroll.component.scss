@@ -4,21 +4,43 @@
     height: 99vh;
     overflow: hidden;
 
-    .posters {
-        text-align: center;
+    .poster-container {
+        display: flex;
         flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: center;
         overflow-y: scroll;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none;  /* Internet Explorer 10+ */
-        height: 85%;
-        img {
+        height: 85vh;
+        .poster {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
             height: 300px;
-            width: 225px;
-            padding: 5px;
+            width: 200px;
+            margin: 5px;
+            border-radius: 10px;
+            background-color: $primary;
+            img {
+                height: 250px;
+                width: 200px;
+                border-radius: 10px;
+            }
+            .title {
+                color: $ternary;
+                background-color: $primary;
+                width: 200px;
+                height: 50px;
+                border-radius: 10px;
+                text-align: center;
+                margin-top: 8px;
+                font-weight: 600;
+            }
         }
     }
 
-    .posters::-webkit-scrollbar { /* WebKit */
+    .poster-container::-webkit-scrollbar { /* WebKit */
         width: 0;
         height: 0;
     }
