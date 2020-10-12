@@ -63,10 +63,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
      */
     currentPage: number = 0;
     /**
-     * Toggles the No Search Results found message in view.
-     */
-    noSearchResults: boolean = false;
-    /**
      * The movie a user has selected from the search results. 
      */
     selectedMovie: MovieDto;
@@ -87,7 +83,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
     @HostListener('click', ['$event.target'])
     onClick() {
-        this.searchTableDisplayed = true;
+        if (this.moviesExist(this.imdbs, this.search)) {
+            this.searchTableDisplayed = true;
+        }
     }
          
     // Methods
@@ -120,34 +118,20 @@ export class SearchComponent implements OnInit, AfterViewInit {
         )
         .subscribe(
             (data: ImdbIdDto[]) => {
-                this.noSearchResults = data ? false : true;
                 this.imdbs = data;
-                if (!this.noSearchResults) {
-                    this.setTotalPages(this.imdbs.length, this.moviesPerPage);
-                    this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage);
-                    this.searchTableDisplayed = true;
-                }
+                this.setTotalPages(this.imdbs, this.moviesPerPage);
+                this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage);
                 this._toolBarService.isLoading = false;
+                this.searchTableDisplayed = true;
             },
             (error) => {
-                this.noSearchResults = true;
                 this.imdbs = null;
                 this.displayedImdbs = null;
                 this.totalPages = null;
                 this._toolBarService.isLoading  = false;
+                this.searchTableDisplayed = false;
             }
         );
-    }
-
-    /**
-     * Toggles the movies list and the No Movies Found response in view.
-     * @param movies 
-     */
-    moviesExist(idmbs: ImdbIdDto[], search: string) : boolean {
-        if (!search) {
-            return false;
-        }
-        return idmbs && idmbs.length > 0; 
     }
 
     /**
@@ -160,26 +144,60 @@ export class SearchComponent implements OnInit, AfterViewInit {
         if (search) {
             this._toolBarService.isLoading  = true;
             this._imdbIdsService.getImdbIdsByTitle(search, year) 
-                .subscribe((data: ImdbIdDto[]) => {
-                    this.noSearchResults = data ? false : true;
+                .subscribe(
+                    (data: ImdbIdDto[]) => {
                     this.imdbs = data;
-                    if (!this.noSearchResults) {
-                        this.setTotalPages(this.imdbs.length, this.moviesPerPage);
-                        this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage)
-                    }
-                    this._toolBarService.isLoading = false;
-                })
+                    this.setTotalPages(this.imdbs, this.moviesPerPage);
+                    this.setDisplayedMovies(this.imdbs , this.moviesPerPage, this.currentPage)
+                    },
+                    (error) => alert(error),
+                    () => this._toolBarService.isLoading = false
+                )
         }
     }
-    
+
+    /**
+     * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
+     * and set selectedMovie.
+     * @param imdbIdDto 
+     */
+    getOrCreateMovie(imdbIdDto: ImdbIdDto) {
+        this.gettingMovie = true;
+        this._toolBarService.isLoading = true;
+        this._moviesService.$getOrCreateMovie(imdbIdDto.imdbId, imdbIdDto)
+            .subscribe(
+                (data) => {
+                    this.selectedMovie = data; 
+                    // Don't open the dialog without a returned movie.
+                    if (this.selectedMovie) {
+                        this.openDialog(this.selectedMovie);
+                    }
+                },
+                (error) => {
+                    if (error.status != 401) {
+                        alert("Failed to load movie. Try again later.")
+                    }
+                    this.gettingMovie = false;
+                    this._toolBarService.isLoading = false;
+                },
+                () => {
+                    this.gettingMovie = false;
+                    this._toolBarService.isLoading = false;
+                }
+            )
+    }
+
     /**
      * Sets the total pages variable. Used for client side paging.
      * @param totalMovies 
      * @param moviesPerPage 
      */
-    setTotalPages(totalMovies, moviesPerPage): void {
-        if (totalMovies > 0) {
-            this.totalPages = Math.ceil(totalMovies / moviesPerPage);
+    setTotalPages(imdbs: ImdbIdDto[], moviesPerPage): void {
+        if (imdbs != null && imdbs.length > 0) {
+            this.totalPages = Math.ceil(imdbs.length / moviesPerPage);
+        }
+        else {
+            this.totalPages = 0;
         }
     }
     
@@ -200,6 +218,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
                 ? this.displayedImdbs = imdbs.slice(startingIndex, endingIndex)
                 : this.displayedImdbs = imdbs.slice(startingIndex);   
         }
+    }
+
+    /**
+     * Toggles the movies list and the No Movies Found response in view.
+     * @param movies 
+     */
+    moviesExist(idmbs: ImdbIdDto[], search: string) : boolean {
+        if (!search) {
+            return false;
+        }
+        return idmbs && idmbs.length > 0; 
     }
 
     multiplePagesExist(totalPages: number) {
@@ -240,37 +269,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Gets a movie from imdbId and sets selectedMovie. If that movie does not exist, create the movie
-     * and set selectedMovie.
-     * @param imdbIdDto 
-     */
-    getOrCreateMovie(imdbIdDto: ImdbIdDto) {
-        this.gettingMovie = true;
-        this._toolBarService.isLoading = true;
-        this._moviesService.$getOrCreateMovie(imdbIdDto.imdbId, imdbIdDto)
-            .subscribe(
-                (data) => {
-                    this.selectedMovie = data; 
-                    // Don't open the dialog without a returned movie.
-                    if (this.selectedMovie) {
-                        this.openDialog(this.selectedMovie);
-                    }
-                },
-                (error) => {
-                    if (error.status != 401) {
-                        alert("Failed to load movie. Try again later.")
-                    }
-                    this.gettingMovie = false;
-                    this._toolBarService.isLoading = false;
-                },
-                () => {
-                    this.gettingMovie = false;
-                    this._toolBarService.isLoading = false;
-                }
-            )
-    }
-
-    /**
      * Gets the year. Checks if greater than 0.
      * @param year 
      */
@@ -283,7 +281,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
      */
     clearSearchResults(): void {
         this.imdbs = null;
-        this.noSearchResults = false;
+        this.searchTableDisplayed = false;
         this.currentPage = 0;
     }
 

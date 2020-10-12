@@ -90,9 +90,11 @@
 
                             ::ng-deep .mat-select-value {
                                 font-size: 25px;
+                                vertical-align: middle;
+                                text-align: center;
                                            
                                 ::ng-deep .mat-select-value-text {
-                                    color: $ternary!important;
+                                    color: $primary!important;
                                 }
                             }
                             ::ng-deep .mat-select-arrow-wrapper {
@@ -158,17 +160,31 @@
             margin-right: 10px;
         }
     }
-    .mat-paginator {
-        background-color: #c2185b;
-        ::ng-deep .mat-paginator-range-actions {
-            font-size: 20px;
-            color: white;
-        }
-    }
 }
 .empty-search {
-    font-size: 25px;
-    font-weight: bold;
-    padding: 20px;
-    color: #040c24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 64px;
+    width: 663px;
+    height: 100px;
+    background-color: $ternary;
+    .empty-message {
+        font-size: 25px;
+        font-weight: bold;
+        padding: 20px;
+        color: $primary;
+    }
+}
+
+::ng-deep .cdk-overlay-pane {
+    top: 60px !important;
+    ::ng-deep .mat-select-panel {
+        color: $primary;
+        background-color: $ternary;    
+        ::ng-deep .mat-option {
+            color: $primary;
+        }
+    }
 }

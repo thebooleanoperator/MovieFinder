@@ -38,6 +38,10 @@
                 font-weight: 600;
             }
         }
+        .poster:hover {
+            box-shadow: 5px 5px $primary;
+            cursor: pointer;
+        }
     }
 
     .poster-container::-webkit-scrollbar { /* WebKit */

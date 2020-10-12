@@ -46,6 +46,6 @@
         </button>
     </div>
 </div>
-<div *ngIf="noSearchResults" class="empty-search">
-    No movies found from search
+<div *ngIf="!moviesExist(imdbs, search) && searchTableDisplayed" class="empty-search">
+    <span class="empty-message">No movies found from search</span>
 </div>
