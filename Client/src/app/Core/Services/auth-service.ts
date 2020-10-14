@@ -40,11 +40,9 @@ export class AuthService {
     }
 
     updatePassword(changePassword: ChangePassword): Observable<any> {
-        return this.http.put('/Accounts/UpdatePassword', changePassword)
+        return this.http.put('/Accounts/ChangePassword', changePassword)
             .pipe(
                 map((response: AuthDto) => {
-                    this.token = response.token;
-                    this.user = response.userDto;
                     return response;
                 })
             )

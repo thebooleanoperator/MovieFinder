@@ -145,8 +145,8 @@ namespace MovieFinder.Controllers
         /// <param name="updatePasswordDto"></param>
         /// <returns></returns>
         [HttpPut]
-        [AllowAnonymous]
-        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto updatePasswordDto)
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] UpdatePasswordDto updatePasswordDto)
         {
             if (updatePasswordDto.NewPassword != updatePasswordDto.ConfirmPassword)
             {
@@ -164,17 +164,6 @@ namespace MovieFinder.Controllers
             {
                 return BadRequest("Failed to update password");
             }
-
-            /*var refreshToken = _cookies["refreshToken"];
-
-            var authenticationDto = await _identityService.RefreshTokenAsync(updatePasswordDto.Token, refreshToken);
-
-            if (!String.IsNullOrEmpty(authenticationDto.Error))
-            {
-                return BadRequest(authenticationDto.Error);
-            }
-
-            return Ok(authenticationDto);*/
 
             return Ok();
         }

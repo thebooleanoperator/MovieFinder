@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ChangePassword } from 'src/app/Data/Interfaces/change-password.dto';
 import { FormErrorStateMatcher } from '../../FormErrorStateMatcher/form-error-state-matcher';
 
-
 @Component({
     selector: 'change-password-dialog',
     templateUrl: './change-password-dialog.html',
@@ -17,7 +16,7 @@ export class ChangePasswordDialog {
         private _dialogRef: MatDialogRef<ChangePasswordDialog>,
         private _authService: AuthService,
         private _toolBarService: ToolBarService,
-        private _formBuilder: FormBuilder){
+        private _formBuilder: FormBuilder) {
             this.changePasswordForm = this._formBuilder.group
             (
                 {
@@ -38,6 +37,10 @@ export class ChangePasswordDialog {
     showInputs: boolean = true;
     showSuccess: boolean = false;
 
+    /**
+     * Make sure new password and confirm password match or trigger mismatch form error.
+     * @param changePasswordGroup 
+     */
     matchValues(changePasswordGroup: FormGroup) {
         var newPassword = changePasswordGroup.controls.newPassword.value;
         var confirmPassword = changePasswordGroup.controls.confirmPassword.value;
@@ -46,7 +49,7 @@ export class ChangePasswordDialog {
     }
 
     /**
-     * 
+     * Change user password then either alert error or show success dialog.
      * @param changePasswordGroup
      */
     updatePassword(changePasswordGroup: FormGroup) {
@@ -55,40 +58,41 @@ export class ChangePasswordDialog {
         this.isUpdating = true;
         this._authService.updatePassword(changePassword)
             .subscribe(
-                () => {},
-                ((error) => {
-                    if (error.status != 401) {
-                        alert("Failed to update password.");
-                    }
-                    this.isUpdating = false;
-                    this._toolBarService.isLoading = false;
-                }),
                 () => {
-                    this.isUpdating = false;
-                    this._toolBarService.isLoading = false;
                     this.showUpdateSuccess();
+                },
+                (error) => {
+                    alert(error.error);
+                    this._toolBarService.isLoading = false;
+                    this.isUpdating = false;
+                },
+                () => {
+                    this._toolBarService.isLoading = false;
+                    this.isUpdating = false;
                 }
             )
     }
 
     /**
-     * 
+     * Builds a new ChangePassword object from FormGroup data.
      * @param changePasswordGroup
      */
     buildChangePassword(changePasswordGroup: FormGroup): ChangePassword {
-        var jwtToken = this._authService.token;
         var email = this._authService.user.email;
         var oldPassword = changePasswordGroup.controls.oldPassword.value;
         var newPassword = changePasswordGroup.controls.newPassword.value;
         var confirmPassword = changePasswordGroup.controls.confirmPassword.value;
-        return new ChangePassword(email, jwtToken, oldPassword, newPassword, confirmPassword);
+        return new ChangePassword(email, oldPassword, newPassword, confirmPassword);
     }
 
+    /**
+     * Show success modal for 1 second then close.
+     */
     showUpdateSuccess() {
         this.showInputs = false;
         this.showSuccess = true;
         window.setTimeout(() => {
             this._dialogRef.close();
-        }, 800)
+        }, 1000)
     }
 }   
