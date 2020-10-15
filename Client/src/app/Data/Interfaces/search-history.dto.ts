@@ -7,9 +7,8 @@ export class SearchHistoryDto {
     title: string;
     poster: string;
 
-    constructor(movie: MovieDto, user: UserDto) {
+    constructor(movie: MovieDto) {
         this.movieId = movie.movieId,
-        this.userId = user.userId,
         this.title = movie.title,
         this.poster = movie.poster
     }

@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     /**
      * 
      */
-    dialogMovieSubscription: Subscription;
+    searchHistorySubscription: Subscription;
     /**
      * Holds the callback to correctly page the movie results.
      */
@@ -126,23 +126,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         )
 
         // SearchHistory subscription
-        this.dialogMovieSubscription = this._dialogWatcher.closeEventMovie$.subscribe( 
-            (movie) => {
-                var searchHistory = new SearchHistoryDto(movie, this._userService.getUser());
-                this._searchHistoryService.create(searchHistory)
-                    .pipe(
-                        concatMap(() => this._searchHistoryService.getAll(20))
-                    )
-                    .subscribe(
-                        (searchedMovies: SearchHistoryDto[]) => this.searchedMovies = searchedMovies,
-                        ((error) => {
-                            if (error.status !== 401) {
-                                alert("Search history failed to update"); 
-                            }
-                        })
-                    )
-            }
-        )
+        this.searchHistorySubscription = this._searchHistoryService.searchHistoryUpdated$
+            .subscribe( 
+                (searchedMovie: SearchHistoryDto) => {
+                    // Filter out old history of movie if exsits.
+                    this.searchedMovies = this.searchedMovies.filter((movie) => {
+                        if (movie.movieId != searchedMovie.movieId) {
+                            return movie;
+                        }
+                    })
+                    this.searchedMovies.unshift(searchedMovie);
+                },
+                (error) => alert(error)
+            )
     }
 
     /**
@@ -152,7 +148,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         try {
             this.routerSubscription.unsubscribe();
             this.favoritesSubscription.unsubscribe();
-            this.dialogMovieSubscription.unsubscribe();
+            this.searchHistorySubscription.unsubscribe();
         }
         catch(error) {
             console.log('Error: ' + error);

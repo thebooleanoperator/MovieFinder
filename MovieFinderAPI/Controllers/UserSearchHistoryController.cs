@@ -35,14 +35,7 @@ namespace MovieFinder.Controllers
                 return BadRequest("User search dto is required.");
             }
 
-            var user = _unitOfWork.Users.GetByUserId(userSearchHistoryDto.UserId);
-
-            if (user == null)
-            {
-                return BadRequest("User not found.");
-            }
-
-            var userSearchHistory = new UserSearchHistory(userSearchHistoryDto);
+            var userSearchHistory = new UserSearchHistory(userSearchHistoryDto, _sessionVars.UserId);
 
             _unitOfWork.UserSearchHistory.Add(userSearchHistory);
             _unitOfWork.SaveChanges();

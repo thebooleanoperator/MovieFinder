@@ -3,11 +3,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MovieDialogDto } from 'src/app/Data/Interfaces/movieDialog.dto';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/Core/Services/auth-service';
+import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
+import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 
 @Component ({
     selector: "selected-movie-dialog",
@@ -20,12 +20,19 @@ export class SelectedMovieDialog implements OnInit {
         public dialogRef: MatDialogRef<SelectedMovieDialog>, 
         private _toolBarService: ToolBarService,
         private _favoritesService: FavoritesService,
-        private _authService: AuthService) 
+        private _searchHistoryService: SearchHistoryService) 
     {
         // Before closing modal update observable in dialogwatcher.
-        /*this.dialogRef.beforeClosed().subscribe(() => {
-            this._dialogWatcher.closedByClickOutside(this.favoriteMovies, this.movie, this.updateSearchHistory);
-        });*/
+        this.dialogRef.beforeClosed().subscribe(() => {
+            var searchHistory = new SearchHistoryDto(this.movie);
+            this._searchHistoryService.create(searchHistory)
+                .subscribe(
+                    (searchedMovie: SearchHistoryDto) => {
+                        this._searchHistoryService.searchHistoryUpdated(searchedMovie);
+                    },
+                    (error) =>  alert("Search history failed to update " + error)
+                )
+        });
     }
 
     // Data
@@ -73,11 +80,6 @@ export class SelectedMovieDialog implements OnInit {
         } 
     }
     
-
-
-
-
-
     getIsFavorite(movie: MovieDto, favoriteMovies: FavortiesDto[]): boolean {
         if (!favoriteMovies) {
             return false;

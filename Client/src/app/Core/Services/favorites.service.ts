@@ -17,7 +17,7 @@ export class FavoritesService {
         this._favoritesUpdated.next(favoriteDto);
     }
 
-    // Http Calls
+    // Http Methods
     saveFavorite(favoritesDto: FavortiesDto): Observable<any> {
         return this.http.post(`/LikedMovies`, favoritesDto);
     }
