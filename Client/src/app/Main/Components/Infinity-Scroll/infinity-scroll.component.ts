@@ -88,8 +88,11 @@ export class InfinityScrollComponent implements OnInit {
         return true;
     }
 
-    showEmptyFavorites(movies: MovieDto[], type: string) {
+    showEmpty(movies: MovieDto[], type: string) {
         if (type == 'favorites') {
+            return movies == null || movies.length == 0;
+        } 
+        if (type == 'history') {
             return movies == null || movies.length == 0;
         } 
     }

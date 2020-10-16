@@ -22,7 +22,7 @@ export class SearchHistoryService {
         return this.http.post(`/UserSearchHistory`, searchHistory);
     }      
 
-    public getAll(historyLength: number=null): Observable<any> {
-        return this.http.get(`/UserSearchHistory?historyLength=${historyLength}`);
+    public getAll(skip:number=null, count:number=null): Observable<any> {
+        return this.http.get(`/UserSearchHistory?skip=${skip}&count=${count}`);
     }
 }

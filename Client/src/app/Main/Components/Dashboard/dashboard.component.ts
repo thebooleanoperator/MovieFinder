@@ -1,11 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { ActivatedRoute } from '@angular/router';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
-import { DialogWatcherService } from 'src/app/Core/Services/dialog-watcher.service';
 import { Subscription } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
 import { SearchHistoryService } from 'src/app/Core/Services/search-history.service';
 import { SearchHistoryDto } from 'src/app/Data/Interfaces/search-history.dto';
 import { UserService } from 'src/app/Core/Services/user.service';
@@ -22,7 +20,6 @@ import { AppUtilities } from 'src/app/Core/Utilities/app-utilities';
 export class DashboardComponent implements OnInit, OnDestroy {
     constructor(
         private _route: ActivatedRoute,
-        private _dialogWatcher: DialogWatcherService,
         private _favoritesService: FavoritesService, 
         private _searchHistoryService: SearchHistoryService,
         private _toolBarService: ToolBarService,
@@ -189,6 +186,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         switch(infinityScrollDto.typeScrolled) {
             case "favorites":
                 return this.getNextFavorites(infinityScrollDto.skip, infinityScrollDto.count);
+            case "history":
+                return this.getNextSearchHistory(infinityScrollDto.skip, infinityScrollDto.count);
         }
     }   
 
@@ -212,6 +211,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     },
                     () => this._toolBarService.isLoading = false
                 );
+    }
+
+    getNextSearchHistory(skip: number, count: number) {
+        this._toolBarService.isLoading = true;
+        return this._searchHistoryService.getAll(skip, count)
+            .subscribe(
+                (searchedHistory: SearchHistoryDto[]) => {
+                    if (searchedHistory) {
+                        this.searchedMovies = this.searchedMovies.concat(searchedHistory);
+                    }
+                },
+                (error) => {
+                    alert("Unable to load favorites.");
+                    console.log(error);
+                },
+                () => this._toolBarService.isLoading = false
+            )
     }
 
     onAddFavorites(movie: MovieDto) {

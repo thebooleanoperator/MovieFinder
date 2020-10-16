@@ -178,28 +178,6 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="skip"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        [HttpGet("UserSearchHistory/{skip?}/{count?}")]
-        public async Task<IActionResult> GetSearchHistory([FromQuery] int? skip, int? count)
-        {
-            var movieIds = _unitOfWork.UserSearchHistory
-                .GetAllByUserId(_sessionVars.UserId, skip, count).Select(x => x.MovieId).ToList();
-
-            var searchHistoryMovies = _unitOfWork.Movies.Get(movieIds).ToList();
-
-            if (searchHistoryMovies == null || searchHistoryMovies.Count == 0)
-            {
-                return NoContent();
-            }
-
-            return Ok();
-        }
-
-        /// <summary>
         /// Endpoint used to update Movies recommendation bit.
         /// </summary>
         /// <param name="moviesDto"></param>

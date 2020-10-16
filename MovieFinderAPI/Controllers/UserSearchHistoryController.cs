@@ -49,12 +49,12 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="historyLength"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{skip?}/{count?}")]
         [Authorize]
-        public IActionResult GetAll([FromQuery] int? skip, int? historyLength)
+        public IActionResult GetAll(int? skip, int? count)
         {
             var userSearchHistorys = _unitOfWork.UserSearchHistory.
-                GetAllByUserId(_sessionVars.UserId, skip, historyLength).ToList(); 
+                GetAllByUserId(_sessionVars.UserId, skip, count).ToList(); 
 
             if (userSearchHistorys == null || userSearchHistorys.Count() == 0)
             {
