@@ -15,7 +15,9 @@ namespace MovieFinder.Controllers
         private readonly UnitOfWork _unitOfWork;
         private readonly Session _sessionVars; 
 
-        public UserSearchHistoryController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContextAccessor)
+        public UserSearchHistoryController(
+            MovieFinderContext movieFinderContext, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _sessionVars = new Session(httpContextAccessor.HttpContext.User);
             _unitOfWork = new UnitOfWork(movieFinderContext);
@@ -38,6 +40,16 @@ namespace MovieFinder.Controllers
             var userSearchHistory = new UserSearchHistory(userSearchHistoryDto, _sessionVars.UserId);
 
             _unitOfWork.UserSearchHistory.Add(userSearchHistory);
+            
+            var existingHistory = _unitOfWork.UserSearchHistory
+                .GetByMovieId(_sessionVars.UserId, userSearchHistory.MovieId);
+
+            if (existingHistory != null)
+            {
+                existingHistory.IsDeleted = true;
+                _unitOfWork.UserSearchHistory.Update(existingHistory); 
+            }
+
             _unitOfWork.SaveChanges();
 
             return Ok(userSearchHistory);

@@ -12,10 +12,16 @@ namespace MovieFinder.Repository.Repo
         {
 
         } 
+
+        public UserSearchHistory GetByMovieId(int userId, int movieId)
+        {
+            return DbSet.Where(x => x.UserId == userId && x.MovieId == movieId && x.IsDeleted == false).SingleOrDefault();
+        }
         
         public IEnumerable<UserSearchHistory> GetAllByUserId(int userId, int? skip = null, int? count = null)
         {
-            var searchHistory = DbSet.Where(x => x.UserId == userId).OrderByDescending(x => x.DateCreated);
+            var searchHistory = DbSet.Where(x => x.UserId == userId && x.IsDeleted == false)
+                .OrderByDescending(x => x.DateCreated);
             // Return all search history if not using pagination.
             if (skip == null || count == null)
             {

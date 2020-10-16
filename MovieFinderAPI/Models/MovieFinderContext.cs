@@ -199,6 +199,8 @@ namespace MovieFinder
                      entity.Property(m => m.Title);
 
                      entity.Property(m => m.Poster);
+
+                     entity.Property(m => m.IsDeleted);
                  });
         }
     }
