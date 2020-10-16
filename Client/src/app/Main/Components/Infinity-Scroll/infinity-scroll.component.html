@@ -12,12 +12,6 @@
             <span class="title">{{movie.title}}</span>
         </div>
     </div>
-    <div *ngIf="showEmpty(movies, typeScrolled)" class="empty-message">
-        <p>To add favorites, click the <mat-icon class="thumb">thumb_up</mat-icon> on any movie</p>
-    </div>
-    <div *ngIf="showEmpty(movies, typeScrolled)" class="empty-message">
-        <p>Your search history is empty. Search any movie to start tracking your history.</p>
-    </div>
 </div>
 <div *ngIf="isError(error)">
     An error has occured, failed to load the page. Our team is aware and working on it.

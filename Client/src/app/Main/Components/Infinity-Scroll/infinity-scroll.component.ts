@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectedMovieDialog } from '../../Dialogs/Selected-Movie/selected-movie.dialog';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { InfitiyScrollDto } from 'src/app/Data/Interfaces/infinity-scroll.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
@@ -88,10 +88,13 @@ export class InfinityScrollComponent implements OnInit {
         return true;
     }
 
-    showEmpty(movies: MovieDto[], type: string) {
-        if (type == 'favorites') {
+    showEmptyFavorites(movies: MovieDto[], type: string) {
+        if (type == 'favorites' ) {
             return movies == null || movies.length == 0;
         } 
+    }
+
+    showEmptyHistory(movies: MovieDto[], type: string) {
         if (type == 'history') {
             return movies == null || movies.length == 0;
         } 

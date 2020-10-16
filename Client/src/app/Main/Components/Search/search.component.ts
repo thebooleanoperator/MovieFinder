@@ -313,7 +313,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
                             favorite: favorte, 
                             movie: movie, 
                             isFavorite: isFavorite, 
-                            updateSearchHistory: false
+                            updateSearchHistory: true
                         }
                     });
                 },

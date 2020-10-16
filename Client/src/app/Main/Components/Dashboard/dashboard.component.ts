@@ -12,6 +12,7 @@ import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { HostListener } from '@angular/core';
 import { AppUtilities } from 'src/app/Core/Utilities/app-utilities';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         }
 
+    // Data
     /**
      * Holds an array of all movies returned from search results.
      */
@@ -58,6 +60,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
      * 
      */
     searchHistorySubscription: Subscription;
+    /**
+     * 
+     */
+    favoritesIsEmpty: boolean;
+    /**
+     * 
+     */
+    historyIsEmpty: boolean;
     /**
      * Holds the callback to correctly page the movie results.
      */
@@ -89,11 +99,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 var recommendedMoviesResolverError = data.resolvedMovies.error;
                 if (!favoritesResolverError) {
                     this.favorites = data.resolvedFavorites.favorites;
+                    this.favoritesIsEmpty = this.favorites ? false : true;
                 }
                 if (!searchHistorResolverError) {
                     this.searchedMovies = data.resolvedSearchHistory.searchHistory
                         ? data.resolvedSearchHistory.searchHistory 
                         : [];
+                    this.historyIsEmpty = this.searchedMovies.length > 0 ? false : true;
                 }
                 if (!recommendedMoviesResolverError) {
                     this.recommendedMovies = data.resolvedMovies.movies;
@@ -133,6 +145,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         }
                     })
                     this.searchedMovies.unshift(searchedMovie);
+                    this.historyIsEmpty = false;
                 },
                 (error) => alert(error)
             )
@@ -163,6 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 rec.isFavorite = true;
             }
         });
+        this.favoritesIsEmpty = false;
     }
 
     removeFavoritesHandler(favoriteDto: FavortiesDto) {
@@ -176,6 +190,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 rec.isFavorite = false;
             }
         });
+        this.favoritesIsEmpty = this.favorites.length > 0 ? false : true;
     }
 
     /**

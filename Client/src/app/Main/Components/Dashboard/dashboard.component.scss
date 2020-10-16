@@ -9,6 +9,18 @@
     .tab-container {
         width: 75%;
         background-color: $accent;
+        .empty-message {
+            height: 99vh;
+            text-align: center;
+            font-size: 40px;
+            color: $primary;
+            .thumb {
+                font-size: 40px;
+                color: lightgreen;
+                height: 40px;
+                width: 40px;
+            }
+        }
     }
 
     .recommended-container {

@@ -25,13 +25,15 @@ export class SelectedMovieDialog implements OnInit {
         // Before closing modal update observable in dialogwatcher.
         this.dialogRef.beforeClosed().subscribe(() => {
             var searchHistory = new SearchHistoryDto(this.movie);
-            this._searchHistoryService.create(searchHistory)
+            if (this.updateSearchHistory) {
+                this._searchHistoryService.create(searchHistory)
                 .subscribe(
                     (searchedMovie: SearchHistoryDto) => {
                         this._searchHistoryService.searchHistoryUpdated(searchedMovie);
                     },
                     (error) =>  alert("Search history failed to update " + error)
                 )
+            }
         });
     }
 
