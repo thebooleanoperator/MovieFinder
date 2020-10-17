@@ -1,8 +1,7 @@
 <div id="dashboard" *ngIf="!isError(error)">
     <mat-card class="tab-container">
-        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" color="primary" 
-            (selectedTabChange)="toggleTabs($event)">
-            <mat-tab label="History">
+        <mat-tab-group mat-align-tabs="center" animationDuration="0ms" color="primary">
+            <mat-tab label="Search History">
                 <infinity-scroll
                     *ngIf="!historyIsEmpty"
                     [isGuest]="isGuest"

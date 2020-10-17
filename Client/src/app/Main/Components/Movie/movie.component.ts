@@ -21,6 +21,7 @@ export class MovieComponent {
     @Input() isGuest: boolean;
     @Input() movie: MovieDto; 
     @Input() isFavorite: boolean;
+    @Input() isRec: boolean;
     
     posterError: boolean = false;
     alertUser: boolean = false;

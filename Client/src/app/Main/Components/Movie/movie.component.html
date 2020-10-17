@@ -3,6 +3,9 @@
         <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
         <div class="info-container">
             <div class="favorites-container" *ngIf="!isGuest">
+                <mat-icon class="rec" *ngIf="isRec" matTooltip="Staff Pick">
+                    star
+                </mat-icon>
                 <mat-icon class="thumb" *ngIf="!isFavorite" 
                     matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
                     thumb_up

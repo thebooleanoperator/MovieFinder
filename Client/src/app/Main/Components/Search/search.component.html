@@ -12,7 +12,8 @@
                 autocomplete="off">
             <mat-icon class="search-icon" (click)="searchMovies(search, year)">search</mat-icon>
         </mat-form-field>
-        <mat-form-field class="year-box">
+        <!-- Year input
+            <mat-form-field class="year-box">
             <mat-label>Year</mat-label>
             <mat-select [(value)]="year" class="year-input">
                 <mat-option>None</mat-option>
@@ -20,7 +21,7 @@
                     {{yr}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field>-->
     </div>
 </div>
 <div class="search-container" *ngIf="moviesExist(imdbs, search) && searchTableDisplayed">

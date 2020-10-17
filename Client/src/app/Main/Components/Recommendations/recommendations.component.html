@@ -1,5 +1,4 @@
 <div id="movie-finder" *ngIf="!isError(error)">
-    <h1 class="title">Staff Picks</h1>
     <div class="recs-container">
         <div class="inline-movie-arrow">
             <button mat-button (click)="changeMovie(-1)">
@@ -9,7 +8,8 @@
         <movie 
             [isGuest]="isGuest"
             [movie]="selectedMovie" 
-            [isFavorite]="selectedMovie.isFavorite">
+            [isFavorite]="selectedMovie.isFavorite"
+            [isRec]="true">
         </movie>
         <div class="inline-movie-arrow">
             <button  mat-button (click)="changeMovie(1)">
