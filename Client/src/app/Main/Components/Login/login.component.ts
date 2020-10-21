@@ -28,6 +28,7 @@ export class LoginComponent {
     }
     //Data
     loginForm: FormGroup; 
+    isLoading: boolean;
     hide: boolean = true;
 
     //Methods
@@ -35,34 +36,35 @@ export class LoginComponent {
         var email = loginForm.controls.userEmail.value; 
         var password = loginForm.controls.password.value;
         
-        this._toolBarService.isLoading = true;
+        this.isLoading = true;
         this._authService.login(email, password)
             .subscribe(
                 (authDto: AuthDto) => {
                     this._authService.token = authDto.token;
                     this._authService.user = authDto.userDto;
                     this._router.navigate(['/content/dashboard'])
-                        .finally(() => this._toolBarService.isLoading = false);
+                        .finally(() => this.isLoading = false);
                 },
                 (error) => {
                     alert(error.error);
-                    this._toolBarService.isLoading = false;
+                    this.isLoading = false;
                 }
             )
     }
 
     guestLogin(): void {
-        this._toolBarService.isLoading = true;
+        this.isLoading = true;
         this._authService.guestLogin()
             .subscribe(
                 (authDto: AuthDto) => {
                     this._authService.token = authDto.token;
                     this._authService.user = authDto.userDto;
                     this._router.navigate(['/content/dashboard'])
-                        .finally(() => this._toolBarService.isLoading = false); 
+                        .finally(() => this.isLoading = false); 
                 },
                 () => {
                     alert('Failed to login as guest');
+                    this.isLoading = false;
                 }
             )
     }

@@ -4,7 +4,7 @@
         <form [formGroup]="loginForm"> 
             <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input matInput formControlName="userEmail" autocomplete="off">
+                <input class="email" matInput formControlName="userEmail" autocomplete="off">
                 <mat-error *ngIf="loginForm.hasError('required', 'userEmail')">
                     Email is required.
                 </mat-error>
@@ -14,24 +14,29 @@
             </mat-form-field>
             <mat-form-field >
                 <mat-label>Password</mat-label>
-                <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <input class="password" [type]="hide ? 'password' : 'text'" matInput 
+                    formControlName="password" autocomplete="off">
+                <button class="eye" mat-icon-button matSuffix (click)="hide = !hide" 
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
                 <mat-error *ngIf="loginForm.hasError('required', 'password')">
                     Password is required.
                 </mat-error>
             </mat-form-field>
-            <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" [disabled]="loginForm.invalid">
+            <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" 
+                [disabled]="loginForm.invalid || isLoading">
                 Login
             </button>
         </form>
-        <div class="line-break"></div>
+        <div class="line-break" *ngIf="!isLoading"></div>
+        <mat-progress-bar class="progress-bar" mode="buffer" *ngIf="isLoading"></mat-progress-bar>
         <div class="reg-or-guest">
-            <button class="register-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" [disabled]="loginForm.invalid">
+            <button class="register-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" 
+                [disabled]="isLoading">
                 Register
             </button>
-            <button class="guest-button" mat-raised-button (click)="guestLogin()">
+            <button class="guest-button" mat-raised-button (click)="guestLogin()" [disabled]="isLoading">
                 Guest
             </button>
         </div>
