@@ -71,22 +71,6 @@ export class RegisterComponent {
             );
     }
 
-    guestLogin(): void {
-        this._toolBarService.isLoading = true;
-        this._authService.guestLogin()
-            .subscribe(
-                (authDto: AuthDto) => {
-                    this._authService.token = authDto.token;
-                    this._authService.user = authDto.userDto;
-                    this._router.navigate(['/content/dashboard'])
-                        .finally(() => this._toolBarService.isLoading = false); 
-                },
-                () => {
-                    alert('Failed to login as guest');
-                }
-            )
-    }
-
     /**
      * Opens the angular material dialogRef and passes the selectedMovie to the dialog.
      */
