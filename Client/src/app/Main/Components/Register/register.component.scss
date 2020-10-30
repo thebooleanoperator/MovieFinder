@@ -8,10 +8,6 @@
         justify-content: center;
         background-color: $darkAccent;
         width: 350px;
-        .logo {
-            height: 55px;
-            width: 55px;
-        }
         .title {
             color: $ternary;
             margin: 10px;
@@ -122,50 +118,44 @@
     }
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 550px) {
     #register {
-        margin-right: 0px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    #register {
-        .register-container {
-            width: 275px;
-            .message-1 {
-                color: white;
-                font-size: 20px;
-                margin: 8px;
+        .register-card {
+            width: 250px;
+            .title {
+                color: $ternary;
+                margin: 10px;
+                font-size: 30px;
             }
-            .message-2 {
-                color: white;
-                font-size: 15px;
-                margin: 5px;
-                text-align: center;
+            form {
+                mat-form-field {
+                    width: 250px !important;
+                    .reg-input {
+                        font-size: 15px;
+                    }
+                    .eye {
+                        bottom: 11px;
+                        font-size: 25px;
+                    }
+                }
+                .register-button {
+                    width: 250px;
+                }
             }
-            mat-card {
-                width: 225px;
-                form {
-                    display: flex;
-                    justify-content: center;
-                    margin: 10px 50px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-        
-                    mat-form-field {
-                        width: 175px;
-                    }
-            
-                    .register-button {
-                        margin: 30px;
-                        padding: 10px;
-                    }
-            
-                    .register-button:hover {
-                        cursor: pointer;
-                    }
+            .line-break {
+                width: 250px;
+            }
+            .progress-bar {
+                width: 250px;
+            }
+            .login-or-guest {
+                .register-button, .guest-button {
+                    width: 110px;
+                }
+                .help {
+                    right: 24px;
+                    font-size: 20px;
+                    bottom: 20px;
                 }
             }
         }

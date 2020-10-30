@@ -56,6 +56,7 @@
 
 @media screen and (max-width: 1350px) {
     #welcome {
+        overflow-y: auto;
         .welcome-container {
             flex-direction: column-reverse;
             justify-content: center;
