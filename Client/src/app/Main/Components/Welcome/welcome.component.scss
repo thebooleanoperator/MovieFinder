@@ -9,8 +9,13 @@
         align-items: center;
         justify-content: space-around;
         height: 85vh;
-        .title-sm {
-           display: none;
+        .title-container-sm {
+            .title-sm {
+                display: none;
+             }
+             .logo-sm {
+                 display: none;
+             }
         }
         .description-container {
             display: flex;
@@ -51,20 +56,32 @@
 
 @media screen and (max-width: 1350px) {
     #welcome {
-        margin-left: 0px;
         .welcome-container {
             flex-direction: column-reverse;
             justify-content: center;
             align-items: center;
-            .title-sm {
-                display: block;
-                margin: 5px;
-                font-size: 50px;
-                color: #3b0101;
-                font-weight: bold;
-                text-align: center;
+            height: unset;
+            .title-container-sm {
+                display: flex;
+                .title-sm {
+                    display: block;
+                    margin: 0px 0px 20px 10px;
+                    font-size: 55px;
+                    color: $primary;
+                    font-weight: 800;
+                    text-align: center;
+                }
+                .logo-sm {
+                    display: block;
+                    height: 45px;
+                    width: 45px;
+                    margin-top: 10px;
+                }
             }
-            .description-container {
+            .title-container {
+                .logo {
+                    display: none;
+                }
                 .title-lg {
                     display: none;
                 }
@@ -75,17 +92,23 @@
 
 @media screen and (max-width: 1000px) {
     #welcome {
+        margin-left: 0px;
         .welcome-container {
             .description-container {
                 margin: 50px 0px;
                 h3 {
                     font-size: 40px;
                 }
+                ::ng-deep .mat-list .mat-list-item .mat-line{
+                    padding: 5px;
+                    word-wrap: break-word;
+                    white-space: pre-wrap;
+               }
                 mat-list {
                     mat-list-item {
                         height: auto;
                         .item-text {
-                            font-size: 15px;
+                            font-size: 20px;
                         }
                     }
                 }
@@ -102,11 +125,6 @@
                 h3 {
                     font-size: 30px;
                 }
-                ::ng-deep .mat-list .mat-list-item .mat-line{
-                    padding: 5px;
-                    word-wrap: break-word;
-                    white-space: pre-wrap;
-               }
             }
         }
     }

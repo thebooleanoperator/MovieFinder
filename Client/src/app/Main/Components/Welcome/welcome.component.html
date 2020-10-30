@@ -7,6 +7,7 @@
     <div class="welcome-container">
         <div class="description-container">
             <div class="title-container">
+                <img class="logo" src="../../../../assets/images/logo.png">
                 <h3 class="title-lg">Welcome to Presto</h3>
             </div>
             <mat-list>
@@ -32,8 +33,12 @@
                 </mat-list-item>
             </mat-list>
         </div>
-        <login></login>
-        <h3 class="title-sm">Movie Presto</h3>
+        <login *ngIf="showLogin" (toggleForm)="toggleForm($event)"></login>
+        <register *ngIf="!showLogin" (toggleForm)="toggleForm($event)"></register>
+        <div class="title-container-sm">
+            <img class="logo-sm" src="../../../../assets/images/logo.png">
+            <h3 class="title-sm">Presto</h3>
+        </div>
     </div>
 </body>
 </html>

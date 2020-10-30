@@ -7,11 +7,11 @@
         align-items: center;
         justify-content: center;
         background-color: $darkAccent;
-        height: 450px;
         width: 350px;
-        .logo {
-            height: 55px;
-            width: 55px;
+        .title {
+            color: $ternary;
+            margin: 10px;
+            font-size: 30px;
         }
         form {
             display: flex;
@@ -34,7 +34,7 @@
                     border-radius: 25px;
                     font-size: 20px;
                     font-weight: 600;
-                    color: $darkAccent;
+                    color: $primary;
                     padding-left: 10px;
                 }
                 .eye {
@@ -108,26 +108,44 @@
     }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 550px) {
     #login {
-        form {
-            margin-right: 0px;
-            mat-form-field {
-                width: 150px;
+        .login-card {
+            width: 250px;
+            form {
+                mat-form-field {
+                    width: 250px !important;
+                    .email, .password {
+                        font-size: 15px;
+                    }
+                    .eye {
+                        bottom: 11px;
+                        font-size: 25px;
+                    }
+                }
+                .login-button {
+                    color: $ternary;
+                    background-color: $primary;
+                    font-size: 20px;
+                    font-weight: 600;
+                    width: 250px;
+                    margin-top: 20px;
+                }
+                .login-button:disabled {
+                    background-color: $accent;
+                }
+            }
+            .line-break {
+                width: 250px;
+            }
+            .progress-bar {
+                width: 250px;
+            }
+            .reg-or-guest {
+                .register-button, .guest-button {
+                    width: 110px;
+                }
             }
         }
     }
 }
-
-@media screen and (max-width: 550px) {
-    #login {
-       form {
-            .login-inputs {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-       }
-    }
-}
-

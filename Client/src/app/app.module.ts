@@ -25,6 +25,7 @@ import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
 import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
 import { SearchComponent } from './Main/Components/Search/search.component';
 
+
 @NgModule({
     declarations: [
         AppComponent

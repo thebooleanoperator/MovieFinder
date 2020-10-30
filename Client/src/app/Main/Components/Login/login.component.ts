@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../../Core/Services/auth-service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { Router } from '@angular/router';
 import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'login',
@@ -14,7 +15,6 @@ import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
 export class LoginComponent {
     constructor(
         private _authService: AuthService, 
-        private _toolBarService: ToolBarService, 
         private _router: Router,
         private _formBuilder: FormBuilder)
     {
@@ -26,6 +26,10 @@ export class LoginComponent {
             }
         )
     }
+
+    // Outputs
+    @Output() toggleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+    
     //Data
     loginForm: FormGroup; 
     isLoading: boolean;
@@ -50,6 +54,10 @@ export class LoginComponent {
                     this.isLoading = false;
                 }
             )
+    }
+
+    showRegister(): void {
+        this.toggleForm.emit(false);
     }
 
     guestLogin(): void {

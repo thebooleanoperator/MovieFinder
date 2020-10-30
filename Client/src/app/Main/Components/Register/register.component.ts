@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
@@ -30,6 +30,9 @@ export class RegisterComponent {
                 }
             )
         }
+
+    //Outputs
+    @Output() toggleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     //Data
     registerForm: FormGroup;
@@ -69,6 +72,27 @@ export class RegisterComponent {
                     this.isLoading = false;
                 }
             );
+    }
+
+    showLogin(): void {
+        this.toggleForm.emit(true);
+    }
+
+    guestLogin(): void {
+        this.isLoading = true;
+        this._authService.guestLogin()
+            .subscribe(
+                (authDto: AuthDto) => {
+                    this._authService.token = authDto.token;
+                    this._authService.user = authDto.userDto;
+                    this._router.navigate(['/content/dashboard'])
+                        .finally(() => this.isLoading = false); 
+                },
+                () => {
+                    alert('Failed to login as guest');
+                    this.isLoading = false;
+                }
+            )
     }
 
     /**

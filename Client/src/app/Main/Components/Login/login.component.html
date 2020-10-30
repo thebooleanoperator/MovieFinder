@@ -1,6 +1,6 @@
 <div id="login">
     <mat-card class="login-card">
-        <img class="logo" src="../../../../assets/images/logo.png">
+        <h2 class="title">Login</h2>
         <form [formGroup]="loginForm"> 
             <mat-form-field>
                 <mat-label>Email</mat-label>
@@ -26,13 +26,13 @@
             </mat-form-field>
             <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" 
                 [disabled]="loginForm.invalid || isLoading">
-                Login
+                Submit
             </button>
         </form>
         <div class="line-break" *ngIf="!isLoading"></div>
         <mat-progress-bar class="progress-bar" mode="buffer" *ngIf="isLoading"></mat-progress-bar>
         <div class="reg-or-guest">
-            <button class="register-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" 
+            <button class="register-button" mat-raised-button (click)="showRegister()" 
                 [disabled]="isLoading">
                 Register
             </button>

@@ -30,5 +30,5 @@ export class SettingsComponent {
         this.dialog.open(ChangePasswordDialog, {
             id: 'resetPwDialog'
         });
-    }
+}
 }

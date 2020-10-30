@@ -1,63 +1,62 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-</head>
-<body>
-    <div id="register">
-        <mat-card class="register-container">
-            <h2 class="message-1">Create A New Account</h2>
-            <h5 class="message-2">It's Quick, Easy and Free!</h5>
-            <mat-card>
-                <form [formGroup]="registerForm">
-                    <mat-form-field appearance="outline">
-                        <mat-label>First Name</mat-label>
-                        <input matInput formControlName="firstName" required autocomplete="off">
-                        <mat-error *ngIf="registerForm.hasError('required', 'firstName')">
-                            First name is required.
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="lastName" required autocomplete="off">
-                        <mat-error *ngIf="registerForm.hasError('required', 'lastName')">
-                            Last name is required.
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="userEmail" required autocomplete="off">
-                        <mat-error *ngIf="registerForm.hasError('required', 'userEmail')">
-                            Email is required.
-                        </mat-error>
-                        <mat-error *ngIf="registerForm.hasError('email', 'userEmail')">
-                            Must be a valid email.
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline"> 
-                        <mat-label>Password</mat-label>
-                        <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" required autocomplete="off">
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                        <mat-error *ngIf="registerForm.hasError('required', 'password')">
-                            Password is required.
-                        </mat-error>
-                        <mat-error *ngIf="registerForm.hasError('minlength', 'password')">
-                            Must be at least 7 characters.
-                        </mat-error>
-                    </mat-form-field>
-                    <button class="register-button" mat-raised-button (click)="registerUser(registerForm)" [disabled]="registerForm.invalid || isLoading" color="accent">
-                        Sign Up
-                    </button>
-                </form>
-            </mat-card>
-            <h4 class="message-3">Or</h4>
-            <div class="guest-login">
-                <button class="guest-button" mat-raised-button color="accent" (click)="guestLogin()">Continue as Guest</button>
-                <mat-icon (click)="openGuestHelpDialog()">help</mat-icon>
-            </div>
-        </mat-card>
-    </div>
-</body>
-</html>
+<div id="register">
+    <mat-card class="register-card">
+        <h2 class="title">Register</h2>
+        <form [formGroup]="registerForm">
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input class="reg-input" matInput formControlName="firstName" required autocomplete="off">
+                <mat-error *ngIf="registerForm.hasError('required', 'firstName')">
+                    First name is required.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input class="reg-input" matInput formControlName="lastName" required autocomplete="off">
+                <mat-error *ngIf="registerForm.hasError('required', 'lastName')">
+                    Last name is required.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input class="reg-input" matInput formControlName="userEmail" required autocomplete="off">
+                <mat-error *ngIf="registerForm.hasError('required', 'userEmail')">
+                    Email is required.
+                </mat-error>
+                <mat-error *ngIf="registerForm.hasError('email', 'userEmail')">
+                    Must be a valid email.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field> 
+                <mat-label>Password</mat-label>
+                <input class="reg-input" [type]="hide ? 'password' : 'text'" matInput 
+                    formControlName="password" required autocomplete="off">
+                <button class="eye" mat-icon-button matSuffix (click)="hide = !hide" 
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="registerForm.hasError('required', 'password')">
+                    Password is required.
+                </mat-error>
+                <mat-error *ngIf="registerForm.hasError('minlength', 'password')">
+                    Must be at least 7 characters.
+                </mat-error>
+            </mat-form-field>
+            <button class="register-button" mat-raised-button (click)="registerUser(registerForm)" 
+                [disabled]="registerForm.invalid || isLoading" color="accent">
+                Submit
+            </button>
+        </form>
+        <div class="line-break" *ngIf="!isLoading"></div>
+        <mat-progress-bar class="progress-bar" mode="buffer" *ngIf="isLoading"></mat-progress-bar>
+        <div class="login-or-guest">
+            <button class="register-button" mat-raised-button (click)="showLogin()" 
+                [disabled]="isLoading">
+                Login
+            </button>
+            <button class="guest-button" mat-raised-button (click)="guestLogin()" [disabled]="isLoading">
+                Guest
+            </button>
+            <mat-icon class="help" (click)="openGuestHelpDialog()">help</mat-icon>
+        </div>
+    </mat-card>
+</div>
