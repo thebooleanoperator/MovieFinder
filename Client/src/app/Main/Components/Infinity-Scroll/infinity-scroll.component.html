@@ -9,7 +9,6 @@
         (scrolled)="getNext(movies, count)"> 
         <div class="poster" *ngFor="let movie of movies" (click)="openMovieDialog(movie.movieId)">
             <img [src]="movie.poster" (error)="useDefaultPoster($event)">
-            <span class="title">{{movie.title}}</span>
         </div>
     </div>
 </div>

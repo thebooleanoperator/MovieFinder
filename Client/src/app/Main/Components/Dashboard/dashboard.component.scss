@@ -20,17 +20,14 @@
                 width: 40px;
             }
         }
+        ::ng-deep .mat-tab-label {
+            color: $ternary;
+            font-size: 20px;
+        }
     }
     .recommended-container {
         background-color: $ternary;
         width: 100%;
-    }
-}
-
-::ng-deep .mat-select-panel {
-    background-color: #24202093;
-    ::ng-deep .mat-option {
-        color: white;
     }
 }
 
