@@ -35,10 +35,42 @@
     z-index: 100;
 }
 
-@media screen and (max-width: 1000px) {
-
+@media screen and (max-width: 1550px) {
+    #dashboard {
+        .tab-container {
+            width: 100%;
+        }
+        .recommended-container {
+            width: 80%;
+        }
+    }
 }
 
-@media screen and (max-width: 600px) {
-   
+@media screen and (min-height: 1100px) {
+    #dashboard {
+        .tab-container {
+            height: 1200px;
+        }
+        .recommended-container {
+            width: 80%;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1050px) {
+    #dashboard {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: flex-start;
+        .tab-container {
+            height: 800px;
+            width: 75%;
+        }
+        .recommended-container {
+            max-height: 625px;
+            width: 100%;
+        }
+    }
 }

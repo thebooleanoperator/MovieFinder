@@ -59,7 +59,6 @@
                     color: darkred;
                 }
             }
-
             .title-container {
                 display: flex;
                 flex-direction: row;
@@ -72,7 +71,6 @@
                     font-size: 45px;
                 }
             }
-
             .rating-container {
                 display: flex;
                 flex-direction: row;
@@ -92,10 +90,8 @@
                 }
                 .empty-rating {
                     height: 52px;
-                }
-                
+                }   
             }
-
             .data-container {
                 display: flex;
                 flex-direction: row;
@@ -106,23 +102,19 @@
                     
                     margin: 0px 10px 10px 0px;
                 }
-
                 .run-time {
                     margin: 0px 10px;
                 }
-
                 .genre {
                     margin: 0px 10px;
                 }
             }
-
             .plot {
                 margin-top: 10px;
                 height: 100px;
                 padding: 0px 5px;
                 font-size: 18px;
             }
-
             .streaming-container {
                 display: flex;
                 flex-direction: row;
@@ -140,77 +132,121 @@
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1550px) {
     ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
         display: flex;
         justify-content: center;
-        width: 500px !important;
+        width: 750px !important;
         
         ::ng-deep .mat-dialog-container {
-            width: 500px !important;
+            width: 750px !important;
         }
     }
     #movies {
         .movie-card {
-            display: flex;
-            justify-content: center;
-            width: 500px;   
-            height: 450px;
+            height: 600px;
+            width: 750px;
             .movie-poster {
-                height: 450px;
+                height: 600px;
+                width: 40%;
             }
             .info-container {
-                width: 100% !important;
-                height: 450px;
-
-                .title-container {
-                    .title {
-                        font-size: 25px !important;
+                height: 600px;
+                .favorites-container {
+                    .rec {
+                        font-size: 35px;
                     }
-
-                    .rating-container {
-                        .rotten-rating, .imdb-rating {
-                            font-size: 15px;
-                        }
+                    .thumb {
+                        font-size: 35px;
                     }
-                }
-
-                .data-container {
-                    font-size: 13px;
-                }
-
-                .plot {
-                    font-size: 13px;
+                    .not-interested {
+                        font-size: 35px;
+                    }
                 }
             }
         }
     }
 }
 
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1250px) {
     ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
         display: flex;
         justify-content: center;
-        width: 350px !important;
+        width: 545px !important;
         
         ::ng-deep .mat-dialog-container {
-            width: 350px !important;
+            width: 545px !important;
         }
     }
-
     #movies {
         .movie-card {
-            display: flex;
-            justify-content: center;
-            width: 350px;   
-            height: 400px;
+            height: 500px;
+            width: 545px;
             .movie-poster {
-                display: none;
+                height: 500px;
             }
             .info-container {
-                height: 400px;
+                height: 500px;
+                .favorites-container {
+                    padding: 8px;
+                    .rec {
+                        font-size: 35px;
+                        margin-right: 15px;
+                    }
+                    .thumb {
+                        font-size: 35px;
+                    }
+                    .not-interested {
+                        font-size: 35px;
+                    }
+                }
+                .title-container {                    
+                    .title {
+                        font-size: 35px;
+                    }
+                }
+                .plot {
+                    font-size: 15px;
+                }
             }
         }
+    }    
+}
+
+
+@media screen and (max-width: 1050px) {
+    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
+        display: flex;
+        justify-content: center;
+        width: 545px !important;
+        
+        ::ng-deep .mat-dialog-container {
+            width: 545px !important;
+        }
     }
+    #movies {
+        .movie-card {
+            height: 500px;
+            width: 545px;
+            .movie-poster {
+                height: 500px;
+            }
+            .info-container {
+                height: 500px;
+                .favorites-container {
+                    padding: 8px;
+                    .rec {
+                        font-size: 35px;
+                        margin-right: 15px;
+                    }
+                    .thumb {
+                        font-size: 35px;
+                    }
+                    .not-interested {
+                        font-size: 35px;
+                    }
+                }
+            }
+        }
+    }  
 }

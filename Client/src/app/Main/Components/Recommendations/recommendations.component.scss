@@ -18,26 +18,17 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1050px) {
     #movie-finder {
-        flex-direction: column;
+        height: 1000px;
         .recs-container {
-            .inline-movie-arrow {
-                display: none;
-            }
+            height: 625px;
         }
 
         .block-arrow-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
             .block-movie-arrow {
-                display: inline;
-                margin: 5px 120px;
+                display: none;
             }
         }
     }
 }
-
-

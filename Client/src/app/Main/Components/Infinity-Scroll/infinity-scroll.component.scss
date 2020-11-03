@@ -1,6 +1,6 @@
 @import '../../../../theme.scss';
 
-#favorites {
+#infinityScroll {
     height: 99vh;
     overflow: hidden;
     margin-top: 10px;
@@ -48,26 +48,35 @@
     }
 }
 
-@media screen and (max-width: 600px) {
-    #searchHistory {
-        .search-card {
-            .history-title {
-                font-size: 25px;
-            }
-            .history-container {
+@media screen and (max-width: 1550px) {
+    #infinityScroll {
+        .poster-container {
+            .poster {
+                height: 250px;
+                width: 175px;
                 img {
                     height: 250px;
-                    width: 150px;
+                    width: 175px;
                 }
             }
         }
-        .empty-card {
-            margin-top: 150px;
-            .empty-container {
-                h4 {
-                    font-size: 20px;
-                }
-            }
+    }
+}
+
+@media screen and (min-height: 1100px) {
+    #infinityScroll {
+        height: 1200px;
+        .poster-container {
+            height: 1100px;
+        }
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    #infinityScroll {
+        height: 800px;
+        .poster-container {
+            height: 700px;
         }
     }
 }
