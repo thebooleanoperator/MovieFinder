@@ -200,6 +200,16 @@
         .movie-card {
             height: 600px;
             width: 750px;
+            .back-arrow-container:hover {
+                .back-arrow {
+                    font-size: 50px;
+                }
+            }
+            .forward-arrow-container:hover {
+                .forward-arrow {
+                    font-size: 50px;
+                }
+            }
             .movie-poster {
                 height: 600px;
                 width: 40%;
@@ -259,6 +269,16 @@
         .movie-card {
             height: 500px;
             width: 545px;
+            .back-arrow-container:hover {
+                .back-arrow {
+                    font-size: 40px;
+                }
+            }
+            .forward-arrow-container:hover {
+                .forward-arrow {
+                    font-size: 40px;
+                }
+            }
             .movie-poster {
                 height: 500px;
             }
@@ -346,26 +366,26 @@
     }  
 }
 
-@media screen and (max-width: 675px) {
+@media screen and (max-width: 600px) {
     ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
         display: flex;
         justify-content: center;
-        width: 365px !important;
+        width: 450px !important;
         
         ::ng-deep .mat-dialog-container {
-            width: 365px !important;
+            width: 450px !important;
         }
     }
     #movies {
         .movie-card {
-            height: 400px;
-            width: 365px;
+            height: 450px;
+            width: 450px;
             .movie-poster {
                 display: none;
             }
             .info-container {
-                height: 400px;
-                width: 365px;
+                height: 450px;
+                width: 450px;
                 .favorites-container {
                     top: 4%;
                     .rec {
@@ -404,6 +424,39 @@
                 }
                 .plot {
                     font-size: 14px;
+                }
+            }
+        }
+    } 
+}
+
+@media screen and (max-width: 475px) {
+    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
+        display: flex;
+        justify-content: center;
+        width: 350px !important;
+        
+        ::ng-deep .mat-dialog-container {
+            width: 350px !important;
+        }
+    }
+    #movies {
+        .movie-card {
+            height: 400px;
+            width: 350px;
+            .info-container {
+                height: 400px;
+                width: 350px;
+                .title-container {                    
+                    .title {
+                        font-size: 20px;
+                    }
+                }
+                .data-container {
+                    font-size: 12px;
+                }
+                .plot {
+                    font-size: 12px;
                 }
             }
         }
