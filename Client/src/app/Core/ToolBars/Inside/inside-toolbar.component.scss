@@ -41,12 +41,28 @@
     z-index: 100;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1080px) {
     #toolbar {
         .toolbar-row {
             .settings-container {
                 padding-right: 5px;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #toolbar {
+        .toolbar-row {
+            justify-content: space-around;
+            .title-container {
+                display: none;
+            }
+            .settings-container {
+                .settings {
+                    margin: 10px 0px;
+                }
+            } 
         }
     }
 }

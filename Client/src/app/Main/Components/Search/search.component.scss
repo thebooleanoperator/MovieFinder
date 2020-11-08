@@ -191,3 +191,75 @@
         }
     }
 }
+
+@media screen and (max-width: 1550px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 625px;
+                }
+            }    
+        }
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 545px;
+                }
+            }    
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 450px;
+                }
+            }    
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 375px;
+                }
+            }  
+        }
+    }
+}
+
+@media screen and (max-width: 475px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 300px;
+                }
+            }    
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 265px;
+                }
+            }    
+        }
+    }
+}
