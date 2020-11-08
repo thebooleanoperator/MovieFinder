@@ -9,6 +9,7 @@
         justify-content: center;
         align-items: center;
         height: 85vh;
+        margin: 40px;
     }
 }
 
@@ -22,7 +23,7 @@
     #movie-finder {
         height: 1000px;
         .recs-container {
-            height: 625px;
+            height: unset;
         }
 
         .block-arrow-container {

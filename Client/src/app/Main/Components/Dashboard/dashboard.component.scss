@@ -28,7 +28,6 @@
     .recommended-container {
         background-color: $ternary;
         width: 100%;
-        margin: 40px;
     }
 }
 
@@ -70,8 +69,42 @@
             width: 75%;
         }
         .recommended-container {
-            max-height: 625px;
             width: 100%;
+            max-height: 580px;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #dashboard {
+        .recommended-container {
+            max-height: 530px;
+        }
+    }
+}
+
+@media screen and (max-width: 475px) {
+    #dashboard {
+        .tab-container {
+            ::ng-deep .mat-tab-label {
+                font-size: 14px;
+            }
+        }
+        .recommended-container {
+            max-height: 480px;
+        }
+    }
+}
+
+@media screen and (max-width: 320px) {
+    #dashboard {
+        .tab-container {
+            ::ng-deep .mat-tab-label {
+                font-size: 12px;
+            }
+        }
+        .recommended-container {
+            max-height: 455px;
         }
     }
 }
