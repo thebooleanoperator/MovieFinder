@@ -1,5 +1,11 @@
 <div id="movies">
     <mat-card class="movie-card"> 
+        <div class="back-arrow-container" *ngIf="isRec" (click)="changeRecommended(-1)">
+            <mat-icon class="back-arrow">arrow_back</mat-icon>
+        </div>
+        <div class="forward-arrow-container" *ngIf="isRec" (click)="changeRecommended(1)">
+            <mat-icon class="forward-arrow">arrow_forward</mat-icon>
+        </div>
         <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
         <div class="info-container">
             <div class="favorites-container" *ngIf="!isGuest">
@@ -16,8 +22,23 @@
                 </mat-icon>
             </div>
             <div class="title-container">
-                <h2 class="title">{{movie.title}}</h2>
+                <div class="title">{{movie.title}}</div>
             </div>
+            <div *ngIf="isStreaming(movie.streamingData)" class="streaming-container">
+                <img class="stream-pic" *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png" matTooltip="Netflix"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png" matTooltip="HBO"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png" matTooltip="Hulu"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.disneyPlus" src="assets/images/streaming-icons/disneyPlus.png" matTooltip="Disney Plus"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png" matTooltip="Prime Video"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png" matTooltip="ITunes"/>
+                <img class="stream-pic" *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"  matTooltip="Google Play"/>
+            </div>
+            <div class="data-container">
+                <div class="year">{{movie.year}}</div>
+                <div class="run-time">{{movie.runTime}} min</div>
+                <div class="genre">{{getGenres(movie.genre)}}</div>
+            </div>     
+            <div class="plot">{{movie.plot}}</div>
             <div class="rating-container">
                 <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
                     <img src="assets/images/rotten-tomatoes.png">
@@ -29,25 +50,6 @@
                 </div>
                 <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
                 </div>
-            </div>
-            <div class="data-container">
-                <div class="year">{{movie.year}}</div>
-                <div class="run-time">{{movie.runTime}} min</div>
-                <div class="genre">{{getGenres(movie.genre)}}</div>
-            </div>     
-            <div class="plot">{{movie.plot}}</div>
-            <div *ngIf="isStreaming(movie.streamingData)" class="streaming-container">
-                <h3>Streaming On:</h3>
-                <img class="stream-pic" *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png" matTooltip="Netflix"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png" matTooltip="HBO"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png" matTooltip="Hulu"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.disneyPlus" src="assets/images/streaming-icons/disneyPlus.png" matTooltip="Disney Plus"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.amazonPrime" src="assets/images/streaming-icons/amazon.png" matTooltip="Prime Video"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.iTunes" src="assets/images/streaming-icons/iTunes.png" matTooltip="ITunes"/>
-                <img class="stream-pic" *ngIf="movie.streamingData.googlePlay" src="assets/images/streaming-icons/googlePlay.png"  matTooltip="Google Play"/>
-            </div>
-            <div *ngIf="!isStreaming(movie.streamingData)" class="streaming-container">
-                <h3>Not Streaming</h3>
             </div>
         </div>
     </mat-card>  

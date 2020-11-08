@@ -3,6 +3,8 @@ import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { Subscription } from 'rxjs';
+import { RecommendedService } from 'src/app/Core/Services/recommended.service';
 
 @Component ({
     selector: 'recommended',
@@ -10,7 +12,10 @@ import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
     styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit  {
-    constructor(private _favoritesService: FavoritesService, private _toolBarService: ToolBarService)
+    constructor(
+        private _favoritesService: FavoritesService,
+        private _recommendedService: RecommendedService,
+        private _toolBarService: ToolBarService)
     {
             
     }
@@ -22,6 +27,7 @@ export class RecommendationsComponent implements OnInit  {
     // Data
     selectedMovie: MovieDto;
     movieIndex: number;
+    recommendedSubscription: Subscription; 
 
     //Methods    
     ngOnInit () {
@@ -29,6 +35,10 @@ export class RecommendationsComponent implements OnInit  {
         // ToDo: randomize on server.
         this.movieIndex = Math.floor(Math.random() * this.recommendedMovies.length);
         this.selectedMovie = this.recommendedMovies[this.movieIndex];
+
+        this.recommendedSubscription = this._recommendedService.recommendedUpdated$.subscribe(
+            (index: number) => this.changeMovie(index)
+        )
     }
 
     /**

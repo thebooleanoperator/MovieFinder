@@ -25,9 +25,10 @@
             .title-container {
                 display: flex;
                 flex-direction: row;
+                align-items: center;
                 .logo {
-                    height: 65px;
-                    width: 65px;
+                    height: 100px;
+                    width: 100px;
                     margin: 10px;
                 }
                 .title-lg {

@@ -18,6 +18,56 @@
         padding: 0px;
         background-color: $primary;
         border-radius: 20px;
+        .back-arrow-container {
+            position: absolute;
+            left: 0px;
+            height: 100%;
+            width: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            .back-arrow {
+                display: none;
+            }
+        }
+        .back-arrow-container:hover {
+            background-color: rgba(168, 165, 165, 0.445);
+            border-radius: 20px;
+            .back-arrow {
+                display: block;
+                font-size: 60px;
+                font-weight: 700;
+                color: $darkAccent;
+                height: unset;
+                width: unset;
+            }
+        }
+        .forward-arrow-container {
+            position: absolute;
+            right: 0px;
+            height: 100%;
+            width: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            .forward-arrow {
+                display: none;
+            }
+        }
+        .forward-arrow-container:hover {
+            background-color: rgba(168, 165, 165, 0.445);
+            border-radius: 20px;
+            .forward-arrow {
+                display: block;
+                font-size: 60px;
+                font-weight: 700;
+                color: $darkAccent;
+                height: unset;
+                width: unset;
+            }
+        }
         .movie-poster {
             height: 700px;
             width: 50%;
@@ -26,7 +76,7 @@
         .info-container {
             height: 700px;
             width: 60%;
-            color: white;
+            color: $ternary;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
@@ -65,41 +115,22 @@
                 justify-content: space-between;
                 align-items: center;
                 padding: 5px; 
-                
                 .title {
+                    color: $ternary;
+                    font-weight: 700;
                     margin: 5px;
                     font-size: 45px;
                 }
-            }
-            .rating-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                margin-left: 10px;
-                font-size: 18px;
-                .rotten-rating, .imdb-rating {
-                    display: flex;
-                    align-items: center;
-                    padding: 5px 5px 5px 0px;
-                    font-family: sans-serif;
-                    font-weight: bold;
-                    img {
-                        margin: 5px 5px 5px 0px;
-                    }
-                }
-                .empty-rating {
-                    height: 52px;
-                }   
             }
             .data-container {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start; 
                 padding: 5px;
-                font-size: 18px;
+                font-size: 25px;
+                color: $accent;
+                font-weight: 600;
                 .year {
-                    
                     margin: 0px 10px 10px 0px;
                 }
                 .run-time {
@@ -109,24 +140,47 @@
                     margin: 0px 10px;
                 }
             }
+            .streaming-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start; 
+                align-items: center; 
+                padding: 5px;
+                margin-top: 20px;
+                img {
+                    margin: 5px;
+                    height: 70px;
+                    width: 70px;
+                }
+            }
             .plot {
                 margin-top: 10px;
                 height: 100px;
                 padding: 0px 5px;
                 font-size: 18px;
             }
-            .streaming-container {
+            .rating-container {
                 display: flex;
                 flex-direction: row;
-                justify-content: flex-start; 
-                align-items: center; 
-                padding: 0px 5px;
-                margin-top: 20px;
-                img {
-                    margin: 5px;
-                    height: 40px;
-                    width: 40px;
+                justify-content: flex-start;
+                align-items: center;
+                margin-left: 10px;
+                font-size: 25px;
+                .rotten-rating, .imdb-rating {
+                    display: flex;
+                    align-items: center;
+                    padding: 25px 5px 5px 0px;
+                    font-family: sans-serif;
+                    font-weight: bold;
+                    img {
+                        height: 50px;
+                        width: 50px;
+                        margin: 5px;
+                    }
                 }
+                .empty-rating {
+                    height: 52px;
+                }   
             }
         }
     }
@@ -163,6 +217,29 @@
                         font-size: 35px;
                     }
                 }
+                .title-container {
+                    .title {
+                        font-size: 40px;
+                    }
+                }
+                .data-container {
+                    font-size: 20px;
+                }
+                .streaming-container {
+                    img {
+                        height: 60px;
+                        width: 60px;
+                    }
+                }
+                .rating-container {
+                    font-size: 20px;
+                    .rotten-rating, .imdb-rating {
+                        img {
+                            height: 40px;
+                            width: 40px;
+                        }
+                    } 
+                }
             }
         }
     }
@@ -190,20 +267,38 @@
                 .favorites-container {
                     padding: 8px;
                     .rec {
-                        font-size: 35px;
+                        font-size: 30px;
                         margin-right: 15px;
                     }
                     .thumb {
-                        font-size: 35px;
+                        font-size: 30px;
                     }
                     .not-interested {
-                        font-size: 35px;
+                        font-size: 30px;
                     }
                 }
                 .title-container {                    
                     .title {
-                        font-size: 35px;
+                        font-size: 30px;
                     }
+                }
+                .data-container {
+                    font-size: 16px;
+                }
+                .streaming-container {
+                    img {
+                        height: 50px;
+                        width: 50px;
+                    }
+                }
+                .rating-container {
+                    font-size: 18px;
+                    .rotten-rating, .imdb-rating {
+                        img {
+                            height: 35px;
+                            width: 35px;
+                        }
+                    } 
                 }
                 .plot {
                     font-size: 15px;
@@ -214,7 +309,7 @@
 }
 
 
-@media screen and (max-width: 1075px) {
+@media screen and (max-width: 1080px) {
     ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
         display: flex;
         justify-content: center;
@@ -249,4 +344,101 @@
             }
         }
     }  
+}
+
+@media screen and (max-width: 675px) {
+    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
+        display: flex;
+        justify-content: center;
+        width: 365px !important;
+        
+        ::ng-deep .mat-dialog-container {
+            width: 365px !important;
+        }
+    }
+    #movies {
+        .movie-card {
+            height: 400px;
+            width: 365px;
+            .movie-poster {
+                display: none;
+            }
+            .info-container {
+                height: 400px;
+                width: 365px;
+                .favorites-container {
+                    top: 4%;
+                    .rec {
+                        margin-right: 10px;
+                        font-size: 30px;
+                    }
+                    .thumb {
+                        font-size: 30px;
+                    }
+                    .not-interested {
+                        font-size: 30px;
+                    }
+                }
+                .title-container {                    
+                    .title {
+                        font-size: 25px;
+                    }
+                }
+                .data-container {
+                    font-size: 15px;
+                }
+                .streaming-container {
+                    img {
+                        height: 45px;
+                        width: 45px;
+                    }
+                }
+                .rating-container {
+                    font-size: 20px;
+                    .rotten-rating, .imdb-rating {
+                        img {
+                            height: 30px;
+                            width: 30px;
+                        }
+                    } 
+                }
+                .plot {
+                    font-size: 14px;
+                }
+            }
+        }
+    } 
+}
+
+@media screen and (max-width: 320px) {
+    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
+        display: flex;
+        justify-content: center;
+        width: 300px !important;
+        
+        ::ng-deep .mat-dialog-container {
+            width: 300px !important;
+        }
+    }
+    #movies {
+        .movie-card {
+            height: 375px;
+            width: 300px;
+            .info-container {
+                height: 375px;
+                width: 300px;
+                .title-container {                    
+                    .title {
+                        font-size: 20px;
+                    }
+                }
+                .data-container {
+                    font-size: 12px;
+                }
+                .plot {
+                    font-size: 12px;
+                }
+            }
+        }
+    } 
 }
