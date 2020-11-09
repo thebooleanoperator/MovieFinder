@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../../Core/Services/auth-service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
 import { Router } from '@angular/router';
 import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'login',
@@ -13,8 +14,7 @@ import { AuthDto } from 'src/app/Data/Interfaces/auth.dto';
 
 export class LoginComponent {
     constructor(
-        private authService: AuthService, 
-        private _toolBarService: ToolBarService, 
+        private _authService: AuthService, 
         private _router: Router,
         private _formBuilder: FormBuilder)
     {
@@ -26,8 +26,13 @@ export class LoginComponent {
             }
         )
     }
+
+    // Outputs
+    @Output() toggleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+    
     //Data
     loginForm: FormGroup; 
+    isLoading: boolean;
     hide: boolean = true;
 
     //Methods
@@ -35,18 +40,39 @@ export class LoginComponent {
         var email = loginForm.controls.userEmail.value; 
         var password = loginForm.controls.password.value;
         
-        this._toolBarService.isLoading = true;
-        this.authService.login(email, password)
+        this.isLoading = true;
+        this._authService.login(email, password)
             .subscribe(
                 (authDto: AuthDto) => {
-                    this.authService.token = authDto.token;
-                    this.authService.user = authDto.userDto;
+                    this._authService.token = authDto.token;
+                    this._authService.user = authDto.userDto;
                     this._router.navigate(['/content/dashboard'])
-                        .finally(() => this._toolBarService.isLoading = false);
+                        .finally(() => this.isLoading = false);
                 },
                 (error) => {
                     alert(error.error);
-                    this._toolBarService.isLoading = false;
+                    this.isLoading = false;
+                }
+            )
+    }
+
+    showRegister(): void {
+        this.toggleForm.emit(false);
+    }
+
+    guestLogin(): void {
+        this.isLoading = true;
+        this._authService.guestLogin()
+            .subscribe(
+                (authDto: AuthDto) => {
+                    this._authService.token = authDto.token;
+                    this._authService.user = authDto.userDto;
+                    this._router.navigate(['/content/dashboard'])
+                        .finally(() => this.isLoading = false); 
+                },
+                () => {
+                    alert('Failed to login as guest');
+                    this.isLoading = false;
                 }
             )
     }

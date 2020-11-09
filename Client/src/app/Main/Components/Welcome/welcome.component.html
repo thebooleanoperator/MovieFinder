@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
 </head>
-<outside-toolbar></outside-toolbar>
 <body id="welcome">
     <div class="welcome-container">
         <div class="description-container">
-            <h3 class="title-lg">Welcome to Movie Presto</h3>
+            <div class="title-container">
+                <img class="logo" src="../../../../assets/images/logo.png">
+                <h3 class="title-lg">Welcome to Presto</h3>
+            </div>
             <mat-list>
                 <mat-list-item>
                     <mat-icon mat-list-icon>done</mat-icon>
-                    <div mat-line class="item-text">Search any movie title, and find out which apps are streaming the movie today</div>
+                    <div mat-line class="item-text">Search any movie title, and find out where the movie is streaming</div>
                 </mat-list-item>
                 <mat-list-item>
                     <mat-icon mat-list-icon>done</mat-icon>
-                    <div mat-line class="item-text">Track of all your favorites so you never miss a chance to watch them</div>
+                    <div mat-line class="item-text">Browse our hand picked list of recommended movies</div>
                 </mat-list-item>
                 <mat-list-item>
                     <mat-icon mat-list-icon>done</mat-icon>
-                    <div mat-line class="item-text">Check out our hand picked list of favorite movies</div>
+                    <div mat-line class="item-text">Track of all your favorites</div>
                 </mat-list-item>
                 <mat-list-item>
                     <mat-icon mat-list-icon>done</mat-icon>
@@ -31,8 +33,12 @@
                 </mat-list-item>
             </mat-list>
         </div>
-        <register></register>
-        <h3 class="title-sm">Movie Presto</h3>
+        <login *ngIf="showLogin" (toggleForm)="toggleForm($event)"></login>
+        <register *ngIf="!showLogin" (toggleForm)="toggleForm($event)"></register>
+        <div class="title-container-sm">
+            <img class="logo-sm" src="../../../../assets/images/logo.png">
+            <h3 class="title-sm">Presto</h3>
+        </div>
     </div>
 </body>
 </html>

@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent {
-    
+    showLogin: boolean = true;
+
+    toggleForm($event): void {
+        this.showLogin = $event;
+    }
 }

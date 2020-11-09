@@ -6,12 +6,12 @@ using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieFinder.Controllers
 {
-
     [Route("[controller]")]
     public class MoviesController : Controller
     {
@@ -48,36 +48,66 @@ namespace MovieFinder.Controllers
             // Don't create a movie that exists in db.
             if (existingMovie != null)
             {
-                return NoContent();
+                return BadRequest("That movie has already been created.");
             }
 
             var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
 
-            var rapidMovieData = await _moviesService.GetMovieInfo(imdbId);
+            if (imdbId == null)
+            {
+                return BadRequest("That ImdbId does not exist.");
+            }
+
+            // Create MovieData
+            RapidMovieDto rapidMovieData;
+            try
+            {
+                rapidMovieData = await _moviesService.GetMovieInfo(imdbId);
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Failed to get movie data. {e}");
+            }
 
             if (rapidMovieData.HasError == true)
             {
                 return NotFound(rapidMovieData.ErrorMessage);
             }
 
-            var movie = new Movies(rapidMovieData, imdbId);
-            var rapidStreamingData = await _streamingDataService.GetStreamingData(movie.ImdbId);
+            // Create StreamingData
+            RapidStreamingDto rapidStreamingData;
+            try
+            {
+                rapidStreamingData = await _streamingDataService.GetStreamingData(moviesDto.ImdbId);
+            }
+            catch(Exception e)
+            {
+                return BadRequest($"Failed to get streaming data. {e}");
+            }
+
+            var genres = new Genres(rapidMovieData);
+            var streamingData = new StreamingData(rapidStreamingData);
+
+            _unitOfWork.Genres.Add(genres);
+            _unitOfWork.StreamingData.Add(streamingData);
+            _unitOfWork.SaveChanges();
+
+            Movies movie;
+            try
+            {
+                movie = new Movies(rapidMovieData, imdbId, genres, streamingData);
+            }
+            catch
+            {
+                return BadRequest("Failed to create movie");
+            }
 
             _unitOfWork.Movies.Add(movie);
             _unitOfWork.SaveChanges();
 
-            // Create StreamingData and Genres. 
-            var streamingData = new StreamingData(rapidStreamingData, movie);
-            _unitOfWork.StreamingData.Add(streamingData);
+            var completeMovie = _unitOfWork.Movies.Get(movie.MovieId);
 
-            var genres = new Genres(rapidMovieData, movie);
-            _unitOfWork.Genres.Add(genres);
-
-            _unitOfWork.SaveChanges();
-
-            var completeMovieDto = await _moviesService.GetCompleteMovie(movie);
-
-            return Ok(completeMovieDto);
+            return Ok(completeMovie);
         }
 
         /// <summary>
@@ -90,15 +120,15 @@ namespace MovieFinder.Controllers
         public async Task<ActionResult> Get(int movieId)
         {
             var movie = _unitOfWork.Movies.Get(movieId);
-            // If the movie does not exist return No Content. 
+             
             if (movie == null)
             {
                 return NoContent();
             }
 
-            var completeMoviesDto = await _moviesService.GetCompleteMovie(movie);
+            movie.StreamingData = await _streamingDataService.GetUpdatedStreamingData(movie.StreamingData, movie.ImdbId);
 
-            return Ok(completeMoviesDto);
+            return Ok(movie);
         }
 
         /// <summary>
@@ -118,59 +148,33 @@ namespace MovieFinder.Controllers
             }
 
             var movie = _unitOfWork.Movies.GetByImdbId(imdbId.ImdbId);
-            // If the movie does not exist return No Content. 
+            
             if (movie == null)
             {
                 return NoContent();
             }
 
-            var completeMoviesDto = await _moviesService.GetCompleteMovie(movie);
+            movie.StreamingData = await _streamingDataService.GetUpdatedStreamingData(movie.StreamingData, movie.ImdbId);
 
-            return Ok(completeMoviesDto); 
+            return Ok(movie); 
         }
 
         /// <summary>
-        /// Gets the movies that have been reccomended by StreamSpotter staff.
+        /// Gets the movies that have been flipped to isRec.
         /// </summary>
         /// <returns></returns>
         [HttpGet("Recommended")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetRecommended()
         {
-            var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(); 
+            var recommendedMovies = _unitOfWork.Movies.GetAllRecommended(1); 
 
             if (recommendedMovies == null)
             {
                 return BadRequest("Failed to get recommended movies.");
             }
 
-            var completeMovieDtos = await _moviesService.GetCompleteMovie(recommendedMovies);
-
-            return Ok(completeMovieDtos);
-        }
-
-        /// <summary>
-        /// Gets all of a users liked movies.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Favorites/{skip?}/{count?}")]
-        [Authorize]
-        public async Task<IActionResult> GetFavorites([FromQuery] int? skip = null, int? count = null)
-        {
-            var likedMovies = _unitOfWork.LikedMovies.GetAllByUserId(_sessionVars.UserId, skip, count);
-
-            var movieIds = likedMovies.Select(x => x.MovieId).ToList();
-
-            var favoriteMovies = _unitOfWork.Movies.Get(movieIds).ToList();
-
-            if (favoriteMovies == null || favoriteMovies.Count == 0)
-            {
-                return NoContent();
-            }
-
-            var completeMovieDtos = await _moviesService.GetCompleteMovie(favoriteMovies);
-
-            return Ok(completeMovieDtos);
+            return Ok(recommendedMovies);
         }
 
         /// <summary>

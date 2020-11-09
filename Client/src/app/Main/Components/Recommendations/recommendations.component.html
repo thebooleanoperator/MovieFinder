@@ -1,22 +1,11 @@
-<div id="movie-finder" *ngIf="!isError(error)">
+<div id="movie-finder">
     <div class="recs-container">
-        <div class="inline-movie-arrow">
-            <button mat-button (click)="changeMovie(-1)">
-                <mat-icon>arrow_back_ios</mat-icon>
-            </button>
-        </div>
         <movie 
             [isGuest]="isGuest"
-            [movie]="getCurrentMovie()" 
-            [favorites]="favorites"
-            [isFavorite]="isFavorite"
-            (favoriteAdded)="onFavoriteAdded($event)">
+            [movie]="selectedMovie" 
+            [isFavorite]="selectedMovie.isFavorite"
+            [isRec]="true">
         </movie>
-        <div class="inline-movie-arrow">
-            <button  mat-button (click)="changeMovie(1)">
-                <mat-icon>arrow_forward_ios</mat-icon>
-            </button>  
-        </div>
     </div>
     <div class="block-arrow-container">
         <div class="block-movie-arrow">
@@ -29,11 +18,5 @@
                 <mat-icon>arrow_forward_ios</mat-icon>
             </button>  
         </div>
-    </div>
-</div>
-<div *ngIf="isError(error)">
-    An error has occured, failed to load the page. Our team is aware and working on it.
-    <div *ngFor="let err of error">
-        <p *ngIf="err">Error Message: {{err.message}}</p>
     </div>
 </div>

@@ -16,11 +16,12 @@ export class FavoritesResolver implements Resolve<ResolvedFavorites> {
             return of(new ResolvedFavorites(null, null));
         }
         else {
-            return this._favoritesService.getFavoriteMovies()
-            .pipe (
-                map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
-                catchError((error: any) => of(new ResolvedFavorites(null, error)))
-            )
+            // Always resolve the first 10 favorites.
+            return this._favoritesService.getAll(0, 10)
+                .pipe (
+                    map((favorites: FavortiesDto[]) => new ResolvedFavorites(favorites)),
+                    catchError((error: any) => of(new ResolvedFavorites(null, error)))
+                )
         }
     }
 }

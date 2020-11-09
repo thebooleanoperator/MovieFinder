@@ -15,7 +15,9 @@ namespace MovieFinder.Controllers
         private readonly UnitOfWork _unitOfWork;
         private readonly Session _sessionVars; 
 
-        public UserSearchHistoryController(MovieFinderContext movieFinderContext, IHttpContextAccessor httpContextAccessor)
+        public UserSearchHistoryController(
+            MovieFinderContext movieFinderContext, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _sessionVars = new Session(httpContextAccessor.HttpContext.User);
             _unitOfWork = new UnitOfWork(movieFinderContext);
@@ -35,31 +37,36 @@ namespace MovieFinder.Controllers
                 return BadRequest("User search dto is required.");
             }
 
-            var user = _unitOfWork.Users.GetByUserId(userSearchHistoryDto.UserId);
-
-            if (user == null)
-            {
-                return BadRequest("User not found.");
-            }
-
-            var userSearchHistory = new UserSearchHistory(userSearchHistoryDto);
+            var userSearchHistory = new UserSearchHistory(userSearchHistoryDto, _sessionVars.UserId);
 
             _unitOfWork.UserSearchHistory.Add(userSearchHistory);
+            
+            var existingHistory = _unitOfWork.UserSearchHistory
+                .GetByMovieId(_sessionVars.UserId, userSearchHistory.MovieId);
+
+            if (existingHistory != null)
+            {
+                existingHistory.IsDeleted = true;
+                _unitOfWork.UserSearchHistory.Update(existingHistory); 
+            }
+
             _unitOfWork.SaveChanges();
 
             return Ok(userSearchHistory);
         }
 
         /// <summary>
-        /// Gets all of the userSearchHistorys that belong to a userId. Can filter by using query param historyLength.
+        /// Gets all of the userSearchHistorys that belong to a userId. 
+        /// Can filter by using query param historyLength.
         /// </summary>
         /// <param name="historyLength"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{skip?}/{count?}")]
         [Authorize]
-        public IActionResult GetAll([FromQuery] int? historyLength)
+        public IActionResult GetAll(int? skip, int? count)
         {
-            var userSearchHistorys = _unitOfWork.UserSearchHistory.GetAllByUserId(_sessionVars.UserId, historyLength).ToList(); 
+            var userSearchHistorys = _unitOfWork.UserSearchHistory.
+                GetAllByUserId(_sessionVars.UserId, skip, count).ToList(); 
 
             if (userSearchHistorys == null || userSearchHistorys.Count() == 0)
             {

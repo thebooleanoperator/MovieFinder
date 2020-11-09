@@ -1,0 +1,359 @@
+@import '../../../../theme.scss';
+
+#search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    ::ng-deep .mat-tab-body-content {
+        display: flex;
+    }
+    .search-options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        z-index: 1000;
+        .input-box {
+            line-height: unset;
+            margin-right: 5px;
+            ::ng-deep .mat-form-field-wrapper  {
+                height: 25px;
+                width: 700px;
+                background-color: $ternary;
+                border: 2px solid $accent;
+                border-radius: 30px;
+
+                ::ng-deep .mat-form-field-infix {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: row;
+                    border: none;
+                    padding: unset;
+
+                    ::ng-deep .mat-input-element {
+                        font-size: 25px;
+                        caret-color: $primary;
+                        color: $primary;
+                        padding-left: 20px;
+                    }
+                    ::ng-deep .mat-form-field-label-wrapper {
+                        top: -1.02375em;
+                        ::ng-deep .mat-form-field-label {
+                            top: 1.18125em;
+                            font-size: 25px;
+                            font-weight: 700;
+                            color: $primary;
+                            padding-left: 20px;
+                        }
+                    }
+                }
+
+                ::ng-deep .mat-form-field-underline {
+                    display: none;
+                }
+            }
+            .search-icon {
+                height: auto;
+                width: auto;
+                font-size: 50px;
+                color: $primary;
+            }
+            .search-icon:hover {
+                cursor: pointer;
+            }
+        }    
+    
+        .year-box {           
+            line-height: unset;
+            ::ng-deep .mat-form-field-wrapper {
+                height: 20px;
+                width: 100px;
+                background-color: $ternary;
+                border: 2px solid $accent;
+                border-radius: 25px;
+                ::ng-deep .mat-form-field-infix {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: row;
+                    border: none;
+                    padding: unset;
+                    .year-input {
+                        box-shadow: none;
+                        font-size: 15px;
+                        background-color: $ternary;
+                        border-radius: 25px;
+                        ::ng-deep .mat-select-trigger {
+                            height: 3.125em;
+
+                            ::ng-deep .mat-select-value {
+                                font-size: 25px;
+                                vertical-align: middle;
+                                text-align: center;
+                                           
+                                ::ng-deep .mat-select-value-text {
+                                    color: $primary!important;
+                                }
+                            }
+                            ::ng-deep .mat-select-arrow-wrapper {
+                                padding-right: 5px;
+                                ::ng-deep .mat-select-arrow {
+                                    color: $primary;
+                                }
+                            }
+                        }
+                    }
+                    ::ng-deep .mat-form-field-label-wrapper {
+                        top: -1.04375em;
+                        ::ng-deep .mat-form-field-label {
+                            font-size: 25px;
+                            padding-left: 5px;
+                            color: $primary !important;
+                            font-weight: 700;
+                            top: 1.18125em;
+                        }
+                    }
+                }
+                ::ng-deep .mat-form-field-underline {
+                    display: none;
+                }
+            }
+        } 
+    }
+    .search-container {
+        position: absolute;
+        top: 80px;
+        width: 700px;
+        height: 650px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        .results-table {
+            table-layout: fixed;
+            width: 700px;
+
+            background-color: $primary;
+            .results-row {
+                .title, .year {
+                    color: $accent;
+                    border-bottom: 1px $accent solid;
+                    padding: 10px;
+                    font-size: 20px;
+                    font-weight: 500;
+                }
+                .title {
+                    width: 85%;
+                    word-wrap: break-word;
+                    white-space: normal;
+                }
+                .year {
+                    width: 15%;
+                    text-align: center;
+                }
+            } 
+        }
+        .results-row:hover {
+            cursor: pointer;
+            background-color: $ternary;
+        }
+        .search-nav {
+            background-color: $primary;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-bottom: 1px black solid;
+            height: 50px;
+            .page {
+                color: $accent;
+                margin-right: 10px;
+            }
+            button {
+                background-color: $accent;
+                margin: 10px;
+            }
+        }
+    }
+    .empty-search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 80px;
+        width: 700px;
+        height: 100px;
+        background-color: $primary;
+        .empty-message {
+            font-size: 25px;
+            font-weight: bold;
+            padding: 20px;
+            color: $accent;
+        }
+    }
+}
+
+
+::ng-deep .cdk-overlay-pane {
+    top: 60px !important;
+    ::ng-deep .mat-select-panel {
+        color: $primary;
+        background-color: $ternary;    
+        ::ng-deep .mat-option {
+            color: $primary;
+        }
+    }
+}
+
+@media screen and (max-width: 1550px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 625px;
+                }
+            }    
+        }
+        .search-container {
+            width: 625px;
+            .results-table {
+                width: 625px;
+            }
+        }
+        .empty-search {
+            width: 625px;
+        }
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 545px;
+                }
+            }    
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 450px;
+                }
+            }    
+        }
+        .search-container {
+            width: 500px;
+            .results-table {
+                width: 500px;
+                .results-row {
+                    .title, .year {
+                        font-size: 18px;
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+        .empty-search {
+            width: 500px;
+        }
+    }
+}
+
+@media screen and (max-height: 700px) {
+    #search {
+        .search-container {
+            max-height: 450px;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 375px;
+                }
+            }  
+        }
+        .search-container {
+            width: 400px;
+            .results-table {
+                width: 400px;
+                .results-row {
+                    .title, .year {
+                        font-size: 15px;
+                    }
+                }
+            }
+            .search-nav {
+                .page {
+                    font-size: 18px;
+                }
+                button {
+                    height: 30px;
+                    width: 30px;
+                    margin: 5px;
+                    .mat-icon {
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+        .empty-search {
+            width: 400px;
+        }
+    }
+}
+
+@media screen and (max-width: 475px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 300px;
+                }
+            }    
+        }
+        .search-container {
+            width: 325px;
+            .results-table {
+                width: 325px;
+            }
+        }
+        .empty-search {
+            width: 325px;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #search {
+        .search-options {
+            .input-box {
+                ::ng-deep .mat-form-field-wrapper  {
+                    width: 265px;
+                }
+            }    
+        }
+        .search-container {
+            width: 275px;
+            .results-table {
+                width: 275px;
+                .results-row {
+                    .year {
+                        padding-left: 0px;
+                    }
+                }
+            }
+        }
+        .empty-search {
+            width: 275px;
+        }
+    }
+}

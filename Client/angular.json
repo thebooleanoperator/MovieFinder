@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+                {
+                    "input": "src/theme.scss"
+                },
+                "src/styles.scss"
             ],
             "scripts": []
           },

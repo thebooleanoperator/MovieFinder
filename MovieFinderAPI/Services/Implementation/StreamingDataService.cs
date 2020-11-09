@@ -1,5 +1,6 @@
 ﻿using MovieFinder.DtoModels;
 using MovieFinder.Enum;
+using MovieFinder.Models;
 using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Utils;
@@ -54,24 +55,26 @@ namespace MovieFinder.Services.Implementation
             }
             catch
             {
-                return null; 
+                throw new Exception();
             }
         }
 
-        public async Task UpdateStreamingData(MoviesDto moviesDto)
+        public async Task<StreamingData> GetUpdatedStreamingData(StreamingData streamingData, string imdbId)
         {
-            var lastUpdated = moviesDto.StreamingData.LastUpdated;
+            var lastUpdated = streamingData.LastUpdated;
             var needsUpdate = DateTime.Now.Subtract(lastUpdated).Days <= 7 ? false : true;
             // Only update if the there has been no update in last 7 days.
-            if (needsUpdate == true)
+            if (needsUpdate)
             {
-                var updatedStreamingData = await GetStreamingData(moviesDto.ImdbId);
+                var updatedRapidStreamingDataDto = await GetStreamingData(imdbId);
 
-                moviesDto.StreamingData.Patch(updatedStreamingData);
+                streamingData.Patch(updatedRapidStreamingDataDto);
 
-                _unitOfWork.StreamingData.Update(moviesDto.StreamingData);
+                _unitOfWork.StreamingData.Update(streamingData);
                 _unitOfWork.SaveChanges();
             }
+
+            return streamingData;
         }
     }
 }

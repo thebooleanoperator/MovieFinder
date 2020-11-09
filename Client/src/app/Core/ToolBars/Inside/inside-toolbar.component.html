@@ -1,26 +1,10 @@
 <mat-toolbar id="toolbar" color="primary">
-    <mat-toolbar-row>
-        <div class="nav-container">
-            <mat-button-toggle-group>
-                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isSearch, 'tool-button': !isSearch}" 
-                    (click)="goToDashboard()" [disabled]="getIsLoading()" mat-button>
-                    Search
-                </button>
-                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isFavorites, 'tool-button': !isFavorites}" 
-                    (click)="goToFavorites()" [disabled]="getIsLoading()" mat-button *ngIf="!isGuest">
-                    Favorites
-                </button>
-                <button mat-raised-button class="tool-button" [ngClass]="{'selected-tool-button': isStaffPicks, 'tool-button': !isStaffPicks}" 
-                    (click)="goToRecommended()" [disabled]="getIsLoading()" mat-button>
-                    Discover
-                </button>
-            </mat-button-toggle-group>
-        </div>
+    <mat-toolbar-row class="toolbar-row">
         <div class="title-container">
-            <h1 class="page-title" *ngIf="isSearch">Movie Presto</h1>
-            <h1 class="page-title" *ngIf="isFavorites">Favorites</h1>
-            <h1 class="page-title" *ngIf="isStaffPicks">Staff Picks</h1>
+            <img class="logo" src="../../../../assets/images/logo.png">
         </div>
+        <!-- Search bar goes here -->
+        <search></search>
         <div class="settings-container">
             <mat-icon class="settings" (click)="openSettings()">settings</mat-icon>
         </div>

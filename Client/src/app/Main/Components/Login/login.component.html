@@ -1,37 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-</head>
-<body>
-    <div id="login">
+<div id="login">
+    <mat-card class="login-card">
+        <h2 class="title">Login</h2>
         <form [formGroup]="loginForm"> 
-            <div class="login-inputs">
-                <mat-form-field>
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="userEmail" autocomplete="off">
-                    <mat-error *ngIf="loginForm.hasError('required', 'userEmail')">
-                        Email is required.
-                    </mat-error>
-                    <mat-error *ngIf="loginForm.hasError('email', 'userEmail')">
-                        Email is must be valid.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field >
-                    <mat-label>Password</mat-label>
-                    <input [type]="hide ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="loginForm.hasError('required', 'password')">
-                        Password is required.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <button class="login-button" mat-raised-button color="accent" (click)="verifyUserAndLogin(loginForm)" [disabled]="loginForm.invalid">
-                Login
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input class="email" matInput formControlName="userEmail" autocomplete="off">
+                <mat-error *ngIf="loginForm.hasError('required', 'userEmail')">
+                    Email is required.
+                </mat-error>
+                <mat-error *ngIf="loginForm.hasError('email', 'userEmail')">
+                    Email is must be valid.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field >
+                <mat-label>Password</mat-label>
+                <input class="password" [type]="hide ? 'password' : 'text'" matInput 
+                    formControlName="password" autocomplete="off">
+                <button class="eye" mat-icon-button matSuffix (click)="hide = !hide" 
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginForm.hasError('required', 'password')">
+                    Password is required.
+                </mat-error>
+            </mat-form-field>
+            <button class="login-button" mat-raised-button (click)="verifyUserAndLogin(loginForm)" 
+                [disabled]="loginForm.invalid || isLoading">
+                Submit
             </button>
         </form>
-    </div>
-</body>
-</html>
+        <div class="line-break" *ngIf="!isLoading"></div>
+        <mat-progress-bar class="progress-bar" mode="buffer" *ngIf="isLoading"></mat-progress-bar>
+        <div class="reg-or-guest">
+            <button class="register-button" mat-raised-button (click)="showRegister()" 
+                [disabled]="isLoading">
+                Register
+            </button>
+            <button class="guest-button" mat-raised-button (click)="guestLogin()" [disabled]="isLoading">
+                Guest
+            </button>
+        </div>
+    </mat-card>
+</div>

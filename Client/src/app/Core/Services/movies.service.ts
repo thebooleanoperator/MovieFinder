@@ -17,10 +17,6 @@ export class MoviesService {
     public getRecommended(): Observable<any> {
         return this.http.get('/Movies/Recommended');
     } 
-    
-    public getFavorites(skip:number, count:number): Observable<any> {
-        return this.http.get(`/Movies/Favorites?skip=${skip}&count=${count}`);
-    }
 
     public getMovieByImdbId(imdbId: string): Observable<any> {
         return this.http.get(`/Movies/ImdbId/${imdbId}`);

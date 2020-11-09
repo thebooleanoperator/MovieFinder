@@ -12,6 +12,7 @@ export class MovieDto {
     poster: string;
     imdbRating: number;
     rottenTomatoesRating: number;
-    genres: GenresDto;
+    isFavorite: boolean;
+    genre: GenresDto;
     streamingData: StreamingDataDto;
 }

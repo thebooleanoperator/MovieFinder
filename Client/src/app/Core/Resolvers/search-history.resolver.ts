@@ -16,7 +16,8 @@ export class SearchHistoryResolver implements Resolve<ResolvedSearchHistory> {
            return of(new ResolvedSearchHistory(null, null));
         }
         else {
-            return this._searchHistoryService.getAll(20)
+            // Always resolve the first 10 searchHistory.
+            return this._searchHistoryService.getAll(0, 10)
             .pipe(
                 map((userSearchHistory: SearchHistoryDto[]) => new ResolvedSearchHistory(userSearchHistory)),
                 catchError((error: any) => of(new ResolvedSearchHistory(null, error)))

@@ -23,8 +23,20 @@ namespace MovieFinder.Models
                 throw new ArgumentException($"MovieId {likedMoviesDto.MovieId} must be greater than 0.");
             }
 
+            if (String.IsNullOrEmpty(likedMoviesDto.Title))
+            {
+                throw new ArgumentException($"MovieId {likedMoviesDto.MovieId} must be greater than 0.");
+            }
+
+            if (String.IsNullOrEmpty(likedMoviesDto.Poster))
+            {
+                throw new ArgumentException($"MovieId {likedMoviesDto.MovieId} must be greater than 0.");
+            }
+
             MovieId = likedMoviesDto.MovieId;
-            UserId = likedMoviesDto.UserId; 
+            UserId = likedMoviesDto.UserId;
+            Title = likedMoviesDto.Title;
+            Poster = likedMoviesDto.Poster;
         }
     }
 }

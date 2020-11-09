@@ -1,124 +1,161 @@
+@import '../../../../theme.scss';
+
 #register {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 50px;
-    .register-container {
-        margin-top: 30px;
-        background-color: #c2185b;
-        border: 2px solid #424242;
+    .register-card {
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: $darkAccent;
         width: 350px;
-        .message-1 {
-            color: white;
-            font-size: 30px;
-            margin: 20px 10px 10px 10px;
-            text-align: center;
-        }
-        .message-2 {
-            color: white;
-            font-size: 20px;
-            margin: 5px;
-            text-align: center;
-        }
-        .message-3 {
-            color: white;
-            font-size: 25px;
-            text-align: center;
+        .title {
+            color: $ternary;
             margin: 10px;
+            font-size: 30px;
         }
-        mat-card {
-            background-color: #424242;
-            width: 300px;
-            form {
-                display: flex;
-                justify-content: center;
-                margin: 10px 50px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-    
-                mat-form-field {
-                    width: 230px;
-                }
-        
-                .register-button {
-                    padding: 10px;
-                    color: #424242;
-                    font-size: 20px;
-                }
-        
-                .register-button:hover {
-                    cursor: pointer;
-                }
-            }
-        }
-        .guest-login {
+        form {
             display: flex;
             justify-content: center;
+            margin: 5px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            .guest-button {
-                padding: 10px;
-                color: #424242;
-                font-size: 20px;
+            mat-form-field {
+                padding: 0px 10px;
+                width: 300px !important;
+                mat-label {
+                    color: $darkAccent;
+                    font-size: 20px;
+                    padding-left: 10px;
+                    top: 1.8125em !important;
+                    font-weight: 600;
+                }
+                .reg-input {
+                    background-color: $ternary;
+                    height: 60px;
+                    border-radius: 25px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: $primary;
+                    padding-left: 10px;
+                }
+                .eye {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    font-size: 30px;
+                    color: $primary;
+                }
+                ::ng-deep .mat-form-field-wrapper {
+                    padding-bottom: 10px !important;
+                    ::ng-deep .mat-form-field-infix {
+                        padding: .7em;
+                        ::ng-deep .mat-form-field-label {
+                            top: 2.7em;
+                            padding-left: 20px;
+                        }
+                    }
+                    ::ng-deep .mat-form-field-underline {
+                        display: none;
+                        ::ng-deep .mat-form-field-ripple {
+                            background-color: white;
+                        }
+                    }
+                    ::ng-deep .mat-form-field-subscript-wrapper {
+                        mat-error {
+                            color: red;
+                            font-size: 15px;
+                            font-weight: 600;
+                        }
+                    }
+                }
             }
-            mat-icon {
-                margin-left: 10px;
-                font-size: 30px;
-                cursor: pointer;
+            .register-button {
+                color: $ternary;
+                background-color: $primary;
+                font-size: 20px;
+                font-weight: 600;
+                width: 300px;
+                margin-top: 20px;
+            }
+            .register-button:disabled {
+                background-color: $accent;
+            }
+        }
+        .line-break {
+            width: 300px;
+            margin: 30px 0px;
+            border-bottom: 4px dotted $ternary;
+        }
+        .progress-bar {
+            width: 300px;
+            margin: 30px 0px;
+        }
+        .login-or-guest {
+            .register-button, .guest-button {
+                color: $ternary;
+                background-color: $primary;
+                font-size: 20px;
+                font-weight: 600;
+                width: 140px;
+                margin: 0px 5px;
+                mat-icon {
+                    color: $primary;
+                }
+            }
+            .register-button:disabled, .guest-button:disabled {
+                background-color: $accent;
+            }
+            .help {
+                position: absolute;
+                right: 50px;
+                font-size: 25px;
+                color: $ternary;
+                bottom: 22px;
             }
         }
     }
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 550px) {
     #register {
-        margin-right: 0px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    #register {
-        .register-container {
-            width: 275px;
-            .message-1 {
-                color: white;
-                font-size: 20px;
-                margin: 8px;
+        .register-card {
+            width: 250px;
+            .title {
+                color: $ternary;
+                margin: 10px;
+                font-size: 30px;
             }
-            .message-2 {
-                color: white;
-                font-size: 15px;
-                margin: 5px;
-                text-align: center;
+            form {
+                mat-form-field {
+                    width: 250px !important;
+                    .reg-input {
+                        font-size: 15px;
+                    }
+                    .eye {
+                        bottom: 11px;
+                        font-size: 25px;
+                    }
+                }
+                .register-button {
+                    width: 250px;
+                }
             }
-            mat-card {
-                width: 225px;
-                form {
-                    display: flex;
-                    justify-content: center;
-                    margin: 10px 50px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-        
-                    mat-form-field {
-                        width: 175px;
-                    }
-            
-                    .register-button {
-                        margin: 30px;
-                        padding: 10px;
-                    }
-            
-                    .register-button:hover {
-                        cursor: pointer;
-                    }
+            .line-break {
+                width: 250px;
+            }
+            .progress-bar {
+                width: 250px;
+            }
+            .login-or-guest {
+                .register-button, .guest-button {
+                    width: 110px;
+                }
+                .help {
+                    right: 24px;
+                    font-size: 20px;
+                    bottom: 20px;
                 }
             }
         }

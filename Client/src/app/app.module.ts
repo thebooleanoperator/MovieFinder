@@ -9,11 +9,10 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SelectedMovieDialog } from './Main/Dialogs/Selected-Movie/selected-movie.dialog';
 import { SettingsComponent } from './Main/Components/Settings/settings.component';
-import { SearchHistoryComponent } from './Main/Components/SearchHistory/search-history.component';
+import { InfinityScrollComponent } from './Main/Components/Infinity-Scroll/infinity-scroll.component';
 // Resolvers
 import { MoviesResolver } from './Core/Resolvers/movies.resolver';
 import { FavoritesResolver } from './Core/Resolvers/favorites.resolver';
-import { FavoriteMoviesResolver } from './Core/Resolvers/favorite-movies.resolver';
 import { SearchHistoryResolver } from './Core/Resolvers/search-history.resolver';
 // Interceptors
 import { TokenInterceptor } from './Core/Interceptor/token-interceptor';
@@ -23,42 +22,44 @@ import { WelcomeModule } from './Main/Modules/Welcome/welcome.module';
 import { AngularFormsModule } from './Shared/angular-forms.module';
 import { ContentModule } from './Main/Modules/Content/content.module';
 import { GuestHelpDialog } from './Main/Dialogs/Guest-Help/guest-help-dialog';
+import { RecommendationsComponent } from './Main/Components/Recommendations/recommendations.component';
+import { SearchComponent } from './Main/Components/Search/search.component';
+
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AngularFormsModule,
-    HttpClientModule,
-    AngularMaterialModule,
-    AngularLibrariesModule,
-    WelcomeModule,
-    ContentModule,
-    AppRoutingModule,
-  ],
-  entryComponents: [
-      SelectedMovieDialog,
-      ChangePasswordDialog,
-      GuestHelpDialog,
-      SettingsComponent,
-      SearchHistoryComponent
-  ],
-  providers: [
-      {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true
-      },
-      MoviesResolver,
-      FavoritesResolver,
-      FavoriteMoviesResolver,
-      SearchHistoryResolver,
-      AppUtilities
+    declarations: [
+        AppComponent
     ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        AngularFormsModule,
+        HttpClientModule,
+        AngularMaterialModule,
+        AngularLibrariesModule,
+        WelcomeModule,
+        ContentModule,
+        AppRoutingModule
+    ],
+    entryComponents: [
+        SelectedMovieDialog,
+        ChangePasswordDialog,
+        GuestHelpDialog,
+        SettingsComponent,
+        InfinityScrollComponent,
+        RecommendationsComponent,
+        SearchComponent
+    ],
+    providers: [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+    },
+    MoviesResolver,
+    FavoritesResolver,
+    SearchHistoryResolver,
+    AppUtilities
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-

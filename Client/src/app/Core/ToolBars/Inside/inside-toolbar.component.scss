@@ -1,60 +1,34 @@
+@import '../../../../theme.scss';
+
 #toolbar {
     position: fixed;
     top: 0px;
-    mat-toolbar-row {
+    width: 100%;
+    z-index: 99;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    .toolbar-row {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    
-        .nav-container {
-            padding-left: 15px;
-            .tool-button {
-                height: 50px;
-                width: 90px;
-                margin: 10px 2px;
-                padding: 0px;
-                background-color: #424242;
-                color: white;
-            }
-
-            .tool-button:hover {
-                cursor: pointer;
-            }
-
-            .tool-button:disabled {
-                background-color: rgba(129, 122, 123, 0.507);
-                cursor: unset;
-            }
-        
-            .selected-tool-button {
-                height: 50px;
-                width: 90px;
-                margin: 10px 2px;
-                padding: 0px;
-                color: white;
-                background-color: rgba(129, 122, 123, 0.507);
-                cursor: unset;
-            }
-        }
-    
         .title-container {
-            margin-right: 12%;            
-            .page-title {
-                color: white;
-                font-size: 40px;
-                margin: 8px 0px;
-                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .logo {
+                height: 65px;
+                width: 65px;
             }
         }
-        
         .settings-container {
             padding-right: 15px;
             .settings {
                 margin: 10px;
-                font-size: 35px;
+                font-size: 40px;
                 cursor: pointer;
-                color: #424242;
+                color: $ternary;
             }
         }
     }
@@ -62,32 +36,14 @@
 
 .progress-bar {
     position: fixed;
-    top: 64px;
+    top: 80px;
+    background-color: $accent;
+    z-index: 100;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1080px) {
     #toolbar {
-        mat-toolbar-row {
-            .nav-container {
-                padding-left: 5px;
-                .tool-button {
-                    width: 75px;
-                    height: 45px;
-                    margin: 10px 2px;
-                }
-    
-                .selected-tool-button {
-                    width: 75px;
-                    height: 45px;
-                    margin: 10px 2px;
-                }
-                    
-            }
-            .title-container {
-                .page-title {
-                    font-size: 35px;
-                }
-            }
+        .toolbar-row {
             .settings-container {
                 padding-right: 5px;
             }
@@ -95,17 +51,18 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
     #toolbar {
-        mat-toolbar-row {
-            padding-left: 0px;
+        .toolbar-row {
+            justify-content: space-around;
             .title-container {
                 display: none;
             }
+            .settings-container {
+                .settings {
+                    margin: 10px 0px;
+                }
+            } 
         }
     }
-    .progress-bar {
-        top: 56px;
-    }
 }
-

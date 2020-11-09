@@ -1,13 +1,15 @@
+@import '../../../../theme.scss';
+
 #movie-finder {
-    display: flex;
-    justify-content: center;
-    margin-top: 200px;
     overflow: hidden;
+    height: 99vh;
     .recs-container {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        height: 85vh;
+        margin: 40px;
     }
 }
 
@@ -17,27 +19,17 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1080px) {
     #movie-finder {
-        margin-top: 150px;
-        flex-direction: column;
+        height: 1000px;
         .recs-container {
-            .inline-movie-arrow {
-                display: none;
-            }
+            height: unset;
         }
 
         .block-arrow-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
             .block-movie-arrow {
-                display: inline;
-                margin: 5px 120px;
+                display: none;
             }
         }
     }
 }
-
-

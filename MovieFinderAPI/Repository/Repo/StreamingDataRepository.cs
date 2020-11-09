@@ -11,10 +11,5 @@ namespace MovieFinder.Repository.Repo
         {
 
         }
-
-        public StreamingData GetByMovieId(int movieId)
-        {
-            return DbSet.Where(sd => sd.MovieId == movieId).Single();
-        }
     }
 }

@@ -31,12 +31,7 @@ namespace MovieFinder.Controllers
         [Authorize]
         public IActionResult Create([FromBody] LikedMoviesDto likedMoviesDto)
         {
-            if (_session.UserId <= 0)
-            {
-                return BadRequest("Must be logged in with valid account.");
-            }
-
-            var usersLikedMovies = _unitOfWork.LikedMovies.GetAllByUserId(likedMoviesDto.UserId, null, null).ToList();
+            var usersLikedMovies = _unitOfWork.LikedMovies.GetAll(likedMoviesDto.UserId, null, null).ToList();
 
             if (usersLikedMovies.Any(lm => lm.MovieId == likedMoviesDto.MovieId))
             {
@@ -59,19 +54,32 @@ namespace MovieFinder.Controllers
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <returns></returns>
+        [HttpGet("{movieId}")]
+        public IActionResult GetByMovieId(int movieId)
+        {
+            var likedMovie = _unitOfWork.LikedMovies.GetByMovieId(movieId, _session.UserId);
+
+            if (likedMovie == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(likedMovie);
+        }
+
+        /// <summary>
         /// Gets all of a users likedMovies by userId.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{skip?}/{count?}")]
         [Authorize]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int? skip, int? count)
         {
-            if (_session.UserId <= 0)
-            {
-                return BadRequest("Must be logged in with valid account."); 
-            }
-
-            var likedMovies =_unitOfWork.LikedMovies.GetAllByUserId(_session.UserId, null, null).ToList();
+            var likedMovies =_unitOfWork.LikedMovies.GetAll(_session.UserId, skip, count).ToList();
 
             if (likedMovies == null || likedMovies.Count() == 0)
             {
@@ -86,11 +94,11 @@ namespace MovieFinder.Controllers
         /// </summary>
         /// <param name="likedMovieId"></param>
         /// <returns></returns>
-        [HttpDelete("{likedMovieId}")]
+        [HttpDelete("{movieId}")]
         [Authorize]
-        public IActionResult Delete(int likedMovieId)
+        public IActionResult DeleteByMovieId(int movieId)
         {
-            var likedMovie = _unitOfWork.LikedMovies.Get(likedMovieId);
+            var likedMovie = _unitOfWork.LikedMovies.GetByMovieId(movieId, _session.UserId);
             
             if (likedMovie == null)
             {

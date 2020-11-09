@@ -4,28 +4,29 @@ using MovieFinder.Repository.Interface;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace MovieFinder.Repository.Repo
 {
     public class LikedMoviesRepository : MovieFinderRepository<LikedMovies>, ILikedMoviesRepository
     {
-        private DbContext _context; 
         public LikedMoviesRepository(DbContext context) : base(context)
         {
-            _context = context; 
+            
         }
 
-        public IEnumerable<LikedMovies> GetAllByUserId(int userId, int? skip, int? count)
+        public LikedMovies GetByMovieId(int movieId, int userId)
         {
-            var usersLikedMovies = DbSet.Where(lm => lm.UserId == userId); 
+            return DbSet.Where(lm => lm.MovieId == movieId && lm.UserId == userId).SingleOrDefault();
+        }
+
+        public IEnumerable<LikedMovies> GetAll(int userId, int? skip = null, int? count = null)
+        {
             if (skip == null || count == null)
             {
-                return usersLikedMovies;
+                return DbSet.Where(lm => lm.UserId == userId);
             }
 
-            var orderedLikedMovies = usersLikedMovies.OrderByDescending(lm => lm.DateCreated);
-
-            return orderedLikedMovies.Skip((int)skip).Take((int)count);
+            return DbSet.Where(lm => lm.UserId == userId)
+                .OrderByDescending(lm => lm.DateCreated).Skip((int)skip).Take((int)count);
         }
     }
 }

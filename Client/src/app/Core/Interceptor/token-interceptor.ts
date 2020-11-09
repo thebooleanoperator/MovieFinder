@@ -17,7 +17,9 @@ export class TokenInterceptor implements HttpInterceptor {
         request = this.updateHeader(request);
         // We do not want to catch error and resend for refresh token, login, or register.
         // Refresh token is not being sent for these reqeusts, so this will prevent infinte loop.
-        if (request.url.endsWith("/RefreshToken") || request.url.endsWith("/Login") || request.url.endsWith("/Register")) {
+        if (request.url.endsWith("/RefreshToken") 
+            || request.url.endsWith("/Login") 
+            || request.url.endsWith("/Register")) {
             return next.handle(request);
         }
         else {
@@ -32,12 +34,10 @@ export class TokenInterceptor implements HttpInterceptor {
                               );
                         }
                     }
-                    else {
-                        return throwError(error);
-                    }
-                    return caught; 
+
+                    return throwError(error);
                 })
-            )
+            );
         }
     }
 

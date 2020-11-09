@@ -7,5 +7,6 @@
         public int UserId { get; set; }
         public string Title { get; set; }
         public string Poster { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

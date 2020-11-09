@@ -10,10 +10,8 @@ namespace MovieFinder.Models
 
         }
 
-        public StreamingData(RapidStreamingDto rapidStreamingData, Movies movie)
+        public StreamingData(RapidStreamingDto rapidStreamingData)
         {
-
-            MovieId = movie.MovieId;
             Netflix = OnApp(rapidStreamingData, "netflix");
             HBO = OnApp(rapidStreamingData, "hbo");
             Hulu = OnApp(rapidStreamingData, "hulu");

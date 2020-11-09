@@ -11,10 +11,5 @@ namespace MovieFinder.Repository.Repo
         {
 
         }
-
-        public Genres GetByMovieId(int movieId)
-        {
-            return DbSet.Where(m => m.MovieId == movieId).Single();
-        }
     }
 }

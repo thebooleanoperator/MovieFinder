@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
-
 @NgModule({
   declarations: [
   ],

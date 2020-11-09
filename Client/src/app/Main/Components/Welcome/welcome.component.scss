@@ -1,23 +1,42 @@
+@import '../../../../theme.scss';
+
 #welcome {
     margin-left: 100px;
+    height: 99vh;
     .welcome-container {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-around;
-        .title-sm {
-           display: none;
+        height: 85vh;
+        .title-container-sm {
+            .title-sm {
+                display: none;
+             }
+             .logo-sm {
+                 display: none;
+             }
         }
         .description-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 50px 10px;
-            .title-lg {
-                margin: 5px;
-                font-size: 50px;
-                color: #3b0101;
-                font-weight: bold;
+            .title-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .logo {
+                    height: 100px;
+                    width: 100px;
+                    margin: 10px;
+                }
+                .title-lg {
+                    margin: 10px;
+                    font-size: 50px;
+                    color: $primary;
+                    font-weight: bold;
+                }
             }
             mat-list {
                 mat-list-item {
@@ -27,8 +46,8 @@
                     }
                     .item-text {
                         font-size: 20px;
-                        color: #c2185b;
-                        font-weight: bold;
+                        color: $darkAccent;
+                        font-weight: 600;
                     }
                 }
             }
@@ -38,20 +57,33 @@
 
 @media screen and (max-width: 1350px) {
     #welcome {
-        margin-left: 0px;
+        overflow-y: auto;
         .welcome-container {
             flex-direction: column-reverse;
             justify-content: center;
             align-items: center;
-            .title-sm {
-                display: block;
-                margin: 5px;
-                font-size: 50px;
-                color: #3b0101;
-                font-weight: bold;
-                text-align: center;
+            height: unset;
+            .title-container-sm {
+                display: flex;
+                .title-sm {
+                    display: block;
+                    margin: 0px 0px 20px 10px;
+                    font-size: 55px;
+                    color: $primary;
+                    font-weight: 800;
+                    text-align: center;
+                }
+                .logo-sm {
+                    display: block;
+                    height: 45px;
+                    width: 45px;
+                    margin-top: 10px;
+                }
             }
-            .description-container {
+            .title-container {
+                .logo {
+                    display: none;
+                }
                 .title-lg {
                     display: none;
                 }
@@ -62,17 +94,23 @@
 
 @media screen and (max-width: 1000px) {
     #welcome {
+        margin-left: 0px;
         .welcome-container {
             .description-container {
                 margin: 50px 0px;
                 h3 {
                     font-size: 40px;
                 }
+                ::ng-deep .mat-list .mat-list-item .mat-line{
+                    padding: 5px;
+                    word-wrap: break-word;
+                    white-space: pre-wrap;
+               }
                 mat-list {
                     mat-list-item {
                         height: auto;
                         .item-text {
-                            font-size: 15px;
+                            font-size: 20px;
                         }
                     }
                 }
@@ -89,11 +127,6 @@
                 h3 {
                     font-size: 30px;
                 }
-                ::ng-deep .mat-list .mat-list-item .mat-line{
-                    padding: 5px;
-                    word-wrap: break-word;
-                    white-space: pre-wrap;
-               }
             }
         }
     }

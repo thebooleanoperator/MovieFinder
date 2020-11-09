@@ -16,15 +16,6 @@ namespace MovieFinder.Controllers
             _unitOfWork = new UnitOfWork(movieFinderContext);
         }
 
-        [HttpGet("{movieId}")]
-        public IActionResult GetByMovieId(int movieId)
-        {
-            var genres = _unitOfWork.Genres.GetByMovieId(movieId);
-            var genreDto = new GenresDto(genres); 
- 
-            return Ok(genreDto);
-        }
-
         /*
         /// <summary>
         /// Endpoint used to create Movies from MovieTitlesDto. Used to manually add movies to staff reccomendations.

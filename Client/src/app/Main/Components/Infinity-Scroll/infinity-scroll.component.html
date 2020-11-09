@@ -1,0 +1,20 @@
+<div id="infinityScroll" *ngIf="!isError(error)">
+    <div 
+        *ngIf="movies"
+        class="poster-container"
+        infinite-scroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="300"
+        [scrollWindow]="false"
+        (scrolled)="getNext(movies, count)"> 
+        <div class="poster" *ngFor="let movie of movies" (click)="openMovieDialog(movie.movieId)">
+            <img [src]="movie.poster" (error)="useDefaultPoster($event)">
+        </div>
+    </div>
+</div>
+<div *ngIf="isError(error)">
+    An error has occured, failed to load the page. Our team is aware and working on it.
+    <div *ngFor="let err of error">
+        <p *ngIf="err">Error Message: {{err.message}}</p>
+    </div>
+</div>

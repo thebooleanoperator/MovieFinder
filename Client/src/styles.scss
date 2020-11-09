@@ -1,11 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import './theme.scss';
 
 body {
     margin: 0px;
     padding: 0px;
+    overflow-y: hidden;
+    background-color: $ternary;
 }
 .mat-tooltip {
     font-size: 16px !important;
 }
 
+@media screen and (max-width: 1080px) {
+    body {
+        overflow-y: auto;
+    }
+}

@@ -1,9 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { MovieDto } from 'src/app/Data/Interfaces/movie.dto';
 import { FavoritesService } from 'src/app/Core/Services/favorites.service';
 import { FavortiesDto } from 'src/app/Data/Interfaces/favorites.dto';
 import { AuthService } from 'src/app/Core/Services/auth-service';
 import { ToolBarService } from 'src/app/Core/Services/tool-bar.service';
+import { StreamingDataDto } from 'src/app/Data/Interfaces/streamingData.dto';
+import { RecommendedService } from 'src/app/Core/Services/recommended.service';
 
 @Component({
     selector: 'movie',
@@ -14,29 +16,28 @@ export class MovieComponent {
     constructor(
         private _favoritesService: FavoritesService, 
         private _authService: AuthService, 
+        private _recommendedService: RecommendedService,
         private _toolBarService: ToolBarService){}
 
     // Inputs
     @Input() isGuest: boolean;
     @Input() movie: MovieDto; 
-    @Input() favorites: FavortiesDto[];
     @Input() isFavorite: boolean;
-
-    //Outputs
-    @Output() favoriteAdded: EventEmitter<FavortiesDto[]> = new EventEmitter<FavortiesDto[]>(); 
+    @Input() isRec: boolean;
     
     posterError: boolean = false;
     alertUser: boolean = false;
 
     addToFavorites(movie: MovieDto): void {
-        var favorite: FavortiesDto = new FavortiesDto(movie, this._authService.user);
         this._toolBarService.isLoading = true;
-        this._favoritesService.saveFavorite(favorite)
+        var favoriteToAdd: FavortiesDto = 
+            new FavortiesDto(movie, this._authService.user);
+        this._favoritesService.saveFavorite(favoriteToAdd)
             .subscribe(
-                (data) => {
-                    this.favorites ? this.favorites.push(data) : this.favorites = [data];
+                (favoriteDto: FavortiesDto) => {
                     // Emit to parent that favoriteMovies has been changed.
-                    this.favoriteAdded.emit(this.favorites); 
+                    favoriteDto.action = 'add';
+                    this._favoritesService.favoritesUpdated(favoriteDto);
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -49,16 +50,15 @@ export class MovieComponent {
     }
 
     removeFromFavorites(movie: MovieDto) {
-        var favoriteToDelete = this.getFavoriteByMovieId(movie.movieId);
         this._toolBarService.isLoading = true;
-        this._favoritesService.deleteFavorite(favoriteToDelete.likedId)
+        var favoriteToDelete: FavortiesDto = 
+            new FavortiesDto(movie, this._authService.user);
+        this._favoritesService.deleteFavorite(movie.movieId)
             .subscribe(
                 () => {
-                    this.favorites = this.favorites.filter((favorite) => {
-                        return favorite.movieId != favoriteToDelete.movieId;
-                    });
                     // Emit to parent that favoriteMovies has been changed.
-                    this.favoriteAdded.emit(this.favorites); 
+                    favoriteToDelete.action = 'remove';
+                    this._favoritesService.favoritesUpdated(favoriteToDelete); 
                 },
                 (error) => {
                     if (error.status != 401) {
@@ -69,78 +69,67 @@ export class MovieComponent {
             );
     }
 
-    getFavoriteByMovieId(movieId: number): FavortiesDto {
-        return this.favorites.find((favorite) => {
-            return favorite.movieId == movieId;
-        });
+    changeRecommended(index: number) {
+        this._recommendedService.recommendedUpdated(index);
     }
 
     getGenres(genres): string {
         var genreBuilder = "";
 
-        genres.foreEach
         if (genres.action) {
-            genreBuilder += "Action, ";
+            genreBuilder += "  Action  ";
         }
         if (genres.adventure) {
-            genreBuilder += "Adventure, ";
+            genreBuilder += "  Adventure  ";
         }
         if (genres.horror) {
-            genreBuilder += "Horror, ";
+            genreBuilder += "  Horror  ";
         }
         if (genres.biography) {
-            genreBuilder += "Biography, ";
+            genreBuilder += "  Biography  ";
         }
         if (genres.comedy) {
-            genreBuilder += "Comedy, ";
+            genreBuilder += "  Comedy  ";
         }
         if (genres.crime) {
-            genreBuilder += "Crime, ";
+            genreBuilder += "  Crime  ";
         }
         if (genres.thriller) {
-            genreBuilder += "Thriller, ";
+            genreBuilder += "  Thriller  ";
         }
         if (genres.romance) {
-            genreBuilder += "Romance, ";
+            genreBuilder += "  Romance  ";
         }
-        genreBuilder = genreBuilder.replace(/,\s*$/, "");
+        
+        genreBuilder = genreBuilder.trim();
         return genreBuilder;
-    }
+}
 
     useDefault(event) {
         event.srcElement.src = "/assets/images/default-poster.png";
         this.posterError = true;
     }
 
-    isStreaming(movie:MovieDto): boolean {
-        if (this.isBeingStreamed(movie)){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    isBeingStreamed(movie:MovieDto): boolean {
-        if (movie.streamingData.netflix) {
+    isStreaming(streamingData: StreamingDataDto): boolean {
+        if (streamingData.netflix) {
            return true;
         }
-        if (movie.streamingData.hbo) {
+        if (streamingData.hbo) {
             return true;
         }
-        if (movie.streamingData.hulu) {
+        if (streamingData.hulu) {
             return true;
         }
-        if (movie.streamingData.disneyPlus) {
+        if (streamingData.disneyPlus) {
             return true;
         }
-        if (movie.streamingData.amazonPrime) {
+        if (streamingData.amazonPrime) {
             return true;
         }
-        if (movie.streamingData.iTunes) {
+        if (streamingData.iTunes) {
             return true;
         }
-        if (movie.streamingData.googlePlay) {
+        if (streamingData.googlePlay) {
             return true;
         }
         return false;

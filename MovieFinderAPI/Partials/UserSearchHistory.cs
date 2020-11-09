@@ -11,7 +11,7 @@ namespace MovieFinder.Models
 
         }
 
-        public UserSearchHistory(UserSearchHistoryDto userSearchHistoryDto)
+        public UserSearchHistory(UserSearchHistoryDto userSearchHistoryDto, int userId)
         {
             if (userSearchHistoryDto == null)
             {
@@ -21,11 +21,6 @@ namespace MovieFinder.Models
             if (userSearchHistoryDto.MovieId <= 0)
             {
                 throw new ArgumentException($"{nameof(userSearchHistoryDto.MovieId)} is required.");
-            }
-
-            if (userSearchHistoryDto.UserId <= 0)
-            {
-                throw new ArgumentException($"{nameof(userSearchHistoryDto.UserId)} must be greater than 0.");
             }
 
             if (String.IsNullOrEmpty(userSearchHistoryDto.Title))
@@ -39,9 +34,9 @@ namespace MovieFinder.Models
             }
 
             MovieId = userSearchHistoryDto.MovieId;
-            UserId = userSearchHistoryDto.UserId;
             Title = userSearchHistoryDto.Title;
             Poster = userSearchHistoryDto.Poster;
+            UserId = userId;
         }
     }
 }
