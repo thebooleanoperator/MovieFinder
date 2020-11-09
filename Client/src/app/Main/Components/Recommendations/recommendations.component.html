@@ -1,4 +1,4 @@
-<div id="movie-finder" *ngIf="!isError(error)">
+<div id="movie-finder">
     <div class="recs-container">
         <movie 
             [isGuest]="isGuest"
@@ -18,11 +18,5 @@
                 <mat-icon>arrow_forward_ios</mat-icon>
             </button>  
         </div>
-    </div>
-</div>
-<div *ngIf="isError(error)">
-    An error has occured, failed to load the page. Our team is aware and working on it.
-    <div *ngFor="let err of error">
-        <p *ngIf="err">Error Message: {{err.message}}</p>
     </div>
 </div>

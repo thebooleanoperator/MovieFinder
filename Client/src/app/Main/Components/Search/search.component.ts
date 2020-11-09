@@ -1,6 +1,6 @@
 import { HostListener, OnInit } from '@angular/core';
 import { AfterViewInit, Component, ViewChild, ElementRef } from "@angular/core";
-import { MatBottomSheet, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
@@ -23,7 +23,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     constructor(
         private _toolBarService: ToolBarService, 
         protected _router: Router, 
-        private _settingsSheet: MatBottomSheet,
         private _imdbIdsService: ImdbIdsService,
         private _moviesService: MoviesService,
         private _favoritesService: FavoritesService,
@@ -81,7 +80,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     @ViewChild('searchComponent', null) searchComponent: ElementRef;
     @ViewChild('imdbIdSearch', null) imdbIdSearch: ElementRef;
-    @HostListener('click', ['$event.target'])
+    @HostListener('click', [])
     onClick() {
         if (this.moviesExist(this.imdbs, this.search)) {
             this.searchTableDisplayed = true;

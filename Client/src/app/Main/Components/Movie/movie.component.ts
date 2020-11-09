@@ -76,7 +76,6 @@ export class MovieComponent {
     getGenres(genres): string {
         var genreBuilder = "";
 
-        genres.foreEach
         if (genres.action) {
             genreBuilder += "  Action  ";
         }
@@ -101,6 +100,7 @@ export class MovieComponent {
         if (genres.romance) {
             genreBuilder += "  Romance  ";
         }
+        
         genreBuilder = genreBuilder.trim();
         return genreBuilder;
 }
