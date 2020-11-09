@@ -23,30 +23,32 @@
             </mat-select>
         </mat-form-field>-->
     </div>
-</div>
-<div class="search-container" *ngIf="moviesExist(imdbs, search) && searchTableDisplayed">
-    <div class="search-results" *ngFor="let imdb of displayedImdbs" (click)="getOrCreateMovie(imdb)">
-        <span class="title">{{imdb.title}}</span> 
-        <span class="year">{{imdb.year}}</span>
-    </div>
-    <div class="search-nav" *ngIf="multiplePagesExist(totalPages)">
-        <div class="page">
-            Page {{currentPage + 1}} of {{totalPages}}
+    <div class="search-container" *ngIf="moviesExist(imdbs, search) && searchTableDisplayed">
+        <table class="results-table">
+            <tr class="results-row" *ngFor="let imdb of displayedImdbs" (click)="getOrCreateMovie(imdb)">
+                <td class="title">{{imdb.title}}</td>
+                <td class="year">{{imdb.year}}</td> 
+            </tr>
+        </table>
+        <div class="search-nav" *ngIf="multiplePagesExist(totalPages)">
+            <div class="page">
+                Page {{currentPage + 1}} of {{totalPages}}
+            </div>
+            <button mat-raised-button [disabled]="!prevPageExists(currentPage)" 
+                (click)="getPrevDisplayed(imdbs, moviesPerPage)">
+                <mat-icon class="prev">
+                    arrow_back_ios
+                </mat-icon>
+            </button>
+            <button mat-raised-button [disabled]="!nextPageExists(currentPage, totalPages)" 
+                (click)="getNextDisplayed(imdbs, moviesPerPage)">
+                <mat-icon class="next">
+                    arrow_forward_ios
+                </mat-icon>
+            </button>
         </div>
-        <button mat-raised-button [disabled]="!prevPageExists(currentPage)" 
-            (click)="getPrevDisplayed(imdbs, moviesPerPage)">
-            <mat-icon class="prev">
-                arrow_back_ios
-            </mat-icon>
-        </button>
-        <button mat-raised-button [disabled]="!nextPageExists(currentPage, totalPages)" 
-            (click)="getNextDisplayed(imdbs, moviesPerPage)">
-            <mat-icon class="next">
-                arrow_forward_ios
-            </mat-icon>
-        </button>
     </div>
-</div>
-<div *ngIf="!moviesExist(imdbs, search) && searchTableDisplayed" class="empty-search">
-    <span class="empty-message">No movies found from search</span>
+    <div *ngIf="!moviesExist(imdbs, search) && searchTableDisplayed" class="empty-search">
+        <span class="empty-message">No movies found from search</span>
+    </div>
 </div>
