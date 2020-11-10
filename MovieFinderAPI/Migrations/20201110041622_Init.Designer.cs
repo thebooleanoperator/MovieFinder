@@ -9,8 +9,8 @@ using MovieFinder;
 namespace MovieFinder.Migrations
 {
     [DbContext(typeof(MovieFinderContext))]
-    [Migration("20200728035907_UserSearchHistoryUpdate")]
-    partial class UserSearchHistoryUpdate
+    [Migration("20201110041622_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,8 +143,6 @@ namespace MovieFinder.Migrations
 
                     b.Property<bool>("Horror");
 
-                    b.Property<int>("MovieId");
-
                     b.Property<bool>("Romance");
 
                     b.Property<bool>("Thriller");
@@ -176,6 +174,10 @@ namespace MovieFinder.Migrations
 
                     b.Property<int>("MovieId");
 
+                    b.Property<string>("Poster");
+
+                    b.Property<string>("Title");
+
                     b.Property<int>("UserId");
 
                     b.HasKey("LikedId");
@@ -189,6 +191,8 @@ namespace MovieFinder.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Director");
+
+                    b.Property<int>("GenreId");
 
                     b.Property<string>("ImdbId");
 
@@ -204,11 +208,17 @@ namespace MovieFinder.Migrations
 
                     b.Property<int?>("RunTime");
 
+                    b.Property<int>("StreamingDataId");
+
                     b.Property<string>("Title");
 
                     b.Property<int>("Year");
 
                     b.HasKey("MovieId");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("StreamingDataId");
 
                     b.ToTable("Movies");
                 });
@@ -248,10 +258,6 @@ namespace MovieFinder.Migrations
 
                     b.Property<bool>("Invalidated");
 
-                    b.Property<bool>("IsUsed");
-
-                    b.Property<string>("JwtId");
-
                     b.Property<int>("UserId");
 
                     b.HasKey("Token");
@@ -277,8 +283,6 @@ namespace MovieFinder.Migrations
                     b.Property<bool>("ITunes");
 
                     b.Property<DateTime>("LastUpdated");
-
-                    b.Property<int>("MovieId");
 
                     b.Property<bool>("Netflix");
 
@@ -353,6 +357,8 @@ namespace MovieFinder.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<int>("MovieId");
 
                     b.Property<string>("Poster");
@@ -408,6 +414,19 @@ namespace MovieFinder.Migrations
                     b.HasOne("MovieFinder.Models.Users")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MovieFinder.Models.Movies", b =>
+                {
+                    b.HasOne("MovieFinder.Models.Genres", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MovieFinder.Models.StreamingData", "StreamingData")
+                        .WithMany()
+                        .HasForeignKey("StreamingDataId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

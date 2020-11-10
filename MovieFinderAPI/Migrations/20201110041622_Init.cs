@@ -58,7 +58,6 @@ namespace MovieFinder.Migrations
                 {
                     GenreId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MovieId = table.Column<int>(nullable: false),
                     Action = table.Column<bool>(nullable: false),
                     Adventure = table.Column<bool>(nullable: false),
                     Horror = table.Column<bool>(nullable: false),
@@ -94,33 +93,13 @@ namespace MovieFinder.Migrations
                     LikedId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MovieId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Poster = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LikedMovies", x => x.LikedId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    MovieId = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Year = table.Column<int>(nullable: false),
-                    Director = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    RunTime = table.Column<int>(nullable: true),
-                    RottenTomatoesRating = table.Column<int>(nullable: true),
-                    ImdbRating = table.Column<decimal>(nullable: true),
-                    ImdbId = table.Column<string>(nullable: true),
-                    Poster = table.Column<string>(nullable: true),
-                    Plot = table.Column<string>(nullable: true),
-                    IsRec = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.MovieId);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,11 +134,9 @@ namespace MovieFinder.Migrations
                 {
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Token = table.Column<string>(nullable: false),
-                    JwtId = table.Column<string>(nullable: true),
                     ExpirationDate = table.Column<DateTime>(nullable: false),
-                    IsUsed = table.Column<bool>(nullable: false),
-                    Invalidated = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    Invalidated = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,7 +149,6 @@ namespace MovieFinder.Migrations
                 {
                     StreamingDataId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MovieId = table.Column<int>(nullable: false),
                     Netflix = table.Column<bool>(nullable: false),
                     HBO = table.Column<bool>(nullable: false),
                     Hulu = table.Column<bool>(nullable: false),
@@ -195,7 +171,10 @@ namespace MovieFinder.Migrations
                     UserSearchHistoryId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MovieId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Poster = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,6 +287,42 @@ namespace MovieFinder.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    GenreId = table.Column<int>(nullable: false),
+                    StreamingDataId = table.Column<int>(nullable: false),
+                    Year = table.Column<int>(nullable: false),
+                    Director = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    RunTime = table.Column<int>(nullable: true),
+                    RottenTomatoesRating = table.Column<int>(nullable: true),
+                    ImdbRating = table.Column<decimal>(nullable: true),
+                    ImdbId = table.Column<string>(nullable: true),
+                    Poster = table.Column<string>(nullable: true),
+                    Plot = table.Column<string>(nullable: true),
+                    IsRec = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.MovieId);
+                    table.ForeignKey(
+                        name: "FK_Movies_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
+                        principalColumn: "GenreId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Movies_StreamingData_StreamingDataId",
+                        column: x => x.StreamingDataId,
+                        principalTable: "StreamingData",
+                        principalColumn: "StreamingDataId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -344,6 +359,16 @@ namespace MovieFinder.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_GenreId",
+                table: "Movies",
+                column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_StreamingDataId",
+                table: "Movies",
+                column: "StreamingDataId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -364,9 +389,6 @@ namespace MovieFinder.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Genres");
-
-            migrationBuilder.DropTable(
                 name: "ImdbIds");
 
             migrationBuilder.DropTable(
@@ -385,9 +407,6 @@ namespace MovieFinder.Migrations
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
-                name: "StreamingData");
-
-            migrationBuilder.DropTable(
                 name: "UserSearchHistory");
 
             migrationBuilder.DropTable(
@@ -395,6 +414,12 @@ namespace MovieFinder.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "StreamingData");
         }
     }
 }
