@@ -50,7 +50,7 @@ namespace MovieFinder.Controllers
             {
                 return BadRequest("That movie has already been created.");
             }
-
+            
             var imdbId = _unitOfWork.ImdbIds.Get(moviesDto.ImdbId);
 
             if (imdbId == null)
