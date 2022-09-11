@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MovieFinder.Extensions;
 using MovieFinder.Models;
@@ -35,9 +36,9 @@ namespace MovieFinder
 
             services.ConfigureIISIntegration();
 
-            services.ConfigureDatabase(Configuration); 
+            services.ConfigureDatabase(Configuration);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             services.AddTransient<IIdentityService, IdentityService>();
 
@@ -62,11 +63,11 @@ namespace MovieFinder
                 .AddEntityFrameworkStores<MovieFinderContext>()
                 .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Default Lockout settings.
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~.@"; 
-            });
+            services.Configure<IdentityOptions>(options => // Default Lockout settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~.@"); 
+
+            services.Configure<MvcOptions>(options =>
+                options.EnableEndpointRouting = true);
 
             MoviePrestoSettings.Configuration = Configuration;
 
@@ -97,27 +98,23 @@ namespace MovieFinder
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
 
             app.UseCors(builder =>
             {
                 builder
-                .WithOrigins(Configuration["CORSOrigins"])
+                .AllowAnyOrigin()
+                //.WithOrigins(Configuration["CORSOrigins"])
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
+                .AllowAnyHeader();
             });
 
             app.UseAuthentication();
@@ -126,7 +123,12 @@ namespace MovieFinder
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(opts =>
+            {
+                opts.MapControllers();
+            });
         }
     }
 }

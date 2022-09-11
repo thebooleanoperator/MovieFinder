@@ -132,7 +132,7 @@
         .results-table {
             table-layout: fixed;
             width: 700px;
-
+            z-index: 100;
             background-color: $primary;
             .results-row {
                 .title, .year {

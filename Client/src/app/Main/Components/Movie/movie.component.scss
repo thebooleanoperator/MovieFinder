@@ -7,25 +7,29 @@
 }
 
 #movies {
-    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
     .movie-card {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        height: 700px;
-        width: 900px;
         padding: 0px;
+        width: 100%;
+        height: 500px;
         background-color: $primary;
         border-radius: 20px;
         .back-arrow-container {
             position: absolute;
             left: 0px;
             height: 100%;
-            width: 75px;
+            width: 10%;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 10;
             cursor: pointer;
             .back-arrow {
                 display: none;
@@ -47,7 +51,7 @@
             position: absolute;
             right: 0px;
             height: 100%;
-            width: 75px;
+            width: 10%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -68,66 +72,80 @@
                 width: unset;
             }
         }
-        .movie-poster {
-            height: 700px;
-            width: 50%;
-            border-radius: 20px;
+        .poster-container {
+            width: 40%;
+            .movie-poster {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+                width: 40%;
+                border-radius: 20px;
+            }
         }
         .info-container {
-            height: 700px;
+            height: 100%;
             width: 60%;
             color: $ternary;
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
-            .favorites-container {
-                position: absolute;
-                top: 0%;
-                right: 0%;
-                padding: 15px;
-                .rec {
-                    font-size: 40px;
-                    color: gold;
-                    margin-right: 20px;
-                }
-                .thumb {
-                    font-size: 40px;
-                    color: lightgreen;
-                    cursor: pointer;
-                    padding-right: 10px;
-                }
-                .thumb:hover {
-                    color: green;
-                }
-                .not-interested {
-                    font-size: 40px;
-                    color: red;
-                    cursor: pointer;
-                    padding-right: 10px;
-                }
-                .not-interested:hover {
-                    color: darkred;
-                }
-            }
+
             .title-container {
+                height: 15%;
                 display: flex;
-                flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                padding: 5px; 
+                padding: 0px 5px; 
                 .title {
                     color: $ternary;
                     font-weight: 700;
                     margin: 5px;
-                    font-size: 45px;
+                    font-size: 35px;
+                }
+                .favorites-container {
+                    padding-right: 20px;
+                    z-index: 100;
+                    width: 15%;
+                    text-align: end;
+                    .rec {
+                        font-size: 30px;
+                        color: gold;
+                        margin-right: 20px;
+                    }
+                    .thumb {
+                        font-size: 30px;
+                        color: lightgreen;
+                        cursor: pointer;
+                    }
+                    .thumb:hover {
+                        color: green;
+                    }
+                    .not-interested {
+                        font-size: 30px;
+                        color: red;
+                        cursor: pointer;
+                    }
+                    .not-interested:hover {
+                        color: darkred;
+                    }
+                }
+            }
+            .streaming-container {
+                padding: 5px;
+                height: 15%;
+                img {
+                    margin: 5px;
+                    height: 60px;
+                    width: 60px;
                 }
             }
             .data-container {
+                height: 10%;
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-start; 
                 padding: 5px;
-                font-size: 25px;
+                font-size: 16px;
                 color: $accent;
                 font-weight: 600;
                 .year {
@@ -140,46 +158,32 @@
                     margin: 0px 10px;
                 }
             }
-            .streaming-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start; 
-                align-items: center; 
-                padding: 5px;
-                margin-top: 20px;
-                img {
-                    margin: 5px;
-                    height: 70px;
-                    width: 70px;
+            .plot-container {
+                height: 35%;
+                .plot {
+                    padding: 5px;
+                    font-size: 17px;
                 }
             }
-            .plot {
-                margin-top: 10px;
-                height: 100px;
-                padding: 0px 5px;
-                font-size: 18px;
-            }
             .rating-container {
+                height: 15%;
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                margin-left: 10px;
-                font-size: 25px;
+                justify-content: center;
+                font-size: 20px;
                 .rotten-rating, .imdb-rating {
                     display: flex;
                     align-items: center;
-                    padding: 25px 5px 5px 0px;
+                    padding: 25px;
                     font-family: sans-serif;
-                    font-weight: bold;
+                    font-weight: 600;
                     img {
-                        height: 50px;
-                        width: 50px;
+                        height: 45px;
+                        width: 45px;
                         margin: 5px;
                     }
                 }
                 .empty-rating {
-                    height: 52px;
+                    height: 45px;
                 }   
             }
         }
@@ -187,311 +191,88 @@
 }
 
 @media screen and (max-width: 1550px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 750px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 750px !important;
-        }
-    }
     #movies {
         .movie-card {
-            height: 600px;
-            width: 750px;
-            .back-arrow-container:hover {
-                .back-arrow {
-                    font-size: 50px;
-                }
-            }
-            .forward-arrow-container:hover {
-                .forward-arrow {
-                    font-size: 50px;
-                }
-            }
-            .movie-poster {
-                height: 600px;
-                width: 40%;
-            }
             .info-container {
-                height: 600px;
-                .favorites-container {
-                    .rec {
-                        font-size: 35px;
-                    }
-                    .thumb {
-                        font-size: 35px;
-                    }
-                    .not-interested {
-                        font-size: 35px;
-                    }
-                }
+ 
+    
                 .title-container {
                     .title {
-                        font-size: 40px;
+                        
                     }
-                }
-                .data-container {
-                    font-size: 20px;
+                    .favorites-container {
+                        width: 20%;
+                        .rec {
+                            
+                        }
+                        .thumb {
+                            
+                        }
+                        .not-interested {
+                            
+                        }
+                    }
                 }
                 .streaming-container {
                     img {
-                        height: 60px;
-                        width: 60px;
+                        
                     }
                 }
                 .rating-container {
-                    font-size: 20px;
+                    
                     .rotten-rating, .imdb-rating {
                         img {
-                            height: 40px;
-                            width: 40px;
+                            
                         }
-                    } 
+                    }
+                    .empty-rating {
+                        
+                    }   
                 }
             }
         }
     }
 }
 
-@media screen and (max-width: 1275px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 545px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 545px !important;
-        }
-    }
+@media screen and (max-width: 1350px) {
     #movies {
         .movie-card {
-            height: 500px;
-            width: 545px;
-            .back-arrow-container:hover {
-                .back-arrow {
-                    font-size: 40px;
-                }
-            }
-            .forward-arrow-container:hover {
-                .forward-arrow {
-                    font-size: 40px;
-                }
-            }
-            .movie-poster {
-                height: 500px;
-            }
             .info-container {
-                height: 500px;
-                .favorites-container {
-                    padding: 8px;
-                    .rec {
-                        font-size: 30px;
-                        margin-right: 15px;
-                    }
-                    .thumb {
-                        font-size: 30px;
-                    }
-                    .not-interested {
-                        font-size: 30px;
-                    }
-                }
-                .title-container {                    
+ 
+    
+                .title-container {
                     .title {
                         font-size: 30px;
                     }
-                }
-                .data-container {
-                    font-size: 16px;
+                    .favorites-container {
+                        .rec {
+                            
+                        }
+                        .thumb {
+                            
+                        }
+                        .not-interested {
+                            
+                        }
+                    }
                 }
                 .streaming-container {
                     img {
-                        height: 50px;
-                        width: 50px;
+                        
                     }
                 }
                 .rating-container {
-                    font-size: 18px;
+                    
                     .rotten-rating, .imdb-rating {
                         img {
-                            height: 35px;
-                            width: 35px;
+                            
                         }
-                    } 
-                }
-                .plot {
-                    font-size: 15px;
+                    }
+                    .empty-rating {
+                        
+                    }   
                 }
             }
-        }
-    }    
-}
-
-
-@media screen and (max-width: 1080px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 545px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 545px !important;
         }
     }
-    #movies {
-        .movie-card {
-            height: 500px;
-            width: 545px;
-            .movie-poster {
-                height: 500px;
-            }
-            .info-container {
-                height: 500px;
-                .favorites-container {
-                    padding: 8px;
-                    .rec {
-                        font-size: 35px;
-                        margin-right: 15px;
-                    }
-                    .thumb {
-                        font-size: 35px;
-                    }
-                    .not-interested {
-                        font-size: 35px;
-                    }
-                }
-            }
-        }
-    }  
-}
-
-@media screen and (max-width: 600px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 450px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 450px !important;
-        }
-    }
-    #movies {
-        .movie-card {
-            height: 450px;
-            width: 450px;
-            .movie-poster {
-                display: none;
-            }
-            .info-container {
-                height: 450px;
-                width: 450px;
-                .favorites-container {
-                    top: 4%;
-                    .rec {
-                        margin-right: 10px;
-                        font-size: 30px;
-                    }
-                    .thumb {
-                        font-size: 30px;
-                    }
-                    .not-interested {
-                        font-size: 30px;
-                    }
-                }
-                .title-container {                    
-                    .title {
-                        font-size: 25px;
-                    }
-                }
-                .data-container {
-                    font-size: 15px;
-                }
-                .streaming-container {
-                    img {
-                        height: 45px;
-                        width: 45px;
-                    }
-                }
-                .rating-container {
-                    font-size: 20px;
-                    .rotten-rating, .imdb-rating {
-                        img {
-                            height: 30px;
-                            width: 30px;
-                        }
-                    } 
-                }
-                .plot {
-                    font-size: 14px;
-                }
-            }
-        }
-    } 
-}
-
-@media screen and (max-width: 475px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 350px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 350px !important;
-        }
-    }
-    #movies {
-        .movie-card {
-            height: 400px;
-            width: 350px;
-            .info-container {
-                height: 400px;
-                width: 350px;
-                .title-container {                    
-                    .title {
-                        font-size: 20px;
-                    }
-                }
-                .data-container {
-                    font-size: 12px;
-                }
-                .plot {
-                    font-size: 12px;
-                }
-            }
-        }
-    } 
-}
-
-@media screen and (max-width: 320px) {
-    ::ng-deep .cdk-overlay-container .cdk-global-overlay-wrapper .cdk-overlay-pane {
-        display: flex;
-        justify-content: center;
-        width: 300px !important;
-        
-        ::ng-deep .mat-dialog-container {
-            width: 300px !important;
-        }
-    }
-    #movies {
-        .movie-card {
-            height: 375px;
-            width: 300px;
-            .info-container {
-                height: 375px;
-                width: 300px;
-                .title-container {                    
-                    .title {
-                        font-size: 20px;
-                    }
-                }
-                .data-container {
-                    font-size: 12px;
-                }
-                .plot {
-                    font-size: 12px;
-                }
-            }
-        }
-    } 
 }

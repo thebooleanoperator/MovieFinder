@@ -5,8 +5,9 @@
     flex-direction: row;
     align-items: flex-start;
     margin-top: 80px;
+    width: 100%;
     .tab-container {
-        width: 75%;
+        width: 55%;
         background-color: $darkAccent;
         .empty-message {
             height: 99vh;
@@ -27,7 +28,7 @@
     }
     .recommended-container {
         background-color: $ternary;
-        width: 100%;
+        width: 100%
     }
 }
 
@@ -36,23 +37,16 @@
 }
 
 @media screen and (max-width: 1550px) {
-    #dashboard {
-        .tab-container {
-            width: 100%;
-        }
-        .recommended-container {
-            width: 80%;
-        }
-    }
+
 }
 
 @media screen and (min-height: 1100px) {
     #dashboard {
         .tab-container {
-            height: 1200px;
+            
         }
         .recommended-container {
-            width: 80%;
+            
         }
     }
 }
@@ -65,12 +59,10 @@
         align-items: center;
         justify-content: flex-start;
         .tab-container {
-            height: 800px;
-            width: 75%;
+            
         }
         .recommended-container {
-            width: 100%;
-            max-height: 580px;
+            
         }
     }
 }
@@ -78,7 +70,7 @@
 @media screen and (max-width: 600px) {
     #dashboard {
         .recommended-container {
-            max-height: 530px;
+            
         }
     }
 }
@@ -91,7 +83,7 @@
             }
         }
         .recommended-container {
-            max-height: 480px;
+            
         }
     }
 }
@@ -104,7 +96,7 @@
             }
         }
         .recommended-container {
-            max-height: 455px;
+            
         }
     }
 }

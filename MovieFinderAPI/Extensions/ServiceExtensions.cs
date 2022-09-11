@@ -14,8 +14,7 @@ namespace MovieFinder.Extensions
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
             });
         }
 
@@ -29,7 +28,7 @@ namespace MovieFinder.Extensions
 
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<MovieFinderContext>(options => options.UseMySql(config["MoviePrestoConnectionString"]));
+            services.AddDbContext<MovieFinderContext>(options => options.UseMySql(config["MoviePrestoConnectionString"], ServerVersion.AutoDetect(config["MoviePrestoConnectionString"])));
         }
     }
 }

@@ -6,25 +6,27 @@
         <div class="forward-arrow-container" *ngIf="isRec" (click)="changeRecommended(1)">
             <mat-icon class="forward-arrow">arrow_forward</mat-icon>
         </div>
-        <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
+        <div class="poster-container">
+            <img class="movie-poster" [src]="movie.poster" (error)="useDefault($event)">
+        </div>
         <div class="info-container">
-            <div class="favorites-container" *ngIf="!isGuest">
-                <mat-icon class="rec" *ngIf="isRec" matTooltip="Staff Pick">
-                    star
-                </mat-icon>
-                <mat-icon class="thumb" *ngIf="!isFavorite" 
-                    matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
-                    thumb_up
-                </mat-icon>
-                <mat-icon class="not-interested" *ngIf="isFavorite" 
-                    matTooltip="Remove From Favorites" (click)="removeFromFavorites(movie)">
-                    not_interested
-                </mat-icon>
-            </div>
             <div class="title-container">
                 <div class="title">{{movie.title}}</div>
+                <div class="favorites-container">
+                    <mat-icon class="rec" *ngIf="isRec" matTooltip="Staff Pick">
+                        star
+                    </mat-icon>
+                    <mat-icon class="thumb" *ngIf="!isFavorite && !isGuest" 
+                        matTooltip="Add To Favorites" (click)="addToFavorites(movie)">
+                        thumb_up
+                    </mat-icon>
+                    <mat-icon class="not-interested" *ngIf="isFavorite !isGuest" 
+                        matTooltip="Remove From Favorites" (click)="removeFromFavorites(movie)">
+                        not_interested
+                    </mat-icon>
+                </div>
             </div>
-            <div *ngIf="isStreaming(movie.streamingData)" class="streaming-container">
+            <div class="streaming-container">
                 <img class="stream-pic" *ngIf="movie.streamingData.netflix" src="assets/images/streaming-icons/netflix.png" matTooltip="Netflix"/>
                 <img class="stream-pic" *ngIf="movie.streamingData.hbo" src="assets/images/streaming-icons/hbo.png" matTooltip="HBO"/>
                 <img class="stream-pic" *ngIf="movie.streamingData.hulu" src="assets/images/streaming-icons/hulu.png" matTooltip="Hulu"/>
@@ -37,8 +39,11 @@
                 <div class="year">{{movie.year}}</div>
                 <div class="run-time">{{movie.runTime}} min</div>
                 <div class="genre">{{getGenres(movie.genre)}}</div>
-            </div>     
-            <div class="plot">{{movie.plot}}</div>
+            </div>    
+            <div class="plot-container">
+                <p class="plot">{{movie.plot}}</p>
+            </div> 
+            
             <div class="rating-container">
                 <div class="rotten-rating" *ngIf="movie.rottenTomatoesRating">
                     <img src="assets/images/rotten-tomatoes.png">
@@ -50,7 +55,7 @@
                 </div>
                 <div class="empty-rating" *ngIf="!movie.rottenTomatoesRating && !movie.imdbRating">
                 </div>
-            </div>
+            </div>  
         </div>
     </mat-card>  
 </div>

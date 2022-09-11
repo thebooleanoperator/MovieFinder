@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MovieFinder.Models;
-using MovieFinder.Repository;
 using MovieFinder.Services.Interface;
 using MovieFinder.Settings;
 using System;

@@ -4,12 +4,12 @@
     overflow: hidden;
     height: 99vh;
     .recs-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        height: 85vh;
+        height: 100%;
         margin: 40px;
+        movie {
+            height: 100%;
+            width: 100%;
+        }
     }
 }
 
@@ -21,15 +21,6 @@
 
 @media screen and (max-width: 1080px) {
     #movie-finder {
-        height: 1000px;
-        .recs-container {
-            height: unset;
-        }
-
-        .block-arrow-container {
-            .block-movie-arrow {
-                display: none;
-            }
-        }
+        
     }
 }
