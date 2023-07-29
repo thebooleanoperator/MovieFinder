@@ -1,25 +1,45 @@
 import React from 'react';
 import logo from './logo.svg';
+import { Outlet, Route, Routes, RedirectFunction as Redirect, Navigate, RouteProps } from 'react-router-dom'
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const routes = [
+  {
+    path: '/',
+    element: <div>Login</div>,
+    protected: false 
+  },
+  {
+    path: '/Dashboard',
+    element: <div>Dash</div>,
+    protected: true 
+  },
+  {
+    path: '/Favortes',
+    element: <div>Favorites</div>,
+    protected: true 
+  }
+]
+
+const ProtectedRoute: React.FC= () => {
+  if (true) {
+    return <Navigate to='/' />;
+  }
+  return <Outlet />;
+};
+
+const App: React.FC = () => {
+  return ( 
+    <Routes>
+      {routes.map((route, idx) => (
+        route.protected
+          ? <Route key={'protected'} element={<ProtectedRoute />} > 
+              <Route key={idx} {...route}></Route>
+            </Route>
+          : <Route key={idx} {...route} />
+      ))}
+    </Routes>
   );
 }
 
