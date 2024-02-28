@@ -1,13 +1,14 @@
 import { BottomNavigation, BottomNavigationAction } from "@mui/material"
-import { LOGIN, REGISTER } from "../router/routeConstants"
+import { LOGIN, REGISTER } from "../constants/routeConstants"
 import { AppRegistration, Login as MuiLogin } from "@mui/icons-material"
+import { Outlet } from "react-router-dom"
 
-export const MainLayout =({children}: any) =>{
+export const MainLayout = () =>{
   // get isLoggedIn from context
   
   return(
       <>
-        <main>{children}</main>
+        <Outlet />
         <BottomNavigation showLabels>
           <BottomNavigationAction label="Register" href={REGISTER} icon={<AppRegistration />} />
           <BottomNavigationAction label="Login" href={LOGIN} icon={<MuiLogin />} />
