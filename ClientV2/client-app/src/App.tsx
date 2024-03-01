@@ -1,8 +1,14 @@
+import { ApiProvider } from './context/CoreApiContext/CoreApiContext';
+import { LoginApiProvider } from './context/LoginApiContext/LoginApiContext';
 import { PrestoRouter } from './router/PrestoRouter';
 
 function App() {
   return (
-    <PrestoRouter />
+    <ApiProvider>
+      <LoginApiProvider>
+        <PrestoRouter />
+      </LoginApiProvider>
+    </ApiProvider>
   );
 }
 
