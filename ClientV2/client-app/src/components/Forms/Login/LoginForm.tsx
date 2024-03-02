@@ -1,27 +1,36 @@
-import { LoginProps } from "../../../api/LoginApi/LoginApi"
+import { LoginService } from "../../../api/LoginApi/LoginApi"
 import { useContext } from "react"
 import { LoginApiContext } from "../../../context/LoginApiContext/LoginApiContext"
-import { Form, Field } from 'react-final-form'
-import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Typography } from "@mui/material"
+import { Form} from 'react-final-form'
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material"
 import { MuiTextField } from "../../UI/MuiTextField"
+import { required } from "../../../validators/fieldValidators"
+
+type LoginFormState = {
+  username: string,
+  password: string
+}
 
 export const LoginForm: React.FC = () => {
-  const loginService = useContext(LoginApiContext)
+  const loginService = useContext(LoginApiContext) as LoginService
 
-  const handleSubmit = async () => {
-    const response = await loginService?.Login('test', '123')
+  const handleLogin = async (values: LoginFormState) => {
+    const response = await loginService.Login(values.username, values.password)
     console.log(response)
   }
 
   const handleGuestLogin = async () => {
-    const response = await loginService?.LoginAsGuest()
+    const response = await loginService.LoginAsGuest()
     console.log(response)
   }
 
-  const validateLogin = () => {
-
+  const handleValidation = (values: LoginFormState) => {
+    const errors: {[key: string]: string | undefined} = {}
+    errors.username = required(values.username)
+    errors.password = required(values.password)
+    return errors
   }
-  
+
   return (
     <Card variant="outlined" sx={{maxWidth: "50%"}}>
       <CardContent>
@@ -29,7 +38,8 @@ export const LoginForm: React.FC = () => {
           Sign In
         </Typography>
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
+          validate={handleValidation}
           render={({handleSubmit}) => (
           <form onSubmit={handleSubmit}>
             <div style={{display: "flex", flexDirection:"column", maxWidth: "75%"}}>

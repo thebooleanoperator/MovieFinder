@@ -7,7 +7,7 @@ export const MuiTextField = ({ name, label }: any) => (
       <TextField
         {...input}
         label={label}
-        error={meta.touched && meta.error}
+        error={Boolean(meta.touched && meta.error)}
         helperText={meta.touched && meta.error ? meta.error : ' '}
       />
     )}
