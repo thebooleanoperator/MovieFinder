@@ -1,19 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRouteProps, RouteType } from "../types/routeType";
 import { MainLayout } from "../layouts/MainLayout";
-import { Login } from "../Components/Login/Login";
-import { Register } from "../Components/Register/Register";
+import { LoginPage } from "../pages/Login/LoginPage";
+import { RegisterPage } from "../pages/Register/RegisterPage";
 
 const PrestoRoutes: RouteType[] = [
   {
       path: '/login',
       protected: false,
-      element: Login
+      element: LoginPage
   },
   {
     path: '/register',
     protected: false,
-    element: Register
+    element: RegisterPage
   }
 ]
 
