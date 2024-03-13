@@ -1,5 +1,5 @@
-import { ApiProvider } from './context/CoreApiContext/CoreApiContext';
-import { LoginApiProvider } from './context/LoginApiContext/LoginApiContext';
+import { ApiProvider } from './context/CoreApiContext/CoreApiProvider';
+import { LoginApiProvider } from './context/LoginApiContext/LoginApiProvider';
 import { PrestoRouter } from './router/PrestoRouter';
 
 function App() {

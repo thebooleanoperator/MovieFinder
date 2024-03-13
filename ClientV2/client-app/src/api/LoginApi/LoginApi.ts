@@ -12,13 +12,7 @@ export class LoginService {
   }
 
   Login = async (email: string, password: string) => {
-    try {
-      return await this._apiService.Post('/Accounts/Login', {email, password})
-    }
-    catch (error) {
-      console.log(error)
-      return
-    }
+    return await this._apiService.Post('/Accounts/Login', {email, password})
   }
 
   LoginAsGuest = async () => {

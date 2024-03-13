@@ -1,14 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRouteProps, RouteType } from "../types/routeType";
 import { MainLayout } from "../layouts/MainLayout";
 import { LoginPage } from "../pages/Login/LoginPage";
 import { RegisterPage } from "../pages/Register/RegisterPage";
+import { LOGIN } from "../constants/routeConstants";
 
 const PrestoRoutes: RouteType[] = [
   {
-      path: '/login',
-      protected: false,
-      element: LoginPage
+    path: '/login',
+    protected: false,
+    element: LoginPage
   },
   {
     path: '/register',
@@ -36,6 +37,7 @@ export const PrestoRouter = () => {
                     <Route path={route.path} element={<route.element />} />
                   </Route>
               ))}
+              <Route path="*" element={<Navigate to={LOGIN}/>} />
           </Routes>
       </BrowserRouter>
     )

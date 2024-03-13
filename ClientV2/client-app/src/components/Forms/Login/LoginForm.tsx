@@ -11,20 +11,38 @@ type LoginFormState = {
   password: string
 }
 
-export const LoginForm: React.FC = () => {
+type LoginFormProps = {
+  handleError: (errorMessage: string) => void
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({ handleError }: LoginFormProps) => {
   const loginService = useContext(LoginApiContext) as LoginService
 
   const handleLogin = async (values: LoginFormState) => {
     const response = await loginService.Login(values.username, values.password)
     console.log(response)
+    if (!validateResponse(response)) {
+      handleError('Sign In Failed')
+    }
   }
 
   const handleGuestLogin = async () => {
     const response = await loginService.LoginAsGuest()
     console.log(response)
+    if (!validateResponse(response)) {
+      handleError('Guest Login Failed')
+    }
   }
 
-  const handleValidation = (values: LoginFormState) => {
+  // TODO define service request / response
+  const validateResponse = (response: any): boolean => {
+    if (!response) {
+      return false
+    }
+    return true
+  }
+
+  const handleFormValidation = (values: LoginFormState) => {
     const errors: {[key: string]: string | undefined} = {}
     errors.username = required(values.username)
     errors.password = required(values.password)
@@ -39,7 +57,7 @@ export const LoginForm: React.FC = () => {
         </Typography>
         <Form
           onSubmit={handleLogin}
-          validate={handleValidation}
+          validate={handleFormValidation}
           render={({handleSubmit}) => (
           <form onSubmit={handleSubmit}>
             <div style={{display: "flex", flexDirection:"column", maxWidth: "75%"}}>
@@ -47,8 +65,8 @@ export const LoginForm: React.FC = () => {
               <MuiTextField name="password" label="password" />
             </div>
             <CardActions>
-              <Button type="submit" variant="contained">Submit</Button>
-              <Button type="button" variant="contained" onClick={async () => await handleGuestLogin()}>Guest Login</Button>
+              <Button type="submit" variant="contained">Sign In</Button>
+              <Button type="button" variant="contained" onClick={async () => {await handleGuestLogin()}}>Guest Login</Button>
             </CardActions>
           </form>
           )}>
