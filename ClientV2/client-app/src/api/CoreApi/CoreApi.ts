@@ -9,6 +9,7 @@ export class ApiService {
     }
     catch (error) {
       console.log('real error', error)
+      return null
     }
   }
 }

@@ -1,3 +1,4 @@
+import { LoginResponse } from "../../types/apiType";
 import { ApiService } from "../CoreApi/CoreApi";
 
 export type LoginProps = {
@@ -11,11 +12,13 @@ export class LoginService {
     this._apiService = apiService
   }
 
-  Login = async (email: string, password: string) => {
-    return await this._apiService.Post('/Accounts/Login', {email, password})
+  Login = async (email: string, password: string): Promise<LoginResponse> => {
+    var response = await this._apiService.Post('/Accounts/Login', {email, password})
+    return { response, isSuccess: response ? true : false }
   }
 
-  LoginAsGuest = async () => {
-    return await this._apiService.Post('/Accounts/GuestLogin')
+  LoginAsGuest = async (): Promise<LoginResponse> => {
+    var response = await this._apiService.Post('/Accounts/GuestLogin')
+    return { response, isSuccess: response ? true : false }
   }
 }

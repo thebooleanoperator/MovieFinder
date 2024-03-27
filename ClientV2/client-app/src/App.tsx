@@ -1,13 +1,13 @@
 import { ApiProvider } from './context/CoreApiContext/CoreApiProvider';
-import { LoginApiProvider } from './context/LoginApiContext/LoginApiProvider';
+import { RootProvider } from './context/RootProvider';
 import { PrestoRouter } from './router/PrestoRouter';
 
 function App() {
   return (
     <ApiProvider>
-      <LoginApiProvider>
+      <RootProvider>
         <PrestoRouter />
-      </LoginApiProvider>
+      </RootProvider>
     </ApiProvider>
   );
 }

@@ -1,13 +1,17 @@
-import { LoginService } from "../../../api/LoginApi/LoginApi"
 import { useContext } from "react"
 import { LoginApiContext } from "../../../context/LoginApiContext/LoginApiContext"
 import { Form} from 'react-final-form'
-import { Button, Card, CardActions, CardContent, Typography } from "@mui/material"
+import {
+  Button, 
+  Card,
+  CardActions,
+  CardContent,
+  Typography } from "@mui/material"
 import { MuiTextField } from "../../UI/MuiTextField"
 import { required } from "../../../validators/fieldValidators"
 
 type LoginFormState = {
-  username: string,
+  email: string,
   password: string
 }
 
@@ -15,13 +19,13 @@ type LoginFormProps = {
   handleError: (errorMessage: string) => void
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ handleError }: LoginFormProps) => {
-  const loginService = useContext(LoginApiContext) as LoginService
+export const LoginForm: React.FC<LoginFormProps> = ({ handleError }) => {
+  const loginService = useContext(LoginApiContext)
 
   const handleLogin = async (values: LoginFormState) => {
-    const response = await loginService.Login(values.username, values.password)
+    const response = await loginService.Login(values.email, values.password)
     console.log(response)
-    if (!validateResponse(response)) {
+    if (!response.isSuccess) {
       handleError('Sign In Failed')
     }
   }
@@ -29,24 +33,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ handleError }: LoginFormPr
   const handleGuestLogin = async () => {
     const response = await loginService.LoginAsGuest()
     console.log(response)
-    if (!validateResponse(response)) {
+    if (!response.isSuccess) {
       handleError('Guest Login Failed')
     }
-  }
-
-  // TODO define service request / response
-  const validateResponse = (response: any): boolean => {
-    if (!response) {
-      return false
-    }
-    return true
-  }
-
-  const handleFormValidation = (values: LoginFormState) => {
-    const errors: {[key: string]: string | undefined} = {}
-    errors.username = required(values.username)
-    errors.password = required(values.password)
-    return errors
   }
 
   return (
@@ -57,12 +46,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ handleError }: LoginFormPr
         </Typography>
         <Form
           onSubmit={handleLogin}
-          validate={handleFormValidation}
           render={({handleSubmit}) => (
           <form onSubmit={handleSubmit}>
             <div style={{display: "flex", flexDirection:"column", maxWidth: "75%"}}>
-              <MuiTextField name="username" label="username" />
-              <MuiTextField name="password" label="password" />
+              <MuiTextField name="email" label="email" validate={required} />
+              <MuiTextField name="password" label="password" validate={required} />
             </div>
             <CardActions>
               <Button type="submit" variant="contained">Sign In</Button>
