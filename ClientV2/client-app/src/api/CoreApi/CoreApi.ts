@@ -1,7 +1,9 @@
 import axios from "axios"
 
 export class ApiService {
-  private baseUrl = window.location.protocol + '//' + window.location.host;
+  private baseUrl = window.location.hostname === 'localhost'
+    ? window.location.protocol + '//' + window.location.hostname + ':5001'
+    : window.location.protocol + '//' + window.location.host
 
   public Post = async (url: string, data?: any) => {
     try {

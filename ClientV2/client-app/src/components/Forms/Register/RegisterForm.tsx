@@ -29,6 +29,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ handleError }) => {
     if (!response.isSuccess) {
       handleError('Register Failed')
     }
+
   }
 
   return (

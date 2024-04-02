@@ -1,10 +1,13 @@
-import { AxiosResponse } from "axios"
-
-export type ServiceResponse<T> = {
-  response: AxiosResponse<T, any> | null
+export type ServiceResponseType<T> = {
+  value?: T
   isSuccess: boolean
 }
 
-export type LoginResponse = ServiceResponse<any>
+export type LoginResponseDataType = {
+  jwt: string,
+  userId?: string
+}
 
-export type RegisterResponse = ServiceResponse<any>
+export type LoginResponseType = ServiceResponseType<LoginResponseDataType>
+
+export type RegisterResponseType = ServiceResponseType<null>
